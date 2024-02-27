@@ -66,7 +66,8 @@ div_168_signed:
 ; In: Divide UB.C by UD.E
 ; Out: uh.l is the unsigned 16.8 fixed point result
 ; Note: we do two 24-bit divisions in this routine
-;       the second one to generate the remainder
+;       the second one to compute the fractional portion
+;       of the result from the accumulated remainder
 ;       which seems wildly inefficient, but it does work
 div_168:
 ; get the 16-bit integer part of the quotient
