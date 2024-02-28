@@ -147,7 +147,8 @@ div_24:
 
 ; absolute value of hlu
 ; destroys: a,hlu
-; carry set if result negative, reset if positive or zero
+; carry set if hlu is negative
+; reset carry if positive or zero
 abs_hlu:
     xor a ; reset carry
     ld (uhl),hl
