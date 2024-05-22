@@ -5,9 +5,11 @@ from pydub.playback import play
 from scipy.fft import fft, fftfreq
 import matplotlib.pyplot as plt
 from collections import defaultdict
+import os
 
 # Function to load an audio file and convert to numpy array
-def load_audio(file_path, sample_rate):
+def load_audio(input_dir,input_file, sample_rate):
+    file_path = f"{input_dir}/{input_file}"
     audio = AudioSegment.from_file(file_path)
     audio = audio.set_frame_rate(sample_rate).set_channels(1)
     samples = np.array(audio.get_array_of_samples())
@@ -72,15 +74,16 @@ def plot_frequencies(frequencies, magnitudes):
     plt.show()
 
 # Function to generate and combine waveforms
-def generate_and_combine_waveforms(channels, sample_rate, duration):
+def generate_and_combine_waveforms(channels, sample_rate, duration, output_dir, input_file):
     combined_waveform = np.zeros(int(sample_rate * duration), dtype=np.float32)
+    base_filename = os.path.splitext(input_file)[0]
 
     for i, (volume, waveform_type, frequency) in enumerate(channels):
         waveform = generate_sine_wave(frequency, duration, sample_rate)
         waveform *= (volume / 100.0)  # Apply volume as percentage
 
         # Save individual waveform file
-        save_waveform(waveform, sample_rate, f"synth_{i}.wav")
+        save_waveform(waveform, sample_rate, f"{output_dir}/{base_filename}_{i}.wav")
 
         # Add to combined waveform
         combined_waveform += waveform
@@ -89,22 +92,16 @@ def generate_and_combine_waveforms(channels, sample_rate, duration):
     combined_waveform /= len(channels)
 
     # Save the combined waveform to a WAV file
-    save_waveform(combined_waveform, sample_rate, "synth.wav")
+    save_waveform(combined_waveform, sample_rate, f"{output_dir}/{base_filename}_synth.wav")
 
     # Convert the combined waveform to an AudioSegment and play it
     combined_audio_segment = numpy_to_audio_segment(combined_waveform, sample_rate)
     play(combined_audio_segment)
 
-if __name__ == "__main__":
-    sample_rate = 16384  # Sample rate in Hz
-    duration = 2.0  # Duration in seconds
-
+def do_all_the_things(input_dir, input_file, sample_rate, duration, output_dir):
     # Load the audio file
-    # samples, sample_rate = load_audio("organ/src/samples/organ_F#.wav", sample_rate)
-    # samples, sample_rate = load_audio("organ/src/samples/sine_A4.wav", sample_rate)
-    # samples, sample_rate = load_audio("organ/src/samples/hammond_low.wav", sample_rate)
-    # samples, sample_rate = load_audio("organ/src/samples/hammond_C1.wav", sample_rate)
-    samples, sample_rate = load_audio("organ/src/samples/hammond_synth.wav", sample_rate)
+    # samples, sample_rate = load_audio(f"{input_dir}/hammond_C1.wav", sample_rate)
+    samples, sample_rate = load_audio(input_dir,input_file, sample_rate)
 
     # Extract the prominent frequencies
     frequencies, magnitudes = extract_frequencies(samples, sample_rate)
@@ -134,46 +131,6 @@ if __name__ == "__main__":
     # Sort channels by frequency in ascending order and magnitude in descending order
     channels = sorted(channels, key=lambda x: (x[2], -x[0]))
 
-    # print(f"\n    base_frequency = {int(base_frequency)}")
-    # print("    channels = [")
-    # for volume, waveform_type, frequency in channels:
-    #     frequency = int(frequency)
-    #     multiplier = round(frequency / base_frequency,6)
-    #     print(f"        ({volume:.0f}, '{waveform_type}', base_frequency, {multiplier:.6f}), # {frequency} Hz")
-    # print("    ]")
-
-    # print(f"\n    base_frequency = {int(base_frequency)}")
-    # print("    channels = [")
-    # for volume, waveform_type, frequency in channels:
-    #     frequency = int(frequency)
-    #     multiplier = round(frequency / base_frequency,6)
-    #     print(f"        ({volume:.0f}, '{waveform_type}', base_frequency, {frequency} / {base_frequency} ), #  {multiplier:.6f}")
-    # print("    ]")
-
-    # print(f"\n    base_frequency = {int(base_frequency)}")
-    # print("    channels = [")
-    # for volume, waveform_type, frequency in channels:
-    #     frequency = int(frequency)
-    #     multiplier = round(frequency / base_frequency,6)
-    #     print(f"        ({volume:.0f}, waveform, base_frequency, {frequency} / {base_frequency} ), #  {multiplier:.6f}")
-    # print("    ]")
-
-    # print(f"\n    base_frequency = {int(base_frequency)}")
-    # print("    channels = [")
-    # for volume, waveform_type, frequency in channels:
-    #     frequency = int(frequency)
-    #     multiplier = frequency / base_frequency
-    #     print(f"        ({volume:.0f}, 'sine', int(base_frequency * {multiplier:.6f}), 1),")
-    # print("    ]")
-
-    # print(f"\n    base_frequency = {int(base_frequency)}")
-    # print("    synth_notes = [")
-    # for volume, waveform_type, frequency in channels:
-    #     frequency = int(frequency)
-    #     multiplier = frequency / base_frequency
-    #     print(f"        [int(base_frequency * {multiplier:.6f}), {volume:.0f}],")
-    # print("    ]")
-
     print(f"\nbase_frequency = {int(base_frequency)}")
     print("synth_notes = [")
     for volume, waveform_type, frequency in channels:
@@ -183,6 +140,15 @@ if __name__ == "__main__":
     print("]")
 
     # Generate and combine waveforms
-    generate_and_combine_waveforms(channels, sample_rate, duration)
+    generate_and_combine_waveforms(channels, sample_rate, duration, output_dir, input_file)
 
-    print("Individual waveform files and combined file generated and played.")
+
+if __name__ == "__main__":
+    sample_rate = 16384  # Sample rate in Hz
+    duration = 2.0  # Duration in seconds
+    input_dir = "organ/src/samples"
+    output_dir = "organ/build/samples"
+    input_file = f"piano_C4.wav"
+    input_file = f"hammond_C1.wav"
+
+    do_all_the_things(input_dir, input_file, sample_rate, duration, output_dir)

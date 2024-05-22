@@ -1,7 +1,6 @@
 from pytube import YouTube
 import os
-from moviepy.editor import AudioFileClip
-from pydub import AudioSegment, effects
+from pydub import AudioSegment
 
 def get_youtube_audio(url):
     yt = YouTube(url)
@@ -11,13 +10,13 @@ def get_youtube_audio(url):
 
 
 if __name__ == "__main__":
-    current_url = "https://www.youtube.com/watch?v=6VCBAHufFHM"
+    current_url = "https://www.youtube.com/watch?v=FtqgqYRDTDg"
     saved_songs_dir = "organ/src/samples"
 
     song_filename, audio_stream = get_youtube_audio(current_url)
     input_file = os.path.join(saved_songs_dir, song_filename)
-    # base_filename = os.path.splitext(input_file)[0]
-    # output_file = f"{base_filename}.wav"
+    base_filename = os.path.splitext(input_file)[0]
+    output_file = f"{base_filename}.wav"
 
 
     audio_stream.download(saved_songs_dir)
@@ -25,5 +24,5 @@ if __name__ == "__main__":
 
     # print(output_file)
 
-    # audio = AudioSegment.from_file(input_file)
-    # audio.export(output_file, format="wav")
+    audio = AudioSegment.from_file(input_file)
+    audio.export(output_file, format="wav")
