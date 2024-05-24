@@ -157,8 +157,8 @@ def foldback_frequency(target_frequency):
     :param target_frequency: The desired frequency to adjust.
     :return: The adjusted frequency within the Hammond's range.
     """
-    min_freq = 65.38
-    max_freq = 5924.62
+    min_freq = 65
+    max_freq = 5925
     
     if target_frequency < min_freq:
         # Calculate the octave closest to the min frequency
@@ -189,26 +189,28 @@ def generate_hammond_frequencies():
         1.542857143, # B
     ]
     # Number of teeth for different octaves
-    teeth_counts = [2, 4, 8, 16, 32, 64, 128, 256]
+    teeth_counts = [2, 4, 8, 16, 32, 64, 128, 192]
     frequencies = []
     # Calculate frequencies for each tonewheel
     for teeth_count in teeth_counts:
         for ratio in gear_ratios:
             frequency = int(round(motor_speed * teeth_count * ratio, 0))
-            frequencies.append(frequency)
+            if 65 <= frequency <= 5925:
+                frequencies.append(frequency)
     return frequencies
 
-# Function to find the closest frequency
-def find_closest_frequency(target_frequency, tonewheel_frequencies):
+def get_tonewheel(target_frequency, frequencies):
     """
-    Finds the closest frequency in the list to the target frequency.
+    Finds the closest frequency in the list to the target frequency and returns both the frequency and its index.
+
     :param target_frequency: The frequency to find the closest match for.
     :param frequencies: List of frequencies to search.
-    :return: Closest frequency from the list.
+    :return: Tuple containing the closest frequency and its index.
     """
-    # Find the frequency in the list that is closest to the target frequency
-    closest_frequency = min(tonewheel_frequencies, key=lambda x: abs(x - target_frequency))
-    return closest_frequency
+    # Find the index of the frequency in the list that is closest to the target frequency
+    closest_index = min(range(len(frequencies)), key=lambda i: abs(frequencies[i] - target_frequency))
+    closest_frequency = frequencies[closest_index]
+    return closest_frequency, closest_index
 
 
 def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial_synth_notes, vibrato_amplitude, harmonics, reference_frequency):
@@ -239,10 +241,9 @@ def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial
             for note in extended_synth_notes:
                 frequency_multiplier, volume = note
                 frequency = foldback_frequency(base_frequency * frequency_multiplier)
-                frequency = find_closest_frequency(frequency, tonewheel_frequencies)
+                frequency, tonewheel = get_tonewheel(frequency, tonewheel_frequencies)
 
-                volume = int(volume*1.27)
-                # volume = adjust_volume(frequency, volume, reference_frequency, alpha=0.50)
+                volume = adjust_volume(frequency, volume, reference_frequency, frequency_alpha)
 
                 frequency_hex = f"{frequency:04X}"
                 frequency_hex_low = frequency_hex[-2:]
@@ -257,7 +258,7 @@ def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial
                 fw.write(f"    ld (iy+cmd_frequency+1),a\n")
                 fw.write(f"    lea iy,iy+cmd_bytes\n\n")
 
-                txt_base_volume += (f"     db {volume},{volume} ; {frequency} Hz\n")
+                txt_base_volume += (f"     db {volume},{volume} ; {frequency} Hz, TW {tonewheel} \n")
                 drawbar += 1
 
             fw.write(f"    ld hl,notes_played\n")
@@ -299,6 +300,15 @@ def write_asm_play_notes(asm_file, max_notes):
 
         fw.write(f"\nplay_notes_end:")
 
+def write_asm_tonewheels(asm_file):
+    with open(asm_file, 'w') as fw:
+        fw.write(f"tonewheel_frequencies:\n")
+        for i, frequency in enumerate(tonewheel_frequencies):
+            volume = adjust_volume(frequency, 100, 65, frequency_alpha)
+            frequency_low_byte = frequency & 0xFF
+            frequency_high_byte = (frequency >> 8) & 0xFF
+            fw.write(f"    db {frequency_low_byte}, {frequency_high_byte}, {volume}, 0 ; {frequency} {i}\n")
+
 scale_degrees_lookup = {
     'MinorPentatonic': ['1',  'b3', '4',  '5',  'b7', '1',  'b3', '4',  '5',  'b7'],
     'MajorPentatonic': ['1',  '2',  '3',  '5',  '6',  '1',  '2',  '3',  '5',  '6'],
@@ -315,13 +325,13 @@ scale_degrees_lookup = {
 }
 
 key_positions = 10
-
 tonewheel_frequencies = generate_hammond_frequencies()
 
 # Generate scale notes
 scale_key = 'A'
 scale_base_octave = 2
 reference_frequency = pitch.Pitch(f"{scale_key}{scale_base_octave}").frequency
+frequency_alpha = 0.0
 
 scale_name = 'MinorBlues'
 # published to discord: https://discord.com/channels/1158535358624039014/1158536809916149831/1241528343568978033
@@ -393,6 +403,8 @@ write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato
 # progression_chords = make_progression(key_signature, progression)
 
 write_asm_play_notes("organ/src/asm/organ_channels.asm", max_notes)
+
+write_asm_tonewheels("organ/src/asm/organ_tonewheels.asm")
 
 command = "ez80asm -l organ/src/asm/organ.asm organ/tgt/organ.bin"
 subprocess.run(command, shell=True)

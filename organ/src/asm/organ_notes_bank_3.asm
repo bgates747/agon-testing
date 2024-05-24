@@ -565,7 +565,7 @@ organ_notes_bank_3:
 
     ld a,(bank3_volume7+15)
     ld (iy+cmd_volume),a
-    ld a,0x40
+    ld a,0x42
     ld (iy+cmd_frequency),a
     ld a,0x0C
     ld (iy+cmd_frequency+1),a
@@ -637,7 +637,7 @@ organ_notes_bank_3:
 
     ld a,(bank3_volume8+15)
     ld (iy+cmd_volume),a
-    ld a,0xC0
+    ld a,0xC4
     ld (iy+cmd_frequency),a
     ld a,0x0D
     ld (iy+cmd_frequency+1),a
@@ -709,7 +709,7 @@ organ_notes_bank_3:
 
     ld a,(bank3_volume9+15)
     ld (iy+cmd_volume),a
-    ld a,0x91
+    ld a,0x95
     ld (iy+cmd_frequency),a
     ld a,0x0E
     ld (iy+cmd_frequency+1),a
@@ -725,92 +725,92 @@ organ_notes_bank_3_end:
     ret
 
 bank3_volume0:
-     db 127,127 ; 110 Hz
-     db 127,127 ; 330 Hz
-     db 127,127 ; 220 Hz
-     db 127,127 ; 440 Hz
-     db 127,127 ; 659 Hz
-     db 127,127 ; 880 Hz
-     db 127,127 ; 1108 Hz
-     db 127,127 ; 1318 Hz
+     db 127,127 ; 110 Hz, TW 9 
+     db 127,127 ; 330 Hz, TW 28 
+     db 127,127 ; 220 Hz, TW 21 
+     db 127,127 ; 440 Hz, TW 33 
+     db 127,127 ; 659 Hz, TW 40 
+     db 127,127 ; 880 Hz, TW 45 
+     db 127,127 ; 1108 Hz, TW 49 
+     db 127,127 ; 1318 Hz, TW 52 
 bank3_volume1:
-     db 127,127 ; 131 Hz
-     db 127,127 ; 392 Hz
-     db 127,127 ; 262 Hz
-     db 127,127 ; 523 Hz
-     db 127,127 ; 784 Hz
-     db 127,127 ; 1046 Hz
-     db 127,127 ; 1318 Hz
-     db 127,127 ; 1568 Hz
+     db 127,127 ; 131 Hz, TW 12 
+     db 127,127 ; 392 Hz, TW 31 
+     db 127,127 ; 262 Hz, TW 24 
+     db 127,127 ; 523 Hz, TW 36 
+     db 127,127 ; 784 Hz, TW 43 
+     db 127,127 ; 1046 Hz, TW 48 
+     db 127,127 ; 1318 Hz, TW 52 
+     db 127,127 ; 1568 Hz, TW 55 
 bank3_volume2:
-     db 127,127 ; 147 Hz
-     db 127,127 ; 440 Hz
-     db 127,127 ; 294 Hz
-     db 127,127 ; 587 Hz
-     db 127,127 ; 880 Hz
-     db 127,127 ; 1175 Hz
-     db 127,127 ; 1480 Hz
-     db 127,127 ; 1760 Hz
+     db 127,127 ; 147 Hz, TW 14 
+     db 127,127 ; 440 Hz, TW 33 
+     db 127,127 ; 294 Hz, TW 26 
+     db 127,127 ; 587 Hz, TW 38 
+     db 127,127 ; 880 Hz, TW 45 
+     db 127,127 ; 1175 Hz, TW 50 
+     db 127,127 ; 1480 Hz, TW 54 
+     db 127,127 ; 1760 Hz, TW 57 
 bank3_volume3:
-     db 127,127 ; 156 Hz
-     db 127,127 ; 466 Hz
-     db 127,127 ; 311 Hz
-     db 127,127 ; 622 Hz
-     db 127,127 ; 932 Hz
-     db 127,127 ; 1244 Hz
-     db 127,127 ; 1568 Hz
-     db 127,127 ; 1864 Hz
+     db 127,127 ; 156 Hz, TW 15 
+     db 127,127 ; 466 Hz, TW 34 
+     db 127,127 ; 311 Hz, TW 27 
+     db 127,127 ; 622 Hz, TW 39 
+     db 127,127 ; 932 Hz, TW 46 
+     db 127,127 ; 1244 Hz, TW 51 
+     db 127,127 ; 1568 Hz, TW 55 
+     db 127,127 ; 1864 Hz, TW 58 
 bank3_volume4:
-     db 127,127 ; 165 Hz
-     db 127,127 ; 494 Hz
-     db 127,127 ; 330 Hz
-     db 127,127 ; 659 Hz
-     db 127,127 ; 987 Hz
-     db 127,127 ; 1318 Hz
-     db 127,127 ; 1661 Hz
-     db 127,127 ; 1975 Hz
+     db 127,127 ; 165 Hz, TW 16 
+     db 127,127 ; 494 Hz, TW 35 
+     db 127,127 ; 330 Hz, TW 28 
+     db 127,127 ; 659 Hz, TW 40 
+     db 127,127 ; 987 Hz, TW 47 
+     db 127,127 ; 1318 Hz, TW 52 
+     db 127,127 ; 1661 Hz, TW 56 
+     db 127,127 ; 1975 Hz, TW 59 
 bank3_volume5:
-     db 127,127 ; 196 Hz
-     db 127,127 ; 587 Hz
-     db 127,127 ; 392 Hz
-     db 127,127 ; 784 Hz
-     db 127,127 ; 1175 Hz
-     db 127,127 ; 1568 Hz
-     db 127,127 ; 1975 Hz
-     db 127,127 ; 2350 Hz
+     db 127,127 ; 196 Hz, TW 19 
+     db 127,127 ; 587 Hz, TW 38 
+     db 127,127 ; 392 Hz, TW 31 
+     db 127,127 ; 784 Hz, TW 43 
+     db 127,127 ; 1175 Hz, TW 50 
+     db 127,127 ; 1568 Hz, TW 55 
+     db 127,127 ; 1975 Hz, TW 59 
+     db 127,127 ; 2350 Hz, TW 62 
 bank3_volume6:
-     db 127,127 ; 220 Hz
-     db 127,127 ; 659 Hz
-     db 127,127 ; 440 Hz
-     db 127,127 ; 880 Hz
-     db 127,127 ; 1318 Hz
-     db 127,127 ; 1760 Hz
-     db 127,127 ; 2217 Hz
-     db 127,127 ; 2637 Hz
+     db 127,127 ; 220 Hz, TW 21 
+     db 127,127 ; 659 Hz, TW 40 
+     db 127,127 ; 440 Hz, TW 33 
+     db 127,127 ; 880 Hz, TW 45 
+     db 127,127 ; 1318 Hz, TW 52 
+     db 127,127 ; 1760 Hz, TW 57 
+     db 127,127 ; 2217 Hz, TW 61 
+     db 127,127 ; 2637 Hz, TW 64 
 bank3_volume7:
-     db 127,127 ; 262 Hz
-     db 127,127 ; 784 Hz
-     db 127,127 ; 523 Hz
-     db 127,127 ; 1046 Hz
-     db 127,127 ; 1568 Hz
-     db 127,127 ; 2092 Hz
-     db 127,127 ; 2637 Hz
-     db 127,127 ; 3136 Hz
+     db 127,127 ; 262 Hz, TW 24 
+     db 127,127 ; 784 Hz, TW 43 
+     db 127,127 ; 523 Hz, TW 36 
+     db 127,127 ; 1046 Hz, TW 48 
+     db 127,127 ; 1568 Hz, TW 55 
+     db 127,127 ; 2092 Hz, TW 60 
+     db 127,127 ; 2637 Hz, TW 64 
+     db 127,127 ; 3138 Hz, TW 72 
 bank3_volume8:
-     db 127,127 ; 294 Hz
-     db 127,127 ; 880 Hz
-     db 127,127 ; 587 Hz
-     db 127,127 ; 1175 Hz
-     db 127,127 ; 1760 Hz
-     db 127,127 ; 2350 Hz
-     db 127,127 ; 2960 Hz
-     db 127,127 ; 3520 Hz
+     db 127,127 ; 294 Hz, TW 26 
+     db 127,127 ; 880 Hz, TW 45 
+     db 127,127 ; 587 Hz, TW 38 
+     db 127,127 ; 1175 Hz, TW 50 
+     db 127,127 ; 1760 Hz, TW 57 
+     db 127,127 ; 2350 Hz, TW 62 
+     db 127,127 ; 2960 Hz, TW 66 
+     db 127,127 ; 3524 Hz, TW 74 
 bank3_volume9:
-     db 127,127 ; 311 Hz
-     db 127,127 ; 932 Hz
-     db 127,127 ; 622 Hz
-     db 127,127 ; 1244 Hz
-     db 127,127 ; 1864 Hz
-     db 127,127 ; 2489 Hz
-     db 127,127 ; 3136 Hz
-     db 127,127 ; 3729 Hz
+     db 127,127 ; 311 Hz, TW 27 
+     db 127,127 ; 932 Hz, TW 46 
+     db 127,127 ; 622 Hz, TW 39 
+     db 127,127 ; 1244 Hz, TW 51 
+     db 127,127 ; 1864 Hz, TW 58 
+     db 127,127 ; 2489 Hz, TW 63 
+     db 127,127 ; 3136 Hz, TW 67 
+     db 127,127 ; 3733 Hz, TW 75 

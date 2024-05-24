@@ -153,6 +153,7 @@ waveform_channels_end:
     include "organ/src/asm/organ_vdu.asm"
     include "organ/src/asm/organ_channels.asm"
     include "organ/src/asm/organ_drawbars.asm"
+    include "organ/src/asm/organ_tonewheels.asm"
 
     include "organ/src/asm/organ_notes_bank_1.asm"
     include "organ/src/asm/organ_notes_bank_2.asm"
