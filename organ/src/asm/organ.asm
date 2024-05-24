@@ -152,6 +152,12 @@ waveform_channels_end:
     include "organ/src/asm/maths.asm"
     include "organ/src/asm/organ_vdu.asm"
     include "organ/src/asm/organ_channels.asm"
+    include "organ/src/asm/organ_drawbars.asm"
+
+    include "organ/src/asm/organ_notes_bank_1.asm"
+    include "organ/src/asm/organ_notes_bank_2.asm"
+    include "organ/src/asm/organ_notes_bank_3.asm"
+    include "organ/src/asm/organ_notes_bank_4.asm"
 
 master_volume: db 127
 hammer_curr: ds 17
@@ -214,15 +220,29 @@ main:
     ld a,17
     call dumpMemoryHex
 
+; display drawbar settings
+    ld b,8 ; 8 drawbars
+    ld hl,drawbar0+drawbar_value
+    ld a,1
+    ld de,drawbar_bytes
+@drawbar_loop:
+    call dumpMemoryHex
+    add hl,de
+    djnz @drawbar_loop
+
+
 ; reset notes played counter
     ld a,max_notes
     ld (notes_played),a
 
+; set the drawbars to play according to the keys pressed
+    call set_drawbars
+
 ; set channels to play according to the keys pressed
-    include "organ/src/asm/organ_notes_bank_1.asm"
-    include "organ/src/asm/organ_notes_bank_2.asm"
-    include "organ/src/asm/organ_notes_bank_3.asm"
-    include "organ/src/asm/organ_notes_bank_4.asm"
+    call organ_notes_bank_1
+    call organ_notes_bank_2
+    call organ_notes_bank_3
+    call organ_notes_bank_4
 
 ; play the notes
     call play_notes

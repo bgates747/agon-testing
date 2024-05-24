@@ -149,16 +149,16 @@ def generate_vibrato_synth_notes(base_frequency, vibrato_amplitude, harmonics, b
         synth_notes.append([multiplier_pos, level])
     return synth_notes
 
-def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial_synth_notes, vibrato_amplitude, harmonics):
+def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial_synth_notes, vibrato_amplitude, harmonics, reference_frequency):
+    txt_base_volume = ""
     with open(asm_filepath, 'w') as fw:
         file_name = asm_filepath.split('/')[-1]
         procedure_name = file_name.replace('.asm', '')
         fw.write(f"{procedure_name}:\n")
-        keypress_index = (bank_number - 1) * 10
+        keypress_index = (bank_number - 1) * key_positions
+        key_position = 0
 
         fw.write("    ld iy,cmd0\n\n")
-
-        channel = 0
 
         for base_frequency in base_frequencies:
             extended_synth_notes = []
@@ -169,39 +169,51 @@ def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial
 
             bit, register_offset = key_mappings[keypress_index + 1]['bit'], key_mappings[keypress_index + 1]['register_offset']
             fw.write(f"    bit {bit},(ix+{register_offset})\n")
-            fw.write(f"    jp z,@note_end{keypress_index}\n")
+            fw.write(f"    jp z,@note_end{key_position}\n")
 
+            txt_base_volume += (f"bank{bank_number}_volume{key_position}:\n")
+
+            drawbar = 0
             for note in extended_synth_notes:
                 frequency_multiplier, volume = note
                 frequency = int(base_frequency * frequency_multiplier)
 
-                volume = adjust_volume(frequency, volume, reference_frequency=65, alpha=0.80)
+                # volume = int(volume*1.27)
+                volume = adjust_volume(frequency, volume, reference_frequency, alpha=0.50)
 
                 frequency_hex = f"{frequency:04X}"
                 frequency_hex_low = frequency_hex[-2:]
                 frequency_hex_high = frequency_hex[:2]
 
-                fw.write(f"    ld a,{volume}\n")
+                # fw.write(f"    ld a,{volume}\n")
+                fw.write(f"    ld a,(bank{bank_number}_volume{key_position}+{drawbar*2+1})\n")
                 fw.write(f"    ld (iy+cmd_volume),a\n")
                 fw.write(f"    ld a,0x{frequency_hex_low}\n")
                 fw.write(f"    ld (iy+cmd_frequency),a\n")
                 fw.write(f"    ld a,0x{frequency_hex_high}\n")
                 fw.write(f"    ld (iy+cmd_frequency+1),a\n")
                 fw.write(f"    lea iy,iy+cmd_bytes\n\n")
-                channel += 1
+
+                txt_base_volume += (f"     db {volume},{volume}\n")
+                drawbar += 1
 
             fw.write(f"    ld hl,notes_played\n")
             fw.write(f"    dec (hl)\n")
             fw.write(f"    jp z,{procedure_name}_end\n\n")
 
-            fw.write(f"@note_end{keypress_index}:\n\n")
+            fw.write(f"@note_end{key_position}:\n\n")
 
             keypress_index += 1
+            key_position += 1
 
         fw.write(f"{procedure_name}_end:\n")
+        fw.write("    ret\n\n")
+
+        fw.write(txt_base_volume)
 
 def write_asm_play_notes(asm_file, max_notes):
     with open(asm_file, 'w') as fw:
+        fw.write(f"key_positions: equ {key_positions}\n\n")
         fw.write(f"max_notes: equ {max_notes}\n")
         fw.write(f"play_notes:\n")
 
@@ -239,11 +251,14 @@ scale_degrees_lookup = {
     'Locrian':         ['1',  'b2', 'b3', '4',  'b5', 'b6', 'b7', '1',  'b2', 'b3'],
 }
 
+key_positions = 10
+
 # Generate scale notes
 scale_key = 'A'
 scale_base_octave = 2
+reference_frequency = pitch.Pitch(f"{scale_key}{scale_base_octave}").frequency
 
-scale_name = 'MinorBlues' 
+scale_name = 'MinorBlues'
 # published to discord: https://discord.com/channels/1158535358624039014/1158536809916149831/1241528343568978033
 # Smooth and mellow progression with adjusted V chord:
 # I knew a 7 would work soemwhere. and in the V slot is a good choice, classic sound.
@@ -281,9 +296,7 @@ scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 scale_notes = make_scale(scale_root, scale_name)
 print(scale_notes)
 asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics)
-
-
+write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
 
 bank_number = 2
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
@@ -291,8 +304,7 @@ scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 scale_notes = make_scale(scale_root, scale_name)
 print(scale_notes)
 asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics)
-
+write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
 
 bank_number = 3
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
@@ -300,8 +312,7 @@ scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 scale_notes = make_scale(scale_root, scale_name)
 print(scale_notes)
 asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics)
-
+write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
 
 bank_number = 4
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
@@ -309,7 +320,7 @@ scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 scale_notes = make_scale(scale_root, scale_name)
 print(scale_notes)
 asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics)
+write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
 
 # # Generate chord variations
 # banks = generate_chord_variations(progression_chords, scale_notes)
