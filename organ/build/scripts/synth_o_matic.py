@@ -150,5 +150,6 @@ if __name__ == "__main__":
     output_dir = "organ/build/samples"
     input_file = f"piano_C4.wav"
     input_file = f"hammond_C1.wav"
+    input_file = f"Drawbar_C_Chord.ogg"
 
     do_all_the_things(input_dir, input_file, sample_rate, duration, output_dir)

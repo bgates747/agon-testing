@@ -5,7 +5,7 @@ organ_notes_bank_4:
     jp z,@note_end0
     ld a,(bank4_volume0+1)
     ld (iy+cmd_volume),a
-    ld a,0x36
+    ld a,0x6E
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -13,7 +13,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume0+3)
     ld (iy+cmd_volume),a
-    ld a,0xA4
+    ld a,0xA5
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -21,7 +21,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume0+5)
     ld (iy+cmd_volume),a
-    ld a,0x6D
+    ld a,0x6E
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -29,7 +29,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume0+7)
     ld (iy+cmd_volume),a
-    ld a,0xDB
+    ld a,0xDC
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -37,7 +37,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume0+9)
     ld (iy+cmd_volume),a
-    ld a,0x49
+    ld a,0x4A
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -45,7 +45,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume0+11)
     ld (iy+cmd_volume),a
-    ld a,0xB7
+    ld a,0xB8
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -53,7 +53,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume0+13)
     ld (iy+cmd_volume),a
-    ld a,0x25
+    ld a,0x2A
     ld (iy+cmd_frequency),a
     ld a,0x02
     ld (iy+cmd_frequency+1),a
@@ -93,7 +93,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume1+5)
     ld (iy+cmd_volume),a
-    ld a,0x82
+    ld a,0x83
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -101,7 +101,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume1+7)
     ld (iy+cmd_volume),a
-    ld a,0x05
+    ld a,0x06
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -125,7 +125,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume1+13)
     ld (iy+cmd_volume),a
-    ld a,0x8E
+    ld a,0x93
     ld (iy+cmd_frequency),a
     ld a,0x02
     ld (iy+cmd_frequency+1),a
@@ -165,7 +165,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume2+5)
     ld (iy+cmd_volume),a
-    ld a,0x92
+    ld a,0x93
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -173,7 +173,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume2+7)
     ld (iy+cmd_volume),a
-    ld a,0x25
+    ld a,0x26
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -197,7 +197,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume2+13)
     ld (iy+cmd_volume),a
-    ld a,0xDE
+    ld a,0xE4
     ld (iy+cmd_frequency),a
     ld a,0x02
     ld (iy+cmd_frequency+1),a
@@ -221,7 +221,7 @@ organ_notes_bank_4:
     jp z,@note_end3
     ld a,(bank4_volume3+1)
     ld (iy+cmd_volume),a
-    ld a,0x4D
+    ld a,0x4E
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -237,7 +237,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume3+5)
     ld (iy+cmd_volume),a
-    ld a,0x9B
+    ld a,0x9C
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -269,7 +269,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume3+13)
     ld (iy+cmd_volume),a
-    ld a,0x09
+    ld a,0x10
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -277,7 +277,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume3+15)
     ld (iy+cmd_volume),a
-    ld a,0xA5
+    ld a,0xA4
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -309,7 +309,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume4+5)
     ld (iy+cmd_volume),a
-    ld a,0xA4
+    ld a,0xA5
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -317,7 +317,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume4+7)
     ld (iy+cmd_volume),a
-    ld a,0x49
+    ld a,0x4A
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -341,7 +341,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume4+13)
     ld (iy+cmd_volume),a
-    ld a,0x38
+    ld a,0x3E
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -349,7 +349,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume4+15)
     ld (iy+cmd_volume),a
-    ld a,0xDC
+    ld a,0xDB
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -365,7 +365,7 @@ organ_notes_bank_4:
     jp z,@note_end5
     ld a,(bank4_volume5+1)
     ld (iy+cmd_volume),a
-    ld a,0x61
+    ld a,0x62
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -373,7 +373,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume5+3)
     ld (iy+cmd_volume),a
-    ld a,0x25
+    ld a,0x26
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -381,7 +381,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume5+5)
     ld (iy+cmd_volume),a
-    ld a,0xC3
+    ld a,0xC4
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -389,7 +389,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume5+7)
     ld (iy+cmd_volume),a
-    ld a,0x87
+    ld a,0x88
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -405,7 +405,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume5+11)
     ld (iy+cmd_volume),a
-    ld a,0x0F
+    ld a,0x10
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -413,7 +413,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume5+13)
     ld (iy+cmd_volume),a
-    ld a,0xD3
+    ld a,0xDB
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -437,7 +437,7 @@ organ_notes_bank_4:
     jp z,@note_end6
     ld a,(bank4_volume6+1)
     ld (iy+cmd_volume),a
-    ld a,0x6D
+    ld a,0x6E
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -445,7 +445,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume6+3)
     ld (iy+cmd_volume),a
-    ld a,0x49
+    ld a,0x4A
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -453,7 +453,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume6+5)
     ld (iy+cmd_volume),a
-    ld a,0xDB
+    ld a,0xDC
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -461,7 +461,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume6+7)
     ld (iy+cmd_volume),a
-    ld a,0xB7
+    ld a,0xB8
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -477,7 +477,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume6+11)
     ld (iy+cmd_volume),a
-    ld a,0x6F
+    ld a,0x70
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -485,7 +485,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume6+13)
     ld (iy+cmd_volume),a
-    ld a,0x4B
+    ld a,0x54
     ld (iy+cmd_frequency),a
     ld a,0x04
     ld (iy+cmd_frequency+1),a
@@ -493,7 +493,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume6+15)
     ld (iy+cmd_volume),a
-    ld a,0x27
+    ld a,0x26
     ld (iy+cmd_frequency),a
     ld a,0x05
     ld (iy+cmd_frequency+1),a
@@ -509,7 +509,7 @@ organ_notes_bank_4:
     jp z,@note_end7
     ld a,(bank4_volume7+1)
     ld (iy+cmd_volume),a
-    ld a,0x82
+    ld a,0x83
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -525,7 +525,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume7+5)
     ld (iy+cmd_volume),a
-    ld a,0x05
+    ld a,0x06
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -557,7 +557,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume7+13)
     ld (iy+cmd_volume),a
-    ld a,0x1C
+    ld a,0x26
     ld (iy+cmd_frequency),a
     ld a,0x05
     ld (iy+cmd_frequency+1),a
@@ -565,7 +565,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume7+15)
     ld (iy+cmd_volume),a
-    ld a,0x21
+    ld a,0x20
     ld (iy+cmd_frequency),a
     ld a,0x06
     ld (iy+cmd_frequency+1),a
@@ -581,7 +581,7 @@ organ_notes_bank_4:
     jp z,@note_end8
     ld a,(bank4_volume8+1)
     ld (iy+cmd_volume),a
-    ld a,0x92
+    ld a,0x93
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -597,7 +597,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume8+5)
     ld (iy+cmd_volume),a
-    ld a,0x25
+    ld a,0x26
     ld (iy+cmd_frequency),a
     ld a,0x01
     ld (iy+cmd_frequency+1),a
@@ -621,7 +621,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume8+11)
     ld (iy+cmd_volume),a
-    ld a,0x96
+    ld a,0x97
     ld (iy+cmd_frequency),a
     ld a,0x04
     ld (iy+cmd_frequency+1),a
@@ -629,7 +629,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume8+13)
     ld (iy+cmd_volume),a
-    ld a,0xBC
+    ld a,0xC8
     ld (iy+cmd_frequency),a
     ld a,0x05
     ld (iy+cmd_frequency+1),a
@@ -637,7 +637,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume8+15)
     ld (iy+cmd_volume),a
-    ld a,0xE1
+    ld a,0xE0
     ld (iy+cmd_frequency),a
     ld a,0x06
     ld (iy+cmd_frequency+1),a
@@ -653,7 +653,7 @@ organ_notes_bank_4:
     jp z,@note_end9
     ld a,(bank4_volume9+1)
     ld (iy+cmd_volume),a
-    ld a,0x9B
+    ld a,0x9C
     ld (iy+cmd_frequency),a
     ld a,0x00
     ld (iy+cmd_frequency+1),a
@@ -685,7 +685,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume9+9)
     ld (iy+cmd_volume),a
-    ld a,0xA5
+    ld a,0xA4
     ld (iy+cmd_frequency),a
     ld a,0x03
     ld (iy+cmd_frequency+1),a
@@ -701,7 +701,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume9+13)
     ld (iy+cmd_volume),a
-    ld a,0x13
+    ld a,0x20
     ld (iy+cmd_frequency),a
     ld a,0x06
     ld (iy+cmd_frequency+1),a
@@ -709,7 +709,7 @@ organ_notes_bank_4:
 
     ld a,(bank4_volume9+15)
     ld (iy+cmd_volume),a
-    ld a,0x4A
+    ld a,0x48
     ld (iy+cmd_frequency),a
     ld a,0x07
     ld (iy+cmd_frequency+1),a
@@ -725,92 +725,92 @@ organ_notes_bank_4_end:
     ret
 
 bank4_volume0:
-     db 127,127
-     db 104,104
-     db 127,127
-     db 90,90
-     db 73,73
-     db 63,63
-     db 56,56
-     db 51,51
+     db 127,127 ; 110 Hz
+     db 127,127 ; 165 Hz
+     db 127,127 ; 110 Hz
+     db 127,127 ; 220 Hz
+     db 127,127 ; 330 Hz
+     db 127,127 ; 440 Hz
+     db 127,127 ; 554 Hz
+     db 127,127 ; 659 Hz
 bank4_volume1:
-     db 127,127
-     db 95,95
-     db 116,116
-     db 82,82
-     db 67,67
-     db 58,58
-     db 52,52
-     db 47,47
+     db 127,127 ; 65 Hz
+     db 127,127 ; 196 Hz
+     db 127,127 ; 131 Hz
+     db 127,127 ; 262 Hz
+     db 127,127 ; 392 Hz
+     db 127,127 ; 523 Hz
+     db 127,127 ; 659 Hz
+     db 127,127 ; 784 Hz
 bank4_volume2:
-     db 127,127
-     db 89,89
-     db 110,110
-     db 77,77
-     db 63,63
-     db 54,54
-     db 49,49
-     db 44,44
+     db 127,127 ; 73 Hz
+     db 127,127 ; 220 Hz
+     db 127,127 ; 147 Hz
+     db 127,127 ; 294 Hz
+     db 127,127 ; 440 Hz
+     db 127,127 ; 587 Hz
+     db 127,127 ; 740 Hz
+     db 127,127 ; 880 Hz
 bank4_volume3:
-     db 127,127
-     db 87,87
-     db 106,106
-     db 75,75
-     db 61,61
-     db 53,53
-     db 47,47
-     db 43,43
+     db 127,127 ; 78 Hz
+     db 127,127 ; 233 Hz
+     db 127,127 ; 156 Hz
+     db 127,127 ; 311 Hz
+     db 127,127 ; 466 Hz
+     db 127,127 ; 622 Hz
+     db 127,127 ; 784 Hz
+     db 127,127 ; 932 Hz
 bank4_volume4:
-     db 127,127
-     db 84,84
-     db 104,104
-     db 73,73
-     db 59,59
-     db 51,51
-     db 46,46
-     db 42,42
+     db 127,127 ; 82 Hz
+     db 127,127 ; 247 Hz
+     db 127,127 ; 165 Hz
+     db 127,127 ; 330 Hz
+     db 127,127 ; 494 Hz
+     db 127,127 ; 659 Hz
+     db 127,127 ; 830 Hz
+     db 127,127 ; 987 Hz
 bank4_volume5:
-     db 127,127
-     db 77,77
-     db 95,95
-     db 67,67
-     db 54,54
-     db 47,47
-     db 42,42
-     db 38,38
+     db 127,127 ; 98 Hz
+     db 127,127 ; 294 Hz
+     db 127,127 ; 196 Hz
+     db 127,127 ; 392 Hz
+     db 127,127 ; 587 Hz
+     db 127,127 ; 784 Hz
+     db 127,127 ; 987 Hz
+     db 127,127 ; 1175 Hz
 bank4_volume6:
-     db 127,127
-     db 73,73
-     db 90,90
-     db 63,63
-     db 51,51
-     db 44,44
-     db 40,40
-     db 36,36
+     db 127,127 ; 110 Hz
+     db 127,127 ; 330 Hz
+     db 127,127 ; 220 Hz
+     db 127,127 ; 440 Hz
+     db 127,127 ; 659 Hz
+     db 127,127 ; 880 Hz
+     db 127,127 ; 1108 Hz
+     db 127,127 ; 1318 Hz
 bank4_volume7:
-     db 116,116
-     db 67,67
-     db 82,82
-     db 58,58
-     db 47,47
-     db 41,41
-     db 36,36
-     db 33,33
+     db 127,127 ; 131 Hz
+     db 127,127 ; 392 Hz
+     db 127,127 ; 262 Hz
+     db 127,127 ; 523 Hz
+     db 127,127 ; 784 Hz
+     db 127,127 ; 1046 Hz
+     db 127,127 ; 1318 Hz
+     db 127,127 ; 1568 Hz
 bank4_volume8:
-     db 110,110
-     db 63,63
-     db 77,77
-     db 54,54
-     db 44,44
-     db 38,38
-     db 34,34
-     db 31,31
+     db 127,127 ; 147 Hz
+     db 127,127 ; 440 Hz
+     db 127,127 ; 294 Hz
+     db 127,127 ; 587 Hz
+     db 127,127 ; 880 Hz
+     db 127,127 ; 1175 Hz
+     db 127,127 ; 1480 Hz
+     db 127,127 ; 1760 Hz
 bank4_volume9:
-     db 106,106
-     db 61,61
-     db 75,75
-     db 53,53
-     db 43,43
-     db 37,37
-     db 33,33
-     db 30,30
+     db 127,127 ; 156 Hz
+     db 127,127 ; 466 Hz
+     db 127,127 ; 311 Hz
+     db 127,127 ; 622 Hz
+     db 127,127 ; 932 Hz
+     db 127,127 ; 1244 Hz
+     db 127,127 ; 1568 Hz
+     db 127,127 ; 1864 Hz

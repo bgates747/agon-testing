@@ -149,6 +149,68 @@ def generate_vibrato_synth_notes(base_frequency, vibrato_amplitude, harmonics, b
         synth_notes.append([multiplier_pos, level])
     return synth_notes
 
+def foldback_frequency(target_frequency):
+    """
+    Adjusts the given frequency to fall within the Hammond organ's playable range using foldback.
+    Foldback maps frequencies outside the playable range to the nearest octave within the range.
+    
+    :param target_frequency: The desired frequency to adjust.
+    :return: The adjusted frequency within the Hammond's range.
+    """
+    min_freq = 65.38
+    max_freq = 5924.62
+    
+    if target_frequency < min_freq:
+        # Calculate the octave closest to the min frequency
+        while target_frequency < min_freq:
+            target_frequency *= 2
+    elif target_frequency > max_freq:
+        # Calculate the octave closest to the max frequency
+        while target_frequency > max_freq:
+            target_frequency /= 2
+
+    return int(round(target_frequency, 0))
+
+def generate_hammond_frequencies():
+    motor_speed = 20  # revolutions per second
+    # Gear ratios for one octave (C to B)
+    gear_ratios = [
+        0.817307692, # C
+        0.865853659, # C#
+        0.917808219, # D
+        0.972222222, # D#
+        1.030000000, # E
+        1.090909091, # F
+        1.156250000, # F#
+        1.225000000, # G
+        1.297297297, # G#
+        1.375000000, # A
+        1.456521739, # A#
+        1.542857143, # B
+    ]
+    # Number of teeth for different octaves
+    teeth_counts = [2, 4, 8, 16, 32, 64, 128, 256]
+    frequencies = []
+    # Calculate frequencies for each tonewheel
+    for teeth_count in teeth_counts:
+        for ratio in gear_ratios:
+            frequency = int(round(motor_speed * teeth_count * ratio, 0))
+            frequencies.append(frequency)
+    return frequencies
+
+# Function to find the closest frequency
+def find_closest_frequency(target_frequency, tonewheel_frequencies):
+    """
+    Finds the closest frequency in the list to the target frequency.
+    :param target_frequency: The frequency to find the closest match for.
+    :param frequencies: List of frequencies to search.
+    :return: Closest frequency from the list.
+    """
+    # Find the frequency in the list that is closest to the target frequency
+    closest_frequency = min(tonewheel_frequencies, key=lambda x: abs(x - target_frequency))
+    return closest_frequency
+
+
 def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial_synth_notes, vibrato_amplitude, harmonics, reference_frequency):
     txt_base_volume = ""
     with open(asm_filepath, 'w') as fw:
@@ -176,10 +238,11 @@ def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial
             drawbar = 0
             for note in extended_synth_notes:
                 frequency_multiplier, volume = note
-                frequency = int(base_frequency * frequency_multiplier)
+                frequency = foldback_frequency(base_frequency * frequency_multiplier)
+                frequency = find_closest_frequency(frequency, tonewheel_frequencies)
 
-                # volume = int(volume*1.27)
-                volume = adjust_volume(frequency, volume, reference_frequency, alpha=0.50)
+                volume = int(volume*1.27)
+                # volume = adjust_volume(frequency, volume, reference_frequency, alpha=0.50)
 
                 frequency_hex = f"{frequency:04X}"
                 frequency_hex_low = frequency_hex[-2:]
@@ -194,7 +257,7 @@ def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial
                 fw.write(f"    ld (iy+cmd_frequency+1),a\n")
                 fw.write(f"    lea iy,iy+cmd_bytes\n\n")
 
-                txt_base_volume += (f"     db {volume},{volume}\n")
+                txt_base_volume += (f"     db {volume},{volume} ; {frequency} Hz\n")
                 drawbar += 1
 
             fw.write(f"    ld hl,notes_played\n")
@@ -253,6 +316,8 @@ scale_degrees_lookup = {
 
 key_positions = 10
 
+tonewheel_frequencies = generate_hammond_frequencies()
+
 # Generate scale notes
 scale_key = 'A'
 scale_base_octave = 2
@@ -267,18 +332,17 @@ progression = ['I', 'IV', 'V7', 'bVII6']
 num_harmonics = 0
 vibrato_amplitude = 3  # Hz
 
-
 synth_notes = [
-    [8/16,      8/8*100],   # 16' Drawbar - Subharmonic, one octave below the fundamental
-    [8/(5+1/3), 8/8*100],   # 5 1/3' Drawbar - Subharmonic, a perfect fifth below two octaves
-    [8/8,       8/8*100],   # 8' Drawbar - Fundamental frequency
-    [8/4,       8/8*100],   # 4' Drawbar - One octave above the fundamental
-    [8/(2+2/3), 8/8*100],   # 2 2/3' Drawbar - A perfect fifth above one octave
-    [8/2,       8/8*100],   # 2' Drawbar - Two octaves above the fundamental
-    [8/(1+3/5), 8/8*100],   # 1 3/5' Drawbar - A major third above two octaves
-    [8/(1+1/3), 8/8*100],   # 1 1/3' Drawbar - A perfect fifth above two octaves
+    [8/16,      100],   # 16' Drawbar    - Subharmonic, one octave below the fundamental
+    [8/(5+1/3), 100],   # 5 1/3' Drawbar - Subharmonic, a perfect fifth below two octaves
+    [8/8,       100],   # 8' Drawbar     - Fundamental frequency
+    [8/4,       100],   # 4' Drawbar     - One octave above the fundamental
+    [8/(2+2/3), 100],   # 2 2/3' Drawbar - A perfect fifth above one octave
+    [8/2,       100],   # 2' Drawbar     - Two octaves above the fundamental
+    [8/(1+3/5), 100],   # 1 3/5' Drawbar - A major third above two octaves
+    [8/(1+1/3), 100],   # 1 1/3' Drawbar - A perfect fifth above two octaves
+    # [8/1,       100],   # 1' Drawbar     - Three octaves above the fundamental
 ]
-
 
 if num_harmonics == 0:
     max_notes = floor(32 / len(synth_notes))
