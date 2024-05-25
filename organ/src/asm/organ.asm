@@ -169,6 +169,7 @@ cmd_frequency: equ frequency0-cmd0
 cmd_volume: equ volume0-cmd0
 cmd_bytes: equ cmd1-cmd0
 notes_played: db 0
+str_channels_playing: db "Channels playing: ",0
 
 ; ###############################################
 ; Main loop
@@ -246,6 +247,19 @@ main:
 
 ; set channel volumes according to the activated tonewheels
     call set_volumes
+
+; print the number of channels playing
+    ld hl,str_channels_playing
+    call printString
+    ld a,32 ; number of channels 
+    sub c ; subtract remaining channel loop counter
+    ld hl,0 ; make sure deu is 0
+    ld l,a ; hl = number of channels playing
+    call printDec
+    call printNewline
+    ld hl,_printDecBuffer
+    ld a,9
+    call dumpMemoryHex
 
 ; play the notes
     call play_notes
