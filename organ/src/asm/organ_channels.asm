@@ -1,6 +1,3 @@
-key_positions: equ 10
-
-max_notes: equ 4
 play_notes:
 
     ld hl,play_notes_cmd

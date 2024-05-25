@@ -212,8 +212,22 @@ main:
     ld (volume30),a
     ld (volume31),a
 
+; set tonewheel drawbar multipliers to 0
+    xor a
+    ld b,84 ; number of tonewheels
+    ld ix,tonewheel_frequencies+2
+@loop_tonewheels:
+    ld (ix),a
+    lea ix,ix+4 ; four bytes per record
+    djnz @loop_tonewheels
+
 ; check key presses
 	MOSCALL mos_getkbmap
+
+; quit if escape key pressed
+; 113 Escape
+    bit 0,(ix+14)
+    jp nz,main_exit
 
 ; display the virtual keys table
     push ix
@@ -221,22 +235,7 @@ main:
     ld a,17
     call dumpMemoryHex
 
-; display drawbar settings
-    ld b,8 ; 8 drawbars
-    ld hl,drawbar0+drawbar_value
-    ld a,1
-    ld de,drawbar_bytes
-@drawbar_loop:
-    call dumpMemoryHex
-    add hl,de
-    djnz @drawbar_loop
-
-
-; reset notes played counter
-    ld a,max_notes
-    ld (notes_played),a
-
-; set the drawbars to play according to the keys pressed
+; set the drawbar values according to the keys pressed
     call set_drawbars
 
 ; set channels to play according to the keys pressed
@@ -245,6 +244,9 @@ main:
     call organ_notes_bank_3
     call organ_notes_bank_4
 
+; set channel volumes according to the activated tonewheels
+    call set_volumes
+
 ; play the notes
     call play_notes
 
@@ -252,11 +254,9 @@ main:
 ;     call vdu_flip
 ;     call vdu_vblank
 
-; quit if escape key pressed
-; 113 Escape
-    bit 0,(ix+14)
-    jp z,main
+    jp main
 
+main_exit:
 ; cleanup and exit
     ld a,0
     call vdu_set_screen_mode

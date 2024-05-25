@@ -74,7 +74,7 @@ def make_scale(scale_root, scale_name):
         return []
 
     degrees = scale_degrees_lookup[scale_name]
-    scale_notes = []
+    scale_frequencies = []
     root_pitch = pitch.Pitch(scale_root)
     last_semitone = -1  # Initializing to -1 ensures the first note does not trigger octave adjustment
     octave_shift = 0
@@ -84,11 +84,11 @@ def make_scale(scale_root, scale_name):
         if semitone_shift <= last_semitone:
             octave_shift += 12  # Increase octave by 12 semitones
         note = root_pitch.transpose(semitone_shift + octave_shift)
-        scale_notes.append(note)
+        scale_frequencies.append(note)
         last_semitone = semitone_shift
 
-    frequencies = [note.frequency for note in scale_notes]
-    print(f"{scale_name} scale notes: {[n.nameWithOctave for n in scale_notes]}")
+    frequencies = [note.frequency for note in scale_frequencies]
+    print(f"{scale_name} scale notes: {[n.nameWithOctave for n in scale_frequencies]}")
     return frequencies
 
 def make_progression(key_signature, progression):
@@ -99,14 +99,14 @@ def make_progression(key_signature, progression):
         print(f"Chord {chord_symbol}: {[p.nameWithOctave for p in rn.pitches]}")
     return chords
 
-def generate_chord_variations(progression_chords, scale_notes):
+def generate_chord_variations(progression_chords, scale_frequencies):
     banks = []
     # Each bank corresponds to a chord in the progression
     for chord in progression_chords:
         bank_chords = []
         # bank_chords = [chord]  # Start with the base chord
         i = 0
-        for note in scale_notes:
+        for note in scale_frequencies:
             variation = chord + [note]
             bank_chords.append(variation)
             i += 1
@@ -130,24 +130,10 @@ def adjust_volume(base_frequency, raw_volume, reference_frequency, alpha):
     :return: The adjusted volume level.
     """
     adjusted_volume = raw_volume * (reference_frequency / base_frequency) ** alpha
-    # Normalize to hardware scale (0-127)
-    normalized_volume = min(int(adjusted_volume * 1.27), 127)
-    return normalized_volume
+    # Normalize to hardware scale (0-127) rounded to the nearest multiple of 8
+    normalized_volume = int(round(min(adjusted_volume * 1.28, 128) / 8,0) * 8)
 
-def generate_vibrato_synth_notes(base_frequency, vibrato_amplitude, harmonics, base_multiplier, base_level):
-    # Generate vibrato-modified notes for a single base multiplier and level
-    synth_notes = []
-    if harmonics == 0:
-        synth_notes.append([base_multiplier, base_level])
-        return synth_notes
-    
-    for k in range(1, harmonics + 1):
-        multiplier_pos = base_multiplier * (1 + k * vibrato_amplitude / base_frequency)
-        multiplier_neg = base_multiplier * (1 - k * vibrato_amplitude / base_frequency)
-        level = max(base_level - k * 10, 0)  # Decrease level for higher harmonics
-        synth_notes.append([multiplier_neg, level])
-        synth_notes.append([multiplier_pos, level])
-    return synth_notes
+    return normalized_volume
 
 def foldback_frequency(target_frequency):
     """
@@ -213,8 +199,7 @@ def get_tonewheel(target_frequency, frequencies):
     return closest_frequency, closest_index
 
 
-def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial_synth_notes, vibrato_amplitude, harmonics, reference_frequency):
-    txt_base_volume = ""
+def write_note_bit_settings(asm_filepath, scale_frequencies, bank_number, synth_multipliers, reference_frequency):
     with open(asm_filepath, 'w') as fw:
         file_name = asm_filepath.split('/')[-1]
         procedure_name = file_name.replace('.asm', '')
@@ -224,61 +209,36 @@ def write_note_bit_settings(asm_filepath, base_frequencies, bank_number, initial
 
         fw.write("    ld iy,cmd0\n\n")
 
-        for base_frequency in base_frequencies:
-            extended_synth_notes = []
-            for base_multiplier, base_level in initial_synth_notes:
-                # Generate vibrato notes for each initial synthetic tone
-                vibrato_notes = generate_vibrato_synth_notes(base_frequency, vibrato_amplitude, harmonics, base_multiplier, base_level)
-                extended_synth_notes.extend(vibrato_notes)
+        for base_frequency in scale_frequencies:
 
             bit, register_offset = key_mappings[keypress_index + 1]['bit'], key_mappings[keypress_index + 1]['register_offset']
             fw.write(f"    bit {bit},(ix+{register_offset})\n")
-            fw.write(f"    jp z,@note_end{key_position}\n")
-
-            txt_base_volume += (f"bank{bank_number}_volume{key_position}:\n")
+            fw.write(f"    jp z,@note_end{key_position}\n\n")
 
             drawbar = 0
-            for note in extended_synth_notes:
+            for note in synth_multipliers:
                 frequency_multiplier, volume = note
                 frequency = foldback_frequency(base_frequency * frequency_multiplier)
                 frequency, tonewheel = get_tonewheel(frequency, tonewheel_frequencies)
 
-                volume = adjust_volume(frequency, volume, reference_frequency, frequency_alpha)
+                fw.write(f"    ld a,(drawbar_volumes+{drawbar})\n")
+                fw.write(f"    ld hl,tonewheel_frequencies+{tonewheel*4+2}\n")
+                fw.write(f"    cp (hl)\n")
+                fw.write(f"    db 0x38, 0x01 ; jr c,1\n")
+                fw.write(f"    ld (hl),a\n\n")
 
-                frequency_hex = f"{frequency:04X}"
-                frequency_hex_low = frequency_hex[-2:]
-                frequency_hex_high = frequency_hex[:2]
-
-                # fw.write(f"    ld a,{volume}\n")
-                fw.write(f"    ld a,(bank{bank_number}_volume{key_position}+{drawbar*2+1})\n")
-                fw.write(f"    ld (iy+cmd_volume),a\n")
-                fw.write(f"    ld a,0x{frequency_hex_low}\n")
-                fw.write(f"    ld (iy+cmd_frequency),a\n")
-                fw.write(f"    ld a,0x{frequency_hex_high}\n")
-                fw.write(f"    ld (iy+cmd_frequency+1),a\n")
-                fw.write(f"    lea iy,iy+cmd_bytes\n\n")
-
-                txt_base_volume += (f"     db {volume},{volume} ; {frequency} Hz, TW {tonewheel} \n")
                 drawbar += 1
-
-            fw.write(f"    ld hl,notes_played\n")
-            fw.write(f"    dec (hl)\n")
-            fw.write(f"    jp z,{procedure_name}_end\n\n")
 
             fw.write(f"@note_end{key_position}:\n\n")
 
             keypress_index += 1
             key_position += 1
 
-        fw.write(f"{procedure_name}_end:\n")
-        fw.write("    ret\n\n")
+        fw.write("    ret")
 
-        fw.write(txt_base_volume)
-
-def write_asm_play_notes(asm_file, max_notes):
+def write_asm_play_notes(asm_file):
     with open(asm_file, 'w') as fw:
-        fw.write(f"key_positions: equ {key_positions}\n\n")
-        fw.write(f"max_notes: equ {max_notes}\n")
+        # fw.write(f"key_positions: equ {key_positions}\n\n")
         fw.write(f"play_notes:\n")
 
         fw.write(f"\n    ld hl,play_notes_cmd\n")
@@ -307,7 +267,7 @@ def write_asm_tonewheels(asm_file):
             volume = adjust_volume(frequency, 100, 65, frequency_alpha)
             frequency_low_byte = frequency & 0xFF
             frequency_high_byte = (frequency >> 8) & 0xFF
-            fw.write(f"    db {frequency_low_byte}, {frequency_high_byte}, {volume}, 0 ; {frequency} {i}\n")
+            fw.write(f"    db {frequency_low_byte},{frequency_high_byte},0,{volume} ; {frequency} {i}\n")
 
 scale_degrees_lookup = {
     'MinorPentatonic': ['1',  'b3', '4',  '5',  'b7', '1',  'b3', '4',  '5',  'b7'],
@@ -325,13 +285,14 @@ scale_degrees_lookup = {
 }
 
 key_positions = 10
+frequency_alpha = 0.50
+
 tonewheel_frequencies = generate_hammond_frequencies()
 
 # Generate scale notes
 scale_key = 'A'
 scale_base_octave = 2
 reference_frequency = pitch.Pitch(f"{scale_key}{scale_base_octave}").frequency
-frequency_alpha = 0.0
 
 scale_name = 'MinorBlues'
 # published to discord: https://discord.com/channels/1158535358624039014/1158536809916149831/1241528343568978033
@@ -342,7 +303,7 @@ progression = ['I', 'IV', 'V7', 'bVII6']
 num_harmonics = 0
 vibrato_amplitude = 3  # Hz
 
-synth_notes = [
+synth_multipliers = [
     [8/16,      100],   # 16' Drawbar    - Subharmonic, one octave below the fundamental
     [8/(5+1/3), 100],   # 5 1/3' Drawbar - Subharmonic, a perfect fifth below two octaves
     [8/8,       100],   # 8' Drawbar     - Fundamental frequency
@@ -351,58 +312,48 @@ synth_notes = [
     [8/2,       100],   # 2' Drawbar     - Two octaves above the fundamental
     [8/(1+3/5), 100],   # 1 3/5' Drawbar - A major third above two octaves
     [8/(1+1/3), 100],   # 1 1/3' Drawbar - A perfect fifth above two octaves
-    # [8/1,       100],   # 1' Drawbar     - Three octaves above the fundamental
+    [8/1,       100],   # 1' Drawbar     - Three octaves above the fundamental
 ]
-
-if num_harmonics == 0:
-    max_notes = floor(32 / len(synth_notes))
-else:
-    max_notes = floor(32 / (len(synth_notes) * 2 * num_harmonics))
-
-if num_harmonics == 0:
-    max_notes = floor(32 / len(synth_notes))
-else:
-    max_notes = floor(32 / (len(synth_notes) * 2 * num_harmonics))
 
 bank_number = 1
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 # scale_root = f"{scale_key}{scale_base_octave}"
-scale_notes = make_scale(scale_root, scale_name)
-print(scale_notes)
-asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
+scale_frequencies = make_scale(scale_root, scale_name)
+print(scale_frequencies)
+asm_filepath = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
+write_note_bit_settings(asm_filepath, scale_frequencies, bank_number, synth_multipliers, reference_frequency)
 
 bank_number = 2
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 # scale_root = f"{scale_key}{scale_base_octave}"
-scale_notes = make_scale(scale_root, scale_name)
-print(scale_notes)
-asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
+scale_frequencies = make_scale(scale_root, scale_name)
+print(scale_frequencies)
+asm_filepath = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
+write_note_bit_settings(asm_filepath, scale_frequencies, bank_number, synth_multipliers, reference_frequency)
 
 bank_number = 3
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 # scale_root = f"{scale_key}{scale_base_octave}"
-scale_notes = make_scale(scale_root, scale_name)
-print(scale_notes)
-asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
+scale_frequencies = make_scale(scale_root, scale_name)
+print(scale_frequencies)
+asm_filepath = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
+write_note_bit_settings(asm_filepath, scale_frequencies, bank_number, synth_multipliers, reference_frequency)
 
 bank_number = 4
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"
 # scale_root = f"{scale_key}{scale_base_octave}"
-scale_notes = make_scale(scale_root, scale_name)
-print(scale_notes)
-asm_file = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
-write_note_bit_settings(asm_file, scale_notes, bank_number, synth_notes, vibrato_amplitude, num_harmonics, reference_frequency)
+scale_frequencies = make_scale(scale_root, scale_name)
+print(scale_frequencies)
+asm_filepath = f"organ/src/asm/organ_notes_bank_{bank_number}.asm"
+write_note_bit_settings(asm_filepath, scale_frequencies, bank_number, synth_multipliers, reference_frequency)
 
 # # Generate chord variations
-# banks = generate_chord_variations(progression_chords, scale_notes)
+# banks = generate_chord_variations(progression_chords, scale_frequencies)
 
 # Generate chord progressionsion
 # progression_chords = make_progression(key_signature, progression)
 
-write_asm_play_notes("organ/src/asm/organ_channels.asm", max_notes)
+write_asm_play_notes("organ/src/asm/organ_channels.asm")
 
 write_asm_tonewheels("organ/src/asm/organ_tonewheels.asm")
 
