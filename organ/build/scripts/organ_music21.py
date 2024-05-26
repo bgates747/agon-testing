@@ -248,15 +248,32 @@ def write_asm_play_notes(asm_file):
         fw.write(f"play_notes_cmd:\n\n")
 
         for i in range(32):
+            fw.write(f"cmd{i}:\n")
+
             # Command 3: Set frequency
             # VDU 23, 0, &85, channel, 3, frequency;
-            fw.write(f"cmd{i}:         db 23, 0, $85, {i}, 3\n")
+            fw.write(f"                db 23, 0, $85, {i}, 3\n")
             fw.write(f"frequency{i}:   dw 0 \n")
 
             # Command 2: Set volume
             # VDU 23, 0, &85, channel, 2, volume
             fw.write(f"              db 23, 0, $85, {i}, 2\n")
             fw.write(f"volume{i}:      db 0\n\n")
+
+            # Command 7: Frequency envelope
+            # VDU 23, 0, &85, channel, 7, 1, 
+            # phaseCount, controlByte, stepLength; 
+            # [phase1Adjustment; phase1NumberOfSteps; ...]
+            fw.write(f"             db 23, 0, $85, {i}, 7,1\n")
+            fw.write(f"				db 2\n") # number of phases
+            # control byte, bit0=repeats on, bit1=cumulative off, bit2=restrict off
+            # restrict on makes the emulator crash
+            fw.write(f"				db %00000001\n")
+            fw.write(f"				dw {step_length}\n")
+            fw.write(f"				dw {adjustment_frequency}\n")
+            fw.write(f"				dw {phase_steps}\n")
+            fw.write(f"				dw {-adjustment_frequency}\n")
+            fw.write(f"				dw {phase_steps}\n")
 
         fw.write(f"\nplay_notes_end:")
 
@@ -301,7 +318,6 @@ scale_name = 'MinorBlues'
 progression = ['I', 'IV', 'V7', 'bVII6']
 
 num_harmonics = 0
-vibrato_amplitude = 3  # Hz
 
 synth_multipliers = [
     [8/16,      100],   # 16' Drawbar    - Subharmonic, one octave below the fundamental
@@ -314,6 +330,14 @@ synth_multipliers = [
     [8/(1+1/3), 100],   # 1 1/3' Drawbar - A perfect fifth above two octaves
     [8/1,       100],   # 1' Drawbar     - Three octaves above the fundamental
 ]
+
+# Define the vibrato parameters
+vibrato_rate = 7  # Hz, frequency of the vibrato cycle
+vibrato_depth = 15  # Hz, maximum frequency deviation
+phase_steps = 5  # number of steps in each half-cycle
+half_cycle_time_ms = (1 / vibrato_rate) * 500 
+step_length = round(half_cycle_time_ms / phase_steps) 
+adjustment_frequency = round(vibrato_depth / phase_steps)
 
 bank_number = 1
 scale_root = f"{scale_key}{4-bank_number+scale_base_octave}"

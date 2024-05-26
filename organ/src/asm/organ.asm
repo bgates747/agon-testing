@@ -256,17 +256,17 @@ main:
     ld hl,0 ; make sure deu is 0
     ld l,a ; hl = number of channels playing
     call printDec
-    call printNewline
-    ld hl,_printDecBuffer
-    ld a,9
-    call dumpMemoryHex
+    ; call printNewline
+    ; ld hl,_printDecBuffer
+    ; ld a,9
+    ; call dumpMemoryHex
 
 ; play the notes
     call play_notes
 
-; ; wait a tick
+; wait a tick
 ;     call vdu_flip
-;     call vdu_vblank
+    call vdu_vblank
 
     jp main
 
