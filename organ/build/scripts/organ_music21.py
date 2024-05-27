@@ -252,7 +252,7 @@ def write_asm_play_notes(asm_file):
 
             # Command 3: Set frequency
             # VDU 23, 0, &85, channel, 3, frequency;
-            fw.write(f"                db 23, 0, $85, {i}, 3\n")
+            fw.write(f"              db 23, 0, $85, {i}, 3\n")
             fw.write(f"frequency{i}:   dw 0 \n")
 
             # Command 2: Set volume
@@ -260,20 +260,20 @@ def write_asm_play_notes(asm_file):
             fw.write(f"              db 23, 0, $85, {i}, 2\n")
             fw.write(f"volume{i}:      db 0\n\n")
 
-            # Command 7: Frequency envelope
-            # VDU 23, 0, &85, channel, 7, 1, 
-            # phaseCount, controlByte, stepLength; 
-            # [phase1Adjustment; phase1NumberOfSteps; ...]
-            fw.write(f"             db 23, 0, $85, {i}, 7,1\n")
-            fw.write(f"				db 2\n") # number of phases
-            # control byte, bit0=repeats on, bit1=cumulative off, bit2=restrict off
-            # restrict on makes the emulator crash
-            fw.write(f"				db %00000001\n")
-            fw.write(f"				dw {step_length}\n")
-            fw.write(f"				dw {adjustment_frequency}\n")
-            fw.write(f"				dw {phase_steps}\n")
-            fw.write(f"				dw {-adjustment_frequency}\n")
-            fw.write(f"				dw {phase_steps}\n")
+            # # Command 7: Frequency envelope
+            # # VDU 23, 0, &85, channel, 7, 1, 
+            # # phaseCount, controlByte, stepLength; 
+            # # [phase1Adjustment; phase1NumberOfSteps; ...]
+            # fw.write(f"             db 23, 0, $85, {i}, 7,1\n")
+            # fw.write(f"				db 2\n") # number of phases
+            # # control byte, bit0=repeats on, bit1=cumulative off, bit2=restrict off
+            # # restrict on makes the emulator crash
+            # fw.write(f"				db %00000001\n")
+            # fw.write(f"				dw {step_length}\n")
+            # fw.write(f"				dw {adjustment_frequency}\n")
+            # fw.write(f"				dw {phase_steps}\n")
+            # fw.write(f"				dw {-adjustment_frequency}\n")
+            # fw.write(f"				dw {phase_steps}\n")
 
         fw.write(f"\nplay_notes_end:")
 

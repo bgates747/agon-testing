@@ -213,6 +213,19 @@ main:
     ld (volume30),a
     ld (volume31),a
 
+; advance vibrato value
+    ld hl,vibrato_lut
+    ld a,(vibrato_step)
+    inc a
+    and 63 ; modulo 64
+    ld (vibrato_step),a
+    ld e,a
+    ld d,3 ; three bytes per lut entry
+    mlt de
+    add hl,de
+    ld hl,(hl)
+    ld (vibrato_value),hl
+
 ; set tonewheel drawbar multipliers to 0
     xor a
     ld b,84 ; number of tonewheels
