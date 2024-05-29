@@ -150,17 +150,18 @@ exit:
     ld hl,EXIT_OK
     ret
 
+timer_time: equ 60
 ; ===============================================
 ; Initialization
 ; -----------------------------------------------
 init:
     call vdu_cls
     call cursor_off
-    ld hl,60*10
+    ld hl,60*timer_time
     ld (timer_counter),hl
     call vdu_vblank
     call timer_irq_init
-    ld hl,120*10
+    ld hl,120*timer_time
     ld iy,timer_test
     call timer_set
     ld hl,0
@@ -178,16 +179,18 @@ main:
 
 ; set PRT timer
     ; reset value
-    ld hl,12028
+    ; ld hl,12028
+    ld hl,120
     out0 ($84), l
 	out0 ($85), h
 ; enable timer, with interrupt and CONTINUOUS mode, clock divider 4
     ld a,PRT_IRQ_0 | IRQ_EN_1 | PRT_MODE_1 | CLK_DIV_256 | RST_EN_1 | PRT_EN_1 ; 0x53
 	out0 ($83), a
 
+    call vdu_vblank
+
 main_loop:
     call vdu_home_cursor
-    call vdu_vblank
     ld hl,(timer_counter)
     dec hl
     ld (timer_counter),hl
@@ -195,6 +198,7 @@ main_loop:
     xor a
     sbc hl,de
     jp z, main_end
+    jp m, main_end
 
 ; get irq_counter
     call printDec
@@ -205,6 +209,8 @@ main_loop:
     call get_prt
     call printDec
     call printNewline
+
+    call vdu_vblank
 
     jp main_loop
 
