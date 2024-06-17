@@ -1,3 +1,5 @@
+version: db "0.0.1.alpha",0
+
     include "organ/src/asm/mos_api.asm"
 
 ; Command 4: Set waveform
