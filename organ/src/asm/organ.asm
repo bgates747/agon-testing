@@ -1,5 +1,3 @@
-version: db "0.0.1.alpha",0
-
     include "organ/src/asm/mos_api.asm"
 
 ; Command 4: Set waveform
@@ -26,6 +24,8 @@ version: db "0.0.1.alpha",0
     .db "MOS"       
     .db 00h         
     .db 01h  
+
+str_version: db "0.0.1.alpha",0
 
 start:              
     push af
@@ -179,6 +179,9 @@ str_channels_playing: db "Channels playing: ",0
 
 main:
     call vdu_home_cursor
+    ld hl,str_version
+    call printString
+    call printNewline
 
 ; set set default volume to 0 for all channels
     xor a
