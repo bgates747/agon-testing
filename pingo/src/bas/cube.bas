@@ -28,6 +28,7 @@
   290 DATA 4, 0, 1
  2000 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
  2010 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
+ 2020 CLS
  6130 REM
  6140 REM -- CODE --
  6150 PRINT "Reading vertices"
@@ -48,7 +49,7 @@
  6300 scene_width%=320: scene_height%=240
  6310 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
  6320 f=32767.0/256.0
- 6330 distx=0*f: disty=2*f: distz=-25*f
+ 6330 distx=0*f: disty=0*f: distz=-50*f
  6340 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
  6350 pi2=PI*2.0: f=32767.0/pi2
  6360 anglex=-0.4*f
@@ -90,8 +91,7 @@
  6720 PRINT "Render 3D object"
  6730 VDU 23, 0, &C3: REM Flip buffer
  6740 rotatex=0.0: rotatey=0.0: rotatez=0.0
- 6750 REM incx=PI/16.0: incy=PI/32.0: incz=PI/64.0
- 6755 incx=1*PI/256.0: incy=2*PI/256.0: incz=0.5*PI/256.0
+ 6750 incx=1*PI/256.0: incy=2*PI/256.0: incz=0.5*PI/256.0
  6760 factor=32767.0/pi2
  6770 VDU 22, 136: REM 320x240x64
  6780 VDU 23, 0, &C0, 0: REM Normal coordinates
