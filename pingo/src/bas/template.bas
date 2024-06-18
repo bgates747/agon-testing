@@ -1,6 +1,6 @@
    10 REM Sample app to illustrate Pingo 3D on Agon
-   20 model_vertices%=8
-   30 model_indexes%=36
+   20 model_vertices%=
+   30 model_indexes%=
    40 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
    50 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
    60 CLS

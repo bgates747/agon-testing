@@ -1,30 +1,55 @@
 import numpy as np
+import re
+
+# Import the vertices and faces from the vertices.py file
 from vertices import vertices, faces
 
-# Function to format and print vertices and faces in BBC BASIC code format
-def print_bbc_basic(vertices, faces, precision=8):
+def modify_template(template_path, output_path, vertices, faces, precision=8):
     vertex_format = f"{{:.{precision}f}}, {{:.{precision}f}}, {{:.{precision}f}}"
-    
-    vertex_lines = 40
-    index_lines = vertex_lines + len(vertices) * 10 + 20  # Adding 20 to give space for a comment line
-    
-    print(f"{vertex_lines} REM -- VERTICES --")
-    print(f"{vertex_lines + 10} model_vertices%={len(vertices)}")
-    print(f"{vertex_lines + 20} model_indexes%={len(faces) * 3}")
-    
+
+    # Read the template file
+    with open(template_path, 'r') as file:
+        lines = file.readlines()
+
+    # Modify the lines for model_vertices% and model_indexes%
+    for i, line in enumerate(lines):
+        if line.strip().startswith("20 model_vertices%="):
+            lines[i] = f"20 model_vertices%={len(vertices)}\n"
+        elif line.strip().startswith("30 model_indexes%="):
+            lines[i] = f"30 model_indexes%={len(faces) * 3}\n"
+
+    # Add the vertex data starting at line 1000
+    index_lines = []
+    index_counter = 1000
+
+    index_lines.append(f"{index_counter} REM -- VERTICES --\n")
+    index_counter += 10
     for i, vertex in enumerate(vertices):
         formatted_vertex = vertex_format.format(*vertex)
-        print(f"{vertex_lines + 30 + 10 * i} DATA {formatted_vertex}")
-    
-    index_start_line = vertex_lines + 30 + 10 * len(vertices) + 10
-    print(f"{index_start_line} REM")
-    print(f"{index_start_line + 10} REM -- INDEXES --")
-    
-    index_counter = index_start_line + 20
-    for face in faces:
-        formatted_face = ", ".join(map(str, face))
-        print(f"{index_counter} DATA {formatted_face}")
+        index_lines.append(f"{index_counter} DATA {formatted_vertex}\n")
         index_counter += 10
 
-# Print the vertices and faces in BBC BASIC code format with the desired precision
-print_bbc_basic(vertices, faces, precision=8)
+    index_lines.append(f"{index_counter} REM\n")
+    index_counter += 10
+    index_lines.append(f"{index_counter} REM -- INDEXES --\n")
+    index_counter += 10
+    for face in faces:
+        formatted_face = ", ".join(map(str, face))
+        index_lines.append(f"{index_counter} DATA {formatted_face}\n")
+        index_counter += 10
+
+    # Append the new lines to the original lines
+    lines.extend(index_lines)
+
+    # Write the result to the output file
+    with open(output_path, 'w') as file:
+        file.writelines(lines)
+
+# Define the paths and call the function
+template_path = 'pingo/src/bas/template.bas'
+output_path = 'pingo/src/bas/suzanne.bas'  # Modify this path as needed
+
+# Modify the template and save the output
+modify_template(template_path, output_path, vertices, faces, precision=8)
+
+print(f"Modified BASIC code has been written to {output_path}")
