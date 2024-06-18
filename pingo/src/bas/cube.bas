@@ -52,7 +52,7 @@
  6330 distx=0*f: disty=0*f: distz=-50*f
  6340 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
  6350 pi2=PI*2.0: f=32767.0/pi2
- 6360 anglex=-0.4*f
+ 6360 anglex=0.0*f
  6370 VDU 23,0, &A0, sid%; &49, 18, anglex; : REM Set Camera X Rotation Angle
  6380 PRINT "Sending vertices using factor ";factor
  6390 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
@@ -95,6 +95,7 @@
  6760 factor=32767.0/pi2
  6770 VDU 22, 136: REM 320x240x64
  6780 VDU 23, 0, &C0, 0: REM Normal coordinates
+ 6781 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
  6782 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
  6784 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
  6790 CLG
