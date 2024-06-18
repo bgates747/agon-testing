@@ -94,7 +94,7 @@ init:
 ; initialization done
 	ret
 
-str_hello_world: db "Welocome to the Pingo 3D Teapot Demo!\r\ncontinue.",0
+str_hello_world: db "Welocome to the Pingo 3D Teapot Demo!\r\n.",0
 
 ; files.asm must go here so that filedata doesn't stomp on program data
 	include "src/asm/files.asm"

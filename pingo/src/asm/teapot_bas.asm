@@ -54,8 +54,8 @@ scd:
     dw cam_disty
     dw cam_distz
 @scd_end:
-        ld a,%01000000
-        call multiPurposeDelay
+    ld a,%01000000
+    call multiPurposeDelay
 
 ; 6350 pi2=PI*2.0: f=32767.0/pi2
 ; 6360 anglex=-0.4*f
@@ -91,6 +91,7 @@ sv:
     rst.lil $18
     ld hl,teapot_vertices
     ld bc,teapot_num_vertices*6 ; 2 bytes per vertex,3 vertices per triangle
+    call dumpRegistersHex
     rst.lil $18
     jp @sv_done
 @sv_beg:
