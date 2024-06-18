@@ -2,8 +2,8 @@
    20 REM Sample app to illustrate Pingo 3D on Agon
    30 REM
    40 REM -- VERTICES --
-   50 rohm_vertices%=14
-   60 rohm_indexes%=72
+   50 teapot_vertices%=14
+   60 teapot_indexes%=72
 100 DATA 2, 0, 0
 110 DATA 0, 2, 0
 120 DATA 0, 0, 2
@@ -78,8 +78,8 @@
  6440   IF TIME-T%<1 GOTO 6440
  6450 NEXT i%
  6460 PRINT "Reading and sending vertex indexes"
- 6470 VDU 23,0, &A0, sid%; &49, 2, mid%; teapot_vertices%; : REM Set Mesh Vertex Indexes
- 6480 FOR i%=0 TO teapot_vertices%-1
+ 6470 VDU 23,0, &A0, sid%; &49, 2, mid%; teapot_indexes%; : REM Set Mesh Vertex Indexes
+ 6480 FOR i%=0 TO teapot_indexes%-1
  6490   READ val%
  6500   VDU val%;
  6510   T%=TIME
@@ -87,8 +87,8 @@
  6530 NEXT i%
  6540 PRINT "Sending texture coordinate indexes"
  6550 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32768; 32768; : REM Define Texture Coordinates
- 6560 VDU 23,0, &A0, sid%; &49, 4, mid%; teapot_vertices%; : REM Set Texture Coordinate Indexes
- 6570 FOR i%=0 TO teapot_vertices%-1
+ 6560 VDU 23,0, &A0, sid%; &49, 4, mid%; teapot_indexes%; : REM Set Texture Coordinate Indexes
+ 6570 FOR i%=0 TO teapot_indexes%-1
  6580   VDU 0;
  6590 NEXT i%
  6600 PRINT "Creating texture bitmap"
@@ -106,7 +106,8 @@
  6720 PRINT "Render 3D object"
  6730 VDU 23, 0, &C3: REM Flip buffer
  6740 rotatex=0.0: rotatey=0.0: rotatez=0.0
- 6750 incx=PI/16.0: incy=PI/32.0: incz=PI/64.0
+ 6750 REM incx=PI/16.0: incy=PI/32.0: incz=PI/64.0
+ 6755 incx=1*PI/256.0: incy=0*PI/256.0: incz=0.5*PI/256.0
  6760 factor=32767.0/pi2
  6770 VDU 22, 136: REM 320x240x64
  6780 VDU 23, 0, &C0, 0: REM Normal coordinates
