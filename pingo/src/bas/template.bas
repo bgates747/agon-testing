@@ -23,7 +23,7 @@
   230 scene_width%=320: scene_height%=240
   240 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   250 f=32767.0/256.0
-  260 distx=0*f: disty=0*f: distz=-50*f
+  260 distx=0*f: disty=0*f: distz=-25*f
   270 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   280 pi2=PI*2.0: f=32767.0/pi2
   290 anglex=0.0*f
@@ -74,7 +74,7 @@
   740 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
   750 CLG
   760 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
-  770 VDU 23, 27, 3, 50; 50; : REM Display output bitmap
+  770 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
   780 VDU 23, 0, &C3: REM Flip buffer
   790 *FX 19
   800 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
