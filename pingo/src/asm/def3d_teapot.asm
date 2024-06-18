@@ -3461,4 +3461,4 @@ teapot_vertex_indices:
     dw 1727
 
 teapot_texture_coordinates:
-    dw 32768, 32768
+    dw 1,32768,32768

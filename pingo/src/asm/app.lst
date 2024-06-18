@@ -1,5 +1,6 @@
 PC     Output      Line
-040000             0001       .assume adl=1
+
+040000             0001       .assume adl=1
 040000             0002       .org 0x040000
 040000             0003   
 040000 C3 60 48 04 0004       jp start
@@ -278,7 +279,7 @@ PC     Output      Line
 040045             0252*  			LD	A, function
 040045             0253*  			RST.LIL	08h
 040045             0254*  	ENDMACRO
-040045             0012   	; include "ez80/app/src/asm/vdu_sound.asm" ; also has macros
+040045             0012   	; include "erc/asm/vdu_sound.asm" ; also has macros
 040045             0013       include "ez80/app/src/asm/main.asm"
 040045             0001*  main:
 040045             0002*  ; 6280 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
@@ -3565,7 +3566,7 @@ PC     Output      Line
 0410E3 32 E9 10 04 0081*      ld (r_seed),a
 0410E7 C1          0082*      pop bc
 0410E8 C9          0083*      ret
-0410E9 50          0084*  r_seed: defb $50
+0410E9 50          0084*  r_seed: de
 0410EA             0018   	include "ez80/app/src/asm/timer.asm"
 0410EA             0001*  ; Table 32. Timer Control Registers
 0410EA             0002*  ; this constant is the base address of the timer control registers
@@ -3936,7 +3937,7 @@ PC     Output      Line
 041259 F1          0352*      pop af
 04125A C9          0353*      ret
 04125B             0354*  
-04125B 00          0355*  oldTimeStamp:   .db 00h
+04125B 00          0355*  oldTimeStamp:h
 04125C             0019       include "ez80/app/src/asm/def3d_teapot.asm"
 04125C             0001*  teapot_num_vertices: equ 1728
 04125C             0002*  
@@ -9306,7 +9307,7 @@ PC     Output      Line
        65 63 74 2E 
        0D 0A 00    
 044A1D             0108   
-044A1D             0109   ; files.asm must go here so that filedata doesn't stomp on program data
+044A1D             0109   ; files.as here so that filedata doesn't stomp on program data
 044A1D             0110   	include "ez80/app/src/asm/files.asm"
 044A1D             0001*  ; WARNING: this routine must be the last one loaded in the main program so that filedata doesn't stomp on any program code
 044A1D             0002*  ; inputs: hl = bufferId, ix = file size
