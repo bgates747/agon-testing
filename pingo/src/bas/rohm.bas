@@ -2,7 +2,8 @@
    20 REM Sample app to illustrate Pingo 3D on Agon
    30 REM
    40 REM -- VERTICES --
-   50 model_vertices%=1728
+   50 model_vertices%=14
+   60 model_indexes%=72
 100 DATA 2, 0, 0
 110 DATA 0, 2, 0
 120 DATA 0, 0, 2
@@ -18,7 +19,7 @@
 220 DATA 1, -1, -1
 230 DATA -1, -1, -1
 240 REM
-290 -- INDEXES ---
+290 REM -- INDEXES ---
 300 DATA 0, 6, 10
 310 DATA 6, 1, 10
 320 DATA 0, 10, 12
@@ -78,7 +79,7 @@
  6450 NEXT i%
  6460 PRINT "Reading and sending vertex indexes"
  6470 VDU 23,0, &A0, sid%; &49, 2, mid%; model_vertices%; : REM Set Mesh Vertex Indexes
- 6480 FOR i%=0 TO model_vertices%-1
+ 6480 FOR i%=0 TO model_indexes%-1
  6490   READ val%
  6500   VDU val%;
  6510   T%=TIME
@@ -86,8 +87,8 @@
  6530 NEXT i%
  6540 PRINT "Sending texture coordinate indexes"
  6550 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32768; 32768; : REM Define Texture Coordinates
- 6560 VDU 23,0, &A0, sid%; &49, 4, mid%; model_vertices%; : REM Set Texture Coordinate Indexes
- 6570 FOR i%=0 TO model_vertices%-1
+ 6560 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indexes%; : REM Set Texture Coordinate Indexes
+ 6570 FOR i%=0 TO model_indexes%-1
  6580   VDU 0;
  6590 NEXT i%
  6600 PRINT "Creating texture bitmap"
