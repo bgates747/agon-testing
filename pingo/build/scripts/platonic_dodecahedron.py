@@ -48,30 +48,38 @@ def generate_dodecahedron():
         [5, 19, 17, 6, 15],
         [6, 17, 18, 4, 16]
     ]
-
-    return vertices, faces
+    
+    # Convert each face into triangles
+    triangles = []
+    for face in faces:
+        for i in range(1, len(face) - 1):
+            triangles.append([face[0], face[i], face[i + 1]])
+    
+    return vertices, triangles
 
 # Function to format and print vertices and faces in BBC BASIC code format
 def print_bbc_basic(vertices, faces, precision=8):
     vertex_format = f"{{:.{precision}f}}, {{:.{precision}f}}, {{:.{precision}f}}"
     
-    print("40 REM -- VERTICES --")
-    print(f"50 teapot_vertices%={len(vertices)}")
-    print(f"60 teapot_indexes%={len(faces) * len(faces[0])}")
+    vertex_lines = 40
+    index_lines = vertex_lines + len(vertices) * 10 + 20  # Adding 20 to give space for a comment line
+    
+    print(f"{vertex_lines} REM -- VERTICES --")
+    print(f"{vertex_lines + 10} teapot_vertices%={len(vertices)}")
+    print(f"{vertex_lines + 20} teapot_indexes%={len(faces) * 3}")
     
     for i, vertex in enumerate(vertices):
         formatted_vertex = vertex_format.format(*vertex)
-        print(f"{100 + 10 * i} DATA {formatted_vertex}")
+        print(f"{vertex_lines + 30 + 10 * i} DATA {formatted_vertex}")
     
-    print("240 REM")
-    print("290 REM -- INDEXES --")
+    print(f"{vertex_lines + 30 + 10 * len(vertices)} REM")
+    print(f"{index_lines} REM -- INDEXES --")
     
-    index_counter = 300
+    index_counter = index_lines + 10
     for face in faces:
-        for i in range(len(face)):
-            formatted_index = f"{face[i]}, {face[(i+1) % len(face)]}, {face[(i+2) % len(face)]}"
-            print(f"{index_counter} DATA {formatted_index}")
-            index_counter += 10
+        formatted_face = ", ".join(map(str, face))
+        print(f"{index_counter} DATA {formatted_face}")
+        index_counter += 10
 
 # Generate the vertices and faces
 vertices, faces = generate_dodecahedron()
