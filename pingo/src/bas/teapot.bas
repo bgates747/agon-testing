@@ -2,7 +2,7 @@
    20 REM Sample app to illustrate Pingo 3D on Agon
    30 REM
    40 REM -- VERTICES --
-   50 teapot_vertices%=1728
+   50 model_vertices%=1728
    60 DATA 0.700000,-1.200000,0.000000,0.605600,-1.200000,-0.355700,0.598800,-1.243700,-0.351700,0.598800,-1.243700,-0.351700
    70 DATA 0.692100,-1.243700,0.000000,0.700000,-1.200000,0.000000,0.692100,-1.243700,0.000000,0.598800,-1.243700,-0.351700
    80 DATA 0.619600,-1.243700,-0.363900,0.619600,-1.243700,-0.363900,0.716200,-1.243700,0.000000,0.692100,-1.243700,0.000000
@@ -613,7 +613,7 @@
  6130 REM
  6140 REM -- CODE --
  6150 PRINT "Reading vertices"
- 6160 total_coords%=teapot_vertices%*3
+ 6160 total_coords%=model_vertices%*3
  6170 max_abs=-99999
  6180 DIM vertices(total_coords%)
  6190 FOR i%=0 TO total_coords%-1
@@ -636,7 +636,7 @@
  6360 anglex=-0.4*f
  6370 VDU 23,0, &A0, sid%; &49, 18, anglex; : REM Set Camera X Rotation Angle
  6380 PRINT "Sending vertices using factor ";factor
- 6390 VDU 23,0, &A0, sid%; &49, 1, mid%; teapot_vertices%; : REM Define Mesh Vertices
+ 6390 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
  6400 FOR i%=0 TO total_coords%-1
  6410   val%=vertices(i%)*factor
  6420   VDU val%;
@@ -644,8 +644,8 @@
  6440   IF TIME-T%<1 GOTO 6440
  6450 NEXT i%
  6460 PRINT "Reading and sending vertex indexes"
- 6470 VDU 23,0, &A0, sid%; &49, 2, mid%; teapot_vertices%; : REM Set Mesh Vertex Indexes
- 6480 FOR i%=0 TO teapot_vertices%-1
+ 6470 VDU 23,0, &A0, sid%; &49, 2, mid%; model_vertices%; : REM Set Mesh Vertex Indexes
+ 6480 FOR i%=0 TO model_vertices%-1
  6490   READ val%
  6500   VDU val%;
  6510   T%=TIME
@@ -653,8 +653,8 @@
  6530 NEXT i%
  6540 PRINT "Sending texture coordinate indexes"
  6550 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32768; 32768; : REM Define Texture Coordinates
- 6560 VDU 23,0, &A0, sid%; &49, 4, mid%; teapot_vertices%; : REM Set Texture Coordinate Indexes
- 6570 FOR i%=0 TO teapot_vertices%-1
+ 6560 VDU 23,0, &A0, sid%; &49, 4, mid%; model_vertices%; : REM Set Texture Coordinate Indexes
+ 6570 FOR i%=0 TO model_vertices%-1
  6580   VDU 0;
  6590 NEXT i%
  6600 PRINT "Creating texture bitmap"

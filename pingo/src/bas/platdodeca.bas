@@ -1,11 +1,9 @@
    10 REM teapot.bas
    20 REM Sample app to illustrate Pingo 3D on Agon
    30 REM
-   40 REM -- VERTICES --
-   50 teapot_vertices%=1728
 40 REM -- VERTICES --
-50 teapot_vertices%=20
-60 teapot_indexes%=60
+50 model_vertices%=20
+60 model_indexes%=60
 100 DATA -1.00000000, -1.00000000, -1.00000000
 110 DATA -1.00000000, -1.00000000, 1.00000000
 120 DATA -1.00000000, 1.00000000, -1.00000000
@@ -88,10 +86,12 @@
 870 DATA 18, 4, 16
 880 DATA 4, 16, 6
 890 DATA 16, 6, 17
+2000 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
+2010 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
 6130 REM
 6140 REM -- CODE --
 6150 PRINT "Reading vertices"
-6160 total_coords%=teapot_vertices%*3
+6160 total_coords%=model_vertices%*3
 6170 max_abs=-99999
 6180 DIM vertices(total_coords%)
 6190 FOR i%=0 TO total_coords%-1
@@ -114,7 +114,7 @@
 6360 anglex=-0.4*f
 6370 VDU 23,0, &A0, sid%; &49, 18, anglex; : REM Set Camera X Rotation Angle
 6380 PRINT "Sending vertices using factor ";factor
-6390 VDU 23,0, &A0, sid%; &49, 1, mid%; teapot_vertices%; : REM Define Mesh Vertices
+6390 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
 6400 FOR i%=0 TO total_coords%-1
 6410   val%=vertices(i%)*factor
 6420   VDU val%;
@@ -122,8 +122,8 @@
 6440   IF TIME-T%<1 GOTO 6440
 6450 NEXT i%
 6460 PRINT "Reading and sending vertex indexes"
-6470 VDU 23,0, &A0, sid%; &49, 2, mid%; teapot_indexes%; : REM Set Mesh Vertex Indexes
-6480 FOR i%=0 TO teapot_indexes%-1
+6470 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indexes%; : REM Set Mesh Vertex Indexes
+6480 FOR i%=0 TO model_indexes%-1
 6490   READ val%
 6500   VDU val%;
 6510   T%=TIME
@@ -131,8 +131,8 @@
 6530 NEXT i%
 6540 PRINT "Sending texture coordinate indexes"
 6550 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32768; 32768; : REM Define Texture Coordinates
-6560 VDU 23,0, &A0, sid%; &49, 4, mid%; teapot_indexes%; : REM Set Texture Coordinate Indexes
-6570 FOR i%=0 TO teapot_indexes%-1
+6560 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indexes%; : REM Set Texture Coordinate Indexes
+6570 FOR i%=0 TO model_indexes%-1
 6580   VDU 0;
 6590 NEXT i%
 6600 PRINT "Creating texture bitmap"
@@ -155,6 +155,8 @@
 6760 factor=32767.0/pi2
 6770 VDU 22, 136: REM 320x240x64
 6780 VDU 23, 0, &C0, 0: REM Normal coordinates
+6782 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
+6784 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
 6790 CLG
 6800 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
 6810 VDU 23, 27, 3, 50; 50; : REM Display output bitmap
