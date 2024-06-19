@@ -25,7 +25,8 @@ for obj in bpy.data.objects:
         bpy.ops.object.modifier_apply(modifier="Triangulate")
 
         # Add vertices to the all_vertices list, transforming to Pingo conventions
-        vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_obj.data.vertices]
+#        vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_obj.data.vertices]
+        vertices = [[vert.co.x, vert.co.y, -vert.co.z] for vert in temp_obj.data.vertices]
         all_vertices.extend(vertices)
 
         # Add faces to the all_faces list, adjusting for the vertex offset
