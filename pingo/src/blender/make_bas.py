@@ -20,7 +20,7 @@ def modify_template(template_path, output_path, vertices, faces, precision=8):
 
     # Add the vertex data starting at line 1000
     index_lines = []
-    index_counter = 1000
+    index_counter = 2000
 
     index_lines.append(f"{index_counter} REM -- VERTICES --\n")
     index_counter += 10

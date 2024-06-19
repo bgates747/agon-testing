@@ -65,7 +65,6 @@
   650 PRINT "Render 3D object"
   660 VDU 23, 0, &C3: REM Flip buffer
   670 rotatex=0.0: rotatey=0.0: rotatez=0.0
-  680 incx=0*PI/256.0: incy=0*PI/256.0: incz=10.0*PI/256.0
   690 factor=32767.0/pi2
   700 VDU 22, 136: REM 320x240x64
   710 VDU 23, 0, &C0, 0: REM Normal coordinates
@@ -85,4 +84,11 @@
   830 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
   840 rx=rotatex*factor: ry=rotatey*factor: rz=rotatez*factor
   850 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
-  860 GOTO 750
+  855 incx=0*PI/256.0: incy=0*PI/256.0: incz=0*PI/256.0
+  860 ON ERROR PROCshowmap:GOTO870 :REM used to stop Escape key from stopping program and refreshes instead
+  870 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
+  880 IF A%=21 THEN incz=-10*PI/256.0 :REM RIGHT.
+  890 IF A%=8 THEN incz=10*PI/256.0 :REM LEFT.
+  900 IF A%=10 THEN incx=10*PI/256.0 :REM DOWN.
+  910 IF A%=11 THEN incx=-10*PI/256.0 :REM UP.
+ 1990 GOTO 750
