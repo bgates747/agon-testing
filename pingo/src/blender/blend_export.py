@@ -6,23 +6,32 @@ if bpy.context.object.mode != 'OBJECT':
     bpy.ops.object.mode_set(mode='OBJECT')
 
 # Get the default cube
-cube = bpy.data.objects['Cube']
+cube = bpy.data.objects['HeavyTank']
 
-# Apply the Triangulate modifier
+# Duplicate the cube
+bpy.ops.object.select_all(action='DESELECT')
+cube.select_set(True)
+bpy.ops.object.duplicate()
+temp_cube = bpy.context.selected_objects[0]
+
+# Apply the Triangulate modifier to the duplicate
+bpy.context.view_layer.objects.active = temp_cube
 bpy.ops.object.modifier_add(type='TRIANGULATE')
 bpy.ops.object.modifier_apply(modifier="Triangulate")
 
-# Generate a list of all vertices, transformed to Pingo conventions.
-vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in cube.data.vertices]
+# Generate a list of all vertices, transformed to Pingo conventions
+vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_cube.data.vertices]
 
 # Generate a list of face definitions (triangulated)
-faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
-faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
+faces = [[vert for vert in poly.vertices] for poly in temp_cube.data.polygons]
+
+# Delete the temporary cube
+bpy.ops.object.delete()
 
 # Determine the output file path
 output_file_path = os.path.join('/Users/bgates/Agon/mystuff/agon-testing/pingo/src/blender', 'vertices.py')
 
-# Write to vertices.py in the home directory
+# Write to vertices.py in the specified directory
 with open(output_file_path, 'w') as file:
     file.write("vertices = [\n")
     for vertex in vertices:
