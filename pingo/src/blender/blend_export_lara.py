@@ -26,12 +26,16 @@ for obj in bpy.data.objects:
 
         # Add vertices to the all_vertices list, transforming to Pingo conventions
 #        vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_obj.data.vertices]
-#        vertices = [[vert.co.x, vert.co.y, vert.co.z] for vert in temp_obj.data.vertices]
+#        vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_obj.data.vertices]
+#        # Add faces to the all_faces list, adjusting for the vertex offset
+#        faces = [[vert + vertex_offset for vert in poly.vertices] for poly in temp_obj.data.polygons]
+#        all_faces.extend(faces)
+
         vertices = [[vert.co.x, -vert.co.y, vert.co.z] for vert in temp_obj.data.vertices]
         all_vertices.extend(vertices)
-
-        # Add faces to the all_faces list, adjusting for the vertex offset
-        faces = [[vert + vertex_offset for vert in poly.vertices] for poly in temp_obj.data.polygons]
+        
+        # Add faces to the all_faces list, adjusting for the vertex offset and reversing the order of vertex indices
+        faces = [[vert + vertex_offset for vert in reversed(poly.vertices)] for poly in temp_obj.data.polygons]
         all_faces.extend(faces)
 
         # Update the vertex offset
