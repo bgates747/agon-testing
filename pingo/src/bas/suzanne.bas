@@ -73,7 +73,7 @@
   730 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   740 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
   750 CLS
-  760 PRINT "rotate x,y,z=";rotatex;rotatey;rotatez
+  760 PRINT "rotate x=";rotatex;" y=";rotatey;" z=";rotatez
   770 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
   780 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
   790 VDU 23, 0, &C3: REM Flip buffer
@@ -83,7 +83,8 @@
   830 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
   840 rx=rotatex*factor: ry=rotatey*factor: rz=rotatez*factor
   850 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
-  860 GOTO 7501000 REM -- VERTICES --
+  860 GOTO 750
+1000 REM -- VERTICES --
 1010 DATA 0.43750000, -0.16406250, -0.76562500
 1020 DATA -0.43750000, -0.16406250, -0.76562500
 1030 DATA 0.50000000, -0.09375000, -0.68750000
