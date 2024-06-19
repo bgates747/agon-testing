@@ -71,17 +71,17 @@
   710 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
   720 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   730 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
-  740 REM
+  740 inc=0.122718463
   750 REM --== MAIN LOOP ==--
   760 CLS
-  770 incx=0*PI/256.0: incy=0*PI/256.0: incz=0*PI/256.0
-  780 REM ON ERROR GOTO 1010 : REM used to prevent Escape key from stopping program
+  770 incx=0.0:incy=0.0:incz=0.0
+  780 ON ERROR GOTO 1010 : REM used to prevent Escape key from stopping program
   790 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
   800 PRINT "keycode ";A%
-  810 IF A%=21 THEN incz=-10*PI/256.0 :REM RIGHT.
-  820 IF A%=8 THEN incz=10*PI/256.0 :REM LEFT.
-  830 IF A%=10 THEN incy=10*PI/256.0 :REM DOWN.
-  840 IF A%=11 THEN incy=-10*PI/256.0 :REM UP.
+  810 IF A%=21 THEN incz=-inc :REM RIGHT.
+  820 IF A%=8 THEN incz=inc :REM LEFT.
+  830 IF A%=10 THEN incy=inc :REM DOWN.
+  840 IF A%=11 THEN incy=-inc :REM UP.
   850 PRINT "rotate x=";rotatex
   860 PRINT "rotate y=";rotatey
   870 PRINT "rotate z=";rotatez
@@ -103,3 +103,4 @@
  1050 VDU 18, 0, 0+128 : REM SET GFX BACKGROUND COLOR TO BLACK
  1060 CLS
  1070 END
+ 

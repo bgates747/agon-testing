@@ -6,7 +6,7 @@ if bpy.context.object.mode != 'OBJECT':
     bpy.ops.object.mode_set(mode='OBJECT')
 
 # Get the default cube
-cube = bpy.data.objects['HeavyTank']
+cube = bpy.data.objects['Cube']
 
 # Duplicate the cube
 bpy.ops.object.select_all(action='DESELECT')
