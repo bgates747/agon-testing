@@ -1,6 +1,6 @@
    10 REM Sample app to illustrate Pingo 3D on Agon
-   20 model_vertices%=507
-   30 model_indexes%=2901
+   20 model_vertices%=13
+   30 model_indexes%=60
    40 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
    50 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
    60 CLS
@@ -65,33 +65,41 @@
   650 PRINT "Render 3D object"
   660 VDU 23, 0, &C3: REM Flip buffer
   670 rotatex=0.0: rotatey=0.0: rotatez=0.0
-  690 factor=32767.0/pi2
-  700 VDU 22, 136: REM 320x240x64
-  710 VDU 23, 0, &C0, 0: REM Normal coordinates
-  720 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
-  730 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
-  740 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
-  742 REM
-  743 REM --== MAIN LOOP ==--
-  744 CLS
-  745 incx=0*PI/256.0: incy=0*PI/256.0: incz=0*PI/256.0
-  746 REM ON ERROR GOTO 747 : REM used to prevent Escape key from stopping program
-  747 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
-  748 PRINT "keycode ";A%
-  749 IF A%=21 THEN incz=-10*PI/256.0 :REM RIGHT.
-  750 IF A%=8 THEN incz=10*PI/256.0 :REM LEFT.
-  751 IF A%=10 THEN incx=10*PI/256.0 :REM DOWN.
-  752 IF A%=11 THEN incx=-10*PI/256.0 :REM UP.
-  760 PRINT "rotate x=";rotatex
-  762 PRINT "rotate y=";rotatey
-  764 PRINT "rotate z=";rotatez
-  770 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
-  780 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
-  790 VDU 23, 0, &C3: REM Flip buffer
-  800 *FX 19
-  810 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
-  820 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
-  830 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
-  840 rx=rotatex*factor: ry=rotatey*factor: rz=rotatez*factor
-  850 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
- 1990 GOTO 744
+  680 factor=32767.0/pi2
+  690 VDU 22, 136: REM 320x240x64 double-buffered
+  700 VDU 23, 0, &C0, 0: REM Normal coordinates
+  710 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
+  720 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
+  730 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
+  740 REM
+  750 REM --== MAIN LOOP ==--
+  760 CLS
+  770 incx=0*PI/256.0: incy=0*PI/256.0: incz=0*PI/256.0
+  780 REM ON ERROR GOTO 1010 : REM used to prevent Escape key from stopping program
+  790 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
+  800 PRINT "keycode ";A%
+  810 IF A%=21 THEN incz=-10*PI/256.0 :REM RIGHT.
+  820 IF A%=8 THEN incz=10*PI/256.0 :REM LEFT.
+  830 IF A%=10 THEN incy=10*PI/256.0 :REM DOWN.
+  840 IF A%=11 THEN incy=-10*PI/256.0 :REM UP.
+  850 PRINT "rotate x=";rotatex
+  860 PRINT "rotate y=";rotatey
+  870 PRINT "rotate z=";rotatez
+  880 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
+  890 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
+  900 VDU 23, 0, &C3: REM Flip buffer
+  910 *FX 19
+  920 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
+  930 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
+  940 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
+  950 rx=rotatex*factor: ry=rotatey*factor: rz=rotatez*factor
+  960 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
+  970 GOTO 760
+ 1000 REM -- EXIT PROGRAM --
+ 1010 VDU 22, 3: REM 640x240x64 single-buffered
+ 1020 VDU 23, 0, &C0, 0: REM Normal coordinates
+ 1030 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
+ 1040 VDU 17, 0+128 : REM SET TEXT BACKGROUND COLOR TO BLACK
+ 1050 VDU 18, 0, 0+128 : REM SET GFX BACKGROUND COLOR TO BLACK
+ 1060 CLS
+ 1070 END
