@@ -4,7 +4,7 @@
    40 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
    50 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
    60 CLS
-   70 REM -- CODE --
+   70 REM --== INITIALIZATION ==--
    80 PRINT "Reading vertices"
    90 total_coords%=model_vertices%*3
   100 max_abs=-99999
@@ -71,7 +71,17 @@
   720 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
   730 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   740 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
-  750 CLS
+  742 REM
+  743 REM --== MAIN LOOP ==--
+  744 CLS
+  745 incx=0*PI/256.0: incy=0*PI/256.0: incz=0*PI/256.0
+  746 REM ON ERROR GOTO 747 : REM used to prevent Escape key from stopping program
+  747 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
+  748 PRINT "keycode ";A%
+  749 IF A%=21 THEN incz=-10*PI/256.0 :REM RIGHT.
+  750 IF A%=8 THEN incz=10*PI/256.0 :REM LEFT.
+  751 IF A%=10 THEN incx=10*PI/256.0 :REM DOWN.
+  752 IF A%=11 THEN incx=-10*PI/256.0 :REM UP.
   760 PRINT "rotate x=";rotatex
   762 PRINT "rotate y=";rotatey
   764 PRINT "rotate z=";rotatez
@@ -84,15 +94,7 @@
   830 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
   840 rx=rotatex*factor: ry=rotatey*factor: rz=rotatez*factor
   850 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
-  855 incx=0*PI/256.0: incy=0*PI/256.0: incz=0*PI/256.0
-  860 ON ERROR PROCshowmap:GOTO870 :REM used to stop Escape key from stopping program and refreshes instead
-  870 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
-  880 IF A%=21 THEN incz=-10*PI/256.0 :REM RIGHT.
-  890 IF A%=8 THEN incz=10*PI/256.0 :REM LEFT.
-  900 IF A%=10 THEN incx=10*PI/256.0 :REM DOWN.
-  910 IF A%=11 THEN incx=-10*PI/256.0 :REM UP.
- 1990 GOTO 750
-2000 REM -- VERTICES --
+ 1990 GOTO 7442000 REM -- VERTICES --
 2010 DATA 1.00000000, -1.00000000, 1.00000000
 2020 DATA 1.00000000, 1.00000000, 1.00000000
 2030 DATA 1.00000000, -1.00000000, -1.00000000
