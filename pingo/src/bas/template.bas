@@ -65,7 +65,7 @@
   650 PRINT "Render 3D object"
   660 VDU 23, 0, &C3: REM Flip buffer
   670 rotatex=0.0: rotatey=0.0: rotatez=0.0
-  680 incx=1*PI/256.0: incy=2*PI/256.0: incz=0.5*PI/256.0
+  680 incx=0*PI/256.0: incy=0*PI/256.0: incz=0.5*PI/256.0
   690 factor=32767.0/pi2
   700 VDU 22, 136: REM 320x240x64
   710 VDU 23, 0, &C0, 0: REM Normal coordinates
