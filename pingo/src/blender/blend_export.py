@@ -16,10 +16,8 @@ bpy.ops.object.modifier_apply(modifier="Triangulate")
 vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in cube.data.vertices]
 
 # Generate a list of face definitions (triangulated)
-#faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
-# Generate a list of face definitions (triangulated) with reversed order
-faces = [[vert for vert in reversed(poly.vertices)] for poly in cube.data.polygons]
-
+faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
+faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
 
 # Determine the output file path
 output_file_path = os.path.join('/Users/bgates/Agon/mystuff/agon-testing/pingo/src/blender', 'vertices.py')
