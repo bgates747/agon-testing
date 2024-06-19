@@ -12,8 +12,9 @@ cube = bpy.data.objects['Cube']
 bpy.ops.object.modifier_add(type='TRIANGULATE')
 bpy.ops.object.modifier_apply(modifier="Triangulate")
 
-# Generate a list of all vertices
-vertices = [list(vert.co) for vert in cube.data.vertices]
+# Generate a list of all vertices with adjusted coordinates
+# Swap Y and Z, and invert Y to match your system's coordinate expectations
+vertices = [[vert.co.x, vert.co.z, -vert.co.y] for vert in cube.data.vertices]
 
 # Generate a list of face definitions (triangulated)
 faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
