@@ -65,33 +65,33 @@
   650 PRINT "Render 3D object"
   660 VDU 23, 0, &C3: REM Flip buffer
   670 rotatex=0.0: rotatey=0.0: rotatez=0.0
-  680 incx=1*PI/256.0: incy=2*PI/256.0: incz=0.5*PI/256.0
+  680 incx=0*PI/256.0: incy=0*PI/256.0: incz=10.0*PI/256.0
   690 factor=32767.0/pi2
   700 VDU 22, 136: REM 320x240x64
   710 VDU 23, 0, &C0, 0: REM Normal coordinates
   720 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
   730 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   740 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
-  750 CLG
-  760 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
-  770 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
-  780 VDU 23, 0, &C3: REM Flip buffer
-  790 *FX 19
-  800 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
-  810 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
-  820 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
-  830 rx=rotatex*factor: ry=rotatey*factor: rz=rotatez*factor
-  840 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
-  850 GOTO 750
-1000 REM -- VERTICES --
-1010 DATA 1.00000000, 1.00000000, 1.00000000
-1020 DATA 1.00000000, 1.00000000, -1.00000000
-1030 DATA 1.00000000, -1.00000000, 1.00000000
-1040 DATA 1.00000000, -1.00000000, -1.00000000
-1050 DATA -1.00000000, 1.00000000, 1.00000000
-1060 DATA -1.00000000, 1.00000000, -1.00000000
-1070 DATA -1.00000000, -1.00000000, 1.00000000
-1080 DATA -1.00000000, -1.00000000, -1.00000000
+  750 CLS
+  760 PRINT "rotate x,y,z=";rotatex;rotatey;rotatez
+  770 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
+  780 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
+  790 VDU 23, 0, &C3: REM Flip buffer
+  800 *FX 19
+  810 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
+  820 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
+  830 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
+  840 rx=rotatex*factor: ry=rotatey*factor: rz=rotatez*factor
+  850 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
+  860 GOTO 7501000 REM -- VERTICES --
+1010 DATA 1.00000000, -1.00000000, 1.00000000
+1020 DATA 1.00000000, 1.00000000, 1.00000000
+1030 DATA 1.00000000, -1.00000000, -1.00000000
+1040 DATA 1.00000000, 1.00000000, -1.00000000
+1050 DATA -1.00000000, -1.00000000, 1.00000000
+1060 DATA -1.00000000, 1.00000000, 1.00000000
+1070 DATA -1.00000000, -1.00000000, -1.00000000
+1080 DATA -1.00000000, 1.00000000, -1.00000000
 1090 REM
 1100 REM -- INDEXES --
 1110 DATA 4, 2, 0
