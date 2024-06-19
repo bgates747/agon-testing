@@ -12,13 +12,14 @@ cube = bpy.data.objects['Cube']
 bpy.ops.object.modifier_add(type='TRIANGULATE')
 bpy.ops.object.modifier_apply(modifier="Triangulate")
 
-# Generate a list of all vertices with negated Z-axis
-#vertices = [[vert.co.x, vert.co.y, -vert.co.z] for vert in cube.data.vertices]
-#vertices = [[vert.co.x, vert.co.z, vert.co.y] for vert in cube.data.vertices]
+# Generate a list of all vertices, transformed to Pingo conventions.
 vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in cube.data.vertices]
 
 # Generate a list of face definitions (triangulated)
-faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
+#faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
+# Generate a list of face definitions (triangulated) with reversed order
+faces = [[vert for vert in reversed(poly.vertices)] for poly in cube.data.polygons]
+
 
 # Determine the output file path
 output_file_path = os.path.join('/Users/bgates/Agon/mystuff/agon-testing/pingo/src/blender', 'vertices.py')
