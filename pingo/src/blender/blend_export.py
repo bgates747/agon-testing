@@ -13,7 +13,8 @@ bpy.ops.object.modifier_add(type='TRIANGULATE')
 bpy.ops.object.modifier_apply(modifier="Triangulate")
 
 # Generate a list of all vertices with negated Z-axis
-vertices = [[vert.co.x, vert.co.y, -vert.co.z] for vert in cube.data.vertices]
+#vertices = [[vert.co.x, vert.co.y, -vert.co.z] for vert in cube.data.vertices]
+vertices = [[vert.co.x, vert.co.z, vert.co.y] for vert in cube.data.vertices]
 
 # Generate a list of face definitions (triangulated)
 faces = [[vert for vert in poly.vertices] for poly in cube.data.polygons]
