@@ -47,7 +47,7 @@ def modify_template(template_path, output_path, vertices, faces, precision=8):
 
 # Define the paths and call the function
 template_path = 'pingo/src/bas/template.bas'
-output_path = 'pingo/src/bas/lara.bas'  # Modify this path as needed
+output_path = 'pingo/src/bas/cube_obj.bas'  # Modify this path as needed
 
 # Modify the template and save the output
 modify_template(template_path, output_path, vertices, faces, precision=8)
