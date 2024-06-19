@@ -73,7 +73,9 @@
   730 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   740 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
   750 CLS
-  760 PRINT "rotate x=";rotatex;" y=";rotatey;" z=";rotatez
+  760 PRINT "rotate x=";rotatex
+  762 PRINT "rotate y=";rotatey
+  764 PRINT "rotate z=";rotatez
   770 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
   780 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
   790 VDU 23, 0, &C3: REM Flip buffer
