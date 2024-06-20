@@ -55,7 +55,7 @@ def make_texture_rgba(uv_texture_png, uv_texture_rgba8):
 
 # Define the paths and call the function
 template_path = 'pingo/src/bas/template.bas'
-output_path = 'pingo/src/bas/heavy_tank_bev.bas'  # Modify this path as needed
+output_path = 'pingo/src/bas/icosphere.bas'  # Modify this path as needed
 uv_texture_png = 'pingo/src/blender/CubeObj/colorcube.png'  # Modify this path as needed
 uv_texture_rgba8 = 'pingo/src/blender/' + uv_texture_png.split('/')[-1].replace('.png', 'rgba8')
 
