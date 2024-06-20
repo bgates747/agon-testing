@@ -23,7 +23,7 @@
   230 scene_width%=320: scene_height%=240
   240 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   250 f=32767.0/256.0
-  260 distx=0*f: disty=0*f: distz=-25*f
+  260 distx=0*f: disty=0*f: distz=-20*f
   270 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   280 pi2=PI*2.0: f=32767.0/pi2
   290 anglex=0.0*f
@@ -69,12 +69,13 @@
   690 VDU 22, 136: REM 320x240x64 double-buffered
   700 VDU 23, 0, &C0, 0: REM Normal coordinates
   710 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
-  720 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
-  730 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
+  720 VDU 17,7+128 : REM set text background color to light gray
+  730 VDU 18, 0, 7+128 : REM set gfx background color to light gray
   740 inc=0.122718463
   750 REM --== MAIN LOOP ==--
   760 CLS
-  770 incx=0.0:incy=0.0:incz=0.0
+  770 REM incx=0.0:incy=0.0:incz=0.0
+  775 incx=inc/2:incy=inc:incz=inc*2
   780 ON ERROR GOTO 1010 : REM used to prevent Escape key from stopping program
   790 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
   800 PRINT "keycode ";A%
