@@ -1,4 +1,3 @@
-cube_init:
 ;   210 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
 sid: equ 100
 mid: equ 1
@@ -6,15 +5,41 @@ oid: equ 1
 bmid1: equ 101
 bmid2: equ 102
 
-;   220 PRINT "Creating control structure"
-    ld hl,str_create_control
-    call printString
-    jp ccs
-str_create_control: db "Creating control structure.\r\n",0
+obj_scale: equ 6*256
+
 ;   230 scene_width%=320: scene_height%=240
 scene_width: equ 320
 scene_height: equ 240
-ccs:
+
+;   250 f=32767.0/256.0
+;   260 distx=0*f: disty=0*f: distz=-25*f
+cam_f: equ 32767/256
+cam_distx: equ 0*cam_f
+cam_disty: equ 2*cam_f
+cam_distz: equ -25*cam_f
+
+;   280 pi2=PI*2.0: f=32767.0/pi2
+;   290 anglex=0.0*f
+cam_anglex: equ -2086
+
+str_create_object: db "Creating 3D object.\r\n",0
+str_scale_object: db "Scaling object.\r\n",0
+str_create_target_bitmap: db "Creating target bitmap.\r\n",0
+str_set_texture_pixel: db "Setting texture pixel.\r\n",0
+str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
+str_zeroes: db "Sending some magic zeroes.\r\n",0
+str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
+str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
+str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
+str_send_vertices: db "Sending vertices.\r\n",0
+str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
+str_set_camera_distance: db "Setting camera distance.\r\n",0
+str_create_control: db "Creating control structure.\r\n",0
+
+cube_init:
+;   220 PRINT "Creating control structure"
+    ld hl,str_create_control
+    call printString
     ld hl,@ccs_beg
     ld bc,@ccs_end-@ccs_beg
     rst.lil $18
@@ -30,17 +55,9 @@ ccs:
     ld a,%01000000
     call multiPurposeDelay
 
-;   250 f=32767.0/256.0
-;   260 distx=0*f: disty=0*f: distz=-25*f
-cam_f: equ 32767/256
-cam_distx: equ 0*cam_f
-cam_disty: equ 2*cam_f
-cam_distz: equ -25*cam_f
+; set camera distance
     ld hl,str_set_camera_distance
     call printString
-    jp scd
-str_set_camera_distance: db "Setting camera distance.\r\n",0
-scd:
     ld hl,@scd_beg
     ld bc,@scd_end-@scd_beg
     rst.lil $18
@@ -57,20 +74,15 @@ scd:
     ld a,%01000000
     call multiPurposeDelay
 
-;   280 pi2=PI*2.0: f=32767.0/pi2
-;   290 anglex=0.0*f
-cam_anglex: equ -2086
+; set camera x rotation
     ld hl,str_set_camera_x_rotation
     call printString
-    jp scxr
-str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
-;   300 VDU 23,0, &A0, sid%; &49, 18, anglex; : REM Set Camera X Rotation Angle
-scxr:
     ld hl,@scxr_beg
     ld bc,@scxr_end-@scxr_beg
     rst.lil $18
     jp @scxr_end
 @scxr_beg:
+;   300 VDU 23,0, &A0, sid%; &49, 18, anglex; : REM Set Camera X Rotation Angle
     db 23,0,$A0
     dw sid
     db $49,18
@@ -82,15 +94,12 @@ scxr:
 ;   310 PRINT "Sending vertices using factor ";factor
     ld hl,str_send_vertices
     call printString
-    jp sv
-str_send_vertices: db "Sending vertices.\r\n",0
-sv:
     ld hl,@sv_beg
     ld bc,@sv_end-@sv_beg
     rst.lil $18
     jp @sv_done
-;   320 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
 @sv_beg:
+;   320 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
     db 23,0,$A0
     dw sid
     db $49,1
@@ -117,9 +126,6 @@ sv:
 ;   390 PRINT "Reading and sending vertex indexes"
     ld hl,str_set_mesh_vertex_indexes
     call printString
-    jp smvi
-str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
-smvi:
     ld hl,@smvi_beg
     ld bc,@smvi_end-@smvi_beg
     rst.lil $18
@@ -156,9 +162,6 @@ smvi:
 ;   470 PRINT "Sending texture coordinate indexes"
     ld hl,str_set_texture_coordinates
     call printString
-    jp stc
-str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
-stc:
     ld hl,@stc_beg
     ld bc,@stc_end-@stc_beg
     rst.lil $18
@@ -178,9 +181,6 @@ stc:
 
     ld hl,str_set_tex_coord_idxs
     call printString
-    jp stci
-str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
-stci:
     ld hl,@stci_beg
     ld bc,@stci_end-@stci_beg
     jp @stci_end
@@ -197,15 +197,12 @@ stci:
 
     ld hl,str_zeroes
     call printString
-    jp zeroes
-str_zeroes: db "Sending some magic zeroes.\r\n",0
-zeroes:
 ;   500 FOR i%=0 TO model_indexes%-1
 ;   510   VDU 0;
 ;   520 NEXT i%
     ld hl,8 ; cube_num_vertices
-    xor a
 @zeroes_loop:
+    xor a
     rst.lil $10
     dec hl
     add hl,de
@@ -218,9 +215,6 @@ zeroes:
 ;   530 PRINT "Creating texture bitmap"
     ld hl,str_create_texture_bitmap
     call printString
-    jp ctb
-str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
-ctb:
     ld hl,@ctb_beg
     ld bc,@ctb_end-@ctb_beg
     rst.lil $18
@@ -236,9 +230,6 @@ ctb:
 ;   550 PRINT "Setting texture pixel"
     ld hl,str_set_texture_pixel
     call printString
-    jp stp
-str_set_texture_pixel: db "Setting texture pixel.\r\n",0
-stp:
     ld hl,@stp_beg
     ld bc,@stp_end-@stp_beg
     rst.lil $18
@@ -256,9 +247,6 @@ stp:
 ;   570 PRINT "Create 3D object"
     ld hl,str_create_object
     call printString
-    jp co
-str_create_object: db "Creating 3D object.\r\n",0
-co:
     ld hl,@co_beg
     ld bc,@co_end-@co_beg
     rst.lil $18
@@ -278,11 +266,7 @@ co:
 ;   590 PRINT "Scale object"
     ld hl,str_scale_object
     call printString
-    jp so
-str_scale_object: db "Scaling object.\r\n",0
 ;   600 scale=6.0*256.0
-obj_scale: equ 6*256
-so:
     ld hl,@so_beg
     ld bc,@so_end-@so_beg
     rst.lil $18
@@ -303,9 +287,6 @@ so:
 ;   620 PRINT "Create target bitmap"
     ld hl,str_create_target_bitmap
     call printString
-    jp ctb2
-str_create_target_bitmap: db "Creating target bitmap.\r\n",0
-ctb2:
     ld hl,@ctb2_beg
     ld bc,@ctb2_end-@ctb2_beg
     rst.lil $18
