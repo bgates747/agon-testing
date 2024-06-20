@@ -23,7 +23,7 @@
   230 scene_width%=320: scene_height%=240
   240 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   250 f=32767.0/256.0
-  260 distx=0*f: disty=0*f: distz=-25*f
+  260 distx=0*f: disty=0*f: distz=-20*f
   270 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   280 pi2=PI*2.0: f=32767.0/pi2
   290 anglex=0.0*f
