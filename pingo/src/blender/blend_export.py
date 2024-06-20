@@ -13,9 +13,12 @@ bpy.ops.object.select_all(action='DESELECT')
 cube.select_set(True)
 bpy.ops.object.duplicate()
 temp_cube = bpy.context.selected_objects[0]
-
-# Apply the Triangulate modifier to the duplicate
 bpy.context.view_layer.objects.active = temp_cube
+
+# Apply any rotation transformation
+bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
+
+# Apply the Triangulate modifier to the duplicat
 bpy.ops.object.modifier_add(type='TRIANGULATE')
 bpy.ops.object.modifier_apply(modifier="Triangulate")
 

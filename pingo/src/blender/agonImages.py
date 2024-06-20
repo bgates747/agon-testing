@@ -335,14 +335,24 @@ def rgba2_to_img(src_file_path, dim_x, dim_y):
     return image
 
 if __name__ == "__main__":
-    rgba2_file = "tgt/3.rgba2"
-    bmp_file = "tgt/3.bmp"
-    png_file = "tgt/3b.png"
-    pil_img = Image.open(bmp_file)
-    transparent_color = (255,255,255) ; # White
-    pil_img = convert_to_agon_palette(pil_img, 64, 'HSV', transparent_color)
-    img_to_rgba2(pil_img, rgba2_file)
-    height = pil_img.height
-    width = pil_img.width
-    pil_img2 = rgba2_to_img(rgba2_file, width, height)
-    pil_img2.save(png_file)
+    src_png_file = 'pingo/src/blender/earth64dith.png'
+    tgt_png_file = 'pingo/src/blender/earth64dith.png'
+    tgt_rgba8_file = 'pingo/src/blender/earth64dith.rgba8'
+    tgt_rgba2_file = 'pingo/src/blender/earth64dith.rgba2'
+    pil_img = Image.open(src_png_file)
+    # pil_img = convert_to_agon_palette(pil_img, 64, 'HSV', transparent_color=None)
+    # pil_img.save(tgt_png_file)
+    img_to_rgba8(pil_img, tgt_rgba8_file)
+    img_to_rgba2(pil_img, tgt_rgba2_file)
+
+    # rgba2_file = "tgt/3.rgba2"
+    # bmp_file = "tgt/3.bmp"
+    # png_file = "tgt/3b.png"
+    # pil_img = Image.open(bmp_file)
+    # transparent_color = (255,255,255) ; # White
+    # pil_img = convert_to_agon_palette(pil_img, 64, 'HSV', transparent_color)
+    # img_to_rgba2(pil_img, rgba2_file)
+    # height = pil_img.height
+    # width = pil_img.width
+    # pil_img2 = rgba2_to_img(rgba2_file, width, height)
+    # pil_img2.save(png_file)
