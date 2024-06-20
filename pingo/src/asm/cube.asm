@@ -88,6 +88,7 @@ sv:
     ld hl,@sv_beg
     ld bc,@sv_end-@sv_beg
     rst.lil $18
+    jp @sv_done
 ;   320 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
 @sv_beg:
     db 23,0,$A0
@@ -122,7 +123,7 @@ smvi:
     ld hl,@smvi_beg
     ld bc,@smvi_end-@smvi_beg
     rst.lil $18
-    jp @smvi_end
+    jp @smvi_done
 @smvi_beg:
 ;   400 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indexes%; : REM Set Mesh Vertex Indexes
     db 23,0,$A0
