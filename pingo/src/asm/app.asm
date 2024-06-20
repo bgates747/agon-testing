@@ -8,16 +8,16 @@
     .db 00h         
     .db 01h
 
-	include "src/asm/mos_api.asm" ; wants to be first include b/c it has macros
-	; include "src/asm/vdu_sound.asm" ; also has macros
-    include "src/asm/main.asm"
-	include "src/asm/vdu.asm"
-    include "src/asm/vdu_pingo.asm"
-    include "src/asm/functions.asm"
-	include "src/asm/maths.asm"
-	include "src/asm/timer.asm"
-    include "src/asm/def3d_teapot.asm"
-    include "src/asm/teapot_bas.asm"
+	include "pingo/src/asm/mos_api.asm" ; wants to be first include b/c it has macros
+	; include "pingo/src/asm/vdu_sound.asm" ; also has macros
+    include "pingo/src/asm/main.asm"
+	include "pingo/src/asm/vdu.asm"
+    include "pingo/src/asm/vdu_pingo.asm"
+    include "pingo/src/asm/functions.asm"
+	include "pingo/src/asm/maths.asm"
+	include "pingo/src/asm/timer.asm"
+    ; include "pingo/src/asm/def3d_teapot.asm"
+    include "pingo/src/asm/cube.asm"
 
 
 start:              
@@ -97,4 +97,4 @@ init:
 str_hello_world: db "Welocome to the Pingo 3D Teapot Demo!\r\n",0
 
 ; files.asm must go here so that filedata doesn't stomp on program data
-	include "src/asm/files.asm"
+	include "pingo/src/asm/files.asm"

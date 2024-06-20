@@ -122,9 +122,6 @@ smvi:
     ld hl,@smvi_beg
     ld bc,@smvi_end-@smvi_beg
     rst.lil $18
-    ld hl,cube_vertex_indices
-    ld bc,cube_num_vertices*2 ; 2 bytes per index
-    rst.lil $18
     jp @smvi_end
 @smvi_beg:
 ;   400 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indexes%; : REM Set Mesh Vertex Indexes
@@ -185,10 +182,6 @@ str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
 stci:
     ld hl,@stci_beg
     ld bc,@stci_end-@stci_beg
-    rst.lil $18
-    ld hl,cube_vertex_indices
-    ld bc,cube_num_vertices*2 ; 2 bytes per index
-    rst.lil $18
     jp @stci_end
 @stci_beg:
 ;   490 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indexes%; : REM Set Texture Coordinate Indexes
@@ -209,7 +202,7 @@ zeroes:
 ;   500 FOR i%=0 TO model_indexes%-1
 ;   510   VDU 0;
 ;   520 NEXT i%
-    ld hl,cube_num_vertices
+    ld hl,8 ; cube_num_vertices
     xor a
 @zeroes_loop:
     rst.lil $10
