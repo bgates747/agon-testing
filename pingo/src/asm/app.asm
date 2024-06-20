@@ -89,7 +89,7 @@ init:
 	; call vdu_flip
     ; call waitReturn
 
-    call teapot_init
+    call cube_init
 
 ; initialization done
 	ret

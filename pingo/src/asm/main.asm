@@ -7,8 +7,8 @@ main_loop:
 ; clear the screen
     ; call vdu_cls
 
-; draw the teapot
-; 6800 VDU 23, 0, &A0, sid%; &48, 38, bmid2%+64000; : REM Render To Bitmap
+; draw the cube
+; 6800 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
 ; inputs: bc = bmid;
     ld bc,bmid2+64000
     call vdu_3d_render_to_bitmap
