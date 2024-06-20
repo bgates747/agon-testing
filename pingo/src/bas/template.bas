@@ -74,7 +74,7 @@
   740 inc=0.122718463
   750 REM --== MAIN LOOP ==--
   760 CLS
-  770 incx=0.0:incy=0.0:incz=0.0
+  770 incx=0.0:incy=0.0:incz=inc
   780 ON ERROR GOTO 1010 : REM used to prevent Escape key from stopping program
   790 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
   800 PRINT "keycode ";A%
