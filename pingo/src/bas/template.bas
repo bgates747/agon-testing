@@ -69,12 +69,13 @@
   690 VDU 22, 136: REM 320x240x64 double-buffered
   700 VDU 23, 0, &C0, 0: REM Normal coordinates
   710 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
-  720 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
-  730 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
+  720 VDU 17,7+128 : REM set text background color to light gray
+  730 VDU 18, 0, 7+128 : REM set gfx background color to light gray
   740 inc=0.122718463
   750 REM --== MAIN LOOP ==--
   760 CLS
-  770 incx=0.0:incy=0.0:incz=inc
+  770 REM incx=0.0:incy=0.0:incz=0.0
+  775 incx=inc/2:incy=inc:incz=inc*2
   780 ON ERROR GOTO 1010 : REM used to prevent Escape key from stopping program
   790 A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
   800 PRINT "keycode ";A%
