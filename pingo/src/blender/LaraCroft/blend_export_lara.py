@@ -27,6 +27,12 @@ for obj in bpy.data.objects:
         bpy.ops.object.modifier_add(type='TRIANGULATE')
         bpy.ops.object.modifier_apply(modifier="Triangulate")
 
+        # Switch to edit mode to remove doubles
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.mesh.select_all(action='SELECT')
+        bpy.ops.mesh.remove_doubles()
+        bpy.ops.object.mode_set(mode='OBJECT')
+
         # Add vertices to the all_vertices list, transforming to Pingo conventions
         vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_obj.data.vertices]
         all_vertices.extend(vertices)

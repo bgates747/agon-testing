@@ -97,7 +97,7 @@ cube_init:
     ld hl,@sv_beg
     ld bc,@sv_end-@sv_beg
     rst.lil $18
-    jp @sv_done
+    jp @sv_end
 @sv_beg:
 ;   320 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
     db 23,0,$A0
@@ -119,7 +119,6 @@ cube_init:
     dw -16384, -16384, -16384
     dw -16384, 16384, -16384
 @sv_end:
-@sv_done:
     ld a,%01000000
     call multiPurposeDelay
 
