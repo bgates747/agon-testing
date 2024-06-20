@@ -1,0 +1,55 @@
+PC     Output            Line Source
+040000                   0001 ; 0x01: mos_load
+040000                   0002 ; Load a file from SD card
+040000                   0003 ; Parameters:
+040000                   0004 ;     HL(U): Address of filename (zero terminated)
+040000                   0005 ;     DE(U): Address at which to load
+040000                   0006 ;     BC(U): Maximum allowed size (bytes)
+040000                   0007 ; Returns:
+040000                   0008 ;     A: File error, or 0 if OK
+040000                   0009 ;     F: Carry reset if no room for file, otherwise set
+040000                   0010 mos_load:			EQU	01h
+040000                   0011 
+040000 C3 45 00 04       0012 	JP _init
+040004                   0013 
+040004                   0014 _header:
+040004 FF FF FF FF FF FF 0015 	.ALIGN 64
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+       FF FF FF FF FF FF 
+040040 4D 4F 53          0016 	.DB "MOS"
+040043 00                0017 	.DB 00h
+040044 01                0018 	.DB 01h
+040045                   0019 
+040045                   0020 _init:
+040045 F5                0021 	PUSH	AF
+040046 C5                0022 	PUSH	BC
+040047 D5                0023 	PUSH	DE
+040048 DD E5             0024 	PUSH	IX
+04004A FD E5             0025 	PUSH	IY
+04004C                   0026 
+04004C 21 6C 00 04       0027 	ld hl,pgrm_file
+040050 11 00 E0 B7       0028 	ld de,0xB7E000
+040054 01 00 20 00       0029 	ld bc,0x002000 ; 8KiB, max allowable in on-board fast sram
+040058 3E 01             0030 	LD	A, mos_load
+04005A 5B CF             0031 	RST.LIL	08h
+04005C                   0032 
+04005C CD 00 E0 B7       0033     CALL 0xB7E000
+040060                   0034 	; CALL _main
+040060                   0035 
+040060 FD E1             0036 	POP		IY
+040062 DD E1             0037 	POP		IX
+040064 D1                0038 	POP		DE
+040065 C1                0039 	POP		BC
+040066 F1                0040 	POP		AF
+040067 21 00 00 00       0041     ld      hl,0
+04006B C9                0042 	RET
+04006C                   0043 
+04006C 70 72 67 6D 2E 62 0044 pgrm_file: db "prgm.bin",0
+       69 6E 00          

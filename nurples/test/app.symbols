@@ -1,0 +1,4 @@
+_init $40045
+pgrm_file $4006c
+mos_load $1
+_header $40004
