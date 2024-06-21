@@ -18,7 +18,13 @@ bpy.context.view_layer.objects.active = temp_cube
 # Apply any rotation transformation
 bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
 
-# Apply the Triangulate modifier to the duplicat
+# Switch to edit mode to remove doubles
+bpy.ops.object.mode_set(mode='EDIT')
+bpy.ops.mesh.select_all(action='SELECT')
+bpy.ops.mesh.remove_doubles()
+bpy.ops.object.mode_set(mode='OBJECT')
+
+# Apply the Triangulate modifier to the duplicate
 bpy.ops.object.modifier_add(type='TRIANGULATE')
 bpy.ops.object.modifier_apply(modifier="Triangulate")
 
