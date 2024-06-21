@@ -227,27 +227,12 @@ cube_init:
     dw sid
     db $49,4
     dw mid, model_indexes
-@stci_end:
-@stci_done:
-    ld a,%01000000
-    call multiPurposeDelay
-
-    ld hl,str_zeroes
-    call printString
 ;   500 FOR i%=0 TO model_indexes%-1
 ;   510   VDU 0;
 ;   520 NEXT i%
-    ld hl,model_indexes
-@zeroes_loop:
-    xor a
-    rst.lil $10
-    xor a
-    rst.lil $10
-    dec hl
-    add hl,de
-    or a
-    sbc hl,de
-    jr nz,@zeroes_loop
+    blkw model_indexes, 0
+@stci_end:
+@stci_done:
     ld a,%01000000
     call multiPurposeDelay
 
