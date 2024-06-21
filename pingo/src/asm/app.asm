@@ -53,12 +53,15 @@ str_init_cmplt: db "Initialization complete.\r\n",0
 
 init:
     call vdu_clear_all_buffers
-	call cursor_off
+; set up the display
+    ld a,8;+128 ; 320x240x64 double-buffered
+    call vdu_set_screen_mode
+    xor a
+    call vdu_set_scaling
 	ld hl,str_hello_world
 	call printString
     call cube_init
 	ret
-
 
 ;   210 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
 sid: equ 100
@@ -80,7 +83,7 @@ scene_height: equ 240
 cam_f: equ 32767/256
 cam_distx: equ 0*cam_f
 cam_disty: equ 2*cam_f
-cam_distz: equ -20*cam_f
+cam_distz: equ -25*cam_f
 
 ;   280 pi2=PI*2.0: f=32767.0/pi2
 ;   290 anglex=0.0*f
@@ -102,8 +105,6 @@ cube_init:
     dw scene_width
     dw scene_height
 @ccs_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ; set camera distance
     ld hl,str_set_camera_distance
@@ -121,8 +122,6 @@ cube_init:
     dw cam_disty
     dw cam_distz
 @scd_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ; set camera x rotation
     ld hl,str_set_camera_x_rotation
@@ -138,8 +137,6 @@ cube_init:
     db $49,18
     dw cam_anglex
 @scxr_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ;   310 PRINT "Sending vertices using factor ";factor
     ld hl,str_send_vertices
@@ -163,8 +160,7 @@ cube_init:
     dw -32767, -32767, -32767
     dw -32767, 32767, -32767
 @sv_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
+
 
 ;   390 PRINT "Reading and sending vertex indexes"
     ld hl,str_set_mesh_vertex_indexes
@@ -193,8 +189,7 @@ cube_init:
     dw 4, 0, 1
 @smvi_end:
 @smvi_done:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
+
 
 ;   470 PRINT "Sending texture coordinate indexes"
     ld hl,str_set_texture_coordinates
@@ -213,8 +208,6 @@ cube_init:
     dw 32768
     dw 32768
 @stc_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
     ld hl,str_set_tex_coord_idxs
     call printString
@@ -233,8 +226,6 @@ cube_init:
     blkw model_indexes, 0
 @stci_end:
 @stci_done:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ;   530 PRINT "Creating texture bitmap"
     ld hl,str_create_texture_bitmap
@@ -248,8 +239,6 @@ cube_init:
     db 23,27,0
     dw bmid1
 @ctb_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ;   550 PRINT "Setting texture pixel"
     ld hl,str_set_texture_pixel
@@ -261,12 +250,9 @@ cube_init:
 @stp_beg:
 ;   560 VDU 23, 27, 1, 1; 1; &55, &AA, &FF, &C0 : REM Set a pixel in the bitmap
     db 23,27,1
-    dw 1
-    dw 1
+    dw 1,1
     db $55,$AA,$FF,$C0
 @stp_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ;   570 PRINT "Create 3D object"
     ld hl,str_create_object
@@ -284,13 +270,11 @@ cube_init:
     dw mid
     dw bmid1+64000
 @co_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ;   590 PRINT "Scale object"
     ld hl,str_scale_object
     call printString
-;   600 scale=6.0*256.0
+;   600 scale=1.0*256.0
     ld hl,@so_beg
     ld bc,@so_end-@so_beg
     rst.lil $18
@@ -305,8 +289,6 @@ cube_init:
     dw obj_scale
     dw obj_scale
 @so_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
 ;   620 PRINT "Create target bitmap"
     ld hl,str_create_target_bitmap
@@ -326,8 +308,6 @@ cube_init:
     dw $0000
     dw $00C0
 @ctb2_end:
-    ; ld a,%01000000
-    ; call multiPurposeDelay
 
     ld hl,str_init_cmplt
     call printString
@@ -389,22 +369,23 @@ main_loop:
 
     ; call vdu_flip
 
-; check for escape key and quit if pressed
-@check_escape:
-	MOSCALL mos_getkbmap
-; 113 Escape
-    bit 0,(ix+14)
-	jr nz,main_end
-@Escape:
-	jr main_loop
+; ; check for escape key and quit if pressed
+; @check_escape:
+; 	MOSCALL mos_getkbmap
+; ; 113 Escape
+;     bit 0,(ix+14)
+; 	jr nz,main_end
+; @Escape:
+; 	jr main_loop
 
-main_end:
-    call vdu_clear_all_buffers
+; main_end:
+;     call vdu_clear_all_buffers
 
-; restore screen to something normalish
-	ld a,3
-	call vdu_set_screen_mode
-	call cursor_on
+; ; restore screen to something normalish
+; 	ld a,3
+; 	call vdu_set_screen_mode
+; 	call cursor_on
+
 	ret
 
 ; files.asm must go here so that filedata doesn't stomp on program data
