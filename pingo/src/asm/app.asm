@@ -241,6 +241,8 @@ cube_init:
 @zeroes_loop:
     xor a
     rst.lil $10
+    xor a
+    rst.lil $10
     dec hl
     add hl,de
     or a
@@ -361,19 +363,6 @@ main:
 
 ; set the cursor off
 	call cursor_off
-
-; ; set text background color
-; 	ld a,4 + 128
-; 	call vdu_colour_text
-
-; ; set text foreground color
-; 	ld a,47 ; aaaaff lavenderish
-; 	call vdu_colour_text
-
-; ; set gfx bg color
-; 	xor a ; plotting mode 0
-; 	ld c,4 ; dark blue
-; 	call vdu_gcol_bg
 
 	call vdu_cls
 
