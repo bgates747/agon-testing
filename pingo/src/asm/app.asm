@@ -1,3 +1,5 @@
+	include "pingo/src/asm/mos_api.asm"
+
     .assume adl=1   
     .org 0x040000    
 
@@ -8,12 +10,6 @@
     .db 00h         
     .db 01h
 
-	include "pingo/src/asm/mos_api.asm" ; wants to be first include b/c it has macros
-	include "pingo/src/asm/vdu.asm"
-    include "pingo/src/asm/vdu_pingo.asm"
-    include "pingo/src/asm/functions.asm"
-	include "pingo/src/asm/timer.asm"
-
 start:              
     push af
     push bc
@@ -21,8 +17,8 @@ start:
     push ix
     push iy
 
-	call init ; Initialization code
-    call main ; Call the main function
+	call init
+    call main
 
 exit:
 
@@ -35,33 +31,13 @@ exit:
 
     ret 
 
-str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
-str_create_object: db "Creating 3D object.\r\n",0
-str_scale_object: db "Scaling object.\r\n",0
-str_create_target_bitmap: db "Creating target bitmap.\r\n",0
-str_set_texture_pixel: db "Setting texture pixel.\r\n",0
-str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
-str_zeroes: db "Sending some magic zeroes.\r\n",0
-str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
-str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
-str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
-str_send_vertices: db "Sending vertices.\r\n",0
-str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
-str_set_camera_distance: db "Setting camera distance.\r\n",0
-str_create_control: db "Creating control structure.\r\n",0
-str_init_cmplt: db "Initialization complete.\r\n",0
-
 init:
-    call vdu_clear_all_buffers
-; set up the display
-    ld a,8;+128 ; 320x240x64 double-buffered
-    call vdu_set_screen_mode
     xor a
     call vdu_set_scaling
 	ld hl,str_hello_world
 	call printString
     call cube_init
-	ret
+    ret
 
 ;   210 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
 sid: equ 100
@@ -161,7 +137,6 @@ cube_init:
     dw -32767, 32767, -32767
 @sv_end:
 
-
 ;   390 PRINT "Reading and sending vertex indexes"
     ld hl,str_set_mesh_vertex_indexes
     call printString
@@ -189,7 +164,6 @@ cube_init:
     dw 4, 0, 1
 @smvi_end:
 @smvi_done:
-
 
 ;   470 PRINT "Sending texture coordinate indexes"
     ld hl,str_set_texture_coordinates
@@ -320,27 +294,11 @@ str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
 str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
 
 main:
-; ; set up the display
-;     ld a,8;+128 ; 320x240x64 double-buffered
-;     call vdu_set_screen_mode
-;     xor a
-;     call vdu_set_scaling
-
-; ; set the cursor off
-; 	call cursor_off
-
-	; call vdu_cls
-
-main_loop:
-    ; call vdu_vblank
-    ; call vdu_cls
-
     ld hl,str_render_to_bitmap
     call printString
     ld a,%01000000
     call multiPurposeDelay
 ; draw the cube
-; inputs: bc = bmid;
     ld hl,@bmpbeg
     ld bc,@bmpend-@bmpbeg
     rst.lil $18
@@ -361,32 +319,31 @@ main_loop:
     ld hl,@bmpdispbeg
     ld bc,@bmpdispend-@bmpdispbeg
     rst.lil $18
-    jp @bmpend
+    jp @bmpdispend
 @bmpdispbeg:
     db 23, 27, 3 ; Display output bitmap
     dw 0, 0
 @bmpdispend:
 
-    ; call vdu_flip
-
-; ; check for escape key and quit if pressed
-; @check_escape:
-; 	MOSCALL mos_getkbmap
-; ; 113 Escape
-;     bit 0,(ix+14)
-; 	jr nz,main_end
-; @Escape:
-; 	jr main_loop
-
-; main_end:
-;     call vdu_clear_all_buffers
-
-; ; restore screen to something normalish
-; 	ld a,3
-; 	call vdu_set_screen_mode
-; 	call cursor_on
-
 	ret
 
-; files.asm must go here so that filedata doesn't stomp on program data
-	include "pingo/src/asm/files.asm"
+	include "pingo/src/asm/vdu.asm"
+    include "pingo/src/asm/vdu_pingo.asm"
+    include "pingo/src/asm/functions.asm"
+	include "pingo/src/asm/timer.asm"
+
+str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
+str_create_object: db "Creating 3D object.\r\n",0
+str_scale_object: db "Scaling object.\r\n",0
+str_create_target_bitmap: db "Creating target bitmap.\r\n",0
+str_set_texture_pixel: db "Setting texture pixel.\r\n",0
+str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
+str_zeroes: db "Sending some magic zeroes.\r\n",0
+str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
+str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
+str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
+str_send_vertices: db "Sending vertices.\r\n",0
+str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
+str_set_camera_distance: db "Setting camera distance.\r\n",0
+str_create_control: db "Creating control structure.\r\n",0
+str_init_cmplt: db "Initialization complete.\r\n",0
