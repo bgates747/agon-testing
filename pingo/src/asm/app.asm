@@ -1,4 +1,4 @@
-	include "pingo/src/asm/mos_api.asm"
+    include "pingo/src/asm/mos_api.asm"
 
     .assume adl=1   
     .org 0x040000    
@@ -17,7 +17,7 @@ start:
     push ix
     push iy
 
-	call init
+    call init
     call main
 
 exit:
@@ -34,8 +34,8 @@ exit:
 init:
     xor a
     call vdu_set_scaling
-	ld hl,str_hello_world
-	call printString
+    ld hl,str_hello_world
+    call printString
     call cube_init
     ret
 
@@ -322,9 +322,10 @@ rendbmp:
 
     ld hl,str_display_output_bitmap
     call printString
-dispbmp:
     ld a,%01000000
     call multiPurposeDelay
+
+dispbmp:
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
     ld hl,@beg
     ld bc,@end-@beg
@@ -332,15 +333,15 @@ dispbmp:
     jp @end
 @beg:
     db 23, 27, 3 ; Display output bitmap
-    dw 0, 0
+    dw 16, 16
 @end:
 
-	ret
+    ret
 
-	include "pingo/src/asm/vdu.asm"
+    include "pingo/src/asm/vdu.asm"
     include "pingo/src/asm/vdu_pingo.asm"
     include "pingo/src/asm/functions.asm"
-	include "pingo/src/asm/timer.asm"
+    include "pingo/src/asm/timer.asm"
 
 str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
 str_create_object: db "Creating 3D object.\r\n",0
