@@ -375,11 +375,10 @@ main_loop:
 @bmpend:
     ld hl,str_display_output_bitmap
     call printString
+    call vdu_flip
     ld a,%01000000
     call multiPurposeDelay
 
-    call vdu_flip
-  
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
     ld hl,@bmpdispbeg
     ld bc,@bmpdispend-@bmpdispbeg
