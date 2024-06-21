@@ -323,8 +323,8 @@ cube_init:
     db 23,27,2
     dw scene_width
     dw scene_height
-    dw 0
-    db $C0
+    dw $0000
+    dw $00C0
 @ctb2_end:
     ld a,%01000000
     call multiPurposeDelay
