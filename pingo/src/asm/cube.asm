@@ -24,20 +24,6 @@ cam_distz: equ -25*cam_f
 ;   290 anglex=0.0*f
 cam_anglex: equ -2086
 
-str_create_object: db "Creating 3D object.\r\n",0
-str_scale_object: db "Scaling object.\r\n",0
-str_create_target_bitmap: db "Creating target bitmap.\r\n",0
-str_set_texture_pixel: db "Setting texture pixel.\r\n",0
-str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
-str_zeroes: db "Sending some magic zeroes.\r\n",0
-str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
-str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
-str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
-str_send_vertices: db "Sending vertices.\r\n",0
-str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
-str_set_camera_distance: db "Setting camera distance.\r\n",0
-str_create_control: db "Creating control structure.\r\n",0
-
 cube_init:
 ;   220 PRINT "Creating control structure"
     ld hl,str_create_control
