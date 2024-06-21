@@ -23,7 +23,7 @@
   230 scene_width%=320: scene_height%=240
   240 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   250 f=32767.0/256.0
-  260 distx=0*f: disty=0*f: distz=-40*f
+  260 distx=0*f: disty=0*f: distz=-20*f
   270 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   280 pi2=PI*2.0: f=32767.0/pi2
   290 anglex=0.0*f
@@ -57,7 +57,7 @@
   570 PRINT "Create 3D object"
   580 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
   590 PRINT "Scale object"
-  600 scale=1.0*256.0
+  600 scale=6.0*256.0
   610 VDU 23, 0, &A0, sid%; &49, 9, oid%; scale; scale; scale; : REM Set Object XYZ Scale Factors
   620 PRINT "Create target bitmap"
   630 VDU 23, 27, 0, bmid2% : REM Select output bitmap
@@ -71,7 +71,7 @@
   710 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
   720 VDU 17,7+128 : REM set text background color to light gray
   730 VDU 18, 0, 7+128 : REM set gfx background color to light gray
-  740 inc=pi2/256 : 1/256 of a full rotation
+  740 inc=0.122718463
   750 REM --== MAIN LOOP ==--
   760 CLS
   770 REM incx=0.0:incy=0.0:incz=0.0
