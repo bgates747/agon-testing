@@ -106,12 +106,6 @@ cube_init:
     dw sid
     db $49,1
     dw mid, model_vertices
-;   330 FOR i%=0 TO total_coords%-1
-;   340   val%=vertices(i%)*factor
-;   350   VDU val%;
-;   360   T%=TIME
-;   370   IF TIME-T%<1 GOTO 370
-;   380 NEXT i%
     dw 16384, -16384, 16384
     dw 16384, 16384, 16384
     dw 16384, -16384, -16384
@@ -137,12 +131,6 @@ cube_init:
     dw sid
     db $49,2
     dw mid, model_indexes
-;   410 FOR i%=0 TO model_indexes%-1
-;   420   READ val%
-;   430   VDU val%;
-;   440   T%=TIME
-;   450   IF TIME-T%<1 GOTO 450
-;   460 NEXT i%
     dw 4, 2, 0
     dw 2, 7, 3
     dw 6, 5, 7
@@ -190,7 +178,7 @@ cube_init:
     db 23,0,$A0
     dw sid
     db $49,4
-    dw mid
+    dw mid, model_indexes
 @stci_end:
 @stci_done:
     ld a,%01000000
@@ -201,7 +189,7 @@ cube_init:
 ;   500 FOR i%=0 TO model_indexes%-1
 ;   510   VDU 0;
 ;   520 NEXT i%
-    ld hl,8 ; cube_num_vertices
+    ld hl,model_indexes
 @zeroes_loop:
     xor a
     rst.lil $10
