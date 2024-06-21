@@ -359,7 +359,7 @@ main_loop:
     call printString
     ld a,%10000000
     call multiPurposeDelay
-    jp @check_escape
+    ; jp @check_escape
 
 ; draw the cube
 ; inputs: bc = bmid;
@@ -374,6 +374,7 @@ main_loop:
     db $49, 38
     dw bmid2+64000
 @bmpend:
+    jp @check_escape
 
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
     ld hl,@bmpdispbeg
