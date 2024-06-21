@@ -22,15 +22,13 @@ sprite_points:          equ 36 ; 1 bytes points awarded for killing this sprite 
 sprite_shield_damage:   equ 37 ; 1 bytes shield points deducted for collision, binary
 
 ; ###### SPRITE TABLE VARIABLES ######
-; On-chip 8KB high-speed SRAM from 0xB7.E000 to 0xB7.FFFF.
-; sprite table high address
-table_base: equ 0xB7E000  
 ; maximum number of sprites
 table_max_records: equ 4 ; it can handle more but this is pushing it
 table_total_bytes: equ table_max_records*table_bytes_per_record
 
 ; #### THIS IS THE SPACE ALLOCATED TO THE SPRITE TABLE ####
-sprite_start_variables: ds table_total_bytes, 0 ; fill with zeroes
+table_base: 
+sprite_start_variables:  blkb table_total_bytes, 0 ; fill with zeroes
 sprite_end_variables: ; in case we want to traverse the table in reverse
 
 ; pointer to top address of current record, initialized to table_base

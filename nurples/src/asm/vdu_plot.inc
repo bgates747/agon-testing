@@ -1,5 +1,3 @@
-
-
 ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
 ; PLOT code 	(Decimal) 	Effect
 ; &00-&07 	0-7 	Solid line, includes both ends
@@ -117,8 +115,8 @@ c_yellow_dk: equ 3
 c_blue_dk: equ 4
 c_magenta_dk: equ 5
 c_cyan_dk: equ 6
-c_grey_dk: equ 7
-c_grey: equ 8
+c_grey: equ 7
+c_grey_dk: equ 8
 c_red: equ 9
 c_green: equ 10
 c_yellow: equ 11
@@ -126,63 +124,6 @@ c_blue: equ 12
 c_magenta: equ 13
 c_cyan: equ 14
 c_white: equ 15
-
-    JP _init
-
-_header:
-	.ALIGN 64
-	.DB "MOS"
-	.DB 00h
-	.DB 01h
-
-_init:
-	PUSH	AF	
-	PUSH	BC
-	PUSH	DE
-	PUSH	IX
-	PUSH	IY
-
-    CALL _main
-	
-	POP		IY
-	POP		IX
-	POP		DE
-	POP		BC
-	POP		AF
-    ld      hl,0
-	RET  
-
-_main:
-
-    ld bc,100
-    ld de,100
-    ld ix,100
-    ld iy,100
-    call vdu_plot_cf
-
-    ret
-
-; draw a filled circle
-vdu_plot_cf:
-    ld (@x0),bc
-    ld (@y0),de
-    ld (@x1),ix
-    ld (@y1),iy
-    ld a,25 ; we have to reload the 2nd plot command
-    ld (@cmd1),a ; because the 24-bit y0 load stomped on it
-	ld hl,@cmd0 
-	ld bc,@end-@cmd0 
-	rst.lil $18
-    ret
-@cmd0:  db 25 ; plot
-@arg0:  db plot_pt+mv_abs
-@x0:    dw 0x0000
-@y0:    dw 0x0000
-@cmd1:  db 25 ; plot
-@arg1:  db plot_cf+dr_rel_fg
-@x1:    dw 0x0000
-@y1:    dw 0x0000
-@end:   db 0x00 ; padding
 
 ; VDU 25, mode, x; y;: PLOT command
 ; inputs: a=mode, bc=x0, de=y0
@@ -204,6 +145,7 @@ vdu_plot:
 ; &E8-&EF 	232-239 	Bitmap plot §
 ; VDU 25, mode, x; y;: PLOT command
 ; inputs: bc=x0, de=y0
+; prerequisites: vdu_buff_select
 vdu_plot_bmp:
     ld (@x0),bc
     ld (@y0),de
@@ -216,6 +158,32 @@ vdu_plot_bmp:
 @x0: 	dw 0x0000
 @y0: 	dw 0x0000
 @end:   db 0x00 ; padding
+
+; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
+; &E8-&EF 	232-239 	Bitmap plot §
+; VDU 25, mode, x; y;: PLOT command
+; inputs: bc=x0, de=y0
+; USING 16.8 FIXED POINT COORDINATES
+; inputs: ub.c is x coordinate, ud.e is y coordinate
+;   the fractional portiion of the inputs are truncated
+;   leaving only the 16-bit integer portion
+; prerequisites: vdu_buff_select
+vdu_plot_bmp168:
+; populate in the reverse of normal to keep the 
+; inputs from stomping on each other
+    ld (@y0-1),de
+    ld (@x0-1),bc
+    ld a,plot_bmp+dr_abs_fg ; 0xED
+    ld (@mode),a ; restore the mode byte that got stomped on by bcu
+	ld hl,@cmd
+	ld bc,@end-@cmd
+	rst.lil $18
+	ret
+@cmd:   db 25
+@mode:  db plot_bmp+dr_abs_fg ; 0xED
+@x0: 	dw 0x0000
+@y0: 	dw 0x0000
+@end:  ; no padding required b/c we shifted de right
 
 ; draw a filled rectangle
 vdu_plot_rf:
@@ -239,14 +207,24 @@ vdu_plot_rf:
 @y1:    dw 0x0000
 @end:   db 0x00 ; padding
 
-
-
-    macro plot_rf border,move_type,draw_type
-        ld a,border
-        add a,move_type
-        ld (vdu_rf_arg0),a
-        ld a,plot_rf
-        add a,draw_type
-        ld (vdu_rf_arg1),a
-        call vdu_plot_rf
-    endmacro
+; draw a filled circle
+vdu_plot_cf:
+    ld (@x0),bc
+    ld (@y0),de
+    ld (@x1),ix
+    ld (@y1),iy
+    ld a,25 ; we have to reload the 2nd plot command
+    ld (@cmd1),a ; because the 24-bit y0 load stomped on it
+	ld hl,@cmd0 
+	ld bc,@end-@cmd0 
+	rst.lil $18
+    ret
+@cmd0:  db 25 ; plot
+@arg0:  db plot_sl_both+mv_abs
+@x0:    dw 0x0000
+@y0:    dw 0x0000
+@cmd1:  db 25 ; plot
+@arg1:  db plot_cf+dr_abs_fg
+@x1:    dw 0x0000
+@y1:    dw 0x0000
+@end:   db 0x00 ; padding
