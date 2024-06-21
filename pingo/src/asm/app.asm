@@ -69,7 +69,7 @@ bmid2: equ 102
 model_vertices: equ 8
 model_indexes: equ 36
 
-obj_scale: equ 6*256
+obj_scale: equ 1*256
 
 ;   230 scene_width%=320: scene_height%=240
 scene_width: equ 320
@@ -84,7 +84,7 @@ cam_distz: equ -20*cam_f
 
 ;   280 pi2=PI*2.0: f=32767.0/pi2
 ;   290 anglex=0.0*f
-cam_anglex: equ -2086
+cam_anglex: equ 0
 
 cube_init:
 ;   220 PRINT "Creating control structure"
@@ -102,7 +102,7 @@ cube_init:
     dw scene_width
     dw scene_height
 @ccs_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ; set camera distance
@@ -121,7 +121,7 @@ cube_init:
     dw cam_disty
     dw cam_distz
 @scd_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ; set camera x rotation
@@ -138,7 +138,7 @@ cube_init:
     db $49,18
     dw cam_anglex
 @scxr_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   310 PRINT "Sending vertices using factor ";factor
@@ -154,16 +154,16 @@ cube_init:
     dw sid
     db $49,1
     dw mid, model_vertices
-    dw 16384, -16384, 16384
-    dw 16384, 16384, 16384
-    dw 16384, -16384, -16384
-    dw 16384, 16384, -16384
-    dw -16384, -16384, 16384
-    dw -16384, 16384, 16384
-    dw -16384, -16384, -16384
-    dw -16384, 16384, -16384
+    dw 32767, -32767, 32767
+    dw 32767, 32767, 32767
+    dw 32767, -32767, -32767
+    dw 32767, 32767, -32767
+    dw -32767, -32767, 32767
+    dw -32767, 32767, 32767
+    dw -32767, -32767, -32767
+    dw -32767, 32767, -32767
 @sv_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   390 PRINT "Reading and sending vertex indexes"
@@ -193,7 +193,7 @@ cube_init:
     dw 4, 0, 1
 @smvi_end:
 @smvi_done:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   470 PRINT "Sending texture coordinate indexes"
@@ -213,7 +213,7 @@ cube_init:
     dw 32768
     dw 32768
 @stc_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
     ld hl,str_set_tex_coord_idxs
@@ -233,7 +233,7 @@ cube_init:
     blkw model_indexes, 0
 @stci_end:
 @stci_done:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   530 PRINT "Creating texture bitmap"
@@ -248,7 +248,7 @@ cube_init:
     db 23,27,0
     dw bmid1
 @ctb_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   550 PRINT "Setting texture pixel"
@@ -265,7 +265,7 @@ cube_init:
     dw 1
     db $55,$AA,$FF,$C0
 @stp_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   570 PRINT "Create 3D object"
@@ -284,7 +284,7 @@ cube_init:
     dw mid
     dw bmid1+64000
 @co_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   590 PRINT "Scale object"
@@ -305,7 +305,7 @@ cube_init:
     dw obj_scale
     dw obj_scale
 @so_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
 ;   620 PRINT "Create target bitmap"
@@ -326,12 +326,12 @@ cube_init:
     dw $0000
     dw $00C0
 @ctb2_end:
-    ld a,%01000000
+    ; ld a,%01000000
     ; call multiPurposeDelay
 
     ld hl,str_init_cmplt
     call printString
-    ld a,%1000000
+    ld a,%01000000
     call multiPurposeDelay
 
     ret
@@ -357,10 +357,8 @@ main_loop:
 
     ld hl,str_render_to_bitmap
     call printString
-    ld a,%10000000
+    ld a,%01000000
     call multiPurposeDelay
-    ; jp @check_escape
-
 ; draw the cube
 ; inputs: bc = bmid;
     ld hl,@bmpbeg
@@ -374,8 +372,11 @@ main_loop:
     db $49, 38
     dw bmid2+64000
 @bmpend:
-    jp @check_escape
 
+    ld hl,str_display_output_bitmap
+    call printString
+    ld a,%01000000
+    call multiPurposeDelay
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
     ld hl,@bmpdispbeg
     ld bc,@bmpdispend-@bmpdispbeg
@@ -385,10 +386,6 @@ main_loop:
     db 23, 27, 3 ; Display output bitmap
     dw 0, 0
 @bmpdispend:
-    ld hl,str_display_output_bitmap
-    call printString
-    ld a,%10000000
-    call multiPurposeDelay
 
     ; call vdu_flip
 

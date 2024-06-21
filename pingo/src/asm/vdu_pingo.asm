@@ -1,5 +1,3 @@
-; sid: equ -2
-
 ; Create Control Structure
 ; VDU 23, 0, &A0, sid; &49, 0, w; h; : Create Control Structure
 ; This command initializes a control structure used to do 3D rendering. The structure is housed inside the designated buffer. The buffer referred to by the scene ID (sid) is created, if it does not already exist.
