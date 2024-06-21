@@ -57,7 +57,7 @@
   570 PRINT "Create 3D object"
   580 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
   590 PRINT "Scale object"
-  600 scale=6.0*256.0
+  600 scale=1.0*256.0
   610 VDU 23, 0, &A0, sid%; &49, 9, oid%; scale; scale; scale; : REM Set Object XYZ Scale Factors
   620 PRINT "Create target bitmap"
   630 VDU 23, 27, 0, bmid2% : REM Select output bitmap
