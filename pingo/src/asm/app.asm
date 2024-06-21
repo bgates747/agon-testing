@@ -344,6 +344,8 @@ cube_init:
 
     ld hl,str_init_cmplt
     call printString
+    ld a,%1000000
+    call multiPurposeDelay
 
     ret
 
