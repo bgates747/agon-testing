@@ -49,6 +49,7 @@ str_send_vertices: db "Sending vertices.\r\n",0
 str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
 str_set_camera_distance: db "Setting camera distance.\r\n",0
 str_create_control: db "Creating control structure.\r\n",0
+str_init_cmplt: db "Initialization complete.\r\n",0
 
 init:
     call vdu_clear_all_buffers
@@ -340,6 +341,9 @@ cube_init:
 @ctb2_end:
     ld a,%01000000
     call multiPurposeDelay
+
+    ld hl,str_init_cmplt
+    call printString
 
     ret
 
