@@ -361,23 +361,24 @@ main_loop:
     call multiPurposeDelay
 
 ; draw the cube
-; 6800 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
 ; inputs: bc = bmid;
     ld hl,@bmpbeg
     ld bc,@bmpend-@bmpbeg
     rst.lil $18
     jp @bmpend
 @bmpbeg:
+; 6800 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
     db 23, 0, $A0 ; Render To Bitmap
     dw sid
     db $49, 38
     dw bmid2+64000
 @bmpend:
-
     ld hl,str_display_output_bitmap
     call printString
     ld a,%01000000
     call multiPurposeDelay
+
+    call vdu_flip
   
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
     ld hl,@bmpdispbeg
