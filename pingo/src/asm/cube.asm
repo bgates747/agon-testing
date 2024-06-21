@@ -4,6 +4,8 @@ mid: equ 1
 oid: equ 1
 bmid1: equ 101
 bmid2: equ 102
+model_vertices: equ 8
+model_indexes: equ 36
 
 obj_scale: equ 6*256
 
@@ -103,7 +105,7 @@ cube_init:
     db 23,0,$A0
     dw sid
     db $49,1
-    dw mid
+    dw mid, model_vertices
 ;   330 FOR i%=0 TO total_coords%-1
 ;   340   val%=vertices(i%)*factor
 ;   350   VDU val%;
@@ -134,7 +136,7 @@ cube_init:
     db 23,0,$A0
     dw sid
     db $49,2
-    dw mid
+    dw mid, model_indexes
 ;   410 FOR i%=0 TO model_indexes%-1
 ;   420   READ val%
 ;   430   VDU val%;
