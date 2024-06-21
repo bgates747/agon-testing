@@ -51,8 +51,8 @@ model_indexes: equ 36
 obj_scale: equ 1*256
 
 ;   230 scene_width%=320: scene_height%=240
-scene_width: equ 320
-scene_height: equ 240
+scene_width: equ 96
+scene_height: equ 96
 
 ;   250 f=32767.0/256.0
 ;   260 distx=0*f: disty=0*f: distz=-25*f
@@ -66,30 +66,33 @@ cam_distz: equ -25*cam_f
 cam_anglex: equ 0
 
 cube_init:
+
 ;   220 PRINT "Creating control structure"
     ld hl,str_create_control
     call printString
-    ld hl,@ccs_beg
-    ld bc,@ccs_end-@ccs_beg
+ccs:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @ccs_end
-@ccs_beg:
+    jp @end
+@beg:
 ;   240 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
     db 23,0,$A0
     dw sid 
     db $49,0
     dw scene_width
     dw scene_height
-@ccs_end:
+@end:
 
 ; set camera distance
     ld hl,str_set_camera_distance
     call printString
-    ld hl,@scd_beg
-    ld bc,@scd_end-@scd_beg
+scd:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @scd_end
-@scd_beg:
+    jp @end
+@beg:
 ;   270 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
     db 23,0,$A0
     dw sid
@@ -97,31 +100,33 @@ cube_init:
     dw cam_distx
     dw cam_disty
     dw cam_distz
-@scd_end:
+@end:
 
 ; set camera x rotation
     ld hl,str_set_camera_x_rotation
     call printString
-    ld hl,@scxr_beg
-    ld bc,@scxr_end-@scxr_beg
+scxr:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @scxr_end
-@scxr_beg:
+    jp @end
+@beg:
 ;   300 VDU 23,0, &A0, sid%; &49, 18, anglex; : REM Set Camera X Rotation Angle
     db 23,0,$A0
     dw sid
     db $49,18
     dw cam_anglex
-@scxr_end:
+@end:
 
 ;   310 PRINT "Sending vertices using factor ";factor
     ld hl,str_send_vertices
     call printString
-    ld hl,@sv_beg
-    ld bc,@sv_end-@sv_beg
+sv:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @sv_end
-@sv_beg:
+    jp @end
+@beg:
 ;   320 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
     db 23,0,$A0
     dw sid
@@ -135,16 +140,17 @@ cube_init:
     dw -32767, 32767, 32767
     dw -32767, -32767, -32767
     dw -32767, 32767, -32767
-@sv_end:
+@end:
 
 ;   390 PRINT "Reading and sending vertex indexes"
     ld hl,str_set_mesh_vertex_indexes
     call printString
-    ld hl,@smvi_beg
-    ld bc,@smvi_end-@smvi_beg
+smvi:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @smvi_done
-@smvi_beg:
+    jp @end
+@beg:
 ;   400 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indexes%; : REM Set Mesh Vertex Indexes
     db 23,0,$A0
     dw sid
@@ -162,17 +168,17 @@ cube_init:
     dw 1, 3, 7
     dw 0, 2, 3
     dw 4, 0, 1
-@smvi_end:
-@smvi_done:
+@end:
 
 ;   470 PRINT "Sending texture coordinate indexes"
     ld hl,str_set_texture_coordinates
     call printString
-    ld hl,@stc_beg
-    ld bc,@stc_end-@stc_beg
+stc:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @stc_end
-@stc_beg:
+    jp @end
+@beg:
 ;   480 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32768; 32768; : REM Define Texture Coordinates
     db 23,0,$A0
     dw sid
@@ -181,14 +187,15 @@ cube_init:
     dw 1
     dw 32768
     dw 32768
-@stc_end:
+@end:
 
     ld hl,str_set_tex_coord_idxs
     call printString
-    ld hl,@stci_beg
-    ld bc,@stci_end-@stci_beg
-    jp @stci_end
-@stci_beg:
+stci:
+    ld hl,@beg
+    ld bc,@end-@beg
+    jp @end
+@beg:
 ;   490 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indexes%; : REM Set Texture Coordinate Indexes
     db 23,0,$A0
     dw sid
@@ -198,44 +205,46 @@ cube_init:
 ;   510   VDU 0;
 ;   520 NEXT i%
     blkw model_indexes, 0
-@stci_end:
-@stci_done:
+@end:
 
 ;   530 PRINT "Creating texture bitmap"
     ld hl,str_create_texture_bitmap
     call printString
-    ld hl,@ctb_beg
-    ld bc,@ctb_end-@ctb_beg
+ctb:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @ctb_end
-@ctb_beg:
+    jp @end
+@beg:
 ;   540 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
     db 23,27,0
     dw bmid1
-@ctb_end:
+@end:
 
 ;   550 PRINT "Setting texture pixel"
     ld hl,str_set_texture_pixel
     call printString
-    ld hl,@stp_beg
-    ld bc,@stp_end-@stp_beg
+stp:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @stp_end
-@stp_beg:
+    jp @end
+@beg:
 ;   560 VDU 23, 27, 1, 1; 1; &55, &AA, &FF, &C0 : REM Set a pixel in the bitmap
     db 23,27,1
     dw 1,1
     db $55,$AA,$FF,$C0
-@stp_end:
+@end:
 
 ;   570 PRINT "Create 3D object"
     ld hl,str_create_object
     call printString
-    ld hl,@co_beg
-    ld bc,@co_end-@co_beg
+co:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @co_end
-@co_beg:
+    jp @end
+@beg:
 ;   580 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
     db 23,0,$A0
     dw sid
@@ -243,17 +252,18 @@ cube_init:
     dw oid
     dw mid
     dw bmid1+64000
-@co_end:
+@end:
 
 ;   590 PRINT "Scale object"
     ld hl,str_scale_object
     call printString
+so:
 ;   600 scale=1.0*256.0
-    ld hl,@so_beg
-    ld bc,@so_end-@so_beg
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @so_end
-@so_beg:
+    jp @end
+@beg:
 ;   610 VDU 23, 0, &A0, sid%; &49, 9, oid%; scale; scale; scale; : REM Set Object XYZ Scale Factors
     db 23,0,$A0
     dw sid
@@ -262,16 +272,17 @@ cube_init:
     dw obj_scale
     dw obj_scale
     dw obj_scale
-@so_end:
+@end:
 
 ;   620 PRINT "Create target bitmap"
     ld hl,str_create_target_bitmap
     call printString
-    ld hl,@ctb2_beg
-    ld bc,@ctb2_end-@ctb2_beg
+ctb2:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @ctb2_end
-@ctb2_beg:
+    jp @end
+@beg:
 ;   630 VDU 23, 27, 0, bmid2% : REM Select output bitmap
     db 23,27,0
     dw bmid2
@@ -281,7 +292,7 @@ cube_init:
     dw scene_height
     dw $0000
     dw $00C0
-@ctb2_end:
+@end:
 
     ld hl,str_init_cmplt
     call printString
@@ -290,40 +301,39 @@ cube_init:
 
     ret
 
-str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
-str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
-
 main:
     ld hl,str_render_to_bitmap
     call printString
     ld a,%01000000
     call multiPurposeDelay
 ; draw the cube
-    ld hl,@bmpbeg
-    ld bc,@bmpend-@bmpbeg
+rendbmp:
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @bmpend
-@bmpbeg:
+    jp @end
+@beg:
 ; 6800 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
     db 23, 0, $A0 ; Render To Bitmap
     dw sid
     db $49, 38
     dw bmid2+64000
-@bmpend:
+@end:
 
     ld hl,str_display_output_bitmap
     call printString
+dispbmp:
     ld a,%01000000
     call multiPurposeDelay
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
-    ld hl,@bmpdispbeg
-    ld bc,@bmpdispend-@bmpdispbeg
+    ld hl,@beg
+    ld bc,@end-@beg
     rst.lil $18
-    jp @bmpdispend
-@bmpdispbeg:
+    jp @end
+@beg:
     db 23, 27, 3 ; Display output bitmap
     dw 0, 0
-@bmpdispend:
+@end:
 
 	ret
 
@@ -347,3 +357,5 @@ str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
 str_set_camera_distance: db "Setting camera distance.\r\n",0
 str_create_control: db "Creating control structure.\r\n",0
 str_init_cmplt: db "Initialization complete.\r\n",0
+str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
+str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
