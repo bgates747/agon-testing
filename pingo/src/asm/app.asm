@@ -340,24 +340,24 @@ str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
 str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
 
 main:
-; set up the display
-    ld a,8;+128 ; 320x240x64 double-buffered
-    call vdu_set_screen_mode
-    xor a
-    call vdu_set_scaling
+; ; set up the display
+;     ld a,8;+128 ; 320x240x64 double-buffered
+;     call vdu_set_screen_mode
+;     xor a
+;     call vdu_set_scaling
 
-; set the cursor off
-	call cursor_off
+; ; set the cursor off
+; 	call cursor_off
 
-	call vdu_cls
+	; call vdu_cls
 
 main_loop:
-    call vdu_vblank
+    ; call vdu_vblank
     ; call vdu_cls
 
     ld hl,str_render_to_bitmap
     call printString
-    ld a,%01000000
+    ld a,%10000000
     call multiPurposeDelay
 
 ; draw the cube
@@ -373,10 +373,6 @@ main_loop:
     db $49, 38
     dw bmid2+64000
 @bmpend:
-    ld hl,str_display_output_bitmap
-    call printString
-    ld a,%10000000
-    call multiPurposeDelay
 
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
     ld hl,@bmpdispbeg
