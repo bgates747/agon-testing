@@ -25,7 +25,7 @@
   250 scene_width%=320: scene_height%=240
   260 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   270 f=32767.0/256.0
-  280 distx=0*f: disty=0*f: distz=-8*f
+  280 distx=0*f: disty=0*f: distz=-20*f
   290 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   300 pi2=PI*2.0: f=32767.0/pi2
   310 anglex=0.0*f
@@ -35,16 +35,16 @@
   350 FOR i%=0 TO total_coords%-1
   360   val%=vertices(i%)*factor
   370   VDU val%;
-  380   T%=TIME
-  390   IF TIME-T%<1 GOTO 390
+  380   REM T%=TIME
+  390   REM IF TIME-T%<1 GOTO 390
   400 NEXT i%
   410 PRINT "Reading and sending vertex indices"
   420 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indices%; : REM Set Mesh Vertex indices
   430 FOR i%=0 TO model_indices%-1
   440   READ val%
   450   VDU val%;
-  460   T%=TIME
-  470   IF TIME-T%<1 GOTO 470
+  460   REM T%=TIME
+  470   REM IF TIME-T%<1 GOTO 470
   480 NEXT i%
   490 PRINT "Sending texture UV coordinates"
   500 VDU 23,0, &A0, sid%; &49, 3, mid%; model_uvs%;
@@ -53,16 +53,16 @@
   530   READ val
   540   val%=INT(val*65535)
   550   VDU val%;
-  560   T%=TIME
-  570   IF TIME-T%<1 GOTO 570
+  560   REM T%=TIME
+  570   REM IF TIME-T%<1 GOTO 570
   580 NEXT i%
   590 PRINT "Sending Texture Coordinate indices"
   600 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indices%; 
   610 FOR i%=0 TO model_indices%-1
   620   READ val%
   630   VDU val%;
-  640   T%=TIME
-  650   IF TIME-T%<1 GOTO 650
+  640   REM T%=TIME
+  650   REM IF TIME-T%<1 GOTO 650
   660 NEXT i%
   670 PRINT "Creating texture bitmap"
   680 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
@@ -71,8 +71,8 @@
   710 FOR i%=0 TO texture_width%*texture_height%*4-1
   720   READ val%
   730   VDU val% : REM 8-bit integers for pixel data
-  740   T%=TIME
-  750   IF TIME-T%<1 GOTO 750
+  740   REM T%=TIME
+  750   REM IF TIME-T%<1 GOTO 750
   760 NEXT i%
   770 PRINT "Create 3D object"
   780 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
@@ -95,7 +95,7 @@
   950 REM --== MAIN LOOP ==--
   960 CLS
   970 REM incx=0.0:incy=0.0:incz=0.0
-  980 incx=0.0:incy=0.0:incz=inc
+  980 incx=inc/2:incy=inc:incz=inc*2
   990 ON ERROR GOTO 1200 : REM so that Escape key exits gracefully
  1000 REM A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
  1010 REM PRINT "keycode ";A%
