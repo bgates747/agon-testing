@@ -16,8 +16,8 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
                 lines[i] = f"   30 model_indices%={len(faces) * 3}\n"
             elif line.strip().startswith("40 model_uvs%="):
                 lines[i] = f"   40 model_uvs%={len(texture_coords)}\n"
-            elif line.strip().startswith("45 texture_width%="):
-                lines[i] = f"   45 texture_width%={img_size[0]} : texture_height%={img_size[1]}\n"
+            elif line.strip().startswith("50 texture_width%="):
+                lines[i] = f"   50 texture_width%={img_size[0]} : texture_height%={img_size[1]}\n"
         file.writelines(lines)
 
         # Write the model vertices
