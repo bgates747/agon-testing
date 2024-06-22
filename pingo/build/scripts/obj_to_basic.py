@@ -55,7 +55,7 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
         with open(uv_texture_rgba8, 'rb') as img_file:
             img_data = img_file.read()
             filesize = len(img_data)
-            linesize = 4
+            linesize = 16
             for i, byte in enumerate(img_data):
                 if i % linesize == 0:
                     file.write(f"{line_number} DATA ")
@@ -106,7 +106,7 @@ def parse_obj_file(src_obj_filepath, src_mtl_filepath):
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'plane'
+    base_filename = 'wolf'
     src_obj_filepath = f'{src_dir}/{base_filename}.obj'
     src_mtl_filepath = f'{src_dir}/{base_filename}.mtl'
     template_filepath = f'{tgt_dir}/template.bas'
