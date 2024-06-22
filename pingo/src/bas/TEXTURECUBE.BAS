@@ -111,8 +111,14 @@
  6590 NEXT i%
  6600 PRINT "Creating texture bitmap"
  6610 REM VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
- 6620 REM PRINT "Setting texture pixel"
- 6630 REM VDU 23, 27, 1, 1; 1; &55, &AA, &FF, &C0 : REM Set a pixel in the bitmap
+ 6611 PRINT "Sending texture pixel data"
+ 6612 VDU 23, 27, 1, 16; 16; 
+ 6613 FOR i%=0 TO 4*4*4-1
+ 6614   READ val%
+ 6615   VDU val%
+ 6616   T%=TIME
+ 6617   IF TIME-T%<1 GOTO 720
+ 6618 NEXT i%
  6640 PRINT "Create 3D object"
  6650 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
  6660 PRINT "Scale object"

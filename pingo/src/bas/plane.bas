@@ -47,11 +47,13 @@
   470 NEXT i%
   480 PRINT "Sending texture UV coordinates"
   490 VDU 23,0, &A0, sid%; &49, 3, mid%; model_uvs%;
-  500 FOR i%=0 TO model_uvs%*2-1
+  495 total_uvs%=model_uvs%*2
+  500 FOR i%=0 TO total_uvs%-1
   510   READ val%
-  520   VDU val%*32767;
+  515   val%=val%*65535
+  520   VDU val%;
   530   T%=TIME
-  540   IF TIME-T%<1 GOTO 530
+  540   IF TIME-T%<1 GOTO 540
   550 NEXT i%
   560 PRINT "Sending Texture Coordinate indices"
   570 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indices%; 
