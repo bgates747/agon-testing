@@ -23,35 +23,35 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
         # Write the model vertices
         line_number = 2000
         file.write(f"\n{line_number} REM -- VERTICES --\n")
-        line_number += 10
+        line_number += 2
         for vertex in vertices:
             file.write(f"{line_number} DATA {', '.join(vertex)}\n")
-            line_number += 10
+            line_number += 2
 
         # Write the face vertex indices
         file.write(f"{line_number} REM -- FACE VERTEX INDICES --\n")
-        line_number += 10
+        line_number += 2
         for face in faces:
             file.write(f"{line_number} DATA {', '.join(map(str, face))}\n")
-            line_number += 10
+            line_number += 2
 
         # Write the texture UV coordinates
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
-        line_number += 10
+        line_number += 2
         for coord in texture_coords:
             file.write(f"{line_number} DATA {', '.join(coord)}\n")
-            line_number += 10
+            line_number += 2
 
         # Write the texture vertex indices
         file.write(f"{line_number} REM -- TEXTURE VERTEX INDICES --\n")
-        line_number += 10
+        line_number += 2
         for indices in texture_vertex_indices:
             file.write(f"{line_number} DATA {', '.join(map(str, indices))}\n")
-            line_number += 10
+            line_number += 2
 
         # Write the texture data
         file.write(f"{line_number} REM -- TEXTURE BITMAP --\n")
-        line_number += 10
+        line_number += 2
         with open(uv_texture_rgba8, 'rb') as img_file:
             img_data = img_file.read()
             filesize = len(img_data)
@@ -59,7 +59,7 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
             for i, byte in enumerate(img_data):
                 if i % linesize == 0:
                     file.write(f"{line_number} DATA ")
-                    line_number += 10
+                    line_number += 2
                 if (i + 1) % linesize == 0 or i == filesize - 1:
                     file.write(f"{byte}\n")
                 else:
@@ -68,7 +68,7 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
 def make_texture_rgba(uv_texture_png, uv_texture_rgba8):
     img = pil.open(uv_texture_png)
     img_size = img.size
-    img = convert_to_agon_palette(img, 64, 'HSV', transparent_color=None)
+    # img = convert_to_agon_palette(img, 64, 'HSV', transparent_color=None)
     img_to_rgba8(img, uv_texture_rgba8)
     return img_size
 
@@ -106,7 +106,7 @@ def parse_obj_file(src_obj_filepath, src_mtl_filepath):
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'wolf'
+    base_filename = 'earth'
     src_obj_filepath = f'{src_dir}/{base_filename}.obj'
     src_mtl_filepath = f'{src_dir}/{base_filename}.mtl'
     template_filepath = f'{tgt_dir}/template_fastload.bas'
