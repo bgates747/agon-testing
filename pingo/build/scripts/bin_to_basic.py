@@ -21,7 +21,7 @@ if __name__ == '__main__':
     #     print("Usage: python script.py <source_file> <target_file> <start_line>")
     #     sys.exit(1)
 
-    source_file = 'nurples/src/rgba8/0tile_turret.rgba8' 
+    source_file = 'pingo/src/blender/2x2.rgba8' 
     target_file = 'pingo/src/bas/bmp.txt'
     start_line = 10000 
     generate_bbc_basic_data(source_file, target_file, start_line)

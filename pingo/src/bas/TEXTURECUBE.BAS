@@ -117,7 +117,7 @@
  6614   READ val%
  6615   VDU val%
  6616   T%=TIME
- 6617   IF TIME-T%<1 GOTO 720
+ 6617   IF TIME-T%<1 GOTO 6617
  6618 NEXT i%
  6640 PRINT "Create 3D object"
  6650 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
