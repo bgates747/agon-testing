@@ -1,8 +1,8 @@
    10 REM Sample app to illustrate Pingo 3D on Agon
-   20 model_vertices%=4
-   30 model_indices%=6
-   40 model_uvs%=4
-   50 texture_width%=2 : texture_height%=2
+   20 model_vertices%=
+   30 model_indices%=
+   40 model_uvs%=
+   50 texture_width%=16 : texture_height%=16
    60 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
    70 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
    80 CLS
@@ -25,7 +25,7 @@
   250 scene_width%=320: scene_height%=240
   260 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   270 f=32767.0/256.0
-  280 distx=0*f: disty=0*f: distz=-10*f
+  280 distx=0*f: disty=0*f: distz=-8*f
   290 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   300 pi2=PI*2.0: f=32767.0/pi2
   310 anglex=0.0*f
@@ -94,8 +94,8 @@
   940 inc=0.122718463
   950 REM --== MAIN LOOP ==--
   960 CLS
-  970 incx=0.0:incy=0.0:incz=inc
-  980 REM incx=inc/2:incy=inc:incz=inc*2
+  970 REM incx=0.0:incy=0.0:incz=0.0
+  980 incx=0.0:incy=0.0:incz=inc
   990 ON ERROR GOTO 1200 : REM so that Escape key exits gracefully
  1000 REM A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
  1010 REM PRINT "keycode ";A%

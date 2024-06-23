@@ -75,11 +75,11 @@ def make_texture_rgba(uv_texture_png, uv_texture_rgba8):
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'cube'
+    base_filename = 'wolf'
     template_filepath = f'{tgt_dir}/template.bas'
     tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
 
-    uv_texture_png = f'{src_dir}/colors64HSV.png'
+    uv_texture_png = f'{src_dir}/thumb_16.png'
     uv_texture_rgba8 = f'{tgt_dir}/{base_filename}.rgba8'
     img_size = make_texture_rgba(uv_texture_png, uv_texture_rgba8)
 

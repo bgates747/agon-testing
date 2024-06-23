@@ -43,18 +43,20 @@ def process_first_mesh(output_file):
     # Generate a list of face definitions (triangulated)
     faces = [[vert for vert in poly.vertices] for poly in temp_mesh.data.polygons]
 
-    # Generate a list of UV coordinates
+    # Generate a list of unique UV coordinates and corresponding indices
     uv_layer = temp_mesh.data.uv_layers.active.data
-    uv_coords = [[uv.uv[0], uv.uv[1]] for uv in uv_layer]
+    uv_coords = []
+    uv_indices = []
 
-    # Generate a list of texture vertex indices
-    texture_vertex_indices = []
     for poly in temp_mesh.data.polygons:
         poly_uv_indices = []
         for loop_index in poly.loop_indices:
             uv = uv_layer[loop_index].uv
-            poly_uv_indices.append(uv_coords.index([uv[0], uv[1]]))
-        texture_vertex_indices.append(poly_uv_indices)
+            uv_coord = [uv[0], uv[1]]
+            if uv_coord not in uv_coords:
+                uv_coords.append(uv_coord)
+            poly_uv_indices.append(uv_coords.index(uv_coord))
+        uv_indices.append(poly_uv_indices)
 
     # Delete the temporary mesh
     bpy.ops.object.delete()
@@ -78,7 +80,7 @@ def process_first_mesh(output_file):
         file.write("]\n")
 
         file.write("texture_vertex_indices = [\n")
-        for indices in texture_vertex_indices:
+        for indices in uv_indices:
             file.write(f"    {indices},\n")
         file.write("]\n")
 
