@@ -25,7 +25,7 @@
   250 scene_width%=320: scene_height%=240
   260 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   270 f=32767.0/256.0
-  280 distx=0*f: disty=0*f: distz=-5*f
+  280 distx=0*f: disty=0*f: distz=-10*f
   290 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   300 pi2=PI*2.0: f=32767.0/pi2
   310 anglex=0.0*f
@@ -51,7 +51,7 @@
   510 total_uvs%=model_uvs%*2
   520 FOR i%=0 TO total_uvs%-1
   530   READ val
-  540   val%=INT(val*32767)
+  540   val%=INT(val*65535)
   550   VDU val%;
   560   REM T%=TIME
   570   REM IF TIME-T%<1 GOTO 570
