@@ -56,7 +56,7 @@ scene_height: equ 96
 
 ;   250 f=32767.0/256.0
 ;   260 distx=0*f: disty=0*f: distz=-25*f
-cam_f: equ 32767/256
+cam_f: equ 128 ; 32767/256
 cam_distx: equ 0*cam_f
 cam_disty: equ 2*cam_f
 cam_distz: equ -25*cam_f
@@ -179,14 +179,14 @@ stc:
     rst.lil $18
     jp @end
 @beg:
-;   480 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32768; 32768; : REM Define Texture Coordinates
+;   480 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32767; 32767; : REM Define Texture Coordinates
     db 23,0,$A0
     dw sid
     db $49,3
     dw mid
     dw 1
-    dw 32768
-    dw 32768
+    dw 32767
+    dw 32767
 @end:
 
     ld hl,str_set_tex_coord_idxs
