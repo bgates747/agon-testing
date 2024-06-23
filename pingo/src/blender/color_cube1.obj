@@ -1,7 +1,7 @@
 # Blender 4.1.1
 # www.blender.org
-mtllib color_cube.mtl
-o color_cube1
+mtllib color_cube1.mtl
+o color_cube
 v 1.000000 1.000000 -1.000000
 v 1.000000 -1.000000 -1.000000
 v 1.000000 1.000000 1.000000
