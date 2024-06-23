@@ -2,20 +2,27 @@ import bpy  # type: ignore
 import os
 import sys
 
-def process_cube(output_file):
+def process_first_mesh(output_file):
     # Ensure we're in object mode
     if bpy.context.object.mode != 'OBJECT':
         bpy.ops.object.mode_set(mode='OBJECT')
 
-    # Get the default cube
-    cube = bpy.data.objects['Plane']
+    # Find the first mesh object
+    first_mesh = None
+    for obj in bpy.data.objects:
+        if obj.type == 'MESH':
+            first_mesh = obj
+            break
 
-    # Duplicate the cube
+    if not first_mesh:
+        raise ValueError("No mesh object found in the blend file.")
+
+    # Duplicate the mesh
     bpy.ops.object.select_all(action='DESELECT')
-    cube.select_set(True)
+    first_mesh.select_set(True)
     bpy.ops.object.duplicate()
-    temp_cube = bpy.context.selected_objects[0]
-    bpy.context.view_layer.objects.active = temp_cube
+    temp_mesh = bpy.context.selected_objects[0]
+    bpy.context.view_layer.objects.active = temp_mesh
 
     # Apply any rotation transformation
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
@@ -31,25 +38,25 @@ def process_cube(output_file):
     bpy.ops.object.modifier_apply(modifier="Triangulate")
 
     # Generate a list of all vertices, transformed to Pingo conventions
-    vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_cube.data.vertices]
+    vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_mesh.data.vertices]
 
     # Generate a list of face definitions (triangulated)
-    faces = [[vert for vert in poly.vertices] for poly in temp_cube.data.polygons]
+    faces = [[vert for vert in poly.vertices] for poly in temp_mesh.data.polygons]
 
     # Generate a list of UV coordinates
-    uv_layer = temp_cube.data.uv_layers.active.data
+    uv_layer = temp_mesh.data.uv_layers.active.data
     uv_coords = [[uv.uv[0], uv.uv[1]] for uv in uv_layer]
 
     # Generate a list of texture vertex indices
     texture_vertex_indices = []
-    for poly in temp_cube.data.polygons:
+    for poly in temp_mesh.data.polygons:
         poly_uv_indices = []
         for loop_index in poly.loop_indices:
             uv = uv_layer[loop_index].uv
             poly_uv_indices.append(uv_coords.index([uv[0], uv[1]]))
         texture_vertex_indices.append(poly_uv_indices)
 
-    # Delete the temporary cube
+    # Delete the temporary mesh
     bpy.ops.object.delete()
 
     with open(output_file, 'w') as file:
@@ -81,4 +88,4 @@ if __name__ == "__main__":
     argv = sys.argv
     argv = argv[argv.index("--") + 1:]  # get all args after "--"
     output_file = argv[0]  # First argument after -- is the output file path
-    process_cube(output_file)
+    process_first_mesh(output_file)
