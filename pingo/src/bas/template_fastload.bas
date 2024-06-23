@@ -51,7 +51,7 @@
   510 total_uvs%=model_uvs%*2
   520 FOR i%=0 TO total_uvs%-1
   530   READ val
-  540   val%=INT(val*65535)
+  540   val%=INT(val*32766)+1
   550   VDU val%;
   560   REM T%=TIME
   570   REM IF TIME-T%<1 GOTO 570

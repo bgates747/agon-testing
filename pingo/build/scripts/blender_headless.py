@@ -2,11 +2,12 @@ import subprocess
 import os
 import shutil
 
-def do_blender(blender_script_path, blender_executable=None, blender_local_prefs_path=None, *args):
+def do_blender(blender_file_path, blender_script_path, blender_executable=None, blender_local_prefs_path=None, *args):
     """
     Runs Blender with the given script and optionally uses a local user preferences file.
     Dynamically accepts additional arguments to pass to the Blender script.
     
+    :param blender_file_path: Path to the Blender file to run the script against.
     :param blender_script_path: Path to the Blender script to run.
     :param blender_executable: Path to the Blender executable.
     :param blender_local_prefs_path: Optional path to a directory containing the userpref.blend file.
@@ -33,6 +34,7 @@ def do_blender(blender_script_path, blender_executable=None, blender_local_prefs
     cmd = [
         blender_executable, 
         "-b", 
+        blender_file_path,  # Add Blender file path here
         "-P", blender_script_path, 
         "--"
     ] + [str(arg) for arg in args]  # Convert all arguments to strings and append
@@ -66,7 +68,7 @@ if __name__ == "__main__":
     blender_executable = None
     blender_local_prefs_path = None
 
+    blender_file_path = "pingo/src/blender/cube.blend"
     blender_script_path = "pingo/build/scripts/blend_export.py"
     output_file = 'pingo/build/scripts/vertices_from_blender.py'
-    do_blender(blender_script_path, blender_executable, None, output_file)
-
+    do_blender(blender_file_path, blender_script_path, blender_executable, None, output_file)
