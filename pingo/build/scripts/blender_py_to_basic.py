@@ -75,7 +75,7 @@ def make_texture_rgba(uv_texture_png, uv_texture_rgba8):
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'plane'
+    base_filename = 'cube'
     template_filepath = f'{tgt_dir}/template.bas'
     tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
 

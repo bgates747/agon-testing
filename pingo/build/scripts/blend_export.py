@@ -24,8 +24,8 @@ def process_first_mesh(output_file):
     temp_mesh = bpy.context.selected_objects[0]
     bpy.context.view_layer.objects.active = temp_mesh
 
-    # Apply any rotation transformation
-    bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
+    # # Apply any rotation transformation
+    # bpy.ops.object.transform_apply(location=False, rotation=True, scale=False)
 
     # Switch to edit mode to remove doubles
     bpy.ops.object.mode_set(mode='EDIT')
@@ -37,8 +37,10 @@ def process_first_mesh(output_file):
     bpy.ops.object.modifier_add(type='TRIANGULATE')
     bpy.ops.object.modifier_apply(modifier="Triangulate")
 
-    # Generate a list of all vertices, transformed to Pingo conventions
-    vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_mesh.data.vertices]
+    # # Generate a list of all vertices, transformed to Pingo conventions
+    # vertices = [[vert.co.x, -vert.co.z, vert.co.y] for vert in temp_mesh.data.vertices]
+
+    vertices = [[vert.co.x, vert.co.y, vert.co.z] for vert in temp_mesh.data.vertices]
 
     # Generate a list of face definitions (triangulated)
     faces = [[vert for vert in poly.vertices] for poly in temp_mesh.data.polygons]
