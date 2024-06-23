@@ -1,1 +1,0 @@
-10000 DATA &FF &00 &00 &FF &00 &00 &FF &FF &FF &FF &00 &FF &00 &FF &00 &FF

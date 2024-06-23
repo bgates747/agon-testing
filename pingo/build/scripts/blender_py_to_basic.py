@@ -3,9 +3,6 @@ from agonImages import img_to_rgba8, convert_to_agon_palette
 import PIL.Image as pil
 from blender_headless import do_blender
 
-# Import the vertices, faces, texture_coords, and texture_vertex_indices from vertices_from_blender.py
-from vertices_from_blender import vertices, faces, texture_coords, texture_vertex_indices
-
 def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices, template_filepath, tgt_filepath, uv_texture_rgba8, img_size):
     # Read the template file
     with open(template_filepath, 'r') as file:
@@ -78,8 +75,8 @@ def make_texture_rgba(uv_texture_png, uv_texture_rgba8):
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'color_cube3'
-    template_filepath = f'{tgt_dir}/template_fastload.bas'
+    base_filename = 'cube'
+    template_filepath = f'{tgt_dir}/template.bas'
     tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
 
     uv_texture_png = f'{src_dir}/colors64HSV.png'
@@ -93,6 +90,9 @@ if __name__ == '__main__':
     blender_script_path = "pingo/build/scripts/blend_export.py"
     output_file = 'pingo/build/scripts/vertices_from_blender.py'
     do_blender(blender_file_path, blender_script_path, blender_executable, None, output_file)
+
+    # Import the vertices, faces, texture_coords, and texture_vertex_indices from vertices_from_blender.py
+    from vertices_from_blender import vertices, faces, texture_coords, texture_vertex_indices
 
     write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices, template_filepath, tgt_filepath, uv_texture_rgba8, img_size)
 

@@ -136,7 +136,7 @@ if __name__ == '__main__':
     src_dir = os.path.join(current_blend_dir, 'src/blender')
     tgt_dir = os.path.join(current_blend_dir, 'src/bas')
     base_filename = 'color_cube'
-    template_filepath = os.path.join(tgt_dir, 'template_fastload.bas')
+    template_filepath = os.path.join(tgt_dir, 'template.bas')
     tgt_filepath = os.path.join(tgt_dir, f'{base_filename}.bas')
 
     vertices, faces, texture_coords, texture_vertex_indices, texture_file_name = parse_blender_data()

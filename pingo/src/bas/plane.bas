@@ -1,8 +1,8 @@
    10 REM Sample app to illustrate Pingo 3D on Agon
    20 model_vertices%=4
    30 model_indices%=6
-   40 model_uvs%=4
-   50 texture_width%=2 : texture_height%=2
+   40 model_uvs%=6
+   50 texture_width%=8 : texture_height%=8
    60 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
    70 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
    80 CLS
@@ -25,7 +25,7 @@
   250 scene_width%=320: scene_height%=240
   260 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   270 f=32767.0/256.0
-  280 distx=0*f: disty=0*f: distz=-20*f
+  280 distx=0*f: disty=0*f: distz=-5*f
   290 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
   300 pi2=PI*2.0: f=32767.0/pi2
   310 anglex=0.0*f
@@ -35,34 +35,34 @@
   350 FOR i%=0 TO total_coords%-1
   360   val%=vertices(i%)*factor
   370   VDU val%;
-  380   T%=TIME
-  390   IF TIME-T%<1 GOTO 390
+  380   REM T%=TIME
+  390   REM IF TIME-T%<1 GOTO 390
   400 NEXT i%
   410 PRINT "Reading and sending vertex indices"
   420 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indices%; : REM Set Mesh Vertex indices
   430 FOR i%=0 TO model_indices%-1
   440   READ val%
   450   VDU val%;
-  460   T%=TIME
-  470   IF TIME-T%<1 GOTO 470
+  460   REM T%=TIME
+  470   REM IF TIME-T%<1 GOTO 470
   480 NEXT i%
   490 PRINT "Sending texture UV coordinates"
   500 VDU 23,0, &A0, sid%; &49, 3, mid%; model_uvs%;
   510 total_uvs%=model_uvs%*2
   520 FOR i%=0 TO total_uvs%-1
   530   READ val
-  540   val%=INT(val*65535)
+  540   val%=INT(val*32766)+1
   550   VDU val%;
-  560   T%=TIME
-  570   IF TIME-T%<1 GOTO 570
+  560   REM T%=TIME
+  570   REM IF TIME-T%<1 GOTO 570
   580 NEXT i%
   590 PRINT "Sending Texture Coordinate indices"
   600 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indices%; 
   610 FOR i%=0 TO model_indices%-1
   620   READ val%
   630   VDU val%;
-  640   T%=TIME
-  650   IF TIME-T%<1 GOTO 650
+  640   REM T%=TIME
+  650   REM IF TIME-T%<1 GOTO 650
   660 NEXT i%
   670 PRINT "Creating texture bitmap"
   680 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
@@ -71,8 +71,8 @@
   710 FOR i%=0 TO texture_width%*texture_height%*4-1
   720   READ val%
   730   VDU val% : REM 8-bit integers for pixel data
-  740   T%=TIME
-  750   IF TIME-T%<1 GOTO 750
+  740   REM T%=TIME
+  750   REM IF TIME-T%<1 GOTO 750
   760 NEXT i%
   770 PRINT "Create 3D object"
   780 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
@@ -94,8 +94,8 @@
   940 inc=0.122718463
   950 REM --== MAIN LOOP ==--
   960 CLS
-  970 REM incx=0.0:incy=0.0:incz=0.0
-  980 incx=inc/2:incy=inc:incz=inc*2
+  970 incx=0.0:incy=0.0:incz=inc
+  980 REM incx=inc/2:incy=inc:incz=inc*2
   990 ON ERROR GOTO 1200 : REM so that Escape key exits gracefully
  1000 REM A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
  1010 REM PRINT "keycode ";A%
@@ -125,23 +125,37 @@
  1250 CLS
  1260 END
 2000 REM -- VERTICES --
-2010 DATA -1.000000, 1.000000, -0.000000
-2020 DATA 1.000000, 1.000000, -0.000000
-2030 DATA -1.000000, -1.000000, 0.000000
-2040 DATA 1.000000, -1.000000, 0.000000
-2050 REM -- FACE VERTEX INDICES --
-2060 DATA 2, 1, 0
-2070 DATA 2, 3, 1
-2080 REM -- TEXTURE UV COORDINATES --
-2090 DATA 0.000100, 0.000100
-2100 DATA 0.999900, 0.999900
-2110 DATA 0.000100, 0.999900
-2120 DATA 0.999900, 0.000100
-2130 REM -- TEXTURE VERTEX INDICES --
-2140 DATA 0, 1, 2
-2150 DATA 0, 3, 1
-2160 REM -- TEXTURE BITMAP --
-2170 DATA 255,0,0,255
-2180 DATA 0,0,255,255
-2190 DATA 255,255,0,255
-2200 DATA 0,255,0,255
+2002 DATA -1.0, 1.0, 4.371138828673793e-08
+2004 DATA 1.0, 1.0, 4.371138828673793e-08
+2006 DATA -1.0, -1.0, -4.371138828673793e-08
+2008 DATA 1.0, -1.0, -4.371138828673793e-08
+2010 REM -- FACE VERTEX INDICES --
+2012 DATA 1, 2, 0
+2014 DATA 1, 3, 2
+2016 REM -- TEXTURE UV COORDINATES --
+2018 DATA 0.25, 0.75
+2020 DATA 0.0, 1.0
+2022 DATA 0.0, 0.75
+2024 DATA 0.25, 0.75
+2026 DATA 0.25, 1.0
+2028 DATA 0.0, 1.0
+2030 REM -- TEXTURE VERTEX INDICES --
+2032 DATA 0, 1, 2
+2034 DATA 0, 4, 1
+2036 REM -- TEXTURE BITMAP --
+2038 DATA 0,0,0,255,85,85,85,255,170,170,170,255,255,255,255,255
+2040 DATA 255,170,170,255,170,85,85,255,255,85,85,255,85,0,0,255
+2042 DATA 170,0,0,255,255,0,0,255,255,85,0,255,255,170,85,255
+2044 DATA 170,85,0,255,255,170,0,255,255,255,170,255,170,170,85,255
+2046 DATA 255,255,85,255,85,85,0,255,170,170,0,255,255,255,0,255
+2048 DATA 170,255,0,255,170,255,85,255,85,170,0,255,85,255,0,255
+2050 DATA 170,255,170,255,85,170,85,255,85,255,85,255,0,85,0,255
+2052 DATA 0,170,0,255,0,255,0,255,0,255,85,255,85,255,170,255
+2054 DATA 0,170,85,255,0,255,170,255,170,255,255,255,85,170,170,255
+2056 DATA 85,255,255,255,0,85,85,255,0,170,170,255,0,255,255,255
+2058 DATA 0,170,255,255,85,170,255,255,0,85,170,255,0,85,255,255
+2060 DATA 170,170,255,255,85,85,170,255,85,85,255,255,0,0,85,255
+2062 DATA 0,0,170,255,0,0,255,255,85,0,255,255,170,85,255,255
+2064 DATA 85,0,170,255,170,0,255,255,255,170,255,255,170,85,170,255
+2066 DATA 255,85,255,255,85,0,85,255,170,0,170,255,255,0,255,255
+2068 DATA 255,0,170,255,255,85,170,255,170,0,85,255,255,0,85,255

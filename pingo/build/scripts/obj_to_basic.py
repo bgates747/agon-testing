@@ -109,7 +109,7 @@ if __name__ == '__main__':
     base_filename = 'color_cube'
     src_obj_filepath = f'{src_dir}/{base_filename}.obj'
     src_mtl_filepath = f'{src_dir}/{base_filename}.mtl'
-    template_filepath = f'{tgt_dir}/template_fastload.bas'
+    template_filepath = f'{tgt_dir}/template.bas'
     tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
 
     vertices, faces, texture_coords, texture_vertex_indices, texture_file_name = parse_obj_file(src_obj_filepath, src_mtl_filepath)
