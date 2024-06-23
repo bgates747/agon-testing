@@ -106,7 +106,7 @@ def parse_obj_file(src_obj_filepath, src_mtl_filepath):
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'stellar7a'
+    base_filename = 'color_cube'
     src_obj_filepath = f'{src_dir}/{base_filename}.obj'
     src_mtl_filepath = f'{src_dir}/{base_filename}.mtl'
     template_filepath = f'{tgt_dir}/template_fastload.bas'
