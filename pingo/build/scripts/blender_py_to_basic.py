@@ -75,7 +75,7 @@ def make_texture_rgba(uv_texture_png, uv_texture_rgba8):
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'cube'
+    base_filename = 'plane'
     template_filepath = f'{tgt_dir}/template.bas'
     tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
 
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     blender_executable = None
     blender_local_prefs_path = None
 
-    blender_file_path = f'{src_dir}/cube.blend'
+    blender_file_path = f'{src_dir}/{base_filename}.blend'
     blender_script_path = "pingo/build/scripts/blend_export.py"
     output_file = 'pingo/build/scripts/vertices_from_blender.py'
     do_blender(blender_file_path, blender_script_path, blender_executable, None, output_file)

@@ -8,7 +8,7 @@ def process_cube(output_file):
         bpy.ops.object.mode_set(mode='OBJECT')
 
     # Get the default cube
-    cube = bpy.data.objects['Cube']
+    cube = bpy.data.objects['Plane']
 
     # Duplicate the cube
     bpy.ops.object.select_all(action='DESELECT')
@@ -52,11 +52,11 @@ def process_cube(output_file):
     # Delete the temporary cube
     bpy.ops.object.delete()
 
-    # Write to the output file
     with open(output_file, 'w') as file:
         file.write("vertices = [\n")
         for vertex in vertices:
-            file.write(f"    {vertex},\n")
+            rounded_vertex = [round(coord, 6) if 'e' not in str(coord) else 0.000000 for coord in vertex]
+            file.write(f"    {rounded_vertex},\n")
         file.write("]\n\n")
 
         file.write("faces = [\n")
@@ -66,7 +66,8 @@ def process_cube(output_file):
 
         file.write("texture_coords = [\n")
         for coord in uv_coords:
-            file.write(f"    {coord},\n")
+            rounded_coord = [round(c, 6) if 'e' not in str(c) else 0.000000 for c in coord]
+            file.write(f"    {rounded_coord},\n")
         file.write("]\n")
 
         file.write("texture_vertex_indices = [\n")
