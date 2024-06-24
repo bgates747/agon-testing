@@ -97,7 +97,7 @@
   950 REM --== MAIN LOOP ==--
   960 CLS
   970 REM incx=0.0:incy=0.0:incz=0.0
-  980 incx=0.0:incy=0.0:incz=inc
+  980 incx=inc:incy=0.0:incz=0.0
   990 ON ERROR GOTO 1200 : REM so that Escape key exits gracefully
  1000 REM A%=INKEY(0) : REM GET KEYBOARD INPUT FROM PLAYER.
  1010 REM PRINT "keycode ";A%
