@@ -117,44 +117,11 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        ['cube', 'Cube', 'colors64HSV.png'],
-        ['cube1', 'Cube', '2x2.png'],
+        ['cube', 'Cube', 'cubeuv32x32.png'],
         ['earth', 'Sphere', 'earth160x80.png'],
         ['HeavyTank', 'HeavyTank', 'colorcube.png'],
         ['wolf', 'Cube', 'thumb_16.png'],
-        ['wolf1', 'Cube', 'thumb_16.png'],
-        ['cube2+y+z', 'Cube', 'cubeuv32x32.png'],
-        ['cube2+z-y', 'Cube', 'cubeuv32x32.png'],
-        ['cube2+z+y', 'Cube', 'cubeuv32x32.png'],
-        ['cube2-z+y', 'Cube', 'cubeuv32x32.png'], # default
-        ['cube2+x-y', 'Cube', 'cubeuv32x32.png'], # should be the way
-        ['cube3+x-y', 'Cube', 'cubeuv32x32.png'],
-        ['cube3+x-y-gpt', 'Cube', 'cubeuv32x32.png'],
-
-        ['pyr-x-y', 'Cube', '2x2.png'], # left-right flipped
-        ['pyr-x-z', 'Cube', '2x2.png'],
-        ['pyr-x+y', 'Cube', '2x2.png'],
-        ['pyr-x+z', 'Cube', '2x2.png'],
-        ['pyr-y-x', 'Cube', '2x2.png'],
-        ['pyr-y-z', 'Cube', '2x2.png'],
-        ['pyr-y+x', 'Cube', '2x2.png'],
-        ['pyr-y+z', 'Cube', '2x2.png'],
-        ['pyr-z-y', 'Cube', '2x2.png'],
-        ['pyr-z-x', 'Cube', '2x2.png'],
-        ['pyr-z+y', 'Cube', '2x2.png'],
-        ['pyr-z+x', 'Cube', '2x2.png'],
-        ['pyr+x-y', 'Cube', '2x2.png'], # this is the way
-        ['pyr+x-z', 'Cube', '2x2.png'],
-        ['pyr+x+y', 'Cube', '2x2.png'],
-        ['pyr+x+z', 'Cube', '2x2.png'],
-        ['pyr+y-x', 'Cube', '2x2.png'],
-        ['pyr+y-z', 'Cube', '2x2.png'],
-        ['pyr+y+x', 'Cube', '2x2.png'],
-        ['pyr+y+z', 'Cube', '2x2.png'],
-        ['pyr+z-y', 'Cube', '2x2.png'],
-        ['pyr+z-x', 'Cube', '2x2.png'],
-        ['pyr+z+y', 'Cube', '2x2.png'],
-        ['pyr+z+x', 'Cube', '2x2.png'],
+        ['pyr', 'Cube', '2x2.png'], 
     ]
 
     for thing in do_these_things:
