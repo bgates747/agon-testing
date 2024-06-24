@@ -75,6 +75,8 @@ def make_texture_rgba(uv_texture_png):
         img_to_rgba8(img, uv_texture_rgba8)
     return img_size, uv_texture_rgba8
 
+import importlib
+
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
@@ -84,9 +86,9 @@ if __name__ == '__main__':
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
         ['cube', 'Cube', 'cube.blend', 'colors64HSV.png'],
-        ['earth', 'Sphere', 'earth.blend', 'earth160x80.png'],
-        ['HeavyTank', 'HeavyTank', 'stellar7a.blend', 'colorcube.png'],
-        ['wolf', 'Cube', 'wolf.blend', 'thumb_16.png']
+        # ['earth', 'Sphere', 'earth.blend', 'earth160x80.png'],
+        # ['HeavyTank', 'HeavyTank', 'stellar7a.blend', 'colorcube.png'],
+        # ['wolf', 'Cube', 'wolf.blend', 'thumb_16.png']
     ]
 
     for thing in do_these_things:
@@ -101,7 +103,12 @@ if __name__ == '__main__':
         do_blender(blender_file_path, blender_script_path, blender_executable, None, output_file, mesh_name)
 
         # Import the vertices, faces, texture_coords, and texture_vertex_indices from vertices_from_blender.py
-        from vertices_from_blender import vertices, faces, texture_coords, texture_vertex_indices
+        import vertices_from_blender
+        importlib.reload(vertices_from_blender)
+        vertices = vertices_from_blender.vertices
+        faces = vertices_from_blender.faces
+        texture_coords = vertices_from_blender.texture_coords
+        texture_vertex_indices = vertices_from_blender.texture_vertex_indices
 
         write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices, template_filepath, tgt_filepath, uv_texture_rgba8, img_size)
 
