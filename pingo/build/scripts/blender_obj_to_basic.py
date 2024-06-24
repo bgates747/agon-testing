@@ -126,6 +126,7 @@ if __name__ == '__main__':
         ['cube2+y+z', 'Cube', 'cubeuv32x32.png'],
         ['cube2+z-y', 'Cube', 'cubeuv32x32.png'],
         ['cube2-z+y', 'Cube', 'cubeuv32x32.png'], # default
+        ['cube2+x-y', 'Cube', 'cubeuv32x32.png'], # should be the way
         ['pyr-x-y', 'Cube', '2x2.png'], # left-right flipped
         ['pyr-x-z', 'Cube', '2x2.png'],
         ['pyr-x+y', 'Cube', '2x2.png'],
