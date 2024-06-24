@@ -80,6 +80,12 @@ def parse_obj_file(filepath):
     texture_coords = []
     texture_vertex_indices = []
 
+    def sanitize_coord(coord):
+        coord = round(coord, 3)
+        if coord < 0:
+            coord = 0.0
+        return coord
+
     with open(filepath, 'r') as file:
         for line in file:
             parts = line.strip().split()
@@ -88,7 +94,7 @@ def parse_obj_file(filepath):
             if parts[0] == 'v':
                 vertices.append([float(parts[1]), float(parts[2]), float(parts[3])])
             elif parts[0] == 'vt':
-                texture_coords.append([float(parts[1]), float(parts[2])])
+                texture_coords.append([sanitize_coord(float(parts[1])), sanitize_coord(float(parts[2]))])
             elif parts[0] == 'f':
                 face = []
                 tex_indices = []
