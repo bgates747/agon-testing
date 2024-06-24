@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     for thing in do_these_things:
         base_filename, mesh_name, uv_texture_png = thing
-        template_filepath = f'{tgt_dir}/template.bas'
+        template_filepath = f'{tgt_dir}/template0.bas'
         tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
         img_size, uv_texture_rgba8 = make_texture_rgba(f'{src_dir}/{uv_texture_png}')
         obj_filepath = f'{src_dir}/{base_filename}.obj'
