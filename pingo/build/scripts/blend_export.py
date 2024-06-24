@@ -47,17 +47,15 @@ def process_first_mesh(output_file, mesh_name):
     uv_layer = temp_mesh.data.uv_layers.active.data
     uv_coords = []
     uv_indices = []
-    uv_dict = {}
 
     for poly in temp_mesh.data.polygons:
         poly_uv_indices = []
         for loop_index in poly.loop_indices:
             uv = uv_layer[loop_index].uv
-            uv_coord = (uv[0], uv[1])
-            if uv_coord not in uv_dict:
-                uv_dict[uv_coord] = len(uv_coords)
-                uv_coords.append(list(uv_coord))
-            poly_uv_indices.append(uv_dict[uv_coord])
+            uv_coord = [uv[0], uv[1]]
+            if uv_coord not in uv_coords:
+                uv_coords.append(uv_coord)
+            poly_uv_indices.append(uv_coords.index(uv_coord))
         uv_indices.append(poly_uv_indices)
 
     # Delete the temporary mesh
