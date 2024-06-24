@@ -123,7 +123,9 @@ if __name__ == '__main__':
         ['HeavyTank', 'HeavyTank', 'colorcube.png'],
         ['wolf', 'Cube', 'thumb_16.png'],
         ['wolf1', 'Cube', 'thumb_16.png'],
-        ['pyr-x-y', 'Cube', '2x2.png'],
+        ['cube2+y+z', 'Cube', 'cubeuv32x32.png'],
+        ['cube2+z-y', 'Cube', 'cubeuv32x32.png'],
+        ['pyr-x-y', 'Cube', '2x2.png'], # left-right flipped
         ['pyr-x-z', 'Cube', '2x2.png'],
         ['pyr-x+y', 'Cube', '2x2.png'],
         ['pyr-x+z', 'Cube', '2x2.png'],
@@ -135,7 +137,7 @@ if __name__ == '__main__':
         ['pyr-z-x', 'Cube', '2x2.png'],
         ['pyr-z+y', 'Cube', '2x2.png'],
         ['pyr-z+x', 'Cube', '2x2.png'],
-        ['pyr+x-y', 'Cube', '2x2.png'],
+        ['pyr+x-y', 'Cube', '2x2.png'], # this is the way
         ['pyr+x-z', 'Cube', '2x2.png'],
         ['pyr+x+y', 'Cube', '2x2.png'],
         ['pyr+x+z', 'Cube', '2x2.png'],

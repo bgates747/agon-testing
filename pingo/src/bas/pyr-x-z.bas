@@ -25,11 +25,13 @@
   250 scene_width%=320: scene_height%=240
   260 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   270 f=32767.0/256.0
-  280 distx=2.0*f: disty=2.5*f: distz=-12.0*f
-  290 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz; : REM Set Camera XYZ Translation Distances
+  250 PRINT "Setting camera translation distances"
+  280 distx=0.0*f: disty=0.0*f: distz=-10.0*f
+  290 VDU 23,0, &A0, sid%; &49, 25, distx; disty; distz;
   300 pi2=PI*2.0: f=32767.0/pi2
   310 anglex=0.0*f
-  320 VDU 23,0, &A0, sid%; &49, 18, anglex; : REM Set Camera X Rotation Angle
+  315 PRINT "Set Camera X Rotation Angle"
+  320 VDU 23,0, &A0, sid%; &49, 18, anglex;
   330 PRINT "Sending vertices using factor ";factor
   340 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
   350 FOR i%=0 TO total_coords%-1
