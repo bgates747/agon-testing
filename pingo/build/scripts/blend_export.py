@@ -2,7 +2,7 @@ import bpy  # type: ignore
 import os
 import sys
 
-def process_first_mesh(output_file):
+def process_first_mesh(output_file, mesh_name):
     # Ensure we're in object mode
     if bpy.context.object.mode != 'OBJECT':
         bpy.ops.object.mode_set(mode='OBJECT')
@@ -90,4 +90,5 @@ if __name__ == "__main__":
     argv = sys.argv
     argv = argv[argv.index("--") + 1:]  # get all args after "--"
     output_file = argv[0]  # First argument after -- is the output file path
-    process_first_mesh(output_file)
+    mesh_name = argv[1]  # Second argument after -- is the mesh name
+    process_first_mesh(output_file, mesh_name)

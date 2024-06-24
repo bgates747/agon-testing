@@ -2,6 +2,7 @@ import numpy as np
 from agonImages import img_to_rgba8, convert_to_agon_palette
 import PIL.Image as pil
 from blender_headless import do_blender
+import os
 
 def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices, template_filepath, tgt_filepath, uv_texture_rgba8, img_size):
     # Read the template file
@@ -66,34 +67,42 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
                 else:
                     file.write(f"{byte},")
 
-def make_texture_rgba(uv_texture_png, uv_texture_rgba8):
+def make_texture_rgba(uv_texture_png):
+    uv_texture_rgba8 = uv_texture_png.replace('.png', '.rgba8')
     img = pil.open(uv_texture_png)
     img_size = img.size
-    img_to_rgba8(img, uv_texture_rgba8)
-    return img_size
+    if not os.path.exists(uv_texture_rgba8):
+        img_to_rgba8(img, uv_texture_rgba8)
+    return img_size, uv_texture_rgba8
 
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
     tgt_dir = 'pingo/src/bas'
-    base_filename = 'wolf'
-    template_filepath = f'{tgt_dir}/template.bas'
-    tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
-
-    uv_texture_png = f'{src_dir}/thumb_16.png'
-    uv_texture_rgba8 = f'{tgt_dir}/{base_filename}.rgba8'
-    img_size = make_texture_rgba(uv_texture_png, uv_texture_rgba8)
-
-    blender_executable = None
+    blender_executable = "/Applications/Blender.app/Contents/MacOS/Blender"
     blender_local_prefs_path = None
 
-    blender_file_path = f'{src_dir}/{base_filename}.blend'
-    blender_script_path = "pingo/build/scripts/blend_export.py"
-    output_file = 'pingo/build/scripts/vertices_from_blender.py'
-    do_blender(blender_file_path, blender_script_path, blender_executable, None, output_file)
+    # base_filename, mesh_name, blender_filename, uv_texture_png
+    do_these_things = [
+        ['cube', 'Cube', 'cube.blend', 'colors64HSV.png'],
+        ['earth', 'Sphere', 'earth.blend', 'earth160x80.png'],
+        ['HeavyTank', 'HeavyTank', 'stellar7a.blend', 'colorcube.png'],
+        ['wolf', 'Cube', 'wolf.blend', 'thumb_16.png']
+    ]
 
-    # Import the vertices, faces, texture_coords, and texture_vertex_indices from vertices_from_blender.py
-    from vertices_from_blender import vertices, faces, texture_coords, texture_vertex_indices
+    for thing in do_these_things:
+        base_filename, mesh_name, blender_filename, uv_texture_png = thing
+        template_filepath = f'{tgt_dir}/template.bas'
+        tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
+        img_size, uv_texture_rgba8 = make_texture_rgba(f'{src_dir}/{uv_texture_png}')
+        blender_file_path = f'{src_dir}/{blender_filename}'
+        blender_script_path = "pingo/build/scripts/blend_export.py"
+        output_file = "pingo/build/scripts/vertices_from_blender.py"
+            
+        do_blender(blender_file_path, blender_script_path, blender_executable, None, output_file, mesh_name)
 
-    write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices, template_filepath, tgt_filepath, uv_texture_rgba8, img_size)
+        # Import the vertices, faces, texture_coords, and texture_vertex_indices from vertices_from_blender.py
+        from vertices_from_blender import vertices, faces, texture_coords, texture_vertex_indices
 
-    print(f"Modified BASIC code has been written to {tgt_filepath}")
+        write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices, template_filepath, tgt_filepath, uv_texture_rgba8, img_size)
+
+        print(f"Modified BASIC code has been written to {tgt_filepath}")
