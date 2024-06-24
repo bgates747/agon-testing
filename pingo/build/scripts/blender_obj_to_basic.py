@@ -121,7 +121,8 @@ if __name__ == '__main__':
         ['cube1', 'Cube', '2x2.png'],
         ['earth', 'Sphere', 'earth160x80.png'],
         ['HeavyTank', 'HeavyTank', 'colorcube.png'],
-        ['wolf', 'Cube', 'thumb_16.png']
+        ['wolf', 'Cube', 'thumb_16.png'],
+        ['wolf1', 'Cube', 'thumb_16.png']
     ]
 
     for thing in do_these_things:
