@@ -70,9 +70,9 @@ def make_texture_rgba(uv_texture_png):
     uv_texture_rgba8 = uv_texture_png.replace('.png', '.rgba8')
     img = pil.open(uv_texture_png)
     img_size = img.size
-    if not os.path.exists(uv_texture_rgba8):
-        img_to_rgba8(img, uv_texture_rgba8)
-    return img_size, uv_texture_rgba8
+    # if not os.path.exists(uv_texture_rgba8):
+    img_to_rgba8(img, uv_texture_rgba8)
+    # return img_size, uv_texture_rgba8
 
 def parse_obj_file(filepath):
     vertices = []
