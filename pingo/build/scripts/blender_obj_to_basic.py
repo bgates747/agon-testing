@@ -128,12 +128,12 @@ if __name__ == '__main__':
         # ['HeavyTank', 'HeavyTank', 'colorcube.png'],
         # ['wolf', 'Cube', 'thumb_16.png'],
         # ['pyr', 'Cube', '2x2.png'], 
-        ['icosphere', 'Icosphere', 'earthico320x151.png'],
-        ['icosphere1', 'Icosphere', 'earthico320x151.png'],
-        ['icosphere2', 'Icosphere', 'earthico320x151.png'],
-        ['icosphere3', 'Icosphere', 'earthico320x151.png'],
-        ['icosphere4', 'Icosphere', 'earthico320x151.png'],
-        ['icosphere5', 'Icosphere', 'earthico320x151.png'],
+        ['icosphere', 'Icosphere', 'earthico160x80.png'],
+        ['icosphere1', 'Icosphere', 'earthico160x80.png'],
+        ['icosphere2', 'Icosphere', 'earthico160x80.png'],
+        ['icosphere3', 'Icosphere', 'earthico160x80.png'],
+        ['icosphere4', 'Icosphere', 'earthico160x80.png'],
+        ['icosphere5', 'Icosphere', 'earthico160x80.png'],
     ]
 
     for thing in do_these_things:
