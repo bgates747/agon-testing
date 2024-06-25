@@ -131,6 +131,7 @@ if __name__ == '__main__':
         ['icosphere', 'Icosphere', 'earth160x80.png'],
         ['icosphere1', 'Icosphere', 'earth160x80.png'],
         ['icosphere2', 'Icosphere', 'earth160x80.png'],
+        ['icosphere3', 'Icosphere', 'earth160x80.png'],
     ]
 
     for thing in do_these_things:
