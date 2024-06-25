@@ -92,7 +92,7 @@ def parse_obj_file(filepath):
             if not parts:
                 continue
             if parts[0] == 'v':
-                vertices.append([float(parts[1]), float(parts[2]), float(parts[3])])
+                vertices.append([round(float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
             elif parts[0] == 'vt':
                 texture_coords.append([sanitize_coord(float(parts[1])), sanitize_coord(float(parts[2]))])
             elif parts[0] == 'f':
