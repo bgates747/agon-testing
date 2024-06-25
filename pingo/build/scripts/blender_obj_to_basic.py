@@ -117,14 +117,15 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        ['cube', 'Cube', 'cubeuv32x32.png'],
-        ['earth', 'Sphere', 'earth160x80.png'],
+        ['cube', 'Cube', 'cubeuv1.png'],
+        # ['earth', 'Sphere', 'earth160x80.png'],
         # ['HeavyTank', 'HeavyTank', 'colorcube.png'],
         # ['wolf', 'Cube', 'thumb_16.png'],
         # ['pyr', 'Cube', '2x2.png'], 
-        ['icosphere', 'Icosphere', 'earthico160x76.png'],
-        ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
-        ['icosphere1', 'Icosphere', 'earthico160x76.png'],
+        # ['icosphere', 'Icosphere', 'earthico160x76.png'],
+        # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
+        # ['icosphere_py1', 'Icosphere', 'earthico160x76.png'],
+        # ['icosphere1', 'Icosphere', 'earthico160x76.png'],
     ]
 
     for thing in do_these_things:
