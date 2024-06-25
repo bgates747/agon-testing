@@ -6,7 +6,7 @@
    60 camf=32767.0/256.0
    70 camx=0.0*camf
    72 camy=0.0*camf
-   74 camz=-6.0*camf
+   74 camz=-5.0*camf
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
@@ -31,7 +31,7 @@
   270   a=ABS(coord)
   280   IF a>max_abs THEN max_abs=a
   290 NEXT i%
-  300 factor=32000.0 :REM factor=32767.0/max_abs
+  300 factor=32767.0 :REM factor=32767.0/max_abs
   310 PRINT "Max absolute value = ";max_abs
   320 PRINT "Factor = ";factor
   330 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
