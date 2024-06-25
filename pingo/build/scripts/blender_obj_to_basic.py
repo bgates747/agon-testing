@@ -127,7 +127,9 @@ if __name__ == '__main__':
         # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere_py1', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere1', 'Icosphere', 'earthico160x76.png'],
-        ['cylinder', 'Cylinder', 'cylnderuv.png']
+        ['cylinder', 'Cylinder', 'cylnderuv.png'],
+        ['cylinder1', 'Cylinder', 'cylnderuv.png'],
+        ['cylinder2', 'Cylinder', 'cylnderuv.png'],
     ]
 
     for thing in do_these_things:
