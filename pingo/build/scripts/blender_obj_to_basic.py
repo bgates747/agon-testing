@@ -72,7 +72,7 @@ def make_texture_rgba(uv_texture_png):
     img_size = img.size
     # if not os.path.exists(uv_texture_rgba8):
     img_to_rgba8(img, uv_texture_rgba8)
-    # return img_size, uv_texture_rgba8
+    return img_size, uv_texture_rgba8
 
 def parse_obj_file(filepath):
     vertices = []
