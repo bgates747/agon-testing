@@ -36,11 +36,20 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
             file.write(f"{line_number} DATA {', '.join(map(str, face))}\n")
             line_number += 2
 
+        # # Write the texture UV coordinates
+        # file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
+        # line_number += 2
+        # for coord in texture_coords:
+        #     file.write(f"{line_number} DATA {', '.join(map(str, coord))}\n")
+        #     line_number += 2
+
         # Write the texture UV coordinates
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
         line_number += 2
         for coord in texture_coords:
-            file.write(f"{line_number} DATA {', '.join(map(str, coord))}\n")
+            # Invert the Y-axis of the UV coordinates
+            inverted_coord = (coord[0], 1 - coord[1])
+            file.write(f"{line_number} DATA {', '.join(map(str, inverted_coord))}\n")
             line_number += 2
 
         # Write the texture vertex indices
@@ -117,11 +126,11 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        # ['cube', 'Cube', 'cubeuv32x32.png'],
-        # ['cube1', 'Cube', 'cubeuv32x32.png'],
-        # ['cube2', 'Cube', 'cubeuv32x32.png'],
-        # ['cube3', 'Cube', 'tictactoe32x32.png'],
-        # ['cube4', 'Cube', 'cubeuv32x32.png'],
+        ['cube', 'Cube', 'cubeuv32x32.png'],
+        ['cube1', 'Cube', 'cubeuv32x32.png'],
+        ['cube2', 'Cube', 'cubeuv32x32.png'],
+        ['cube3', 'Cube', 'tictactoe32x32.png'],
+        ['cube4', 'Cube', 'cubeuv32x32.png'],
         ['cube5', 'Cube', 'cubeuv32x32.png'],
         # ['earth', 'Sphere', 'earth160x80.png'],
         # ['HeavyTank', 'HeavyTank', 'colorcube.png'],
