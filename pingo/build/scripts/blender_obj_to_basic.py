@@ -124,6 +124,7 @@ if __name__ == '__main__':
         # ['cube+y+z', 'Cube', 'cubeuv32x32.png'],
         ['earth', 'Sphere', 'earth160x80.png'],
         ['earth1', 'Sphere', 'earth160x80.png'],
+        ['earth0', 'Sphere', 'earth160x80.png'],
         # ['HeavyTank', 'HeavyTank', 'colorcube.png'],
         # ['wolf', 'Cube', 'thumb_16.png'],
         # ['pyr', 'Cube', '2x2.png'], 
