@@ -128,6 +128,7 @@ if __name__ == '__main__':
         # ['HeavyTank', 'HeavyTank', 'colorcube.png'],
         # ['wolf', 'Cube', 'thumb_16.png'],
         # ['pyr', 'Cube', '2x2.png'], 
+        ['icosphere', 'Icosphere', 'earth160x80.png'],
     ]
 
     for thing in do_these_things:
