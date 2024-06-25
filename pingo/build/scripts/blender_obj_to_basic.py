@@ -119,6 +119,7 @@ if __name__ == '__main__':
     do_these_things = [
         # ['cube', 'Cube', 'cubeuv32x32.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],
+        ['cube2', 'Cube', 'cubeuv32x32.png'],
         # ['earth', 'Sphere', 'earth160x80.png'],
         # ['HeavyTank', 'HeavyTank', 'colorcube.png'],
         # ['wolf', 'Cube', 'thumb_16.png'],
@@ -127,9 +128,9 @@ if __name__ == '__main__':
         # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere_py1', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere1', 'Icosphere', 'earthico160x76.png'],
-        ['cylinder', 'Cylinder', 'cylnderuv.png'],
-        ['cylinder1', 'Cylinder', 'cylnderuv.png'],
-        ['cylinder2', 'Cylinder', 'cylnderuv.png'],
+        # ['cylinder', 'Cylinder', 'cylnderuv.png'],
+        # ['cylinder1', 'Cylinder', 'cylnderuv.png'],
+        # ['cylinder2', 'Cylinder', 'cylnderuv.png'],
     ]
 
     for thing in do_these_things:
