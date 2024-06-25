@@ -81,7 +81,7 @@ def parse_obj_file(filepath):
     texture_vertex_indices = []
 
     def sanitize_coord(coord):
-        coord = round(coord, 3)
+        coord = round(coord, 6)
         if coord < 0:
             coord = 0.0
         return coord
