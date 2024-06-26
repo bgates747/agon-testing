@@ -10,7 +10,7 @@
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
-  110 rotatex=0.5
+  110 rotatex=0.75
   112 rotatey=0.0
   114 rotatez=0.0
   120 rfactor=32767.0/pi2
@@ -104,6 +104,7 @@
   980 REM --== MAIN LOOP ==--
   990 CLS
  1000 ON ERROR GOTO 1150 : REM so that Escape key exits gracefully
+ 1005 PRINT "filename="
  1010 PRINT "rotate x=";rotatex
  1020 PRINT "rotate y=";rotatey
  1030 PRINT "rotate z=";rotatez

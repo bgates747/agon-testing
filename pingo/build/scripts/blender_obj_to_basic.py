@@ -19,6 +19,8 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
                 lines[i] = f"   40 model_uvs%={len(texture_coords)}\n"
             elif line.strip().startswith("50 texture_width%="):
                 lines[i] = f"   50 texture_width%={img_size[0]} : texture_height%={img_size[1]}\n"
+            elif line.strip().startswith("1005 PRINT"):
+                lines[i] = f'1005 PRINT "filename={tgt_filepath}"\n'
         file.writelines(lines)
 
         # Write the model vertices
@@ -77,7 +79,7 @@ def make_texture_rgba(uv_texture_png):
     return img_size, uv_texture_rgba8
 
 def sanitize_uv(coord):
-    coord = 1-coord
+    # coord = 1-coord
     coord = round(coord, 6)
     if coord < 0:
         coord = 0.0
@@ -121,6 +123,14 @@ if __name__ == '__main__':
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
         ['pyr', 'Cube', 'cubeuv32x32.png'],
+        ['pyr-z+y', 'Cube', 'cubeuv32x32.png'],
+        ['pyr+z+y', 'Cube', 'cubeuv32x32.png'],
+        ['pyr+z-y', 'Cube', 'cubeuv32x32.png'],
+        ['pyr-z-y', 'Cube', 'cubeuv32x32.png'],
+        ['pyr-y-z', 'Cube', 'cubeuv32x32.png'],
+        ['pyr+y-z', 'Cube', 'cubeuv32x32.png'],
+        ['pyr+y+z', 'Cube', 'cubeuv32x32.png'],
+        ['pyr-y+z', 'Cube', 'cubeuv32x32.png'],
 
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],

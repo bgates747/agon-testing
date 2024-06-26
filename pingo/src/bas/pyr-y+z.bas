@@ -104,7 +104,7 @@
   980 REM --== MAIN LOOP ==--
   990 CLS
  1000 ON ERROR GOTO 1150 : REM so that Escape key exits gracefully
-1005 PRINT "filename=pingo/src/bas/pyr.bas"
+1005 PRINT "filename=pingo/src/bas/pyr-y+z.bas"
  1010 PRINT "rotate x=";rotatex
  1020 PRINT "rotate y=";rotatey
  1030 PRINT "rotate z=";rotatez

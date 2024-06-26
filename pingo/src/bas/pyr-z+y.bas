@@ -104,7 +104,7 @@
   980 REM --== MAIN LOOP ==--
   990 CLS
  1000 ON ERROR GOTO 1150 : REM so that Escape key exits gracefully
-1005 PRINT "filename=pingo/src/bas/pyr.bas"
+1005 PRINT "filename=pingo/src/bas/pyr-z+y.bas"
  1010 PRINT "rotate x=";rotatex
  1020 PRINT "rotate y=";rotatey
  1030 PRINT "rotate z=";rotatez
@@ -128,14 +128,14 @@
  1210 END
 
 2000 REM -- VERTICES --
-2002 DATA -0.5, -0.5, 1.0
-2004 DATA -1.0, -1.0, -1.0
-2006 DATA -0.5, 0.5, 1.0
-2008 DATA -1.0, 1.0, -1.0
-2010 DATA 0.5, -0.5, 1.0
-2012 DATA 1.0, -1.0, -1.0
-2014 DATA 0.5, 0.5, 1.0
-2016 DATA 1.0, 1.0, -1.0
+2002 DATA 0.5, 1.0, -0.5
+2004 DATA 1.0, -1.0, -1.0
+2006 DATA 0.5, 1.0, 0.5
+2008 DATA 1.0, -1.0, 1.0
+2010 DATA -0.5, 1.0, -0.5
+2012 DATA -1.0, -1.0, -1.0
+2014 DATA -0.5, 1.0, 0.5
+2016 DATA -1.0, -1.0, 1.0
 2018 REM -- FACE VERTEX INDICES --
 2020 DATA 4, 2, 0
 2022 DATA 2, 7, 3
