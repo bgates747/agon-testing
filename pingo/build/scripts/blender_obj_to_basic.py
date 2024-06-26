@@ -77,7 +77,7 @@ def make_texture_rgba(uv_texture_png):
     return img_size, uv_texture_rgba8
 
 def sanitize_coord(coord):
-    # coord = 1-coord
+    coord = 1-coord
     coord = round(coord, 6)
     if coord < 0:
         coord = 0.0
@@ -120,14 +120,12 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        # ['cube', 'Cube', 'colors64rgb.png'],
+        ['cube', 'Cube', 'colors64rgb.png'],
         ['cube1', 'Cube', 'cubeuv32x32.png'],
         ['pyr', 'Cube', 'cubeuv32x32.png'],
-        # ['earth', 'Sphere', 'earth160x80.png'],
-        # ['heavytank', 'HeavyTank', 'colors64rgb.png'],
+        ['earth', 'Sphere', 'earth160x80.png'],
+        ['heavytank', 'HeavyTank', 'colors64rgb.png'],
         ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
-        # ['wolf', 'Cube', 'thumb_16.png'],
-        # ['pyr', 'Cube', '2x2.png'], 
         # ['icosphere', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere_py1', 'Icosphere', 'earthico160x76.png'],

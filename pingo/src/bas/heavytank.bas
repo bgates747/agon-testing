@@ -13,7 +13,7 @@
   110 rotatex=0.0: rotatey=0.0: rotatez=0.0
   120 rfactor=32767.0/pi2
   130 inc=0.122718463
-  140 incx=inc/2
+  140 incx=0.0
   142 incy=0.0
   144 incz=inc
   150 scene_width%=320: scene_height%=240
