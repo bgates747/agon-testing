@@ -79,7 +79,7 @@ def make_texture_rgba(uv_texture_png):
     return img_size, uv_texture_rgba8
 
 def sanitize_uv(coord):
-    # coord = 1-coord
+    coord = 1-coord
     coord = round(coord, 6)
     if coord < 0:
         coord = 0.0
@@ -151,12 +151,6 @@ if __name__ == '__main__':
         ['pyr1+x-y', 'Cube', 'cubeuv32x32.png'], #
         ['pyr1-x+y', 'Cube', 'cubeuv32x32.png'], #
         ['pyr1-x-y', 'Cube', 'cubeuv32x32.png'], #
-
-
-
-
-
-
 
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],
