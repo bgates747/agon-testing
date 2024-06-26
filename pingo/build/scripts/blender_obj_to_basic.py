@@ -36,21 +36,21 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
             file.write(f"{line_number} DATA {', '.join(map(str, face))}\n")
             line_number += 2
 
-        # # Write the texture UV coordinates
-        # file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
-        # line_number += 2
-        # for coord in texture_coords:
-        #     file.write(f"{line_number} DATA {', '.join(map(str, coord))}\n")
-        #     line_number += 2
-
         # Write the texture UV coordinates
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
         line_number += 2
         for coord in texture_coords:
-            # Invert the axes of the UV coordinates
-            inverted_coord = (1 - coord[0], 1 - coord[1])
-            file.write(f"{line_number} DATA {', '.join(map(str, inverted_coord))}\n")
+            file.write(f"{line_number} DATA {', '.join(map(str, coord))}\n")
             line_number += 2
+
+        # # Write the texture UV coordinates
+        # file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
+        # line_number += 2
+        # for coord in texture_coords:
+        #     # Invert the axes of the UV coordinates
+        #     inverted_coord = (1 - coord[0], 1 - coord[1])
+        #     file.write(f"{line_number} DATA {', '.join(map(str, inverted_coord))}\n")
+        #     line_number += 2
 
         # Write the texture vertex indices
         file.write(f"{line_number} REM -- TEXTURE VERTEX INDICES --\n")
