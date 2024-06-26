@@ -99,9 +99,9 @@ def parse_obj_file(filepath):
             if parts[0] == 'v':
                 vertices.append([round(float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
             elif parts[0] == 'vt':
-                # texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
+                texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
                 # texture_coords.append([sanitize_uv(float(parts[2])), sanitize_uv(1.0-float(parts[1]))])
-                texture_coords.append([sanitize_uv(1.0-float(parts[2])), sanitize_uv(float(parts[1]))])
+                # texture_coords.append([sanitize_uv(1.0-float(parts[2])), sanitize_uv(float(parts[1]))])
             elif parts[0] == 'f':
                 face = []
                 tex_indices = []
@@ -124,35 +124,35 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        ['pyr1+y+z', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1+y-z', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-y+z', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-y-z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+y+z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+y-z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-y+z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-y-z', 'Cube', 'cubeuv32x32.png'], #
 
-        ['pyr1+y+x', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1+y-x', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-y+x', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-y-x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+y+x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+y-x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-y+x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-y-x', 'Cube', 'cubeuv32x32.png'], #
 
-        ['pyr1+z+x', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1+z-x', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-z+x', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-z-x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+z+x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+z-x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-z+x', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-z-x', 'Cube', 'cubeuv32x32.png'], #
 
-        ['pyr1+z+y', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1+z-y', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-z+y', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-z-y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+z+y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+z-y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-z+y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-z-y', 'Cube', 'cubeuv32x32.png'], #
 
-        ['pyr1+x+z', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1+x-z', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-x+z', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-x-z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+x+z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+x-z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-x+z', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-x-z', 'Cube', 'cubeuv32x32.png'], #
 
-        ['pyr1+x+y', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1+x-y', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-x+y', 'Cube', 'cubeuv32x32.png'], #
-        ['pyr1-x-y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+x+y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1+x-y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-x+y', 'Cube', 'cubeuv32x32.png'], #
+    #     ['pyr1-x-y', 'Cube', 'cubeuv32x32.png'], #
 
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],
