@@ -10,7 +10,9 @@
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
-  110 rotatex=0.0: rotatey=0.0: rotatez=0.0
+  110 rotatex=0.5
+  112 rotatey=0.0
+  114 rotatez=0.0
   120 rfactor=32767.0/pi2
   130 inc=0.122718463
   140 incx=0.0
