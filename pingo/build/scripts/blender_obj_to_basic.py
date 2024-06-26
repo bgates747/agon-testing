@@ -122,6 +122,7 @@ if __name__ == '__main__':
     do_these_things = [
         # ['cube', 'Cube', 'colors64rgb.png'],
         ['cube1', 'Cube', 'cubeuv32x32.png'],
+        ['pyr', 'Cube', 'cubeuv32x32.png'],
         # ['earth', 'Sphere', 'earth160x80.png'],
         # ['heavytank', 'HeavyTank', 'colors64rgb.png'],
         ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
