@@ -36,7 +36,7 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
             file.write(f"{line_number} DATA {', '.join(map(str, face))}\n")
             line_number += 2
 
-        # Write the texture UV coordinates with proper rounding
+        # Write the texture UV coordinates with proper rounding and inversion
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
         line_number += 2
         for coord in texture_coords:
@@ -67,7 +67,7 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
                     file.write(f"{byte}\n")
                 else:
                     file.write(f"{byte},")
-
+                    
 def make_texture_rgba(uv_texture_png):
     uv_texture_rgba8 = uv_texture_png.replace('.png', '.rgba8')
     img = pil.open(uv_texture_png)
