@@ -12,7 +12,7 @@
   100 scale=1.0*256.0
   110 rotatex=0.75
   112 rotatey=0.0
-  114 rotatez=0.0
+  114 rotatez=0.75
   120 rfactor=32767.0/pi2
   130 inc=0.122718463
   140 incx=0.0
