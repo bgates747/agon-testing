@@ -10,14 +10,14 @@
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
-  110 rotatex=0.5
+  110 rotatex=0.75
   112 rotatey=0.0
   114 rotatez=0.0
   120 rfactor=32767.0/pi2
   130 inc=0.122718463
   140 incx=0.0
   142 incy=0.0
-  144 incz=inc
+  144 incz=0.0
   150 scene_width%=320: scene_height%=240
   160 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   170 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
@@ -104,6 +104,7 @@
   980 REM --== MAIN LOOP ==--
   990 CLS
  1000 ON ERROR GOTO 1150 : REM so that Escape key exits gracefully
+1005 PRINT "filename=pingo/src/bas/heavytank.bas"
  1010 PRINT "rotate x=";rotatex
  1020 PRINT "rotate y=";rotatey
  1030 PRINT "rotate z=";rotatez
@@ -127,28 +128,28 @@
  1210 END
 
 2000 REM -- VERTICES --
-2002 DATA 0.5, -0.4, 1.0
-2004 DATA 0.4, 0.0, 0.6
-2006 DATA 0.5, -0.4, -1.0
-2008 DATA 0.4, 0.0, -0.6
-2010 DATA -0.5, -0.4, 1.0
-2012 DATA -0.4, 0.0, 0.6
-2014 DATA -0.5, -0.4, -1.0
-2016 DATA -0.4, 0.0, -0.6
-2018 DATA -0.5, -0.6, 0.0
-2020 DATA 0.3, -1.0, -0.7
-2022 DATA -0.3, -1.0, -0.7
-2024 DATA 0.3, -1.0, -0.3
-2026 DATA -0.3, -1.0, -0.3
-2028 DATA 0.5, -0.6, 0.0
-2030 DATA -0.1, -0.7, -0.3
-2032 DATA -0.1, -0.9, -0.3
-2034 DATA -0.1, -0.7, 1.0
-2036 DATA -0.1, -0.9, 1.0
-2038 DATA 0.1, -0.7, -0.3
-2040 DATA 0.1, -0.9, -0.3
-2042 DATA 0.1, -0.7, 1.0
-2044 DATA 0.1, -0.9, 1.0
+2002 DATA 0.5, -1.0, -0.4
+2004 DATA 0.4, -0.6, 0.0
+2006 DATA 0.5, 1.0, -0.4
+2008 DATA 0.4, 0.6, 0.0
+2010 DATA -0.5, -1.0, -0.4
+2012 DATA -0.4, -0.6, 0.0
+2014 DATA -0.5, 1.0, -0.4
+2016 DATA -0.4, 0.6, 0.0
+2018 DATA -0.5, 0.0, -0.6
+2020 DATA 0.3, 0.7, -1.0
+2022 DATA -0.3, 0.7, -1.0
+2024 DATA 0.3, 0.3, -1.0
+2026 DATA -0.3, 0.3, -1.0
+2028 DATA 0.5, 0.0, -0.6
+2030 DATA -0.1, 0.3, -0.7
+2032 DATA -0.1, 0.3, -0.9
+2034 DATA -0.1, -1.0, -0.7
+2036 DATA -0.1, -1.0, -0.9
+2038 DATA 0.1, 0.3, -0.7
+2040 DATA 0.1, 0.3, -0.9
+2042 DATA 0.1, -1.0, -0.7
+2044 DATA 0.1, -1.0, -0.9
 2046 REM -- FACE VERTEX INDICES --
 2048 DATA 6, 12, 8
 2050 DATA 2, 7, 3

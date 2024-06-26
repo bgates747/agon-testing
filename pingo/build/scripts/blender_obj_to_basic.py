@@ -123,20 +123,20 @@ if __name__ == '__main__':
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
         ['pyr', 'Cube', 'cubeuv32x32.png'],
-        ['pyr-z+y', 'Cube', 'cubeuv32x32.png'],
-        ['pyr+z+y', 'Cube', 'cubeuv32x32.png'],
-        ['pyr+z-y', 'Cube', 'cubeuv32x32.png'],
-        ['pyr-z-y', 'Cube', 'cubeuv32x32.png'],
-        ['pyr-y-z', 'Cube', 'cubeuv32x32.png'],
+        ['pyr-z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, textures ok
+        ['pyr+z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, rotated z180, textures ok
+        ['pyr+z-y', 'Cube', 'cubeuv32x32.png'], # just ... no
+        ['pyr-z-y', 'Cube', 'cubeuv32x32.png'], # no again
+        ['pyr-y-z', 'Cube', 'cubeuv32x32.png'], # THIS IS THE WAY
         ['pyr+y-z', 'Cube', 'cubeuv32x32.png'],
         ['pyr+y+z', 'Cube', 'cubeuv32x32.png'],
         ['pyr-y+z', 'Cube', 'cubeuv32x32.png'],
 
-        # ['cube', 'Cube', 'colors64rgb.png'],
-        # ['cube1', 'Cube', 'cubeuv32x32.png'],
-        # ['earth', 'Sphere', 'earth160x80.png'],
-        # ['heavytank', 'HeavyTank', 'colors64rgb.png'],
-        # ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
+        ['cube', 'Cube', 'colors64rgb.png'],
+        ['cube1', 'Cube', 'cubeuv32x32.png'],
+        ['earth', 'Sphere', 'earth160x80.png'],
+        ['heavytank', 'HeavyTank', 'colors64rgb.png'],
+        ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
 
         # ['icosphere', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],

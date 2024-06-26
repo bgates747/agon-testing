@@ -10,14 +10,14 @@
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
-  110 rotatex=0.5
+  110 rotatex=0.75
   112 rotatey=0.0
   114 rotatez=0.0
   120 rfactor=32767.0/pi2
   130 inc=0.122718463
   140 incx=0.0
   142 incy=0.0
-  144 incz=inc
+  144 incz=0.0
   150 scene_width%=320: scene_height%=240
   160 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   170 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
@@ -104,6 +104,7 @@
   980 REM --== MAIN LOOP ==--
   990 CLS
  1000 ON ERROR GOTO 1150 : REM so that Escape key exits gracefully
+1005 PRINT "filename=pingo/src/bas/cube1.bas"
  1010 PRINT "rotate x=";rotatex
  1020 PRINT "rotate y=";rotatey
  1030 PRINT "rotate z=";rotatez
@@ -127,14 +128,14 @@
  1210 END
 
 2000 REM -- VERTICES --
-2002 DATA 1.0, -1.0, 1.0
-2004 DATA 1.0, 1.0, 1.0
-2006 DATA 1.0, -1.0, -1.0
-2008 DATA 1.0, 1.0, -1.0
-2010 DATA -1.0, -1.0, 1.0
-2012 DATA -1.0, 1.0, 1.0
-2014 DATA -1.0, -1.0, -1.0
-2016 DATA -1.0, 1.0, -1.0
+2002 DATA 1.0, -1.0, -1.0
+2004 DATA 1.0, -1.0, 1.0
+2006 DATA 1.0, 1.0, -1.0
+2008 DATA 1.0, 1.0, 1.0
+2010 DATA -1.0, -1.0, -1.0
+2012 DATA -1.0, -1.0, 1.0
+2014 DATA -1.0, 1.0, -1.0
+2016 DATA -1.0, 1.0, 1.0
 2018 REM -- FACE VERTEX INDICES --
 2020 DATA 4, 2, 0
 2022 DATA 2, 7, 3
