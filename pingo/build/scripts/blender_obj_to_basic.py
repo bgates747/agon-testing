@@ -79,7 +79,7 @@ def make_texture_rgba(uv_texture_png):
     return img_size, uv_texture_rgba8
 
 def sanitize_uv(coord):
-    coord = 1-coord
+    # coord = 1-coord
     coord = round(coord, 6)
     if coord < 0:
         coord = 0.0
@@ -99,7 +99,8 @@ def parse_obj_file(filepath):
             if parts[0] == 'v':
                 vertices.append([round(float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
             elif parts[0] == 'vt':
-                texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
+                # texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
+                texture_coords.append([sanitize_uv(float(parts[2])), sanitize_uv(float(parts[1]))])
             elif parts[0] == 'f':
                 face = []
                 tex_indices = []
