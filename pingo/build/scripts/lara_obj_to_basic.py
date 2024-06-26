@@ -123,7 +123,7 @@ if __name__ == '__main__':
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],
         # ['earth', 'Sphere', 'earth160x80.png'],
-        # ['HeavyTank', 'HeavyTank', 'colorcube.png'],
+        # ['heavytank', 'HeavyTank', 'colors64rgb.png'],
         # ['wolf', 'Cube', 'thumb_16.png'],
         # ['pyr', 'Cube', '2x2.png'], 
         # ['icosphere', 'Icosphere', 'earthico160x76.png'],
