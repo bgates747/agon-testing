@@ -79,7 +79,7 @@ def make_texture_rgba(uv_texture_png):
     return img_size, uv_texture_rgba8
 
 def sanitize_uv(coord):
-    # coord = 1-coord
+    coord = 1-coord
     coord = round(coord, 6)
     if coord < 0:
         coord = 0.0
@@ -122,21 +122,22 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        ['pyr', 'Cube', 'cubeuv32x32.png'],
-        ['pyr-z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, textures ok
-        ['pyr+z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, rotated z180, textures ok
-        ['pyr+z-y', 'Cube', 'cubeuv32x32.png'], # just ... no
-        ['pyr-z-y', 'Cube', 'cubeuv32x32.png'], # no again
-        ['pyr-y-z', 'Cube', 'cubeuv32x32.png'], # THIS IS THE WAY
-        ['pyr+y-z', 'Cube', 'cubeuv32x32.png'],
-        ['pyr+y+z', 'Cube', 'cubeuv32x32.png'],
-        ['pyr-y+z', 'Cube', 'cubeuv32x32.png'],
+        ['pyr1+y+z', 'Cube', 'cubeuv32x32.png']
+        # ['pyr', 'Cube', 'cubeuv32x32.png'],
+        # ['pyr-z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, textures ok
+        # ['pyr+z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, rotated z180, textures ok
+        # ['pyr+z-y', 'Cube', 'cubeuv32x32.png'], # just ... no
+        # ['pyr-z-y', 'Cube', 'cubeuv32x32.png'], # no again
+        # ['pyr-y-z', 'Cube', 'cubeuv32x32.png'], # nope
+        # ['pyr+y-z', 'Cube', 'cubeuv32x32.png'], # mesh upsidedown, textures inverted
+        # ['pyr+y+z', 'Cube', 'cubeuv32x32.png'], # mesh rightside up, textures inverted
+        # ['pyr-y+z', 'Cube', 'cubeuv32x32.png'], # mesh rightside up, textures inverted
 
-        ['cube', 'Cube', 'colors64rgb.png'],
-        ['cube1', 'Cube', 'cubeuv32x32.png'],
-        ['earth', 'Sphere', 'earth160x80.png'],
-        ['heavytank', 'HeavyTank', 'colors64rgb.png'],
-        ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
+        # ['cube', 'Cube', 'colors64rgb.png'],
+        # ['cube1', 'Cube', 'cubeuv32x32.png'],
+        # ['earth', 'Sphere', 'earth160x80.png'],
+        # ['heavytank', 'HeavyTank', 'colors64rgb.png'],
+        # ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
 
         # ['icosphere', 'Icosphere', 'earthico160x76.png'],
         # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
