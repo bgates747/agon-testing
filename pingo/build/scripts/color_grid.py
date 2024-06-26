@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 
 # Define the grid size and image size
-grid_size = 4
+grid_size = 8
 cell_size = 8  # Size of each cell
 image_size = grid_size * cell_size
 
