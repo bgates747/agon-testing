@@ -36,19 +36,12 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
             file.write(f"{line_number} DATA {', '.join(map(str, face))}\n")
             line_number += 2
 
-        # # Write the texture UV coordinates
-        # file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
-        # line_number += 2
-        # for coord in texture_coords:
-        #     file.write(f"{line_number} DATA {', '.join(map(str, coord))}\n")
-        #     line_number += 2
-
-        # Write the texture UV coordinates
+        # Write the texture UV coordinates with proper rounding
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
         line_number += 2
         for coord in texture_coords:
-            # Invert the axes of the UV coordinates
-            inverted_coord = (1 - coord[0], 1 - coord[1])
+            # Invert the axes of the UV coordinates and round to six decimal places
+            inverted_coord = (round(1 - coord[0], 6), round(1 - coord[1], 6))
             file.write(f"{line_number} DATA {', '.join(map(str, inverted_coord))}\n")
             line_number += 2
 
@@ -83,17 +76,17 @@ def make_texture_rgba(uv_texture_png):
     img_to_rgba8(img, uv_texture_rgba8)
     return img_size, uv_texture_rgba8
 
+def sanitize_coord(coord):
+    coord = round(coord, 6)
+    if coord < 0:
+        coord = 0.0
+    return coord
+
 def parse_obj_file(filepath):
     vertices = []
     faces = []
     texture_coords = []
     texture_vertex_indices = []
-
-    def sanitize_coord(coord):
-        coord = round(coord, 6)
-        if coord < 0:
-            coord = 0.0
-        return coord
 
     with open(filepath, 'r') as file:
         for line in file:
