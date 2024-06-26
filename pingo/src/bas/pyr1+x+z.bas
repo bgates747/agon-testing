@@ -17,7 +17,7 @@
   130 inc=0.122718463
   140 incx=0.0
   142 incy=0.0
-  144 incz=inc*0.5
+  144 incz=inc*0.0
   150 scene_width%=320: scene_height%=240
   160 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   170 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
