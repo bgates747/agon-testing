@@ -100,6 +100,7 @@ def parse_obj_file(filepath):
                 vertices.append([round(float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
             elif parts[0] == 'vt':
                 texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
+                # texture_coords.append([sanitize_uv(float(parts[2])), sanitize_uv(float(parts[1]))])
                 # texture_coords.append([sanitize_uv(float(parts[2])), sanitize_uv(1.0-float(parts[1]))])
                 # texture_coords.append([sanitize_uv(1.0-float(parts[2])), sanitize_uv(float(parts[1]))])
             elif parts[0] == 'f':
@@ -124,6 +125,16 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
+        ['cube1-y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['cube1+y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['cube1-y-z', 'Cube', 'cubeuv32x32.png'], #
+        ['cube1+y-z', 'Cube', 'cubeuv32x32.png'], #
+
+        ['cube1-z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['cube1-z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['cube1+z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['cube1+z+y', 'Cube', 'cubeuv32x32.png'], #
+
     #     ['pyr1+y+z', 'Cube', 'cubeuv32x32.png'], #
     #     ['pyr1+y-z', 'Cube', 'cubeuv32x32.png'], #
     #     ['pyr1-y+z', 'Cube', 'cubeuv32x32.png'], #
