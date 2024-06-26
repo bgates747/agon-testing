@@ -6,7 +6,7 @@
    60 camf=32767.0/256.0
    70 camx=0.0*camf
    72 camy=0.0*camf
-   74 camz=-3.0*camf
+   74 camz=-10.0*camf
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
