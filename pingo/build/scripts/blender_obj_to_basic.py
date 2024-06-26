@@ -122,16 +122,41 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        ['pyr1+y+z', 'Cube', 'cubeuv32x32.png']
-        # ['pyr', 'Cube', 'cubeuv32x32.png'],
-        # ['pyr-z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, textures ok
-        # ['pyr+z+y', 'Cube', 'cubeuv32x32.png'], # mesh inverted, rotated z180, textures ok
-        # ['pyr+z-y', 'Cube', 'cubeuv32x32.png'], # just ... no
-        # ['pyr-z-y', 'Cube', 'cubeuv32x32.png'], # no again
-        # ['pyr-y-z', 'Cube', 'cubeuv32x32.png'], # nope
-        # ['pyr+y-z', 'Cube', 'cubeuv32x32.png'], # mesh upsidedown, textures inverted
-        # ['pyr+y+z', 'Cube', 'cubeuv32x32.png'], # mesh rightside up, textures inverted
-        # ['pyr-y+z', 'Cube', 'cubeuv32x32.png'], # mesh rightside up, textures inverted
+        ['pyr1+y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+y-z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y-z', 'Cube', 'cubeuv32x32.png'], #
+
+        ['pyr1+y+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+y-x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y-x', 'Cube', 'cubeuv32x32.png'], #
+
+        ['pyr1+z+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+z-x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z-x', 'Cube', 'cubeuv32x32.png'], #
+
+        ['pyr1+z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z-y', 'Cube', 'cubeuv32x32.png'], #
+
+        ['pyr1+x+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+x-z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x-z', 'Cube', 'cubeuv32x32.png'], #
+
+        ['pyr1+x+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+x-y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x-y', 'Cube', 'cubeuv32x32.png'], #
+
+
+
+
+
+
 
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],
