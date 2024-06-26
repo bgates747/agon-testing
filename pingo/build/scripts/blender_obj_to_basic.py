@@ -125,45 +125,45 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        ['cube1-y+z', 'Cube', 'cubeuv32x32.png'], #
-        ['cube1+y+z', 'Cube', 'cubeuv32x32.png'], #
-        ['cube1-y-z', 'Cube', 'cubeuv32x32.png'], #
-        ['cube1+y-z', 'Cube', 'cubeuv32x32.png'], #
+        # ['cube1-y+z', 'Cube', 'cubeuv32x32.png'], # nothing shows
+        # ['cube1+y+z', 'Cube', 'cubeuv32x32.png'], # nothing shows
+        # ['cube1-y-z', 'Cube', 'cubeuv32x32.png'], # down face shows pointing down with up texture rightside up (bright)
+        # ['cube1+y-z', 'Cube', 'cubeuv32x32.png'], # up face shows pointing up with up texture upside down (dim)
 
-        ['cube1-z-y', 'Cube', 'cubeuv32x32.png'], #
-        ['cube1-z+y', 'Cube', 'cubeuv32x32.png'], #
-        ['cube1+z-y', 'Cube', 'cubeuv32x32.png'], #
-        ['cube1+z+y', 'Cube', 'cubeuv32x32.png'], #
+        # ['cube1-z-y', 'Cube', 'cubeuv32x32.png'], # back facew shows correctly with texture upside down (dim), bottom face shows correctly with up texture
+        # ['cube1-z+y', 'Cube', 'cubeuv32x32.png'], #
+        # ['cube1+z-y', 'Cube', 'cubeuv32x32.png'], #
+        # ['cube1+z+y', 'Cube', 'cubeuv32x32.png'], # nothing shows
 
-    #     ['pyr1+y+z', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1+y-z', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-y+z', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-y-z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+y-z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y-z', 'Cube', 'cubeuv32x32.png'], #
 
-    #     ['pyr1+y+x', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1+y-x', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-y+x', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-y-x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+y+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+y-x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-y-x', 'Cube', 'cubeuv32x32.png'], #
 
-    #     ['pyr1+z+x', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1+z-x', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-z+x', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-z-x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+z+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+z-x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z+x', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z-x', 'Cube', 'cubeuv32x32.png'], #
 
-    #     ['pyr1+z+y', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1+z-y', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-z+y', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-z-y', 'Cube', 'cubeuv32x32.png'], #
 
-    #     ['pyr1+x+z', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1+x-z', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-x+z', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-x-z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+x+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+x-z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x+z', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x-z', 'Cube', 'cubeuv32x32.png'], #
 
-    #     ['pyr1+x+y', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1+x-y', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-x+y', 'Cube', 'cubeuv32x32.png'], #
-    #     ['pyr1-x-y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+x+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1+x-y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x+y', 'Cube', 'cubeuv32x32.png'], #
+        ['pyr1-x-y', 'Cube', 'cubeuv32x32.png'], #
 
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],
