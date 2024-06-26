@@ -36,13 +36,6 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
             file.write(f"{line_number} DATA {', '.join(map(str, face))}\n")
             line_number += 2
 
-        # # Write the texture UV coordinates
-        # file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
-        # line_number += 2
-        # for coord in texture_coords:
-        #     file.write(f"{line_number} DATA {', '.join(map(str, coord))}\n")
-        #     line_number += 2
-
         # Write the texture UV coordinates
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
         line_number += 2
@@ -126,6 +119,7 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
+        ['lara', 'Lara', 'Lara.png'],
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],
         # ['earth', 'Sphere', 'earth160x80.png'],
