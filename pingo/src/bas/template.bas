@@ -6,14 +6,14 @@
    60 camf=32767.0/256.0
    70 camx=0.0*camf
    72 camy=0.0*camf
-   74 camz=-10.0*camf
+   74 camz=-3.0*camf
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
   110 rotatex=0.0: rotatey=0.0: rotatez=0.0
   120 rfactor=32767.0/pi2
   130 inc=0.122718463
-  140 incx=inc/2
+  140 incx=0.0
   142 incy=0.0
   144 incz=inc
   150 scene_width%=320: scene_height%=240
