@@ -125,38 +125,40 @@ if __name__ == '__main__':
     blender_executable = "/Applications/Blender.app/Contents/MacOS/Blender"
     blender_local_prefs_path = None
 
-    # base_filename, mesh_name, blender_filename, uv_texture_png
+    # base_filename, mesh_name, uv_texture_png
     do_these_things = [
+        ['cubeaxes-y+z', 'Cube', 'blenderaxes.png'],
+        ['cubeaxes+z+y', 'Cube', 'blenderaxes.png'],
 
-        ['thing1-x-y', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-x-z', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-x+y', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-x+z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-x-y', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-x-z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-x+y', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-x+z', 'Cube', 'cubeuv32x32.png'], # no
 
-        ['thing1-y-x', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-y-z', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-y+x', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-y+z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-y-x', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-y-z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-y+x', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-y+z', 'Cube', 'cubeuv32x32.png'], # no
 
-        ['thing1-z-x', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-z-y', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-z+x', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1-z+y', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-z-x', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-z-y', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-z+x', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1-z+y', 'Cube', 'cubeuv32x32.png'], # no
 
-        ['thing1+x-y', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1+x-z', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1+x+y', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1+x+z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+x-y', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+x-z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+x+y', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+x+z', 'Cube', 'cubeuv32x32.png'], # no
         
-        ['thing1+y-x', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1+y-z', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1+y+x', 'Cube', 'cubeuv32x32.png'], # no    
-        ['thing1+y+z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+y-x', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+y-z', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+y+x', 'Cube', 'cubeuv32x32.png'], # no    
+        # ['thing1+y+z', 'Cube', 'cubeuv32x32.png'], # no
 
-        ['thing1+z-x', 'Cube', 'cubeuv32x32.png'], # no 
-        ['thing1+z-y', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1+z+x', 'Cube', 'cubeuv32x32.png'], # no
-        ['thing1+z+y', 'Cube', 'cubeuv32x32.png'], # zaxis
+        # ['thing1+z-x', 'Cube', 'cubeuv32x32.png'], # no 
+        # ['thing1+z-y', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+z+x', 'Cube', 'cubeuv32x32.png'], # no
+        # ['thing1+z+y', 'Cube', 'cubeuv32x32.png'], # zaxis
 
         # ['thing-y-x', 'Cube', 'cubeuv32x32.png'], #
         # ['thing-y-z', 'Cube', 'cubeuv32x32.png'], #
