@@ -127,14 +127,14 @@ if __name__ == '__main__':
     do_these_things = [
         ['thing1+z-y', 'Cube', 'cubeuv32x32.png'], # 
 
-        ['thing-y-z', 'Cube', 'cubeuv32x32.png'], #
-        ['thing-y+z', 'Cube', 'cubeuv32x32.png'], #
-        ['thing-z-y', 'Cube', 'cubeuv32x32.png'], #
-        ['thing-z+y', 'Cube', 'cubeuv32x32.png'], #
-        ['thing+y-z', 'Cube', 'cubeuv32x32.png'], #
-        ['thing+y+z', 'Cube', 'cubeuv32x32.png'], #
-        ['thing+z-y', 'Cube', 'cubeuv32x32.png'], #
-        ['thing+z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-y-z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+y-z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+z+y', 'Cube', 'cubeuv32x32.png'], #
 
 
         # ['thing-x-y', 'Cube', 'cubeuv32x32.png'], #
