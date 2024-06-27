@@ -125,26 +125,33 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, blender_filename, uv_texture_png
     do_these_things = [
-        ['thing1+z-y', 'Cube', 'cubeuv32x32.png'], # 
 
+        ['thing1-x-y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-x-z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-x+y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-x+z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-y-x', 'Cube', 'cubeuv32x32.png'], #
         ['thing1-y-z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-y+x', 'Cube', 'cubeuv32x32.png'], #
         ['thing1-y+z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-z-x', 'Cube', 'cubeuv32x32.png'], #
         ['thing1-z-y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1-z+x', 'Cube', 'cubeuv32x32.png'], #
         ['thing1-z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+x-y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+x-z', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+x+y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+x+z', 'Cube', 'cubeuv32x32.png'], #
+        
+        ['thing1+y-x', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+y+x', 'Cube', 'cubeuv32x32.png'], #       
         ['thing1+y-z', 'Cube', 'cubeuv32x32.png'], #
         ['thing1+y+z', 'Cube', 'cubeuv32x32.png'], #
+
+        ['thing1+z-x', 'Cube', 'cubeuv32x32.png'], #
+        ['thing1+z+x', 'Cube', 'cubeuv32x32.png'], #
         ['thing1+z-y', 'Cube', 'cubeuv32x32.png'], #
         ['thing1+z+y', 'Cube', 'cubeuv32x32.png'], #
-
-
-        # ['thing-x-y', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-x-z', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-x+y', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-x+z', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+x-y', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+x-z', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+x+y', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+x+z', 'Cube', 'cubeuv32x32.png'], #
 
         # ['thing-y-x', 'Cube', 'cubeuv32x32.png'], #
         # ['thing-y-z', 'Cube', 'cubeuv32x32.png'], #
