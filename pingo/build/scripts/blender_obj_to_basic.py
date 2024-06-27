@@ -151,7 +151,7 @@ if __name__ == '__main__':
         ['thing+z-x', 'Cube', 'cubeuv32x32.png'], #
         ['thing+z-y', 'Cube', 'cubeuv32x32.png'], #
         ['thing+z+x', 'Cube', 'cubeuv32x32.png'], #
-        ['thing+z+y', 'Cube', 'cubeuv32x32.png'], #
+        ['thing+z+y', 'Cube', 'cubeuv32x32.png'], # starts front face. textures correct orientation, but top to bottom is inverted
 
         # ['cube', 'Cube', 'colors64rgb.png'],
         # ['cube1', 'Cube', 'cubeuv32x32.png'],

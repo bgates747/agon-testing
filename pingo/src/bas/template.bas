@@ -4,9 +4,9 @@
    40 model_uvs%=
    50 texture_width%= : texture_height%=
    60 camf=32767.0/256.0
-   70 camx=2.25*camf
-   72 camy=1.5*camf
-   74 camz=-8.0*camf
+   70 camx=0.0*camf
+   72 camy=0.*camf
+   74 camz=-4.0*camf
    80 pi2=PI*2.0: camanglef=32767.0/pi2
    90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
@@ -17,7 +17,7 @@
   130 inc=0.122718463
   140 incx=inc*0.0
   142 incy=inc*0.0
-  144 incz=inc*0.0
+  144 incz=inc*0.5
   150 scene_width%=320: scene_height%=240
   160 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   170 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
