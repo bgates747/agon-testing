@@ -74,12 +74,10 @@ def make_texture_rgba(uv_texture_png):
     uv_texture_rgba8 = uv_texture_png.replace('.png', '.rgba8')
     img = pil.open(uv_texture_png)
     img_size = img.size
-    # if not os.path.exists(uv_texture_rgba8):
     img_to_rgba8(img, uv_texture_rgba8)
     return img_size, uv_texture_rgba8
 
 def sanitize_uv(coord):
-    # coord = 1-coord
     coord = round(coord, 6)
     if coord < 0:
         coord = 0.0
@@ -98,13 +96,8 @@ def parse_obj_file(filepath):
                 continue
             if parts[0] == 'v':
                 vertices.append([round(float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
-                # vertices.append([round(-float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
-                # vertices.append([round(float(parts[1]), 6), round(-float(parts[2]), 6), round(float(parts[3]), 6)])
             elif parts[0] == 'vt':
                 texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
-                # texture_coords.append([sanitize_uv(float(parts[2])), sanitize_uv(float(parts[1]))])
-                # texture_coords.append([sanitize_uv(float(parts[2])), sanitize_uv(1.0-float(parts[1]))])
-                # texture_coords.append([sanitize_uv(1.0-float(parts[2])), sanitize_uv(float(parts[1]))])
             elif parts[0] == 'f':
                 face = []
                 tex_indices = []
@@ -127,75 +120,12 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
-        ['cubeaxes-y+z', 'Cube', 'blenderaxes.png'],
-        ['cubeaxes+z+y', 'Cube', 'blenderaxes.png'],
-
-        # ['thing1-x-y', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-x-z', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-x+y', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-x+z', 'Cube', 'cubeuv32x32.png'], # no
-
-        # ['thing1-y-x', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-y-z', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-y+x', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-y+z', 'Cube', 'cubeuv32x32.png'], # no
-
-        # ['thing1-z-x', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-z-y', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-z+x', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1-z+y', 'Cube', 'cubeuv32x32.png'], # no
-
-        # ['thing1+x-y', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1+x-z', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1+x+y', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1+x+z', 'Cube', 'cubeuv32x32.png'], # no
-        
-        # ['thing1+y-x', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1+y-z', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1+y+x', 'Cube', 'cubeuv32x32.png'], # no    
-        # ['thing1+y+z', 'Cube', 'cubeuv32x32.png'], # no
-
-        # ['thing1+z-x', 'Cube', 'cubeuv32x32.png'], # no 
-        # ['thing1+z-y', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1+z+x', 'Cube', 'cubeuv32x32.png'], # no
-        # ['thing1+z+y', 'Cube', 'cubeuv32x32.png'], # zaxis
-
-        # ['thing-y-x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-y-z', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-y+x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-y+z', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+y-x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+y-z', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+y+x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+y+z', 'Cube', 'cubeuv32x32.png'], #
-
-        # ['thing-z-x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-z-y', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-z+x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing-z+y', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+z-x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+z-y', 'Cube', 'cubeuv32x32.png'], # 
-        # ['thing+z+x', 'Cube', 'cubeuv32x32.png'], #
-        # ['thing+z+y', 'Cube', 'cubeuv32x32.png'], # starts front face. textures correct orientation, but top to bottom is inverted
-
-        # ['cube', 'Cube', 'colors64rgb.png'],
-        # ['cube1', 'Cube', 'cubeuv32x32.png'],
-        # ['earth', 'Sphere', 'earth160x80.png'],
-        # ['heavytank', 'HeavyTank', 'colors64rgb.png'],
-        # ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
-
-        # ['icosphere', 'Icosphere', 'earthico160x76.png'],
-        # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
-        # ['icosphere_py1', 'Icosphere', 'earthico160x76.png'],
-        # ['icosphere1', 'Icosphere', 'earthico160x76.png'],
-        # ['cylinder', 'Cylinder', 'cylnderuv.png'],
-        # ['cylinder1', 'Cylinder', 'cylnderuv.png'],
-        # ['cylinder2', 'Cylinder', 'cylnderuv.png'],
+        ['cube', 'Cube', 'cubeuv32x32.png']
     ]
 
     for thing in do_these_things:
         base_filename, mesh_name, uv_texture_png = thing
-        template_filepath = f'{tgt_dir}/template.bas'
+        template_filepath = f'{tgt_dir}/template1.bas'
         tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
         img_size, uv_texture_rgba8 = make_texture_rgba(f'{src_dir}/{uv_texture_png}')
         obj_filepath = f'{src_dir}/{base_filename}.obj'

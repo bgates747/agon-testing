@@ -3,24 +3,21 @@
    30 model_indices%=
    40 model_uvs%=
    50 texture_width%= : texture_height%=
-   60 df=32767.0/256.0 : REM displacement factor
-   70 camx=0.0*df
-   72 camy=0.0*df
-   74 camz=-10.0*df
-
-   52 REM THIS IS SILLY : 2PI=PI*2.0
-   54 rf=32767.0/360.0 : REM degrees normalized to 0-32767
-   90 cax=0.0*rf
-   
-  100 sco=1.0*256.0
-  110 rox=0.75
-  112 roy=0.0
-  114 roz=0.0
-  
+   60 camf=32767.0/256.0
+   70 camx=0.0*camf
+   72 camy=0.*camf
+   74 camz=-4.0*camf
+   80 pi2=PI*2.0: camanglef=32767.0/pi2
+   90 camanglex=0.0*camanglef
+  100 scale=1.0*256.0
+  110 rotatex=0.0
+  112 rotatey=0.0
+  114 rotatez=0.0
+  120 rfactor=32767.0/pi2
   130 inc=0.122718463
-  140 incx=0.0
-  142 incy=0.0
-  144 incz=inc*0.0
+  140 incx=inc*0.0
+  142 incy=inc*0.0
+  144 incz=inc*0.5
   150 scene_width%=320: scene_height%=240
   160 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   170 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
@@ -45,7 +42,7 @@
   360 PRINT "Setting camera translation distances"
   370 VDU 23,0, &A0, sid%; &49, 25, camx; camy; camz;
   380 PRINT "Set Camera X Rotation Angle"
-  390 VDU 23,0, &A0, sid%; &49, 18, cax;
+  390 VDU 23,0, &A0, sid%; &49, 18, camanglex;
   400 PRINT "Sending vertices using factor ";factor
   410 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
   420 FOR i%=0 TO total_coords%-1
@@ -93,7 +90,7 @@
   840 PRINT "Create 3D object"
   850 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
   860 PRINT "Scale object"
-  870 VDU 23, 0, &A0, sid%; &49, 9, oid%; sco; sco; sco; : REM Set Object XYZ scale Factors
+  870 VDU 23, 0, &A0, sid%; &49, 9, oid%; scale; scale; scale; : REM Set Object XYZ Scale Factors
   880 PRINT "Create target bitmap"
   890 VDU 23, 27, 0, bmid2% : REM Select output bitmap
   900 VDU 23, 27, 2, scene_width%; scene_height%; &0000; &00C0; : REM Create solid color bitmap
@@ -108,17 +105,17 @@
   990 CLS
  1000 ON ERROR GOTO 1150 : REM so that Escape key exits gracefully
  1005 PRINT "filename="
- 1010 PRINT "ro x=";rox
- 1020 PRINT "ro y=";roy
- 1030 PRINT "ro z=";roz
+ 1010 PRINT "rotate x=";rotatex
+ 1020 PRINT "rotate y=";rotatey
+ 1030 PRINT "rotate z=";rotatez
  1040 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
  1050 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
  1060 VDU 23, 0, &C3: REM Flip buffer
  1070 *FX 19 : REM wait for vblank
- 1080 rox=rox+incx: IF rox>=2PI THEN rox=rox-2PI
- 1090 roy=roy+incy: IF roy>=2PI THEN roy=roy-2PI
- 1100 roz=roz+incz: IF roz>=2PI THEN roz=roz-2PI
- 1110 rx=rox*rf: ry=roy*rf: rz=roz*rf
+ 1080 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
+ 1090 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
+ 1100 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
+ 1110 rx=rotatex*rfactor: ry=rotatey*rfactor: rz=rotatez*rfactor
  1120 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
  1130 GOTO 990
  1140 REM -- EXIT PROGRAM --
