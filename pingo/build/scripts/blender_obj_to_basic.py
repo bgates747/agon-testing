@@ -127,8 +127,8 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
-        ['cubeaxes-y+z', 'Cube', 'blenderaxes.png'],
-        ['cubeaxes+z+y', 'Cube', 'blenderaxes.png'],
+        ['cubeaxes-y+z', 'Cube', 'blenderaxes.png'], # blender convention
+        ['cubeaxes+z+y', 'Cube', 'blenderaxes.png'], # maya / (pingo?) convention
 
         # ['thing1-x-y', 'Cube', 'cubeuv32x32.png'], # no
         # ['thing1-x-z', 'Cube', 'cubeuv32x32.png'], # no
