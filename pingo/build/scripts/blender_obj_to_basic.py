@@ -123,6 +123,10 @@ if __name__ == '__main__':
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
         ['heavytank1', 'Cube', 'blenderaxes.png'],
+        ['heavytank1-z-y', 'Cube', 'blenderaxes.png'],
+        ['heavytank1-z+y', 'Cube', 'blenderaxes.png'],
+        ['heavytank1+z-y', 'Cube', 'blenderaxes.png'],
+        ['heavytank1+z+y', 'Cube', 'blenderaxes.png'],
 
         # ['arrows+y+z', 'Cube', 'blenderaxes.png'], # my convention (the sane one)
         # ['arrows-y+z', 'Cube', 'blenderaxes.png'], # blender convention
