@@ -128,6 +128,11 @@ if __name__ == '__main__':
         ['heavytank1+z-y', 'Cube', 'blenderaxes.png'],
         ['heavytank1+z+y', 'Cube', 'blenderaxes.png'],
 
+        ['heavytank1-z-x', 'Cube', 'blenderaxes.png'],
+        ['heavytank1-z+x', 'Cube', 'blenderaxes.png'],
+        ['heavytank1+z-x', 'Cube', 'blenderaxes.png'],
+        ['heavytank1+z+x', 'Cube', 'blenderaxes.png'],
+
         # ['arrows+y+z', 'Cube', 'blenderaxes.png'], # my convention (the sane one)
         # ['arrows-y+z', 'Cube', 'blenderaxes.png'], # blender convention
         # ['arrows-z+y', 'Cube', 'blenderaxes.png'], # possible pingo convention
