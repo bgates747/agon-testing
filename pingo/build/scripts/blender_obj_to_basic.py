@@ -42,9 +42,9 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
         line_number += 2
         for coord in texture_coords:
-            # Invert the axes of the UV coordinates and round to six decimal places
-            inverted_coord = (round(1 - coord[0], 6), round(1 - coord[1], 6))
-            file.write(f"{line_number} DATA {', '.join(map(str, inverted_coord))}\n")
+            # round the UV coordinates to six decimal places
+            uv_coord = (round(coord[0], 6), round(coord[1], 6))
+            file.write(f"{line_number} DATA {', '.join(map(str, uv_coord))}\n")
             line_number += 2
 
         # Write the texture vertex indices
@@ -124,8 +124,8 @@ if __name__ == '__main__':
     do_these_things = [
         # ['heavytank2-z-y', 'Cube', 'blenderaxes.png'],
         # ['heavytank2-z+y', 'Cube', 'blenderaxes.png'],
-        # ['heavytank2+z-y', 'Cube', 'blenderaxes.png'],
-        ['heavytank2+z+y', 'Cube', 'blenderaxes.png'],
+        ['heavytank2+z-y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank2+z+y', 'Cube', 'blenderaxes.png'],
 
         # ['heavytank2-y+z', 'Cube', 'blenderaxes.png'],
         # ['heavytank2+y-z', 'Cube', 'blenderaxes.png'],
