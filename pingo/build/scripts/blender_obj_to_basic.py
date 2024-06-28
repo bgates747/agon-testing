@@ -97,7 +97,7 @@ def parse_obj_file(filepath):
             if not parts:
                 continue
             if parts[0] == 'v':
-                vertices.append([round(float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
+                vertices.append([round(float(parts[1]), 6), round(-float(parts[2]), 6), round(float(parts[3]), 6)])
             elif parts[0] == 'vt':
                 texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
             elif parts[0] == 'f':
@@ -122,11 +122,11 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
-        ['arrowstv1', 'arrow', 'blenderaxes.png'],
+        # ['arrowstv1', 'arrow', 'blenderaxes.png'],
         # ['heavytank2-z-y', 'Cube', 'blenderaxes.png'],
         # ['heavytank2-z+y', 'Cube', 'blenderaxes.png'],
         # ['heavytank2+z-y', 'Cube', 'blenderaxes.png'],
-        # ['heavytank2+z+y', 'Cube', 'blenderaxes.png'],
+        ['heavytank2+z+y', 'Cube', 'blenderaxes.png'],
 
         # ['heavytank2-y+z', 'Cube', 'blenderaxes.png'],
         # ['heavytank2+y-z', 'Cube', 'blenderaxes.png'],
