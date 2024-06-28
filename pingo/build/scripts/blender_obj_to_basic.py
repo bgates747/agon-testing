@@ -122,15 +122,16 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
+        ['fighter+z+y', 'Aircraft', 'blenderaxes.png'], # maya convention / pingo convention
         # ['arrows+y+z', 'Cube', 'blenderaxes.png'], # my convention (the sane one)
         # ['arrows-y+z', 'Cube', 'blenderaxes.png'], # blender convention
         # ['arrows-z+y', 'Cube', 'blenderaxes.png'], # possible pingo convention
-        # ['arrows+z+y', 'Cube', 'blenderaxes.png'], # maya convention / possible pingo convention
+        # ['arrows+z+y', 'Cube', 'blenderaxes.png'], # maya convention / pingo convention
 
         ['cubeaxes2+y+z', 'Cube', 'blenderaxes.png'], # my convention (the sane one)
         ['cubeaxes2-y+z', 'Cube', 'blenderaxes.png'], # blender convention
         ['cubeaxes2-z+y', 'Cube', 'blenderaxes.png'], # possible pingo convention
-        ['cubeaxes2+z+y', 'Cube', 'blenderaxes.png'], # maya convention / possible pingo convention
+        ['cubeaxes2+z+y', 'Cube', 'blenderaxes.png'], # maya convention / pingo convention
 
         ['cubeaxes2+y-z', 'Cube', 'blenderaxes.png'], # 
         ['cubeaxes2-y-z', 'Cube', 'blenderaxes.png'], # 
