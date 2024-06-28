@@ -5,7 +5,7 @@
    50 texture_width%= : texture_height%=
    60 camf=32767.0/256.0
    70 camx=0.0*camf
-   72 camy=1.0*camf : REM 0.0*camf
+   72 camy=-0.5*camf : REM 0.0*camf
    74 camz=-4.0*camf
    80 pi2=PI*2.0
    85 camanglef=32767.0/360

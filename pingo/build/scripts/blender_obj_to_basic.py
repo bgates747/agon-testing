@@ -38,7 +38,7 @@ def write_bbc_basic_data(vertices, faces, texture_coords, texture_vertex_indices
             file.write(f"{line_number} DATA {', '.join(map(str, face))}\n")
             line_number += 2
 
-        # Write the texture UV coordinates with proper rounding and inversion
+        # Write the texture UV coordinates with rounding
         file.write(f"{line_number} REM -- TEXTURE UV COORDINATES --\n")
         line_number += 2
         for coord in texture_coords:
@@ -122,9 +122,10 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
+        ['arrowstv1', 'arrow', 'blenderaxes.png'],
         # ['heavytank2-z-y', 'Cube', 'blenderaxes.png'],
         # ['heavytank2-z+y', 'Cube', 'blenderaxes.png'],
-        ['heavytank2+z-y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank2+z-y', 'Cube', 'blenderaxes.png'],
         # ['heavytank2+z+y', 'Cube', 'blenderaxes.png'],
 
         # ['heavytank2-y+z', 'Cube', 'blenderaxes.png'],
