@@ -122,31 +122,43 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
-        ['heavytank1', 'Cube', 'blenderaxes.png'],
-        ['heavytank1-z-y', 'Cube', 'blenderaxes.png'],
-        ['heavytank1-z+y', 'Cube', 'blenderaxes.png'],
-        ['heavytank1+z-y', 'Cube', 'blenderaxes.png'],
-        ['heavytank1+z+y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1', 'Cube', 'blenderaxes.png'],
+        ['heavytank2-y+z', 'Cube', 'blenderaxes.png'],
+        ['heavytank2+y-z', 'Cube', 'blenderaxes.png'],
+        ['heavytank2-y-z', 'Cube', 'blenderaxes.png'],
+        ['heavytank2+y+z', 'Cube', 'blenderaxes.png'],
+        ['heavytank2-z+y', 'Cube', 'blenderaxes.png'],
 
-        ['heavytank1-z-x', 'Cube', 'blenderaxes.png'],
-        ['heavytank1-z+x', 'Cube', 'blenderaxes.png'],
-        ['heavytank1+z-x', 'Cube', 'blenderaxes.png'],
-        ['heavytank1+z+x', 'Cube', 'blenderaxes.png'],
+        # ['heavytank2-z-x', 'Cube', 'blenderaxes.png'],
+        # ['heavytank2-z+x', 'Cube', 'blenderaxes.png'],
+        # ['heavytank2+z-x', 'Cube', 'blenderaxes.png'],
+        # ['heavytank2+z+x', 'Cube', 'blenderaxes.png'],
+
+        # ['heavytank1', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1-z-y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1-z+y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1+z-y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1+z+y', 'Cube', 'blenderaxes.png'],
+
+        # ['heavytank1-z-x', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1-z+x', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1+z-x', 'Cube', 'blenderaxes.png'],
+        # ['heavytank1+z+x', 'Cube', 'blenderaxes.png'],
 
         # ['arrows+y+z', 'Cube', 'blenderaxes.png'], # my convention (the sane one)
         # ['arrows-y+z', 'Cube', 'blenderaxes.png'], # blender convention
         # ['arrows-z+y', 'Cube', 'blenderaxes.png'], # possible pingo convention
         # ['arrows+z+y', 'Cube', 'blenderaxes.png'], # maya convention / pingo convention
 
-        ['cubeaxes2+y+z', 'Cube', 'blenderaxes.png'], # my convention (the sane one)
-        ['cubeaxes2-y+z', 'Cube', 'blenderaxes.png'], # blender convention
-        ['cubeaxes2-z+y', 'Cube', 'blenderaxes.png'], # possible pingo convention
-        ['cubeaxes2+z+y', 'Cube', 'blenderaxes.png'], # maya convention / pingo convention
+        # ['cubeaxes2+y+z', 'Cube', 'blenderaxes.png'], # my convention (the sane one)
+        # ['cubeaxes2-y+z', 'Cube', 'blenderaxes.png'], # blender convention
+        # ['cubeaxes2-z+y', 'Cube', 'blenderaxes.png'], # possible pingo convention
+        # ['cubeaxes2+z+y', 'Cube', 'blenderaxes.png'], # maya convention / pingo convention
 
-        ['cubeaxes2+y-z', 'Cube', 'blenderaxes.png'], # 
-        ['cubeaxes2-y-z', 'Cube', 'blenderaxes.png'], # 
-        ['cubeaxes2-z-y', 'Cube', 'blenderaxes.png'], # 
-        ['cubeaxes2+z-y', 'Cube', 'blenderaxes.png'], # 
+        # ['cubeaxes2+y-z', 'Cube', 'blenderaxes.png'], # 
+        # ['cubeaxes2-y-z', 'Cube', 'blenderaxes.png'], # 
+        # ['cubeaxes2-z-y', 'Cube', 'blenderaxes.png'], # 
+        # ['cubeaxes2+z-y', 'Cube', 'blenderaxes.png'], # 
 
         # ['thing1-x-y', 'Cube', 'cubeuv32x32.png'], # no
         # ['thing1-x-z', 'Cube', 'cubeuv32x32.png'], # no
