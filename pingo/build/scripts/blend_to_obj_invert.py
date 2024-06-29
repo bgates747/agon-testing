@@ -1,5 +1,4 @@
 import bpy # type: ignore
-import bmesh # type: ignore
 import os
 
 def ensure_mesh_data(obj):
@@ -7,186 +6,120 @@ def ensure_mesh_data(obj):
         raise ValueError("Object is not a mesh.")
     return obj
 
-def create_bmesh(obj):
-    bm = bmesh.new()
-    bm.from_mesh(obj.data)
-    return bm
+def duplicate_object_to_new_collection(obj, collection_name):
+    # Create a new collection
+    new_collection = bpy.data.collections.new(collection_name)
+    bpy.context.scene.collection.children.link(new_collection)
 
-def duplicate_object(obj):
+    # Duplicate the object and link it to the new collection
     new_obj = obj.copy()
     new_obj.data = obj.data.copy()
-    bpy.context.collection.objects.link(new_obj)
+    new_collection.objects.link(new_obj)
     return new_obj
 
-def triangulate_faces(bm):
-    non_triangle_faces = [f for f in bm.faces if len(f.verts) > 3]
-    bmesh.ops.triangulate(bm, faces=non_triangle_faces)
-    return bm
-
-def apply_mirror(bm, mirror_axis):
-    if mirror_axis in {'X', 'Y', 'Z'}:
-        axis_index = 'XYZ'.index(mirror_axis)
-        mirror_matrix = [-1 if i == axis_index else 1 for i in range(3)]
-        bmesh.ops.scale(bm, vec=mirror_matrix, verts=bm.verts)
-    return bm
-
-def mirror_uvs(bm, mirror_axis):
-    uv_layer = bm.loops.layers.uv.active
-    if uv_layer:
-        for face in bm.faces:
-            for loop in face.loops:
-                uv = loop[uv_layer].uv
-                if mirror_axis == 'X':
-                    uv.x = 1.0 - uv.x
-                elif mirror_axis in {'Y', 'Z'}:
-                    uv.y = 1.0 - uv.y
-    return bm
-
-def apply_axis_transformation(bm, axis_forward, axis_up):
-    # Default Blender orientation is +Y forward, +Z up
-    if axis_forward == '+Y' and axis_up == '+Z':
-        return bm  # No transformation needed, already in target orientation
-
-    rotation_matrix = None
-
-    if axis_forward == '+Z' and axis_up == '+Y':
-        rotation_matrix = [
-            (0, 0, 1),
-            (0, 1, 0),
-            (-1, 0, 0)
-        ]
-    elif axis_forward == '+X' and axis_up == '+Y':
-        rotation_matrix = [
-            (0, 1, 0),
-            (0, 0, -1),
-            (-1, 0, 0)
-        ]
-    elif axis_forward == '-X' and axis_up == '+Y':
-        rotation_matrix = [
-            (0, 1, 0),
-            (0, 0, 1),
-            (1, 0, 0)
-        ]
-    elif axis_forward == '-Y' and axis_up == '+Z':
-        rotation_matrix = [
-            (-1, 0, 0),
-            (0, 0, 1),
-            (0, 1, 0)
-        ]
-    elif axis_forward == '+Y' and axis_up == '-Z':
-        rotation_matrix = [
-            (-1, 0, 0),
-            (0, 0, -1),
-            (0, 1, 0)
-        ]
-    elif axis_forward == '+Z' and axis_up == '-Y':
-        rotation_matrix = [
-            (1, 0, 0),
-            (0, 0, -1),
-            (0, -1, 0)
-        ]
-    else:
-        raise ValueError("Unsupported axis configuration")
-
-    for v in bm.verts:
-        co = v.co.copy()
-        v.co.x = co.x * rotation_matrix[0][0] + co.y * rotation_matrix[1][0] + co.z * rotation_matrix[2][0]
-        v.co.y = co.x * rotation_matrix[0][1] + co.y * rotation_matrix[1][1] + co.z * rotation_matrix[2][1]
-        v.co.z = co.x * rotation_matrix[0][2] + co.y * rotation_matrix[1][2] + co.z * rotation_matrix[2][2]
-
-    return bm
-
-def invert_normals(bm):
-    bmesh.ops.reverse_faces(bm, faces=bm.faces)
-    return bm
+def apply_transformations(obj, rotation, mirror_axis):
+    # Apply rotation
+    obj.rotation_euler = rotation
+    
+    # Apply mirroring
+    if mirror_axis == 'X':
+        obj.scale.x *= -1
+    elif mirror_axis == 'Y':
+        obj.scale.y *= -1
+    elif mirror_axis == 'Z':
+        obj.scale.z *= -1
+    
+    # Apply all transformations
+    bpy.context.view_layer.objects.active = obj
+    bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 
 def format_num(num):
     return f"{0 if abs(num) < 1e-6 else num:.6f}"
 
-def write_obj_file(bm, base_filename, obj_filepath, uv_layer):
-    with open(obj_filepath, 'w') as obj_file:
-        # Write header information
-        obj_file.write(f"mtllib {base_filename}.mtl\n")
-        obj_file.write(f"o {base_filename}\n")
-        # Write vertices
-        for v in bm.verts:
-            x, y, z = map(format_num, [v.co.x, v.co.y, v.co.z])
-            obj_file.write(f"v {x} {y} {z}\n")
-
-        # Collect unique UVs and their indices
-        unique_uvs = []
-        uv_indices = {}
-        if uv_layer:
-            for face in bm.faces:
-                for loop in face.loops:
-                    uv = loop[uv_layer].uv
-                    uv_key = (format_num(uv.x), format_num(uv.y))
-                    if uv_key not in uv_indices:
-                        uv_indices[uv_key] = len(unique_uvs) + 1
-                        unique_uvs.append(uv_key)
-        
+def export_obj(obj, base_filename, obj_filepath, mtl_filepath=None, texture_filepath=None):
+    def format_num(num):
+        return f"{0 if abs(num) < 1e-6 else num:.6f}"
+    
+    def write_obj_file(obj, base_filename, obj_filepath):
+        with open(obj_filepath, 'w') as obj_file:
+            # Write header information
+            obj_file.write(f"mtllib {base_filename}.mtl\n")
+            obj_file.write(f"o {obj.name}\n")
+            
+            # Write vertices
+            for v in obj.data.vertices:
+                x, y, z = map(format_num, v.co)
+                obj_file.write(f"v {x} {y} {z}\n")
+            
             # Write unique UVs
-            for uv in unique_uvs:
-                obj_file.write(f"vt {uv[0]} {uv[1]}\n")
-
-        # Add shading and material information
-        obj_file.write("s 0\n")
-        obj_file.write("usemtl Material\n")
-
-        # Write faces
-        for face in bm.faces:
-            face_verts = []
-            for loop in face.loops:
-                vert_index = loop.vert.index + 1
-                uv_key = (format_num(loop[uv_layer].uv.x), format_num(loop[uv_layer].uv.y)) if uv_layer else ""
-                uv_index = uv_indices[uv_key] if uv_layer else ""
-                face_verts.append(f"{vert_index}/{uv_index}" if uv_layer else f"{vert_index}")
-            obj_file.write("f " + " ".join(face_verts) + "\n")
-
-def write_mtl_file(mtl_filepath, texture_filepath):
-    with open(mtl_filepath, 'w') as mtl_file:
-        mtl_file.write("newmtl Material\n")
-        mtl_file.write("Ns 250.000000\n")
-        mtl_file.write("Ka 1.000000 1.000000 1.000000\n")
-        mtl_file.write("Ks 0.500000 0.500000 0.500000\n")
-        mtl_file.write("Ke 0.000000 0.000000 0.000000\n")
-        mtl_file.write("Ni 1.450000\n")
-        mtl_file.write("d 1.000000\n")
-        mtl_file.write("illum 2\n")
-        if texture_filepath:
-            mtl_file.write(f"map_Kd {os.path.basename(texture_filepath)}\n")
-
-def transform_and_export(base_filename, obj, obj_filepath, mtl_filepath=None, texture_filepath=None, mirror_axis='Z', axis_forward='+Z', axis_up='+Y'):
-    obj = ensure_mesh_data(obj)
-    obj_copy = duplicate_object(obj)
-    bm = create_bmesh(obj_copy)
-    bm = triangulate_faces(bm)
-    bm = apply_axis_transformation(bm, axis_forward, axis_up)
-    # bm = apply_mirror(bm, mirror_axis)
-    # bm = invert_normals(bm)
-    # bm = mirror_uvs(bm, mirror_axis)
-
-    # Write the updated mesh data back to the copied object
-    bm.to_mesh(obj_copy.data)
-
-    # Write out the OBJ file
-    write_obj_file(bm, base_filename, obj_filepath, bm.loops.layers.uv.active)
-
-    # Optionally write out the MTL file
+            uv_layer = obj.data.uv_layers.active.data if obj.data.uv_layers.active else None
+            if uv_layer:
+                unique_uvs = {}
+                uv_indices = []
+                for face in obj.data.polygons:
+                    for loop_index in face.loop_indices:
+                        uv = uv_layer[loop_index].uv
+                        uv_key = (format_num(uv.x), format_num(uv.y))
+                        if uv_key not in unique_uvs:
+                            unique_uvs[uv_key] = len(unique_uvs) + 1
+                        uv_indices.append(unique_uvs[uv_key])
+                
+                for uv in unique_uvs:
+                    obj_file.write(f"vt {uv[0]} {uv[1]}\n")
+            
+            # Add shading and material information
+            obj_file.write("s 0\n")
+            obj_file.write("usemtl Material\n")
+            
+            # Write faces
+            for face in obj.data.polygons:
+                face_verts = []
+                for loop_index in face.loop_indices:
+                    vert_index = obj.data.loops[loop_index].vertex_index + 1
+                    uv_index = uv_indices[loop_index] if uv_layer else ""
+                    face_verts.append(f"{vert_index}/{uv_index}" if uv_layer else f"{vert_index}")
+                obj_file.write("f " + " ".join(face_verts) + "\n")
+    
+    def write_mtl_file(mtl_filepath, texture_filepath):
+        with open(mtl_filepath, 'w') as mtl_file:
+            mtl_file.write("newmtl Material\n")
+            mtl_file.write("Ns 250.000000\n")
+            mtl_file.write("Ka 1.000000 1.000000 1.000000\n")
+            mtl_file.write("Ks 0.500000 0.500000 0.500000\n")
+            mtl_file.write("Ke 0.000000 0.000000 0.000000\n")
+            mtl_file.write("Ni 1.450000\n")
+            mtl_file.write("d 1.000000\n")
+            mtl_file.write("illum 2\n")
+            if texture_filepath:
+                mtl_file.write(f"map_Kd {os.path.basename(texture_filepath)}\n")
+    
+    # Write OBJ file
+    write_obj_file(obj, base_filename, obj_filepath)
+    
+    # Optionally write MTL file
     if mtl_filepath:
         write_mtl_file(mtl_filepath, texture_filepath)
-
-    bm.free()
+    
     print(f"Object exported to '{obj_filepath}' successfully.")
     if mtl_filepath:
         print(f"Material file exported to '{mtl_filepath}'.")
 
-    # Delete the copied object to clean up
-    bpy.data.objects.remove(obj_copy)
-
 if __name__ == "__main__":
     if bpy.context.active_object and bpy.context.active_object.type == 'MESH':
         original_obj = bpy.context.active_object
+        
+        # Ensure we have mesh data
+        original_obj = ensure_mesh_data(original_obj)
+        
+        # Duplicate the object into a new collection
+        new_obj = duplicate_object_to_new_collection(original_obj, "TransformedObjects")
+
+        # Define the desired transformations
+        rotation = (0, 0, 0)  # No rotation needed in this specific case
+        mirror_axis = 'Y'  # Mirroring along the Y axis
+
+        # Apply the transformations
+        apply_transformations(new_obj, rotation, mirror_axis)
         
         # Get the directory containing the current Blender file
         blend_dir = os.path.dirname(bpy.data.filepath)
@@ -198,7 +131,7 @@ if __name__ == "__main__":
         texture_filepath = os.path.join(blend_dir, "blenderaxes.png")  # Optional texture file
 
         # Export the object to OBJ format with transformations
-        transform_and_export(base_filename, original_obj, obj_filepath, mtl_filepath, texture_filepath, mirror_axis='Y', axis_forward='+Z', axis_up='+Y')
+        export_obj(new_obj, base_filename, obj_filepath, mtl_filepath, texture_filepath)
 
     else:
         print("Please select a mesh object.")
