@@ -1,5 +1,5 @@
-import bpy
-import bmesh
+import bpy # type: ignore
+import bmesh # type: ignore
 import os
 
 def ensure_mesh_data(obj):
@@ -157,8 +157,6 @@ def transform_and_export(base_filename, obj, obj_filepath, mtl_filepath=None, te
     obj_copy = duplicate_object(obj)
     bm = create_bmesh(obj_copy)
     bm = triangulate_faces(bm)
-    # bm = apply_mirror(bm, mirror_axis)
-    # bm = mirror_uvs(bm, mirror_axis)
     bm = apply_axis_transformation(bm, axis_forward, axis_up)
     bm = apply_mirror(bm, mirror_axis)
     bm = mirror_uvs(bm, mirror_axis)
@@ -189,10 +187,10 @@ if __name__ == "__main__":
         blend_dir = os.path.dirname(bpy.data.filepath)
         
         # Define the output paths relative to the blend file directory
-        base_filename = "sliced1inv"
+        base_filename = "cube_inv"
         obj_filepath = os.path.join(blend_dir, f"{base_filename}.obj")
         mtl_filepath = os.path.join(blend_dir, f"{base_filename}.mtl")  # Optional
-        texture_filepath = os.path.join(blend_dir, "2x2.png")  # Optional texture file
+        texture_filepath = os.path.join(blend_dir, "blenderaxes.png")  # Optional texture file
 
         # Export the object to OBJ format with transformations
         transform_and_export(base_filename, original_obj, obj_filepath, mtl_filepath, texture_filepath, mirror_axis='Y', axis_forward='+Z', axis_up='+Y')
