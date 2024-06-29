@@ -96,6 +96,10 @@ def apply_axis_transformation(bm, axis_forward, axis_up):
 
     return bm
 
+def invert_normals(bm):
+    bmesh.ops.reverse_faces(bm, faces=bm.faces)
+    return bm
+
 def format_num(num):
     return f"{0 if abs(num) < 1e-6 else num:.6f}"
 
@@ -160,6 +164,7 @@ def transform_and_export(base_filename, obj, obj_filepath, mtl_filepath=None, te
     bm = apply_axis_transformation(bm, axis_forward, axis_up)
     bm = apply_mirror(bm, mirror_axis)
     bm = mirror_uvs(bm, mirror_axis)
+    bm = invert_normals(bm)
 
     # Write the updated mesh data back to the copied object
     bm.to_mesh(obj_copy.data)
