@@ -124,7 +124,7 @@ if __name__ == '__main__':
     do_these_things = [
         # ['sliced1inv', 'Cube', '2x2.png'],
         ['cube', 'Cube', 'blenderaxes.png'],
-        ['cube_inv', 'cube_inv', 'blenderaxes.png'],
+        # ['cube_inv', 'cube_inv', 'blenderaxes.png'],
 
         # ['heavytank3inv', 'Cube', 'blenderaxes.png'],
         # ['cube', 'Cube', 'colors64rgb.png'],

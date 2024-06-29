@@ -162,9 +162,9 @@ def transform_and_export(base_filename, obj, obj_filepath, mtl_filepath=None, te
     bm = create_bmesh(obj_copy)
     bm = triangulate_faces(bm)
     bm = apply_axis_transformation(bm, axis_forward, axis_up)
-    bm = apply_mirror(bm, mirror_axis)
-    bm = mirror_uvs(bm, mirror_axis)
-    bm = invert_normals(bm)
+    # bm = apply_mirror(bm, mirror_axis)
+    # bm = invert_normals(bm)
+    # bm = mirror_uvs(bm, mirror_axis)
 
     # Write the updated mesh data back to the copied object
     bm.to_mesh(obj_copy.data)
