@@ -134,7 +134,9 @@ if __name__ == '__main__':
         # ['heavytank4+z+yinv', 'Cube', 'blenderaxes.png'],
         # ['heavytank4+y+zinv', 'Cube', 'blenderaxes.png'],
 
-        ['heavytank5', 'Cube', 'blenderaxes.png'],
+        # ['heavytank5', 'Cube', 'blenderaxes.png'],
+
+        ['lara', 'M000', 'Lara.png'],
 
         # ['heavytank3inv', 'Cube', 'blenderaxes.png'],
         # ['cube', 'Cube', 'colors64rgb.png'],
