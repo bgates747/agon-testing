@@ -1,7 +1,7 @@
    10 REM Sample app to illustrate Pingo 3D on Agon
    20 model_vertices%=4
-   30 model_indices%=9
-   40 model_uvs%=9
+   30 model_indices%=12
+   40 model_uvs%=10
    50 texture_width%=2 : texture_height%=2
    60 camf=32767.0/256.0
    70 camx=0.0*camf
@@ -11,7 +11,7 @@
    85 camanglef=32767.0/360
    90 camanglex=-10.0*camanglef
   100 scale=1.0*256.0
-  110 rotatex=0.0
+  110 rotatex=45.0*32767.0/360.0
   112 rotatey=0.0
   114 rotatez=0.0
   120 rfactor=32767.0/pi2
@@ -137,19 +137,22 @@
 2012 DATA 0, 2, 1
 2014 DATA 0, 3, 2
 2016 DATA 1, 3, 0
-2018 REM -- TEXTURE UV COORDINATES --
-2020 DATA 0.0, 0.5
-2022 DATA 0.5, 0.0
-2024 DATA 0.5, 0.5
-2026 DATA 1.0, 0.5
-2028 DATA 0.5, 1.0
-2030 DATA 0.5, 0.5
-2032 DATA 0.5, 0.0
-2034 DATA 1.0, 0.5
-2036 DATA 0.5, 0.5
-2038 REM -- TEXTURE VERTEX INDICES --
-2040 DATA 0, 1, 2
-2042 DATA 3, 4, 5
-2044 DATA 6, 7, 8
-2046 REM -- TEXTURE BITMAP --
-2048 DATA 255,0,0,255,0,0,255,255,255,255,0,255,0,255,0,255
+2018 DATA 3, 1, 2
+2020 REM -- TEXTURE UV COORDINATES --
+2022 DATA 0.0, 0.5
+2024 DATA 0.5, 0.0
+2026 DATA 0.5, 0.5
+2028 DATA 1.0, 0.5
+2030 DATA 0.5, 1.0
+2032 DATA 0.5, 0.5
+2034 DATA 0.5, 0.0
+2036 DATA 1.0, 0.5
+2038 DATA 0.5, 0.5
+2040 DATA 0.0, 0.5
+2042 REM -- TEXTURE VERTEX INDICES --
+2044 DATA 0, 1, 2
+2046 DATA 3, 4, 5
+2048 DATA 6, 7, 8
+2050 DATA 4, 9, 5
+2052 REM -- TEXTURE BITMAP --
+2054 DATA 255,0,0,255,0,0,255,255,255,255,0,255,0,255,0,255
