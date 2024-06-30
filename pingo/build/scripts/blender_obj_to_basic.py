@@ -132,39 +132,10 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
-        # ['sliced1inv', 'Cube', '2x2.png'],
-        # ['cube', 'Cube', 'blenderaxes.png'],
-        # ['cube_inv', 'cube_inv', 'blenderaxes.png'],
-
-        # ['heavytank4-z+y', 'Cube', 'blenderaxes.png'],
-        # ['heavytank4+z+y', 'Cube', 'blenderaxes.png'],
-        # ['heavytank4+y+z', 'Cube', 'blenderaxes.png'],
-
-        # ['heavytank4-z+yinv', 'Cube', 'blenderaxes.png'],
-        # ['heavytank4+z+yinv', 'Cube', 'blenderaxes.png'],
-        # ['heavytank4+y+zinv', 'Cube', 'blenderaxes.png'],
-
-        # ['heavytank5', 'Cube', 'blenderaxes.png'],
-
-        # ['lara', 'M000', 'Lara.png'],
-        ['earthico', 'earthico', 'earthico160x76.png'],
-        ['earthico1', 'earthico1', 'earthico160x76.png'],
-        ['earthico2', 'earthico2', 'earthico160x76.png'],
-
-        # ['heavytank3inv', 'Cube', 'blenderaxes.png'],
-        # ['cube', 'Cube', 'colors64rgb.png'],
-        # ['cube1', 'Cube', 'cubeuv32x32.png'],
-        # ['earth', 'Icosphere', 'earthico160x76.png'],
-        # ['heavytank', 'HeavyTank', 'colors64rgb.png'],
-        # ['heavytank1', 'HeavyTank', 'colors64rgb.png'],
-
-        # ['icosphere', 'Icosphere', 'earthico160x76.png'],
-        # ['icosphere_py', 'Icosphere', 'earthico160x76.png'],
-        # ['icosphere_py1', 'Icosphere', 'earthico160x76.png'],
-        # ['icosphere1', 'Icosphere', 'earthico160x76.png'],
-        # ['cylinder', 'Cylinder', 'cylnderuv.png'],
-        # ['cylinder1', 'Cylinder', 'cylnderuv.png'],
-        # ['cylinder2', 'Cylinder', 'cylnderuv.png'],
+        ['cube', 'cube', '2x2.png'],
+        # ['earthico', 'earthico', 'earthico160x76.png'],
+        # ['earthico1', 'earthico1', 'earthico160x76.png'],
+        # ['earthico2', 'earthico2', 'earthico160x76.png'],
     ]
 
     for thing in do_these_things:
