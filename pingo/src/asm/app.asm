@@ -36,7 +36,8 @@ init:
     call vdu_set_scaling
     ld hl,str_hello_world
     call printString
-    call cube_init
+    call sliced_init
+
     ret
 
 ;   210 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102

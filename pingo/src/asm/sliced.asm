@@ -36,4 +36,8 @@ sliced_uv_indices:
 	dw 6, 7, 8
 	dw 4, 9, 5
 
-	ld a, 0x20
+; -- TEXTURE BITMAP --
+sliced_texture_width: equ 2
+sliced_texture_height: equ 2
+sliced_texture:
+	db 255,0,0,255,0,0,255,255,255,255,0,255,0,255,0,255

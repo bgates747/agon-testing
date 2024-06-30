@@ -1,4 +1,7 @@
-def write_data(base_filename, vertices, faces, texture_coords, texture_vertex_indices, tgt_filepath):
+from agonImages import img_to_rgba8
+from PIL import Image as pil
+
+def write_data(base_filename, vertices, faces, texture_coords, texture_vertex_indices, tgt_filepath, uv_texture_rgba8, img_size):
     # Write header data to the target file
     with open(tgt_filepath, 'w') as file:
         file.write(f'{base_filename}_vertices_n: equ {len(vertices)}\n')
@@ -30,6 +33,31 @@ def write_data(base_filename, vertices, faces, texture_coords, texture_vertex_in
         file.write(f'{base_filename}_uv_indices:\n')
         for item in texture_vertex_indices:
             file.write(f'\tdw {", ".join(map(str, item))}\n')
+
+        # Write the texture data
+        file.write(f"\n; -- TEXTURE BITMAP --\n")
+        with open(uv_texture_rgba8, 'rb') as img_file:
+            img_data = img_file.read()
+            img_width, img_height = img_size
+            filesize = len(img_data)
+            linesize = 16
+            file.write(f'{base_filename}_texture_width: equ {img_width}\n')
+            file.write(f'{base_filename}_texture_height: equ {img_height}\n')
+            file.write(f'{base_filename}_texture:\n')
+            for i, byte in enumerate(img_data):
+                if i % linesize == 0:
+                    file.write(f'\tdb ')
+                if (i + 1) % linesize == 0 or i == filesize - 1:
+                    file.write(f'{byte}\n')
+                else:
+                    file.write(f'{byte},')
+                    
+def make_texture_rgba(uv_texture_png):
+    uv_texture_rgba8 = uv_texture_png.replace('.png', '.rgba8')
+    img = pil.open(uv_texture_png)
+    img_size = img.size
+    img_to_rgba8(img, uv_texture_rgba8)
+    return img_size, uv_texture_rgba8
 
 def sanitize_uv(coord):
     coord = round(coord, 6)
@@ -94,12 +122,14 @@ if __name__ == '__main__':
         base_filename, mesh_name, uv_texture_png = thing
         tgt_filepath = f'{tgt_dir}/{base_filename}.asm'
         obj_filepath = f'{src_dir}/{base_filename}.obj'
+
+        img_size, uv_texture_rgba8 = make_texture_rgba(f'{src_dir}/{uv_texture_png}')
         
         # Export the .obj file manually from Blender GUI
 
         # Parse the .obj file
         vertices, faces, texture_coords, texture_vertex_indices = parse_obj_file(obj_filepath)
 
-        write_data(base_filename, vertices, faces, texture_coords, texture_vertex_indices, tgt_filepath)
+        write_data(base_filename, vertices, faces, texture_coords, texture_vertex_indices, tgt_filepath, uv_texture_rgba8, img_size)
 
         print(f'Modified  code has been written to {tgt_filepath}')
