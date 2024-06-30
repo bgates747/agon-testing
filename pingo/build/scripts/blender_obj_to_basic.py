@@ -74,14 +74,20 @@ def make_texture_rgba(uv_texture_png):
     uv_texture_rgba8 = uv_texture_png.replace('.png', '.rgba8')
     img = pil.open(uv_texture_png)
     img_size = img.size
-    # if not os.path.exists(uv_texture_rgba8):
     img_to_rgba8(img, uv_texture_rgba8)
     return img_size, uv_texture_rgba8
 
 def sanitize_uv(coord):
-    # coord = 1-coord
     coord = round(coord, 6)
-    if coord < 0:
+    if abs(coord) < 1e-6:
+        coord = 0.0
+    elif coord < 0:
+        coord = 0.0
+    return coord
+
+def sanitize_coord(coord):
+    coord = round(coord, 6)
+    if abs(coord) < 1e-6:
         coord = 0.0
     return coord
 
@@ -97,7 +103,7 @@ def parse_obj_file(filepath):
             if not parts:
                 continue
             if parts[0] == 'v':
-                vertices.append([round(float(parts[1]), 6), round(float(parts[2]), 6), round(float(parts[3]), 6)])
+                vertices.append([sanitize_coord(float(parts[1])), sanitize_coord(float(parts[2])), sanitize_coord(float(parts[3]))])
             elif parts[0] == 'vt':
                 texture_coords.append([sanitize_uv(float(parts[1])), sanitize_uv(float(parts[2]))])
             elif parts[0] == 'f':
@@ -113,6 +119,10 @@ def parse_obj_file(filepath):
                     texture_vertex_indices.append(tex_indices)
 
     return vertices, faces, texture_coords, texture_vertex_indices
+
+# Example usage
+# vertices, faces, texture_coords, texture_vertex_indices = parse_obj_file('path/to/your/file.obj')
+
 
 if __name__ == '__main__':
     src_dir = 'pingo/src/blender'
@@ -137,8 +147,8 @@ if __name__ == '__main__':
         # ['heavytank5', 'Cube', 'blenderaxes.png'],
 
         # ['lara', 'M000', 'Lara.png'],
-        # ['earthico', 'earthico', 'earthico160x76.png'],
-        # ['earthico1', 'earthico1', 'earthico160x76.png'],
+        ['earthico', 'earthico', 'earthico160x76.png'],
+        ['earthico1', 'earthico1', 'earthico160x76.png'],
         ['earthico2', 'earthico2', 'earthico160x76.png'],
 
         # ['heavytank3inv', 'Cube', 'blenderaxes.png'],
