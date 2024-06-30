@@ -36,7 +36,7 @@ init:
     call vdu_set_scaling
     ld hl,str_hello_world
     call printString
-    call sliced_init
+    call model_init
 
     ret
 
@@ -48,8 +48,8 @@ bmid1: equ 101
 bmid2: equ 102
 
 ;   230 scene_width%=320: scene_height%=240
-scene_width: equ 96
-scene_height: equ 96
+scene_width: equ 320
+scene_height: equ 240
 
 ;   250 f=32767.0/256.0
 ;   260 distx=0*f: disty=0*f: distz=-25*f
@@ -141,10 +141,11 @@ ctb2:
     call multiPurposeDelay
     ret
 
-sliced_init:
-model_vertices: equ 8
-model_indexes: equ 36
-obj_scale: equ 1*256
+model_init:
+model_vertices: equ 4
+model_indexes: equ 12
+model_uvs: equ 10
+obj_scale: equ 256
 
 ;   310 PRINT "Sending vertices using factor ";factor
     ld hl,str_send_vertices
@@ -160,14 +161,10 @@ sv:
     dw sid
     db $49,1
     dw mid, model_vertices
-    dw 32767, -32767, 32767
-    dw 32767, 32767, 32767
-    dw 32767, -32767, -32767
-    dw 32767, 32767, -32767
-    dw -32767, -32767, 32767
-    dw -32767, 32767, 32767
-    dw -32767, -32767, -32767
-    dw -32767, 32767, -32767
+	dw 0, 0, 0
+	dw 0, -32767, 0
+	dw 0, 0, -32767
+	dw 32767, 0, 0
 @end:
 
 ;   390 PRINT "Reading and sending vertex indexes"
@@ -184,18 +181,10 @@ smvi:
     dw sid
     db $49,2
     dw mid, model_indexes
-    dw 4, 2, 0
-    dw 2, 7, 3
-    dw 6, 5, 7
-    dw 1, 7, 5
-    dw 0, 3, 1
-    dw 4, 1, 5
-    dw 4, 6, 2
-    dw 2, 6, 7
-    dw 6, 4, 5
-    dw 1, 3, 7
-    dw 0, 2, 3
-    dw 4, 0, 1
+	dw 0, 2, 1
+	dw 0, 3, 2
+	dw 1, 3, 0
+	dw 3, 1, 2
 @end:
 
 ;   470 PRINT "Sending texture coordinate indexes"
@@ -211,10 +200,17 @@ stc:
     db 23,0,$A0
     dw sid
     db $49,3
-    dw mid
-    dw 1
-    dw 32767
-    dw 32767
+    dw mid, model_uvs
+	dw 0, 32668
+	dw 32668, 0
+	dw 32668, 32668
+	dw 65335, 32668
+	dw 32668, 65335
+	dw 32668, 32668
+	dw 32668, 0
+	dw 65335, 32668
+	dw 32668, 32668
+	dw 0, 32668
 @end:
 
     ld hl,str_set_tex_coord_idxs
@@ -229,10 +225,10 @@ stci:
     dw sid
     db $49,4
     dw mid, model_indexes
-;   500 FOR i%=0 TO model_indexes%-1
-;   510   VDU 0;
-;   520 NEXT i%
-    blkw model_indexes, 0
+	dw 0, 1, 2
+	dw 3, 4, 5
+	dw 6, 7, 8
+	dw 4, 9, 5
 @end:
 
 ;   530 PRINT "Creating texture bitmap"
@@ -260,8 +256,9 @@ stp:
 @beg:
 ;   560 VDU 23, 27, 1, 1; 1; &55, &AA, &FF, &C0 : REM Set a pixel in the bitmap
     db 23,27,1
-    dw 1,1
-    db $55,$AA,$FF,$C0
+@texture_width: dw 2
+@texture_height: dw 2
+	db 255,0,0,255,0,0,255,255,255,255,0,255,0,255,0,255
 @end:
 
 ;   570 PRINT "Create 3D object"
