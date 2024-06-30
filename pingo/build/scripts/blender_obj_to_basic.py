@@ -136,7 +136,8 @@ if __name__ == '__main__':
 
         # ['heavytank5', 'Cube', 'blenderaxes.png'],
 
-        ['lara', 'M000', 'Lara.png'],
+        # ['lara', 'M000', 'Lara.png'],
+        ['earthico', 'earthico', 'earthico160x76.png'],
 
         # ['heavytank3inv', 'Cube', 'blenderaxes.png'],
         # ['cube', 'Cube', 'colors64rgb.png'],
