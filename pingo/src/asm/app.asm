@@ -45,10 +45,6 @@ mid: equ 1
 oid: equ 1
 bmid1: equ 101
 bmid2: equ 102
-model_vertices: equ 8
-model_indexes: equ 36
-
-obj_scale: equ 1*256
 
 ;   230 scene_width%=320: scene_height%=240
 scene_width: equ 96
@@ -58,14 +54,14 @@ scene_height: equ 96
 ;   260 distx=0*f: disty=0*f: distz=-25*f
 cam_f: equ 128 ; 32767/256
 cam_distx: equ 0*cam_f
-cam_disty: equ 2*cam_f
-cam_distz: equ -25*cam_f
+cam_disty: equ 0*cam_f
+cam_distz: equ -4*cam_f
 
 ;   280 pi2=PI*2.0: f=32767.0/pi2
 ;   290 anglex=0.0*f
 cam_anglex: equ 0
 
-cube_init:
+scene_init:
 
 ;   220 PRINT "Creating control structure"
     ld hl,str_create_control
@@ -117,6 +113,37 @@ scxr:
     db $49,18
     dw cam_anglex
 @end:
+
+;   620 PRINT "Create target bitmap"
+    ld hl,str_create_target_bitmap
+    call printString
+ctb2:
+    ld hl,@beg
+    ld bc,@end-@beg
+    rst.lil $18
+    jp @end
+@beg:
+;   630 VDU 23, 27, 0, bmid2% : REM Select output bitmap
+    db 23,27,0
+    dw bmid2
+;   640 VDU 23, 27, 2, scene_width%; scene_height%; &0000; &00C0; : REM Create solid color bitmap
+    db 23,27,2
+    dw scene_width
+    dw scene_height
+    dw $0000
+    dw $00C0
+@end:
+
+    ld hl,str_init_cmplt
+    call printString
+    ld a,%01000000
+    call multiPurposeDelay
+    ret
+
+sliced_init:
+model_vertices: equ 8
+model_indexes: equ 36
+obj_scale: equ 1*256
 
 ;   310 PRINT "Sending vertices using factor ";factor
     ld hl,str_send_vertices
@@ -273,32 +300,6 @@ so:
     dw obj_scale
     dw obj_scale
 @end:
-
-;   620 PRINT "Create target bitmap"
-    ld hl,str_create_target_bitmap
-    call printString
-ctb2:
-    ld hl,@beg
-    ld bc,@end-@beg
-    rst.lil $18
-    jp @end
-@beg:
-;   630 VDU 23, 27, 0, bmid2% : REM Select output bitmap
-    db 23,27,0
-    dw bmid2
-;   640 VDU 23, 27, 2, scene_width%; scene_height%; &0000; &00C0; : REM Create solid color bitmap
-    db 23,27,2
-    dw scene_width
-    dw scene_height
-    dw $0000
-    dw $00C0
-@end:
-
-    ld hl,str_init_cmplt
-    call printString
-    ld a,%01000000
-    call multiPurposeDelay
-
     ret
 
 main:
