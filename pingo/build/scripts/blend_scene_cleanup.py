@@ -7,7 +7,7 @@ import math
 def full_scene_cleanup():
 # Loop over Blender's data collections and remove items
     for collection in [bpy.data.meshes, 
-        bpy.data.lights, 
+        bpy.data.lights, bpy.data.cameras,
         bpy.data.materials, bpy.data.textures, bpy.data.curves, 
         bpy.data.metaballs, bpy.data.armatures, bpy.data.grease_pencils, 
         bpy.data.lattices, bpy.data.libraries, bpy.data.lightprobes, 
@@ -36,7 +36,7 @@ bpy.context.scene.display.render_aa = 'OFF'
 bpy.context.scene.display.viewport_aa = 'OFF'
 
 # Create camera
-bpy.ops.object.camera_add(location=(0, 0, 0))
+bpy.ops.object.camera_add(location=(0, -4, 0))
 camera = bpy.context.object
 camera.data.type = 'PERSP'
 camera.data.sensor_width = 35  # Sensor width 35mm
