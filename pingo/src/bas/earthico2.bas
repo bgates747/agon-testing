@@ -34,7 +34,7 @@
   270   a=ABS(coord)
   280   IF a>max_abs THEN max_abs=a
   290 NEXT i%
-  300 factor=32767.0 :REM factor=32767.0/max_abs
+  300 factor=32767.0/max_abs
   310 PRINT "Max absolute value = ";max_abs
   320 PRINT "Factor = ";factor
   330 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
