@@ -126,13 +126,15 @@ if __name__ == '__main__':
         # ['cube', 'Cube', 'blenderaxes.png'],
         # ['cube_inv', 'cube_inv', 'blenderaxes.png'],
 
-        ['heavytank4-z+y', 'Cube', 'blenderaxes.png'],
-        ['heavytank4+z+y', 'Cube', 'blenderaxes.png'],
-        ['heavytank4+y+z', 'Cube', 'blenderaxes.png'],
+        # ['heavytank4-z+y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank4+z+y', 'Cube', 'blenderaxes.png'],
+        # ['heavytank4+y+z', 'Cube', 'blenderaxes.png'],
 
-        ['heavytank4-z+yinv', 'Cube', 'blenderaxes.png'],
-        ['heavytank4+z+yinv', 'Cube', 'blenderaxes.png'],
-        ['heavytank4+y+zinv', 'Cube', 'blenderaxes.png'],
+        # ['heavytank4-z+yinv', 'Cube', 'blenderaxes.png'],
+        # ['heavytank4+z+yinv', 'Cube', 'blenderaxes.png'],
+        # ['heavytank4+y+zinv', 'Cube', 'blenderaxes.png'],
+
+        ['heavytank5', 'Cube', 'blenderaxes.png'],
 
 
         # ['heavytank3inv', 'Cube', 'blenderaxes.png'],
