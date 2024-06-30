@@ -132,7 +132,8 @@ if __name__ == '__main__':
 
     # base_filename, mesh_name, uv_texture_png
     do_these_things = [
-        ['cube', 'cube', '2x2.png'],
+        # ['cube', 'cube', '2x2.png'],
+        ['sliced', 'sliced', '2x2.png'],
         # ['earthico', 'earthico', 'earthico160x76.png'],
         # ['earthico1', 'earthico1', 'earthico160x76.png'],
         # ['earthico2', 'earthico2', 'earthico160x76.png'],
