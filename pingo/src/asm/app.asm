@@ -17,10 +17,11 @@ start:
     push ix
     push iy
 
-    call init
     call main
 
 exit:
+    ld hl,str_program_end
+    call printString
 
     pop iy 
     pop ix
@@ -31,14 +32,11 @@ exit:
 
     ret 
 
-init:
+main:
     xor a
     call vdu_set_scaling
     ld hl,str_hello_world
     call printString
-    call model_init
-
-    ret
 
 ;   210 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
 sid: equ 100
@@ -61,8 +59,6 @@ cam_distz: equ -4*cam_f
 ;   280 pi2=PI*2.0: f=32767.0/pi2
 ;   290 anglex=0.0*f
 cam_anglex: equ 0
-
-scene_init:
 
 ;   220 PRINT "Creating control structure"
     ld hl,str_create_control
@@ -137,11 +133,8 @@ ctb2:
 
     ld hl,str_init_cmplt
     call printString
-    ld a,%01000000
-    call multiPurposeDelay
     ret
 
-model_init:
 model_vertices: equ 4
 model_indexes: equ 12
 model_uvs: equ 10
@@ -300,11 +293,8 @@ so:
 @end:
     ret
 
-main:
     ld hl,str_render_to_bitmap
     call printString
-    ld a,%01000000
-    call multiPurposeDelay
 ; draw the cube
 rendbmp:
     ld hl,@beg
@@ -321,8 +311,6 @@ rendbmp:
 
     ld hl,str_display_output_bitmap
     call printString
-    ld a,%01000000
-    call multiPurposeDelay
 
 dispbmp:
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
@@ -338,9 +326,6 @@ dispbmp:
     ret
 
     include "pingo/src/asm/vdu.asm"
-    include "pingo/src/asm/vdu_pingo.asm"
-    include "pingo/src/asm/functions.asm"
-    include "pingo/src/asm/timer.asm"
 
 str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
 str_create_object: db "Creating 3D object.\r\n",0
@@ -359,3 +344,15 @@ str_create_control: db "Creating control structure.\r\n",0
 str_init_cmplt: db "Initialization complete.\r\n",0
 str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
 str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
+str_program_end: db "Program end.\r\n",0
+
+
+; Print a zero-terminated string
+; HL: Pointer to string
+printString:
+	PUSH	BC
+	LD		BC,0
+	LD 	 	A,0
+	RST.LIL 18h
+	POP		BC
+	RET
