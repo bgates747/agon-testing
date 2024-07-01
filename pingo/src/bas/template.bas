@@ -9,9 +9,9 @@
    74 camz=-4.0*camf
    80 pi2=PI*2.0
    85 camanglef=32767.0/360
-   90 camanglex=-10.0*camanglef
+   90 camanglex=0.0*camanglef
   100 scale=1.0*256.0
-  110 rotatex=0.0
+  110 rotatex=45.0*32767.0/360.0
   112 rotatey=0.0
   114 rotatez=0.0
   120 rfactor=32767.0/pi2
@@ -19,10 +19,11 @@
   140 incx=inc*0.0
   142 incy=inc*0.5
   144 incz=inc*0.0
+  145 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
   150 scene_width%=320: scene_height%=240
-  160 VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
+  160 REM VDU 17, 4+128 : REM SET TEXT BACKGROUND COLOR TO DARK BLUE
   170 VDU 18, 0, 4+128 : REM SET GFX BACKGROUND COLOR TO DARK BLUE
-  180 CLS
+  180 REM CLS
   190 REM --== INITIALIZATION ==--
   200 PRINT "Reading vertices"
   210 total_coords%=model_vertices%*3
@@ -37,7 +38,6 @@
   300 factor=32767.0 :REM factor=32767.0/max_abs
   310 PRINT "Max absolute value = ";max_abs
   320 PRINT "Factor = ";factor
-  330 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
   340 PRINT "Creating control structure"
   350 VDU 23,0, &A0, sid%; &49, 0, scene_width%; scene_height%; : REM Create Control Structure
   360 PRINT "Setting camera translation distances"
@@ -95,22 +95,23 @@
   880 PRINT "Create target bitmap"
   890 VDU 23, 27, 0, bmid2% : REM Select output bitmap
   900 VDU 23, 27, 2, scene_width%; scene_height%; &0000; &00C0; : REM Create solid color bitmap
-  910 PRINT "Render 3D object"
   920 VDU 23, 0, &C3: REM Flip buffer
-  930 VDU 22, 136: REM 320x240x64 double-buffered
+  930 REM VDU 22, 136: REM 320x240x64 double-buffered
   940 VDU 23, 0, &C0, 0: REM Normal coordinates
   950 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
   960 VDU 17,7+128 : REM set text background color to light gray
   970 VDU 18, 0, 7+128 : REM set gfx background color to light gray
   980 REM --== MAIN LOOP ==--
-  990 CLS
+  990 REM CLS
  1000 ON ERROR GOTO 1150 : REM so that Escape key exits gracefully
- 1005 PRINT "filename="
+1005 PRINT "filename=pingo/src/bas/sliced.bas"
  1010 PRINT "rotate x=";rotatex
  1020 PRINT "rotate y=";rotatey
  1030 PRINT "rotate z=";rotatez
+ 1035 REM PRINT "Render 3D object"
  1040 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
  1050 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
+ 1055 GOTO 1150
  1060 VDU 23, 0, &C3: REM Flip buffer
  1070 *FX 19 : REM wait for vblank
  1080 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
@@ -118,12 +119,12 @@
  1100 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
  1110 rx=rotatex*rfactor: ry=rotatey*rfactor: rz=rotatez*rfactor
  1120 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
- 1130 GOTO 990
+ 1130 REM GOTO 990
  1140 REM -- EXIT PROGRAM --
- 1150 VDU 22, 3: REM 640x240x64 single-buffered
- 1160 VDU 23, 0, &C0, 0: REM Normal coordinates
+ 1150 REM VDU 22, 3: REM 640x240x64 single-buffered
+ 1160 REM VDU 23, 0, &C0, 0: REM Normal coordinates
  1170 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
- 1180 VDU 17, 0+128 : REM SET TEXT BACKGROUND COLOR TO BLACK
+ 1180 REM VDU 17, 0+128 : REM SET TEXT BACKGROUND COLOR TO BLACK
  1190 VDU 18, 0, 0+128 : REM SET GFX BACKGROUND COLOR TO BLACK
- 1200 CLS
+ 1200 REM CLS
  1210 END
