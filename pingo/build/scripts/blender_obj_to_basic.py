@@ -137,7 +137,8 @@ if __name__ == '__main__':
         # ['earthico', 'earthico', 'earthico160x76.png'],
         # ['earthico1', 'earthico1', 'earthico160x76.png'],
         # ['earthico2', 'earthico2', 'earthico160x76.png'],
-        ['heavytank', 'heavytank', 'ferdinand.png'],
+        # ['heavytank', 'heavytank', 'ferdinand.png'],
+        ['laraleg', 'laraleg', 'Lara.png'],
 
     ]
 
