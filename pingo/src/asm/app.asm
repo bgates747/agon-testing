@@ -133,10 +133,9 @@ ctb2:
 
     ld hl,str_init_cmplt
     call printString
-    ret
-
+    
 model_vertices: equ 4
-model_indexes: equ 12
+model_indexes: equ 4
 model_uvs: equ 10
 obj_scale: equ 256
 
@@ -291,7 +290,6 @@ so:
     dw obj_scale
     dw obj_scale
 @end:
-    ret
 
     ld hl,str_render_to_bitmap
     call printString
