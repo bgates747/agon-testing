@@ -17,10 +17,11 @@ start:
     push ix
     push iy
 
-    call init
     call main
 
 exit:
+    ld hl,str_program_end
+    call printString
 
     pop iy 
     pop ix
@@ -31,14 +32,11 @@ exit:
 
     ret 
 
-init:
+main:
     xor a
     call vdu_set_scaling
     ld hl,str_hello_world
     call printString
-    call model_init
-
-    ret
 
 ;   210 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
 sid: equ 100
@@ -61,8 +59,6 @@ cam_distz: equ -4*cam_f
 ;   280 pi2=PI*2.0: f=32767.0/pi2
 ;   290 anglex=0.0*f
 cam_anglex: equ 0
-
-scene_init:
 
 ;   220 PRINT "Creating control structure"
     ld hl,str_create_control
@@ -139,7 +135,6 @@ ctb2:
     call printString
     ret
 
-model_init:
 model_vertices: equ 4
 model_indexes: equ 12
 model_uvs: equ 10
@@ -298,7 +293,6 @@ so:
 @end:
     ret
 
-main:
     ld hl,str_render_to_bitmap
     call printString
 ; draw the cube
@@ -350,6 +344,7 @@ str_create_control: db "Creating control structure.\r\n",0
 str_init_cmplt: db "Initialization complete.\r\n",0
 str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
 str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
+str_program_end: db "Program end.\r\n",0
 
 
 ; Print a zero-terminated string
