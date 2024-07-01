@@ -33,8 +33,12 @@ exit:
     ret 
 
 main:
+    ld a,8
+    call vdu_set_screen_mode
+
     xor a
     call vdu_set_scaling
+    
     ld hl,str_hello_world
     call printString
 
@@ -61,8 +65,8 @@ cam_distz: equ -4*cam_f
 cam_anglex: equ 0
 
 ;   220 PRINT "Creating control structure"
-    ld hl,str_create_control
-    call printString
+    ; ld hl,str_create_control
+    ; call printString
 ccs:
     ld hl,@beg
     ld bc,@end-@beg
@@ -78,8 +82,8 @@ ccs:
 @end:
 
 ; set camera distance
-    ld hl,str_set_camera_distance
-    call printString
+    ; ld hl,str_set_camera_distance
+    ; call printString
 scd:
     ld hl,@beg
     ld bc,@end-@beg
@@ -96,8 +100,8 @@ scd:
 @end:
 
 ; set camera x rotation
-    ld hl,str_set_camera_x_rotation
-    call printString
+    ; ld hl,str_set_camera_x_rotation
+    ; call printString
 scxr:
     ld hl,@beg
     ld bc,@end-@beg
@@ -112,8 +116,8 @@ scxr:
 @end:
 
 ;   620 PRINT "Create target bitmap"
-    ld hl,str_create_target_bitmap
-    call printString
+    ; ld hl,str_create_target_bitmap
+    ; call printString
 ctb2:
     ld hl,@beg
     ld bc,@end-@beg
@@ -131,8 +135,8 @@ ctb2:
     dw $00C0
 @end:
 
-    ld hl,str_init_cmplt
-    call printString
+    ; ld hl,str_init_cmplt
+    ; call printString
 
 model_vertices: equ 4
 model_indexes: equ 4
@@ -140,8 +144,8 @@ model_uvs: equ 10
 obj_scale: equ 256
 
 ;   310 PRINT "Sending vertices using factor ";factor
-    ld hl,str_send_vertices
-    call printString
+    ; ld hl,str_send_vertices
+    ; call printString
 sv:
     ld hl,@beg
     ld bc,@end-@beg
@@ -160,8 +164,8 @@ sv:
 @end:
 
 ;   390 PRINT "Reading and sending vertex indexes"
-    ld hl,str_set_mesh_vertex_indexes
-    call printString
+    ; ld hl,str_set_mesh_vertex_indexes
+    ; call printString
 smvi:
     ld hl,@beg
     ld bc,@end-@beg
@@ -180,8 +184,8 @@ smvi:
 @end:
 
 ;   470 PRINT "Sending texture coordinate indexes"
-    ld hl,str_set_texture_coordinates
-    call printString
+    ; ld hl,str_set_texture_coordinates
+    ; call printString
 stc:
     ld hl,@beg
     ld bc,@end-@beg
@@ -205,8 +209,8 @@ stc:
 	dw 0, 32668
 @end:
 
-    ld hl,str_set_tex_coord_idxs
-    call printString
+    ; ld hl,str_set_tex_coord_idxs
+    ; call printString
 stci:
     ld hl,@beg
     ld bc,@end-@beg
@@ -225,8 +229,8 @@ stci:
 @end:
 
 ;   530 PRINT "Creating texture bitmap"
-    ld hl,str_create_texture_bitmap
-    call printString
+    ; ld hl,str_create_texture_bitmap
+    ; call printString
 ctb:
     ld hl,@beg
     ld bc,@end-@beg
@@ -239,8 +243,8 @@ ctb:
 @end:
 
 ;   550 PRINT "Setting texture pixel"
-    ld hl,str_set_texture_pixel
-    call printString
+    ; ld hl,str_set_texture_pixel
+    ; call printString
 stp:
     ld hl,@beg
     ld bc,@end-@beg
@@ -255,8 +259,8 @@ stp:
 @end:
 
 ;   570 PRINT "Create 3D object"
-    ld hl,str_create_object
-    call printString
+    ; ld hl,str_create_object
+    ; call printString
 co:
     ld hl,@beg
     ld bc,@end-@beg
@@ -273,8 +277,8 @@ co:
 @end:
 
 ;   590 PRINT "Scale object"
-    ld hl,str_scale_object
-    call printString
+    ; ld hl,str_scale_object
+    ; call printString
 so:
 ;   600 scale=1.0*256.0
     ld hl,@beg
@@ -292,8 +296,8 @@ so:
     dw obj_scale
 @end:
 
-    ld hl,str_render_to_bitmap
-    call printString
+    ; ld hl,str_render_to_bitmap
+    ; call printString
 ; draw the cube
 rendbmp:
     ld hl,@beg
@@ -308,8 +312,8 @@ rendbmp:
     dw bmid2+64000
 @end:
 
-    ld hl,str_display_output_bitmap
-    call printString
+    ; ld hl,str_display_output_bitmap
+    ; call printString
 
 dispbmp:
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
