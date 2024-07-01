@@ -137,8 +137,6 @@ ctb2:
 
     ld hl,str_init_cmplt
     call printString
-    ld a,%01000000
-    call multiPurposeDelay
     ret
 
 model_init:
@@ -303,8 +301,6 @@ so:
 main:
     ld hl,str_render_to_bitmap
     call printString
-    ld a,%01000000
-    call multiPurposeDelay
 ; draw the cube
 rendbmp:
     ld hl,@beg
@@ -321,8 +317,6 @@ rendbmp:
 
     ld hl,str_display_output_bitmap
     call printString
-    ld a,%01000000
-    call multiPurposeDelay
 
 dispbmp:
 ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
@@ -338,9 +332,6 @@ dispbmp:
     ret
 
     include "pingo/src/asm/vdu.asm"
-    include "pingo/src/asm/vdu_pingo.asm"
-    include "pingo/src/asm/functions.asm"
-    include "pingo/src/asm/timer.asm"
 
 str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
 str_create_object: db "Creating 3D object.\r\n",0
@@ -359,3 +350,14 @@ str_create_control: db "Creating control structure.\r\n",0
 str_init_cmplt: db "Initialization complete.\r\n",0
 str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
 str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
+
+
+; Print a zero-terminated string
+; HL: Pointer to string
+printString:
+	PUSH	BC
+	LD		BC,0
+	LD 	 	A,0
+	RST.LIL 18h
+	POP		BC
+	RET
