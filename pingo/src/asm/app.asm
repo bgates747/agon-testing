@@ -135,7 +135,7 @@ ctb2:
     call printString
 
 model_vertices: equ 4
-model_indexes: equ 4
+model_indexes: equ 12
 model_uvs: equ 10
 obj_scale: equ 256
 
