@@ -289,8 +289,8 @@ PC     Output      Line
 04004C CD 64 00 04 0020       call main
 040050             0021   
 040050             0022   exit:
-040050 21 39 0A 04 0023       ld hl,str_program_end
-040054 CD 48 0A 04 0024       call printString
+040050 21 3B 0A 04 0023       ld hl,str_program_end
+040054 CD 4A 0A 04 0024       call printString
 040058             0025   
 040058 FD E1       0026       pop iy
 04005A DD E1       0027       pop ix
@@ -303,9 +303,9 @@ PC     Output      Line
 040064             0034   
 040064             0035   main:
 040064 AF          0036       xor a
-040065 CD DC 04 04 0037       call vdu_set_scaling
-040069 21 6F 08 04 0038       ld hl,str_hello_world
-04006D CD 48 0A 04 0039       call printString
+040065 CD DE 04 04 0037       call vdu_set_scaling
+040069 21 71 08 04 0038       ld hl,str_hello_world
+04006D CD 4A 0A 04 0039       call printString
 040071             0040   
 040071             0041   ;   210 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
 040071             0042   sid: equ 100
@@ -330,8 +330,8 @@ PC     Output      Line
 040071             0061   cam_anglex: equ 0
 040071             0062   
 040071             0063   ;   220 PRINT "Creating control structure"
-040071 21 CD 09 04 0064       ld hl,str_create_control
-040075 CD 48 0A 04 0065       call printString
+040071 21 CF 09 04 0064       ld hl,str_create_control
+040075 CD 4A 0A 04 0065       call printString
 040079             0066   ccs:
 040079 21 87 00 04 0067       ld hl,@beg
 04007D 01 0B 00 00 0068       ld bc,@end-@beg
@@ -347,8 +347,8 @@ PC     Output      Line
 040092             0078   @end:
 040092             0079   
 040092             0080   ; set camera distance
-040092 21 B2 09 04 0081       ld hl,str_set_camera_distance
-040096 CD 48 0A 04 0082       call printString
+040092 21 B4 09 04 0081       ld hl,str_set_camera_distance
+040096 CD 4A 0A 04 0082       call printString
 04009A             0083   scd:
 04009A 21 A8 00 04 0084       ld hl,@beg
 04009E 01 0D 00 00 0085       ld bc,@end-@beg
@@ -365,8 +365,8 @@ PC     Output      Line
 0400B5             0096   @end:
 0400B5             0097   
 0400B5             0098   ; set camera x rotation
-0400B5 21 95 09 04 0099       ld hl,str_set_camera_x_rotation
-0400B9 CD 48 0A 04 0100       call printString
+0400B5 21 97 09 04 0099       ld hl,str_set_camera_x_rotation
+0400B9 CD 4A 0A 04 0100       call printString
 0400BD             0101   scxr:
 0400BD 21 CB 00 04 0102       ld hl,@beg
 0400C1 01 09 00 00 0103       ld bc,@end-@beg
@@ -381,8 +381,8 @@ PC     Output      Line
 0400D4             0112   @end:
 0400D4             0113   
 0400D4             0114   ;   620 PRINT "Create target bitmap"
-0400D4 21 B7 08 04 0115       ld hl,str_create_target_bitmap
-0400D8 CD 48 0A 04 0116       call printString
+0400D4 21 B9 08 04 0115       ld hl,str_create_target_bitmap
+0400D8 CD 4A 0A 04 0116       call printString
 0400DC             0117   ctb2:
 0400DC 21 EA 00 04 0118       ld hl,@beg
 0400E0 01 10 00 00 0119       ld bc,@end-@beg
@@ -400,1733 +400,1732 @@ PC     Output      Line
 0400F8 C0 00       0131       dw $00C0
 0400FA             0132   @end:
 0400FA             0133   
-0400FA 21 EB 09 04 0134       ld hl,str_init_cmplt
-0400FE CD 48 0A 04 0135       call printString
+0400FA 21 ED 09 04 0134       ld hl,str_init_cmplt
+0400FE CD 4A 0A 04 0135       call printString
 040102             0136   
-040102             0137   ; looks ok to here
-040102             0138   
-040102             0139   model_vertices: equ 4
-040102             0140   model_indexes: equ 4
-040102             0141   model_uvs: equ 10
-040102             0142   obj_scale: equ 256
-040102             0143   
-040102             0144   ;   310 PRINT "Sending vertices using factor ";factor
-040102 21 81 09 04 0145       ld hl,str_send_vertices
-040106 CD 48 0A 04 0146       call printString
-04010A             0147   sv:
-04010A 21 18 01 04 0148       ld hl,@beg
-04010E 01 23 00 00 0149       ld bc,@end-@beg
-040112 5B DF       0150       rst.lil $18
-040114 C3 3B 01 04 0151       jp @end
-040118             0152   @beg:
-040118             0153   ;   320 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
-040118 17 00 A0    0154       db 23,0,$A0
-04011B 64 00       0155       dw sid
-04011D 49 01       0156       db $49,1
-04011F 01 00 04 00 0157       dw mid, model_vertices
-040123 00 00 00 00 0158   	dw 0, 0, 0
+040102             0137   model_vertices: equ 4
+040102             0138   model_indexes: equ 4
+040102             0139   model_uvs: equ 10
+040102             0140   obj_scale: equ 256
+040102             0141   
+040102             0142   ;   310 PRINT "Sending vertices using factor ";factor
+040102 21 83 09 04 0143       ld hl,str_send_vertices
+040106 CD 4A 0A 04 0144       call printString
+04010A             0145   sv:
+04010A 21 18 01 04 0146       ld hl,@beg
+04010E 01 23 00 00 0147       ld bc,@end-@beg
+040112 5B DF       0148       rst.lil $18
+040114 C3 3B 01 04 0149       jp @end
+040118             0150   @beg:
+040118             0151   ;   320 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
+040118 17 00 A0    0152       db 23,0,$A0
+04011B 64 00       0153       dw sid
+04011D 49 01       0154       db $49,1
+04011F 01 00 04 00 0155       dw mid, model_vertices
+040123 00 00 00 00 0156   	dw 0, 0, 0
        00 00       
-040129 00 00 01 80 0159   	dw 0, -32767, 0
+040129 00 00 01 80 0157   	dw 0, -32767, 0
        00 00       
-04012F 00 00 00 00 0160   	dw 0, 0, -32767
+04012F 00 00 00 00 0158   	dw 0, 0, -32767
        01 80       
-040135 FF 7F 00 00 0161   	dw 32767, 0, 0
+040135 FF 7F 00 00 0159   	dw 32767, 0, 0
        00 00       
-04013B             0162   @end:
-04013B             0163   
-04013B             0164   ;   390 PRINT "Reading and sending vertex indexes"
-04013B 21 67 09 04 0165       ld hl,str_set_mesh_vertex_indexes
-04013F CD 48 0A 04 0166       call printString
-040143             0167   smvi:
-040143 21 51 01 04 0168       ld hl,@beg
-040147 01 23 00 00 0169       ld bc,@end-@beg
-04014B 5B DF       0170       rst.lil $18
-04014D C3 74 01 04 0171       jp @end
-040151             0172   @beg:
-040151             0173   ;   400 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indexes%; : REM Set Mesh Vertex Indexes
-040151 17 00 A0    0174       db 23,0,$A0
-040154 64 00       0175       dw sid
-040156 49 02       0176       db $49,2
-040158 01 00 04 00 0177       dw mid, model_indexes
-04015C 00 00 02 00 0178   	dw 0, 2, 1
+04013B             0160   @end:
+04013B             0161   
+04013B             0162   ;   390 PRINT "Reading and sending vertex indexes"
+04013B 21 69 09 04 0163       ld hl,str_set_mesh_vertex_indexes
+04013F CD 4A 0A 04 0164       call printString
+040143             0165   smvi:
+040143 21 51 01 04 0166       ld hl,@beg
+040147 01 23 00 00 0167       ld bc,@end-@beg
+04014B 5B DF       0168       rst.lil $18
+04014D C3 74 01 04 0169       jp @end
+040151             0170   @beg:
+040151             0171   ;   400 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indexes%; : REM Set Mesh Vertex Indexes
+040151 17 00 A0    0172       db 23,0,$A0
+040154 64 00       0173       dw sid
+040156 49 02       0174       db $49,2
+040158 01 00 04 00 0175       dw mid, model_indexes
+04015C 00 00 02 00 0176   	dw 0, 2, 1
        01 00       
-040162 00 00 03 00 0179   	dw 0, 3, 2
+040162 00 00 03 00 0177   	dw 0, 3, 2
        02 00       
-040168 01 00 03 00 0180   	dw 1, 3, 0
+040168 01 00 03 00 0178   	dw 1, 3, 0
        00 00       
-04016E 03 00 01 00 0181   	dw 3, 1, 2
+04016E 03 00 01 00 0179   	dw 3, 1, 2
        02 00       
-040174             0182   @end:
-040174             0183   
-040174             0184   ;   470 PRINT "Sending texture coordinate indexes"
-040174 21 48 09 04 0185       ld hl,str_set_texture_coordinates
-040178 CD 48 0A 04 0186       call printString
-04017C             0187   stc:
-04017C 21 8A 01 04 0188       ld hl,@beg
-040180 01 33 00 00 0189       ld bc,@end-@beg
-040184 5B DF       0190       rst.lil $18
-040186 C3 BD 01 04 0191       jp @end
-04018A             0192   @beg:
-04018A             0193   ;   480 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32767; 32767; : REM Define Texture Coordinates
-04018A 17 00 A0    0194       db 23,0,$A0
-04018D 64 00       0195       dw sid
-04018F 49 03       0196       db $49,3
-040191 01 00 0A 00 0197       dw mid, model_uvs
-040195 00 00 9C 7F 0198   	dw 0, 32668
-040199 9C 7F 00 00 0199   	dw 32668, 0
-04019D 9C 7F 9C 7F 0200   	dw 32668, 32668
-0401A1 37 FF 9C 7F 0201   	dw 65335, 32668
-0401A5 9C 7F 37 FF 0202   	dw 32668, 65335
-0401A9 9C 7F 9C 7F 0203   	dw 32668, 32668
-0401AD 9C 7F 00 00 0204   	dw 32668, 0
-0401B1 37 FF 9C 7F 0205   	dw 65335, 32668
-0401B5 9C 7F 9C 7F 0206   	dw 32668, 32668
-0401B9 00 00 9C 7F 0207   	dw 0, 32668
-0401BD             0208   @end:
-0401BD             0209   
-0401BD 21 22 09 04 0210       ld hl,str_set_tex_coord_idxs
-0401C1 CD 48 0A 04 0211       call printString
-0401C5             0212   stci:
-0401C5 21 D1 01 04 0213       ld hl,@beg
-0401C9 01 23 00 00 0214       ld bc,@end-@beg
-0401CD C3 F4 01 04 0215       jp @end
-0401D1             0216   @beg:
-0401D1             0217   ;   490 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indexes%; : REM Set Texture Coordinate Indexes
-0401D1 17 00 A0    0218       db 23,0,$A0
-0401D4 64 00       0219       dw sid
-0401D6 49 04       0220       db $49,4
-0401D8 01 00 04 00 0221       dw mid, model_indexes
-0401DC 00 00 01 00 0222   	dw 0, 1, 2
+040174             0180   @end:
+040174             0181   
+040174             0182   ;   470 PRINT "Sending texture coordinate indexes"
+040174 21 4A 09 04 0183       ld hl,str_set_texture_coordinates
+040178 CD 4A 0A 04 0184       call printString
+04017C             0185   stc:
+04017C 21 8A 01 04 0186       ld hl,@beg
+040180 01 33 00 00 0187       ld bc,@end-@beg
+040184 5B DF       0188       rst.lil $18
+040186 C3 BD 01 04 0189       jp @end
+04018A             0190   @beg:
+04018A             0191   ;   480 VDU 23,0, &A0, sid%; &49, 3, mid%; 1; 32767; 32767; : REM Define Texture Coordinates
+04018A 17 00 A0    0192       db 23,0,$A0
+04018D 64 00       0193       dw sid
+04018F 49 03       0194       db $49,3
+040191 01 00 0A 00 0195       dw mid, model_uvs
+040195 00 00 9C 7F 0196   	dw 0, 32668
+040199 9C 7F 00 00 0197   	dw 32668, 0
+04019D 9C 7F 9C 7F 0198   	dw 32668, 32668
+0401A1 37 FF 9C 7F 0199   	dw 65335, 32668
+0401A5 9C 7F 37 FF 0200   	dw 32668, 65335
+0401A9 9C 7F 9C 7F 0201   	dw 32668, 32668
+0401AD 9C 7F 00 00 0202   	dw 32668, 0
+0401B1 37 FF 9C 7F 0203   	dw 65335, 32668
+0401B5 9C 7F 9C 7F 0204   	dw 32668, 32668
+0401B9 00 00 9C 7F 0205   	dw 0, 32668
+0401BD             0206   @end:
+0401BD             0207   
+0401BD 21 24 09 04 0208       ld hl,str_set_tex_coord_idxs
+0401C1 CD 4A 0A 04 0209       call printString
+0401C5             0210   stci:
+0401C5 21 D3 01 04 0211       ld hl,@beg
+0401C9 01 23 00 00 0212       ld bc,@end-@beg
+0401CD 5B DF       0213       rst.lil $18
+0401CF C3 F6 01 04 0214       jp @end
+0401D3             0215   @beg:
+0401D3             0216   ;   490 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indexes%; : REM Set Texture Coordinate Indexes
+0401D3 17 00 A0    0217       db 23,0,$A0
+0401D6 64 00       0218       dw sid
+0401D8 49 04       0219       db $49,4
+0401DA 01 00 04 00 0220       dw mid, model_indexes
+0401DE 00 00 01 00 0221   	dw 0, 1, 2
        02 00       
-0401E2 03 00 04 00 0223   	dw 3, 4, 5
+0401E4 03 00 04 00 0222   	dw 3, 4, 5
        05 00       
-0401E8 06 00 07 00 0224   	dw 6, 7, 8
+0401EA 06 00 07 00 0223   	dw 6, 7, 8
        08 00       
-0401EE 04 00 09 00 0225   	dw 4, 9, 5
+0401F0 04 00 09 00 0224   	dw 4, 9, 5
        05 00       
-0401F4             0226   @end:
-0401F4             0227   
-0401F4             0228   ;   530 PRINT "Creating texture bitmap"
-0401F4 21 EA 08 04 0229       ld hl,str_create_texture_bitmap
-0401F8 CD 48 0A 04 0230       call printString
-0401FC             0231   ctb:
-0401FC 21 0A 02 04 0232       ld hl,@beg
-040200 01 05 00 00 0233       ld bc,@end-@beg
-040204 5B DF       0234       rst.lil $18
-040206 C3 0F 02 04 0235       jp @end
-04020A             0236   @beg:
-04020A             0237   ;   540 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
-04020A 17 1B 00    0238       db 23,27,0
-04020D 65 00       0239       dw bmid1
-04020F             0240   @end:
-04020F             0241   
-04020F             0242   ;   550 PRINT "Setting texture pixel"
-04020F 21 D1 08 04 0243       ld hl,str_set_texture_pixel
-040213 CD 48 0A 04 0244       call printString
-040217             0245   stp:
-040217 21 25 02 04 0246       ld hl,@beg
-04021B 01 17 00 00 0247       ld bc,@end-@beg
-04021F 5B DF       0248       rst.lil $18
-040221 C3 3C 02 04 0249       jp @end
-040225             0250   @beg:
-040225             0251   ;   560 VDU 23, 27, 1, 1; 1; &55, &AA, &FF, &C0 : REM Set a pixel in the bitmap
-040225 17 1B 01    0252       db 23,27,1
-040228 02 00       0253   @texture_width: dw 2
-04022A 02 00       0254   @texture_height: dw 2
-04022C FF 00 00 FF 0255   	db 255,0,0,255,0,0,255,255,255,255,0,255,0,255,0,255
+0401F6             0225   @end:
+0401F6             0226   
+0401F6             0227   ;   530 PRINT "Creating texture bitmap"
+0401F6 21 EC 08 04 0228       ld hl,str_create_texture_bitmap
+0401FA CD 4A 0A 04 0229       call printString
+0401FE             0230   ctb:
+0401FE 21 0C 02 04 0231       ld hl,@beg
+040202 01 05 00 00 0232       ld bc,@end-@beg
+040206 5B DF       0233       rst.lil $18
+040208 C3 11 02 04 0234       jp @end
+04020C             0235   @beg:
+04020C             0236   ;   540 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
+04020C 17 1B 00    0237       db 23,27,0
+04020F 65 00       0238       dw bmid1
+040211             0239   @end:
+040211             0240   
+040211             0241   ;   550 PRINT "Setting texture pixel"
+040211 21 D3 08 04 0242       ld hl,str_set_texture_pixel
+040215 CD 4A 0A 04 0243       call printString
+040219             0244   stp:
+040219 21 27 02 04 0245       ld hl,@beg
+04021D 01 17 00 00 0246       ld bc,@end-@beg
+040221 5B DF       0247       rst.lil $18
+040223 C3 3E 02 04 0248       jp @end
+040227             0249   @beg:
+040227             0250   ;   560 VDU 23, 27, 1, 1; 1; &55, &AA, &FF, &C0 : REM Set a pixel in the bitmap
+040227 17 1B 01    0251       db 23,27,1
+04022A 02 00       0252   @texture_width: dw 2
+04022C 02 00       0253   @texture_height: dw 2
+04022E FF 00 00 FF 0254   	db 255,0,0,255,0,0,255,255,255,255,0,255,0,255,0,255
        00 00 FF FF 
        FF FF 00 FF 
        00 FF 00 FF 
-04023C             0256   @end:
-04023C             0257   
-04023C             0258   ;   570 PRINT "Create 3D object"
-04023C 21 8F 08 04 0259       ld hl,str_create_object
-040240 CD 48 0A 04 0260       call printString
-040244             0261   co:
-040244 21 52 02 04 0262       ld hl,@beg
-040248 01 0D 00 00 0263       ld bc,@end-@beg
-04024C 5B DF       0264       rst.lil $18
-04024E C3 5F 02 04 0265       jp @end
-040252             0266   @beg:
-040252             0267   ;   580 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
-040252 17 00 A0    0268       db 23,0,$A0
-040255 64 00       0269       dw sid
-040257 49 05       0270       db $49,5
-040259 01 00       0271       dw oid
-04025B 01 00       0272       dw mid
-04025D 65 FA       0273       dw bmid1+64000
-04025F             0274   @end:
-04025F             0275   
-04025F             0276   ;   590 PRINT "Scale object"
-04025F 21 A5 08 04 0277       ld hl,str_scale_object
-040263 CD 48 0A 04 0278       call printString
-040267             0279   so:
-040267             0280   ;   600 scale=1.0*256.0
-040267 21 75 02 04 0281       ld hl,@beg
-04026B 01 0F 00 00 0282       ld bc,@end-@beg
-04026F 5B DF       0283       rst.lil $18
-040271 C3 84 02 04 0284       jp @end
-040275             0285   @beg:
-040275             0286   ;   610 VDU 23, 0, &A0, sid%; &49, 9, oid%; scale; scale; scale; : REM Set Object XYZ Scale Factors
-040275 17 00 A0    0287       db 23,0,$A0
-040278 64 00       0288       dw sid
-04027A 49 09       0289       db $49,9
-04027C 01 00       0290       dw oid
-04027E 00 01       0291       dw obj_scale
-040280 00 01       0292       dw obj_scale
-040282 00 01       0293       dw obj_scale
-040284             0294   @end:
-040284             0295   
-040284 21 06 0A 04 0296       ld hl,str_render_to_bitmap
-040288 CD 48 0A 04 0297       call printString
-04028C             0298   ; draw the cube
-04028C             0299   rendbmp:
-04028C 21 9A 02 04 0300       ld hl,@beg
-040290 01 09 00 00 0301       ld bc,@end-@beg
-040294 5B DF       0302       rst.lil $18
-040296 C3 A3 02 04 0303       jp @end
-04029A             0304   @beg:
-04029A             0305   ; 6800 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
-04029A 17 00 A0    0306       db 23, 0, $A0 ; Render To Bitmap
-04029D 64 00       0307       dw sid
-04029F 49 26       0308       db $49, 38
-0402A1 66 FA       0309       dw bmid2+64000
-0402A3             0310   @end:
-0402A3             0311   
-0402A3 21 1D 0A 04 0312       ld hl,str_display_output_bitmap
-0402A7 CD 48 0A 04 0313       call printString
-0402AB             0314   
-0402AB             0315   dispbmp:
-0402AB             0316   ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
-0402AB 21 B9 02 04 0317       ld hl,@beg
-0402AF 01 07 00 00 0318       ld bc,@end-@beg
-0402B3 5B DF       0319       rst.lil $18
-0402B5 C3 C0 02 04 0320       jp @end
-0402B9             0321   @beg:
-0402B9 17 1B 03    0322       db 23, 27, 3 ; Display output bitmap
-0402BC 10 00 10 00 0323       dw 16, 16
-0402C0             0324   @end:
-0402C0             0325   
-0402C0 C9          0326       ret
-0402C1             0327   
-0402C1             0328       include "pingo/src/asm/vdu.asm"
-0402C1             0001*  ; The following is a high-level list of the VDU sequences that are supported:
-0402C1             0002*  ; VDU 0: Null (no operation)
-0402C1             0003*  ; VDU 1: Send next character to “printer” (if “printer” is enabled) §§
-0402C1             0004*  ; VDU 2: Enable “printer” §§
-0402C1             0005*  ; VDU 3: Disable “printer” §§
-0402C1             0006*  ; VDU 4: Write text at text cursor
-0402C1             0007*  ; VDU 5: Write text at graphics cursor
-0402C1             0008*  ; VDU 6: Enable screen (opposite of VDU 21) §§
-0402C1             0009*  ; VDU 7: Make a short beep (BEL)
-0402C1             0010*  ; VDU 8: Move cursor back one character
-0402C1             0011*  ; VDU 9: Move cursor forward one character
-0402C1             0012*  ; VDU 10: Move cursor down one line
-0402C1             0013*  ; VDU 11: Move cursor up one line
-0402C1             0014*  ; VDU 12: Clear text area (CLS)
-0402C1             0015*  ; VDU 13: Carriage return
-0402C1             0016*  ; VDU 14: Page mode On *
-0402C1             0017*  ; VDU 15: Page mode Off *
-0402C1             0018*  ; VDU 16: Clear graphics area (CLG)
-0402C1             0019*  ; VDU 17, colour: Define text colour (COLOUR)
-0402C1             0020*  ; VDU 18, mode, colour: Define graphics colour (GCOL mode, colour)
-0402C1             0021*  ; VDU 19, l, p, r, g, b: Define logical colour (COLOUR l, p / COLOUR l, r, g, b)
-0402C1             0022*  ; VDU 20: Reset palette and text/graphics colours and drawing modes §§
-0402C1             0023*  ; VDU 21: Disable screen (turns of VDU command processing, except for VDU 1 and VDU 6) §§
-0402C1             0024*  ; VDU 22, n: Select screen mode (MODE n)
-0402C1             0025*  ; VDU 23, n: Re-program display character / System Commands
-0402C1             0026*  ; VDU 24, left; bottom; right; top;: Set graphics viewport **
-0402C1             0027*  ; VDU 25, mode, x; y;: PLOT command
-0402C1             0028*  ; VDU 26: Reset graphics and text viewports **
-0402C1             0029*  ; VDU 27, char: Output character to screen §
-0402C1             0030*  ; VDU 28, left, bottom, right, top: Set text viewport **
-0402C1             0031*  ; VDU 29, x; y;: Set graphics origin
-0402C1             0032*  ; VDU 30: Home cursor
-0402C1             0033*  ; VDU 31, x, y: Move text cursor to x, y text position (TAB(x, y))
-0402C1             0034*  ; VDU 127: Backspace
-0402C1             0035*  
-0402C1             0036*  ; VDU 0: Null (no operation)
-0402C1             0037*  ;     On encountering a VDU 0 command, the VDP will do nothing.
-0402C1             0038*  ;     This may be useful for padding out a VDU command sequence,
-0402C1             0039*  ;     or for inserting a placeholder for a command that will be added later.
-0402C1             0040*  ; inputs: none
-0402C1             0041*  ; outputs: an empty byte somewhere in VDU
-0402C1             0042*  ; destroys: a
-0402C1             0043*  vdu_null:
-0402C1 AF          0044*      xor a
-0402C2 5B D7       0045*  	rst.lil $10
-0402C4 C9          0046*  	ret
-0402C5             0047*  
-0402C5             0048*  ; VDU 1: Send next character to “printer” (if “printer” is enabled) §§
-0402C5             0049*  ;     Ensures that the next character received by the VDP is sent through to
-0402C5             0050*  ;     the “printer”, and not to the screen. This is useful for sending control
-0402C5             0051*  ;     codes to the “printer”, or for sending data to the “printer” that is not
-0402C5             0052*  ;     intended to be displayed on the screen. It allows characters that would
-0402C5             0053*  ;     not otherwise normally be sent through to the “printer” to be sent.
-0402C5             0054*  ;     If the “printer” has not been enabled then this command will just discard
-0402C5             0055*  ;     the next byte sent to the VDP.
-0402C5             0056*  ; inputs: a is the ascii code of the character to send
-0402C5             0057*  ; prerequisites: "printer" must first be activated with VDU 2 (see below)
-0402C5             0058*  ; outputs: a character on the serial terminal connected to the USB port
-0402C5             0059*  ;           and the same character on the screen at the current text cursor location
-0402C5             0060*  ; QUESTION: does it also advance the text cursor?
-0402C5             0061*  ; destroys: hl, bc
-0402C5             0062*  vdu_char_to_printer:
-0402C5 32 D5 02 04 0063*  	ld (@arg),a
-0402C9 21 D4 02 04 0064*  	ld hl,@cmd
-0402CD 01 02 00 00 0065*  	ld bc,@end-@cmd
-0402D1 5B DF       0066*  	rst.lil $18
-0402D3 C9          0067*  	ret
-0402D4 01          0068*  @cmd: db 1
-0402D5 00          0069*  @arg: db 0
-0402D6             0070*  @end:
-0402D6             0071*  
-0402D6             0072*  ; VDU 2: Enable “printer” §§
-0402D6             0073*  ;     Enables the “printer”.
-0402D6             0074*  ;     In the context of the Agon platform, the “printer” is a serial
-0402D6             0075*  ;     terminal that is connected to the VDP’s USB port. Typically
-0402D6             0076*  ;     this port is used for power, but it can also be used to send and
-0402D6             0077*  ;     receive data to and from the VDP.
-0402D6             0078*  ;     When the “printer” is enabled, the VDP will send characters it receives
-0402D6             0079*  ;     to the “printer” as well as to the screen. It will additionally send
-0402D6             0080*  ;     through control codes 8-13. To send other control codes to the “printer”,
-0402D6             0081*  ;     use the VDU 1 command.
-0402D6             0082*  ;     The VDP will not send through other control codes to the printer,
-0402D6             0083*  ;     and will will not send through data it receives as part of other commands.
-0402D6             0084*  vdu_enable_printer:
-0402D6 3E 02       0085*      ld a,2
-0402D8 5B D7       0086*  	rst.lil $10
-0402DA C9          0087*  	ret
-0402DB             0088*  
-0402DB             0089*  ; VDU 3: Disable “printer” §§
-0402DB             0090*  ; inputs: none
-0402DB             0091*  ; outputs: a USB port bereft of communication with the VDP
-0402DB             0092*  ; destroys: a
-0402DB             0093*  vdu_disable_printer:
-0402DB 3E 03       0094*      ld a,3
-0402DD 5B D7       0095*  	rst.lil $10
-0402DF C9          0096*  	ret
-0402E0             0097*  
-0402E0             0098*  ; VDU 4: Write text at text cursor
-0402E0             0099*  ;     This causes text to be written at the current text cursor position.
-0402E0             0100*  ;     This is the default mode for text display.
-0402E0             0101*  ;     Text is written using the current text foreground and background colours.
-0402E0             0102*  ; inputs: a is the character to write to the screen
-0402E0             0103*  ; prerequisites: the text cursor at the intended position on screen
-0402E0             0104*  ; outputs: prints the character and moves text cursor right one position
-0402E0             0105*  ; destroys: a, hl, bc
-0402E0             0106*  vdu_char_to_text_cursor:
-0402E0 32 F0 02 04 0107*  	ld (@arg),a
-0402E4 21 EF 02 04 0108*  	ld hl,@cmd
-0402E8 01 02 00 00 0109*  	ld bc,@end-@cmd
-0402EC 5B DF       0110*  	rst.lil $18
-0402EE C9          0111*  	ret
-0402EF 04          0112*  @cmd: db 4
-0402F0 00          0113*  @arg: db 0
-0402F1             0114*  @end:
-0402F1             0115*  
-0402F1             0116*  ; VDU 5: Write text at graphics cursor
-0402F1             0117*  ;     This causes text to be written at the current graphics cursor position.
-0402F1             0118*  ;     Using this, characters may be positioned at any graphics coordinate within
-0402F1             0119*  ;     the graphics viewport. This is useful for positioning text over graphics,
-0402F1             0120*  ;     or for positioning text at a specific location on the screen.
-0402F1             0121*  ;     Characters are plotted using the current graphics foreground colour,
-0402F1             0122*  ;     using the current graphics foreground plotting mode (see VDU 18).
-0402F1             0123*  ;     The character background is transparent, and will not overwrite any
-0402F1             0124*  ;     graphics that are already present at the character’s location.
-0402F1             0125*  ;     The exception to this is VDU 27, the “delete” character, which backspaces
-0402F1             0126*  ;     and deletes as per its usual behaviour, but will erase using the current
-0402F1             0127*  ;     graphics background colour.
-0402F1             0128*  ; inputs: a is the character to write to the screen
-0402F1             0129*  ; prerequisites: the graphics cursor at the intended position on screen
-0402F1             0130*  ; outputs: see the name of the function
-0402F1             0131*  ; destroys: a, hl, bc
-0402F1             0132*  vdu_char_to_gfx_cursor:
-0402F1 32 01 03 04 0133*  	ld (@arg),a
-0402F5 21 00 03 04 0134*  	ld hl,@cmd
-0402F9 01 02 00 00 0135*  	ld bc,@end-@cmd
-0402FD 5B DF       0136*  	rst.lil $18
-0402FF C9          0137*  	ret
-040300 05          0138*  @cmd: db 5
-040301 00          0139*  @arg: db 0
-040302             0140*  @end:
-040302             0141*  
-040302             0142*  ; VDU 6: Enable screen (opposite of VDU 21) §§
-040302             0143*  ;     This enables the screen, and re-enables VDU command processing,
-040302             0144*  ;     reversing the effect of VDU 21.
-040302             0145*  ; inputs: none
-040302             0146*  ; outputs: a functioning screen and VDU
-040302             0147*  ; destroys: a
-040302             0148*  vdu_enable_screen:
-040302 3E 06       0149*      ld a,6
-040304 5B D7       0150*  	rst.lil $10
-040306 C9          0151*  	ret
-040307             0152*  
-040307             0153*  ; PASSES
-040307             0154*  ; VDU 7: Make a short beep (BEL)
-040307             0155*  ;     Plays a short beep sound on audio channel 0. If the audio channel
-040307             0156*  ;     is already in use, or has been disabled, then this command will have no effect.
-040307             0157*  ; inputs: none
-040307             0158*  ; outputs: an unpleasant but thankfully short-lived audio tone
-040307             0159*  ; destroys: a
-040307             0160*  vdu_beep:
-040307 3E 07       0161*      ld a,7
-040309 5B D7       0162*  	rst.lil $10
-04030B C9          0163*  	ret
-04030C             0164*  
-04030C             0165*  ; VDU 8: Move cursor back one character
-04030C             0166*  ;     Moves the text cursor one character in the negative “X” direction.
-04030C             0167*  ;     By default, when at the start of a line it will move to the end of
-04030C             0168*  ;     the previous line (as defined by the current text viewport).
-04030C             0169*  ;     If the cursor is also at the top of the screen then the viewport will scroll down.
-04030C             0170*  ;     The cursor remains constrained to the current text viewport.
-04030C             0171*  ;     When in VDU 5 mode and the graphics cursor is active, the viewport will not scroll.
-04030C             0172*  ;     The cursor is just moved left by one character width.
-04030C             0173*  ;     Further behaviour of the cursor can be controlled using the VDU 23,16 command.
-04030C             0174*  ;     It should be noted that as of Console8 VDP 2.5.0, the cursor system does not
-04030C             0175*  ;     support adjusting the direction of the cursor’s X axis, so this command
-04030C             0176*  ;     will move the cursor to the left. This is likely to change in the future.
-04030C             0177*  vdu_cursor_back:
-04030C 3E 08       0178*      ld a,8
-04030E 5B D7       0179*  	rst.lil $10
-040310 C9          0180*  	ret
-040311             0181*  
-040311             0182*  ; VDU 9: Move cursor forward one character
-040311             0183*  vdu_cursor_forward:
-040311 3E 09       0184*      ld a,9
-040313 5B D7       0185*  	rst.lil $10
-040315 C9          0186*  	ret
-040316             0187*  
-040316             0188*  ; VDU 10: Move cursor down one line
-040316             0189*  vdu_cursor_down:
-040316 3E 0A       0190*      ld a,10
-040318 5B D7       0191*  	rst.lil $10
-04031A C9          0192*  	ret
-04031B             0193*  
-04031B             0194*  ; VDU 11: Move cursor up one line
-04031B             0195*  vdu_cursor_up:
-04031B 3E 0B       0196*      ld a,11
-04031D 5B D7       0197*  	rst.lil $10
-04031F C9          0198*  	ret
-040320             0199*  
-040320             0200*  ; VDU 12: Clear text area (CLS)
-040320             0201*  vdu_cls:
-040320 3E 0C       0202*      ld a,12
-040322 5B D7       0203*  	rst.lil $10
-040324 C9          0204*  	ret
-040325             0205*  
-040325             0206*  ; VDU 13: Carriage return
-040325             0207*  vdu_cr:
-040325 3E 0D       0208*      ld a,13
-040327 5B D7       0209*  	rst.lil $10
-040329 C9          0210*  	ret
-04032A             0211*  
-04032A             0212*  ; VDU 14: Page mode On *
-04032A             0213*  vdu_page_on:
-04032A 3E 0E       0214*      ld a,14
-04032C 5B D7       0215*  	rst.lil $10
-04032E C9          0216*  	ret
-04032F             0217*  
-04032F             0218*  ; VDU 15: Page mode Off *
-04032F             0219*  vdu_page_off:
-04032F 3E 0F       0220*      ld a,15
-040331 5B D7       0221*  	rst.lil $10
-040333 C9          0222*  	ret
-040334             0223*  
-040334             0224*  ; VDU 16: Clear graphics area (CLG)
-040334             0225*  vdu_clg:
-040334 3E 10       0226*      ld a,16
-040336 5B D7       0227*  	rst.lil $10
-040338 C9          0228*  	ret
-040339             0229*  
-040339             0230*  ; VDU 17, colour: Define text colour (COLOUR)
-040339             0231*  vdu_colour_text:
-040339 32 49 03 04 0232*  	ld (@arg),a
-04033D 21 48 03 04 0233*  	ld hl,@cmd
-040341 01 02 00 00 0234*  	ld bc,@end-@cmd
-040345 5B DF       0235*  	rst.lil $18
-040347 C9          0236*  	ret
-040348 11          0237*  @cmd: db 17
-040349 00          0238*  @arg: db 0
-04034A             0239*  @end:
-04034A             0240*  
-04034A             0241*  ; VDU 18, mode, colour: Set graphics colour (GCOL mode, colour)
-04034A             0242*  ; inputs: a is the plotting mode, c is the colour
-04034A             0243*  ; outputs: a VDU set to put pixels on the screen with the selected mode/colour
-04034A             0244*  vdu_gcol_fg:
-04034A             0245*  ; This command will set both the current graphics colour,
-04034A             0246*  ; and the current graphics plotting mode.
-04034A             0247*  ; As with VDU 17 the colour number will set the foreground colour
-04034A             0248*  ; if it is in the range 0-127, or the background colour if it is
-04034A             0249*  ; in the range 128-255, and will be interpreted in the same manner.
-04034A             0250*  ; Support for different plotting modes on Agon is currently very limited.
-04034A             0251*  ; The only fully supported mode is mode 0, which is the default mode.
-04034A             0252*  ; This mode will plot the given colour at the given graphics coordinate,
-04034A             0253*  ; and will overwrite any existing graphics at that coordinate. There is
-04034A             0254*  ; very limited support for mode 4, which will invert the colour of any
-04034A             0255*  ; existing graphics at the given coordinate, but this is not fully supported
-04034A             0256*  ; and may not work as expected.
-04034A             0257*  ; Support for other plotting modes, matching those provided by Acorn’s
-04034A             0258*  ; original VDU system, may be added in the future.
-04034A             0259*  ; This command is identical to the BASIC GCOL keyword.
-04034A 32 5F 03 04 0260*  	ld (@mode),a
-04034E 79          0261*      ld a,c
-04034F 32 60 03 04 0262*      ld (@col),a
-040353 21 5E 03 04 0263*  	ld hl,@cmd
-040357 01 03 00 00 0264*  	ld bc,@end-@cmd
-04035B 5B DF       0265*  	rst.lil $18
-04035D C9          0266*  	ret
-04035E 12          0267*  @cmd: db 18
-04035F 00          0268*  @mode: db 0
-040360 00          0269*  @col: db 0
-040361             0270*  @end:
-040361             0271*  
-040361             0272*  vdu_gcol_bg:
-040361 32 78 03 04 0273*  	ld (@mode),a
-040365 79          0274*      ld a,c
-040366 C6 80       0275*      add a,128
-040368 32 79 03 04 0276*      ld (@col),a
-04036C 21 77 03 04 0277*  	ld hl,@cmd
-040370 01 03 00 00 0278*  	ld bc,@end-@cmd
-040374 5B DF       0279*  	rst.lil $18
-040376 C9          0280*  	ret
-040377 12          0281*  @cmd:  db 18
-040378 00          0282*  @mode: db 0
-040379 00          0283*  @col:  db 0
-04037A             0284*  @end:
-04037A             0285*  
-04037A             0286*  ; VDU 19, l, p, r, g, b: Define logical colour (COLOUR l, p / COLOUR l, r, g, b)
-04037A             0287*  ;     This command sets the colour palette, by mapping a logical colour
-04037A             0288*  ;     to a physical colour. This is useful for defining custom colours,
-04037A             0289*  ;     or for redefining the default colours.
-04037A             0290*  ;     If the physical colour number is given as 255 then the colour will
-04037A             0291*  ;     be defined using the red, green, and blue values given. If the physical
-04037A             0292*  ;     colour number is given as any other value then the colour will be defined
-04037A             0293*  ;     using the colour palette entry given by that number, up to colour number 63.
-04037A             0294*  ;     If the physical colour is not 255 then the red, green, and blue values
-04037A             0295*  ;     must still be provided, but will be ignored.
-04037A             0296*  ;     The values for red, green and blue must be given in the range 0-255.
-04037A             0297*  ;     You should note that the physical Agon hardware only supports 64 colours,
-04037A             0298*  ;     so the actual colour displayed may not be exactly the same as the colour
-04037A             0299*  ;     requested. The nearest colour will be chosen.
-04037A             0300*  ;     This command is equivalent to the BASIC COLOUR keyword.
-04037A             0301*  ; inputs: a=physcial colour, b=logical colour, chl=r,g,b
-04037A             0302*  vdu_def_log_colour:
-04037A 32 9F 03 04 0303*  	ld (@physical),a
-04037E 47          0304*      ld b,a
-04037F 32 9E 03 04 0305*      ld (@logical),a
-040383 79          0306*      ld a,c
-040384 32 A0 03 04 0307*      ld (@red),a
-040388 7C          0308*      ld a,h
-040389 32 A1 03 04 0309*      ld (@green),a
-04038D 7D          0310*      ld a,l
-04038E 32 A2 03 04 0311*      ld (@blue),a
-040392 21 9D 03 04 0312*  	ld hl,@cmd
-040396 01 06 00 00 0313*  	ld bc,@end-@cmd
-04039A 5B DF       0314*  	rst.lil $18
-04039C C9          0315*  	ret
-04039D 13          0316*  @cmd: db 19
-04039E 00          0317*  @logical: db 0
-04039F 00          0318*  @physical: db 0
-0403A0 00          0319*  @red: db 0
-0403A1 00          0320*  @green: db 0
-0403A2 00          0321*  @blue: db 0
-0403A3             0322*  @end:
-0403A3             0323*  
-0403A3             0324*  ; VDU 20: Reset palette and text/graphics colours and drawing modes §§
-0403A3             0325*  vdu_reset_gfx:
-0403A3 3E 14       0326*      ld a,20
-0403A5 5B D7       0327*  	rst.lil $10
-0403A7 C9          0328*  	ret
-0403A8             0329*  
-0403A8             0330*  ; VDU 21: Disable screen (turns off VDU command processing,
-0403A8             0331*  ; except for VDU 1 and VDU 6) §§
-0403A8             0332*  vdu_disable_screen:
-0403A8 3E 15       0333*      ld a,21
-0403AA 5B D7       0334*  	rst.lil $10
-0403AC C9          0335*  	ret
-0403AD             0336*  
-0403AD             0337*  ; VDU 22, n: Select screen mode (MODE n)
-0403AD             0338*  ; Inputs: a, screen mode (8-bit unsigned integer), in the following list:
-0403AD             0339*  ; https://agonconsole8.github.io/agon-docs/VDP---Screen-Modes.html
-0403AD             0340*  ; Screen modes
-0403AD             0341*  ; Modes over 128 are double-buffered
-0403AD             0342*  ; From Version 1.04 or greater
-0403AD             0343*  ; Mode 	Horz 	Vert 	Cols 	Refresh
-0403AD             0344*  ; 0 	640 	480 	16 	    60hz
-0403AD             0345*  ; * 1 	640 	480 	4 	    60hz
-0403AD             0346*  ; 2 	640 	480 	2 	    60hz
-0403AD             0347*  ; 3 	640 	240 	64 	    60hz
-0403AD             0348*  ; 4 	640 	240 	16 	    60hz
-0403AD             0349*  ; 5 	640 	240 	4 	    60hz
-0403AD             0350*  ; 6 	640 	240 	2 	    60hz
-0403AD             0351*  ; ** 7 	n/a 	n/a 	16 	    60hz
-0403AD             0352*  ; 8 	320 	240 	64 	    60hz
-0403AD             0353*  ; 9 	320 	240 	16 	    60hz
-0403AD             0354*  ; 10 	320 	240 	4 	    60hz
-0403AD             0355*  ; 11 	320 	240 	2 	    60hz
-0403AD             0356*  ; 12 	320 	200 	64 	    70hz
-0403AD             0357*  ; 13 	320 	200 	16 	    70hz
-0403AD             0358*  ; 14 	320 	200 	4 	    70hz
-0403AD             0359*  ; 15 	320 	200 	2 	    70hz
-0403AD             0360*  ; 16 	800 	600 	4 	    60hz
-0403AD             0361*  ; 17 	800 	600 	2 	    60hz
-0403AD             0362*  ; 18 	1024 	768 	2 	    60hz
-0403AD             0363*  ; 129 	640 	480 	4 	    60hz
-0403AD             0364*  ; 130 	640 	480 	2 	    60hz
-0403AD             0365*  ; 132 	640 	240 	16 	    60hz
-0403AD             0366*  ; 133 	640 	240 	4 	    60hz
-0403AD             0367*  ; 134 	640 	240 	2 	    60hz
-0403AD             0368*  ; 136 	320 	240 	64 	    60hz
-0403AD             0369*  ; 137 	320 	240 	16 	    60hz
-0403AD             0370*  ; 138 	320 	240 	4 	    60hz
-0403AD             0371*  ; 139 	320 	240 	2 	    60hz
-0403AD             0372*  ; 140 	320 	200 	64 	    70hz
-0403AD             0373*  ; 141 	320 	200 	16 	    70hz
-0403AD             0374*  ; 142 	320 	200 	4 	    70hz
-0403AD             0375*  ; 143 	320 	200 	2 	    70hz
-0403AD             0376*  ; * Mode 1 is the “default” mode, and is the mode that the system will use on startup.
-0403AD             0377*  ; It is also the mode that the system will fall back to use if it was not possible to
-0403AD             0378*  ; change to the requested mode.
-0403AD             0379*  ; ** Mode 7 is the “Teletext” mode, and essentially works in a very similar manner to
-0403AD             0380*  ; the BBC Micro’s Teletext mode, which was also mode 7.
-0403AD             0381*  vdu_set_screen_mode:
-0403AD 32 BD 03 04 0382*  	ld (@arg),a
-0403B1 21 BC 03 04 0383*  	ld hl,@cmd
-0403B5 01 02 00 00 0384*  	ld bc,@end-@cmd
-0403B9 5B DF       0385*  	rst.lil $18
-0403BB C9          0386*  	ret
-0403BC 16          0387*  @cmd: db 22 ; set screen mode
-0403BD 00          0388*  @arg: db 0  ; screen mode parameter
-0403BE             0389*  @end:
-0403BE             0390*  
-0403BE             0391*  ; VDU 23, n: Re-program display character / System Commands
-0403BE             0392*  ; inputs: a, ascii code; hl, pointer to bitmask data
-0403BE             0393*  vdu_define_character:
-0403BE 32 DA 03 04 0394*  	ld (@ascii),a
-0403C2 11 DB 03 04 0395*  	ld de,@data
-0403C6 06 08       0396*  	ld b,8 ; loop counter for 8 bytes of data
-0403C8             0397*  @loop:
-0403C8 7E          0398*  	ld a,(hl)
-0403C9 12          0399*  	ld (de),a
-0403CA 23          0400*  	inc hl
-0403CB 13          0401*  	inc de
-0403CC 10 FA       0402*  	djnz @loop
-0403CE 21 D9 03 04 0403*  	ld hl,@cmd
-0403D2 01 0A 00 00 0404*  	ld bc,@end-@cmd
-0403D6 5B DF       0405*  	rst.lil $18
-0403D8 C9          0406*  	ret
-0403D9 17          0407*  @cmd:   db 23
-0403DA 00          0408*  @ascii: db 0
-0403DB             0409*  @data:  ds 8
-0403E3             0410*  @end:
-0403E3             0411*  
-0403E3             0412*  ; VDU 24, left; bottom; right; top;: Set graphics viewport
-0403E3             0413*  ; NOTE: the order of the y-coordinate parameters are inverted
-0403E3             0414*  ; 	because we have turned off logical screen scaling
-0403E3             0415*  ; inputs: bc=x0,de=y0,ix=x1,iy=y1
-0403E3             0416*  ; outputs; nothing
-0403E3             0417*  ; destroys: a might make it out alive
-0403E3             0418*  vdu_set_gfx_viewport:
-0403E3 ED 43 03 04 0419*      ld (@x0),bc
+04023E             0255   @end:
+04023E             0256   
+04023E             0257   ;   570 PRINT "Create 3D object"
+04023E 21 91 08 04 0258       ld hl,str_create_object
+040242 CD 4A 0A 04 0259       call printString
+040246             0260   co:
+040246 21 54 02 04 0261       ld hl,@beg
+04024A 01 0D 00 00 0262       ld bc,@end-@beg
+04024E 5B DF       0263       rst.lil $18
+040250 C3 61 02 04 0264       jp @end
+040254             0265   @beg:
+040254             0266   ;   580 VDU 23,0, &A0, sid%; &49, 5, oid%; mid%; bmid1%+64000; : REM Create Object
+040254 17 00 A0    0267       db 23,0,$A0
+040257 64 00       0268       dw sid
+040259 49 05       0269       db $49,5
+04025B 01 00       0270       dw oid
+04025D 01 00       0271       dw mid
+04025F 65 FA       0272       dw bmid1+64000
+040261             0273   @end:
+040261             0274   
+040261             0275   ;   590 PRINT "Scale object"
+040261 21 A7 08 04 0276       ld hl,str_scale_object
+040265 CD 4A 0A 04 0277       call printString
+040269             0278   so:
+040269             0279   ;   600 scale=1.0*256.0
+040269 21 77 02 04 0280       ld hl,@beg
+04026D 01 0F 00 00 0281       ld bc,@end-@beg
+040271 5B DF       0282       rst.lil $18
+040273 C3 86 02 04 0283       jp @end
+040277             0284   @beg:
+040277             0285   ;   610 VDU 23, 0, &A0, sid%; &49, 9, oid%; scale; scale; scale; : REM Set Object XYZ Scale Factors
+040277 17 00 A0    0286       db 23,0,$A0
+04027A 64 00       0287       dw sid
+04027C 49 09       0288       db $49,9
+04027E 01 00       0289       dw oid
+040280 00 01       0290       dw obj_scale
+040282 00 01       0291       dw obj_scale
+040284 00 01       0292       dw obj_scale
+040286             0293   @end:
+040286             0294   
+040286 21 08 0A 04 0295       ld hl,str_render_to_bitmap
+04028A CD 4A 0A 04 0296       call printString
+04028E             0297   ; draw the cube
+04028E             0298   rendbmp:
+04028E 21 9C 02 04 0299       ld hl,@beg
+040292 01 09 00 00 0300       ld bc,@end-@beg
+040296 5B DF       0301       rst.lil $18
+040298 C3 A5 02 04 0302       jp @end
+04029C             0303   @beg:
+04029C             0304   ; 6800 VDU 23, 0, &A0, sid%; &49, 38, bmid2%+64000; : REM Render To Bitmap
+04029C 17 00 A0    0305       db 23, 0, $A0 ; Render To Bitmap
+04029F 64 00       0306       dw sid
+0402A1 49 26       0307       db $49, 38
+0402A3 66 FA       0308       dw bmid2+64000
+0402A5             0309   @end:
+0402A5             0310   
+0402A5 21 1F 0A 04 0311       ld hl,str_display_output_bitmap
+0402A9 CD 4A 0A 04 0312       call printString
+0402AD             0313   
+0402AD             0314   dispbmp:
+0402AD             0315   ; 6810 VDU 23, 27, 3, 0; 0; : REM Display output bitmap
+0402AD 21 BB 02 04 0316       ld hl,@beg
+0402B1 01 07 00 00 0317       ld bc,@end-@beg
+0402B5 5B DF       0318       rst.lil $18
+0402B7 C3 C2 02 04 0319       jp @end
+0402BB             0320   @beg:
+0402BB 17 1B 03    0321       db 23, 27, 3 ; Display output bitmap
+0402BE 10 00 10 00 0322       dw 16, 16
+0402C2             0323   @end:
+0402C2             0324   
+0402C2 C9          0325       ret
+0402C3             0326   
+0402C3             0327       include "pingo/src/asm/vdu.asm"
+0402C3             0001*  ; The following is a high-level list of the VDU sequences that are supported:
+0402C3             0002*  ; VDU 0: Null (no operation)
+0402C3             0003*  ; VDU 1: Send next character to “printer” (if “printer” is enabled) §§
+0402C3             0004*  ; VDU 2: Enable “printer” §§
+0402C3             0005*  ; VDU 3: Disable “printer” §§
+0402C3             0006*  ; VDU 4: Write text at text cursor
+0402C3             0007*  ; VDU 5: Write text at graphics cursor
+0402C3             0008*  ; VDU 6: Enable screen (opposite of VDU 21) §§
+0402C3             0009*  ; VDU 7: Make a short beep (BEL)
+0402C3             0010*  ; VDU 8: Move cursor back one character
+0402C3             0011*  ; VDU 9: Move cursor forward one character
+0402C3             0012*  ; VDU 10: Move cursor down one line
+0402C3             0013*  ; VDU 11: Move cursor up one line
+0402C3             0014*  ; VDU 12: Clear text area (CLS)
+0402C3             0015*  ; VDU 13: Carriage return
+0402C3             0016*  ; VDU 14: Page mode On *
+0402C3             0017*  ; VDU 15: Page mode Off *
+0402C3             0018*  ; VDU 16: Clear graphics area (CLG)
+0402C3             0019*  ; VDU 17, colour: Define text colour (COLOUR)
+0402C3             0020*  ; VDU 18, mode, colour: Define graphics colour (GCOL mode, colour)
+0402C3             0021*  ; VDU 19, l, p, r, g, b: Define logical colour (COLOUR l, p / COLOUR l, r, g, b)
+0402C3             0022*  ; VDU 20: Reset palette and text/graphics colours and drawing modes §§
+0402C3             0023*  ; VDU 21: Disable screen (turns of VDU command processing, except for VDU 1 and VDU 6) §§
+0402C3             0024*  ; VDU 22, n: Select screen mode (MODE n)
+0402C3             0025*  ; VDU 23, n: Re-program display character / System Commands
+0402C3             0026*  ; VDU 24, left; bottom; right; top;: Set graphics viewport **
+0402C3             0027*  ; VDU 25, mode, x; y;: PLOT command
+0402C3             0028*  ; VDU 26: Reset graphics and text viewports **
+0402C3             0029*  ; VDU 27, char: Output character to screen §
+0402C3             0030*  ; VDU 28, left, bottom, right, top: Set text viewport **
+0402C3             0031*  ; VDU 29, x; y;: Set graphics origin
+0402C3             0032*  ; VDU 30: Home cursor
+0402C3             0033*  ; VDU 31, x, y: Move text cursor to x, y text position (TAB(x, y))
+0402C3             0034*  ; VDU 127: Backspace
+0402C3             0035*  
+0402C3             0036*  ; VDU 0: Null (no operation)
+0402C3             0037*  ;     On encountering a VDU 0 command, the VDP will do nothing.
+0402C3             0038*  ;     This may be useful for padding out a VDU command sequence,
+0402C3             0039*  ;     or for inserting a placeholder for a command that will be added later.
+0402C3             0040*  ; inputs: none
+0402C3             0041*  ; outputs: an empty byte somewhere in VDU
+0402C3             0042*  ; destroys: a
+0402C3             0043*  vdu_null:
+0402C3 AF          0044*      xor a
+0402C4 5B D7       0045*  	rst.lil $10
+0402C6 C9          0046*  	ret
+0402C7             0047*  
+0402C7             0048*  ; VDU 1: Send next character to “printer” (if “printer” is enabled) §§
+0402C7             0049*  ;     Ensures that the next character received by the VDP is sent through to
+0402C7             0050*  ;     the “printer”, and not to the screen. This is useful for sending control
+0402C7             0051*  ;     codes to the “printer”, or for sending data to the “printer” that is not
+0402C7             0052*  ;     intended to be displayed on the screen. It allows characters that would
+0402C7             0053*  ;     not otherwise normally be sent through to the “printer” to be sent.
+0402C7             0054*  ;     If the “printer” has not been enabled then this command will just discard
+0402C7             0055*  ;     the next byte sent to the VDP.
+0402C7             0056*  ; inputs: a is the ascii code of the character to send
+0402C7             0057*  ; prerequisites: "printer" must first be activated with VDU 2 (see below)
+0402C7             0058*  ; outputs: a character on the serial terminal connected to the USB port
+0402C7             0059*  ;           and the same character on the screen at the current text cursor location
+0402C7             0060*  ; QUESTION: does it also advance the text cursor?
+0402C7             0061*  ; destroys: hl, bc
+0402C7             0062*  vdu_char_to_printer:
+0402C7 32 D7 02 04 0063*  	ld (@arg),a
+0402CB 21 D6 02 04 0064*  	ld hl,@cmd
+0402CF 01 02 00 00 0065*  	ld bc,@end-@cmd
+0402D3 5B DF       0066*  	rst.lil $18
+0402D5 C9          0067*  	ret
+0402D6 01          0068*  @cmd: db 1
+0402D7 00          0069*  @arg: db 0
+0402D8             0070*  @end:
+0402D8             0071*  
+0402D8             0072*  ; VDU 2: Enable “printer” §§
+0402D8             0073*  ;     Enables the “printer”.
+0402D8             0074*  ;     In the context of the Agon platform, the “printer” is a serial
+0402D8             0075*  ;     terminal that is connected to the VDP’s USB port. Typically
+0402D8             0076*  ;     this port is used for power, but it can also be used to send and
+0402D8             0077*  ;     receive data to and from the VDP.
+0402D8             0078*  ;     When the “printer” is enabled, the VDP will send characters it receives
+0402D8             0079*  ;     to the “printer” as well as to the screen. It will additionally send
+0402D8             0080*  ;     through control codes 8-13. To send other control codes to the “printer”,
+0402D8             0081*  ;     use the VDU 1 command.
+0402D8             0082*  ;     The VDP will not send through other control codes to the printer,
+0402D8             0083*  ;     and will will not send through data it receives as part of other commands.
+0402D8             0084*  vdu_enable_printer:
+0402D8 3E 02       0085*      ld a,2
+0402DA 5B D7       0086*  	rst.lil $10
+0402DC C9          0087*  	ret
+0402DD             0088*  
+0402DD             0089*  ; VDU 3: Disable “printer” §§
+0402DD             0090*  ; inputs: none
+0402DD             0091*  ; outputs: a USB port bereft of communication with the VDP
+0402DD             0092*  ; destroys: a
+0402DD             0093*  vdu_disable_printer:
+0402DD 3E 03       0094*      ld a,3
+0402DF 5B D7       0095*  	rst.lil $10
+0402E1 C9          0096*  	ret
+0402E2             0097*  
+0402E2             0098*  ; VDU 4: Write text at text cursor
+0402E2             0099*  ;     This causes text to be written at the current text cursor position.
+0402E2             0100*  ;     This is the default mode for text display.
+0402E2             0101*  ;     Text is written using the current text foreground and background colours.
+0402E2             0102*  ; inputs: a is the character to write to the screen
+0402E2             0103*  ; prerequisites: the text cursor at the intended position on screen
+0402E2             0104*  ; outputs: prints the character and moves text cursor right one position
+0402E2             0105*  ; destroys: a, hl, bc
+0402E2             0106*  vdu_char_to_text_cursor:
+0402E2 32 F2 02 04 0107*  	ld (@arg),a
+0402E6 21 F1 02 04 0108*  	ld hl,@cmd
+0402EA 01 02 00 00 0109*  	ld bc,@end-@cmd
+0402EE 5B DF       0110*  	rst.lil $18
+0402F0 C9          0111*  	ret
+0402F1 04          0112*  @cmd: db 4
+0402F2 00          0113*  @arg: db 0
+0402F3             0114*  @end:
+0402F3             0115*  
+0402F3             0116*  ; VDU 5: Write text at graphics cursor
+0402F3             0117*  ;     This causes text to be written at the current graphics cursor position.
+0402F3             0118*  ;     Using this, characters may be positioned at any graphics coordinate within
+0402F3             0119*  ;     the graphics viewport. This is useful for positioning text over graphics,
+0402F3             0120*  ;     or for positioning text at a specific location on the screen.
+0402F3             0121*  ;     Characters are plotted using the current graphics foreground colour,
+0402F3             0122*  ;     using the current graphics foreground plotting mode (see VDU 18).
+0402F3             0123*  ;     The character background is transparent, and will not overwrite any
+0402F3             0124*  ;     graphics that are already present at the character’s location.
+0402F3             0125*  ;     The exception to this is VDU 27, the “delete” character, which backspaces
+0402F3             0126*  ;     and deletes as per its usual behaviour, but will erase using the current
+0402F3             0127*  ;     graphics background colour.
+0402F3             0128*  ; inputs: a is the character to write to the screen
+0402F3             0129*  ; prerequisites: the graphics cursor at the intended position on screen
+0402F3             0130*  ; outputs: see the name of the function
+0402F3             0131*  ; destroys: a, hl, bc
+0402F3             0132*  vdu_char_to_gfx_cursor:
+0402F3 32 03 03 04 0133*  	ld (@arg),a
+0402F7 21 02 03 04 0134*  	ld hl,@cmd
+0402FB 01 02 00 00 0135*  	ld bc,@end-@cmd
+0402FF 5B DF       0136*  	rst.lil $18
+040301 C9          0137*  	ret
+040302 05          0138*  @cmd: db 5
+040303 00          0139*  @arg: db 0
+040304             0140*  @end:
+040304             0141*  
+040304             0142*  ; VDU 6: Enable screen (opposite of VDU 21) §§
+040304             0143*  ;     This enables the screen, and re-enables VDU command processing,
+040304             0144*  ;     reversing the effect of VDU 21.
+040304             0145*  ; inputs: none
+040304             0146*  ; outputs: a functioning screen and VDU
+040304             0147*  ; destroys: a
+040304             0148*  vdu_enable_screen:
+040304 3E 06       0149*      ld a,6
+040306 5B D7       0150*  	rst.lil $10
+040308 C9          0151*  	ret
+040309             0152*  
+040309             0153*  ; PASSES
+040309             0154*  ; VDU 7: Make a short beep (BEL)
+040309             0155*  ;     Plays a short beep sound on audio channel 0. If the audio channel
+040309             0156*  ;     is already in use, or has been disabled, then this command will have no effect.
+040309             0157*  ; inputs: none
+040309             0158*  ; outputs: an unpleasant but thankfully short-lived audio tone
+040309             0159*  ; destroys: a
+040309             0160*  vdu_beep:
+040309 3E 07       0161*      ld a,7
+04030B 5B D7       0162*  	rst.lil $10
+04030D C9          0163*  	ret
+04030E             0164*  
+04030E             0165*  ; VDU 8: Move cursor back one character
+04030E             0166*  ;     Moves the text cursor one character in the negative “X” direction.
+04030E             0167*  ;     By default, when at the start of a line it will move to the end of
+04030E             0168*  ;     the previous line (as defined by the current text viewport).
+04030E             0169*  ;     If the cursor is also at the top of the screen then the viewport will scroll down.
+04030E             0170*  ;     The cursor remains constrained to the current text viewport.
+04030E             0171*  ;     When in VDU 5 mode and the graphics cursor is active, the viewport will not scroll.
+04030E             0172*  ;     The cursor is just moved left by one character width.
+04030E             0173*  ;     Further behaviour of the cursor can be controlled using the VDU 23,16 command.
+04030E             0174*  ;     It should be noted that as of Console8 VDP 2.5.0, the cursor system does not
+04030E             0175*  ;     support adjusting the direction of the cursor’s X axis, so this command
+04030E             0176*  ;     will move the cursor to the left. This is likely to change in the future.
+04030E             0177*  vdu_cursor_back:
+04030E 3E 08       0178*      ld a,8
+040310 5B D7       0179*  	rst.lil $10
+040312 C9          0180*  	ret
+040313             0181*  
+040313             0182*  ; VDU 9: Move cursor forward one character
+040313             0183*  vdu_cursor_forward:
+040313 3E 09       0184*      ld a,9
+040315 5B D7       0185*  	rst.lil $10
+040317 C9          0186*  	ret
+040318             0187*  
+040318             0188*  ; VDU 10: Move cursor down one line
+040318             0189*  vdu_cursor_down:
+040318 3E 0A       0190*      ld a,10
+04031A 5B D7       0191*  	rst.lil $10
+04031C C9          0192*  	ret
+04031D             0193*  
+04031D             0194*  ; VDU 11: Move cursor up one line
+04031D             0195*  vdu_cursor_up:
+04031D 3E 0B       0196*      ld a,11
+04031F 5B D7       0197*  	rst.lil $10
+040321 C9          0198*  	ret
+040322             0199*  
+040322             0200*  ; VDU 12: Clear text area (CLS)
+040322             0201*  vdu_cls:
+040322 3E 0C       0202*      ld a,12
+040324 5B D7       0203*  	rst.lil $10
+040326 C9          0204*  	ret
+040327             0205*  
+040327             0206*  ; VDU 13: Carriage return
+040327             0207*  vdu_cr:
+040327 3E 0D       0208*      ld a,13
+040329 5B D7       0209*  	rst.lil $10
+04032B C9          0210*  	ret
+04032C             0211*  
+04032C             0212*  ; VDU 14: Page mode On *
+04032C             0213*  vdu_page_on:
+04032C 3E 0E       0214*      ld a,14
+04032E 5B D7       0215*  	rst.lil $10
+040330 C9          0216*  	ret
+040331             0217*  
+040331             0218*  ; VDU 15: Page mode Off *
+040331             0219*  vdu_page_off:
+040331 3E 0F       0220*      ld a,15
+040333 5B D7       0221*  	rst.lil $10
+040335 C9          0222*  	ret
+040336             0223*  
+040336             0224*  ; VDU 16: Clear graphics area (CLG)
+040336             0225*  vdu_clg:
+040336 3E 10       0226*      ld a,16
+040338 5B D7       0227*  	rst.lil $10
+04033A C9          0228*  	ret
+04033B             0229*  
+04033B             0230*  ; VDU 17, colour: Define text colour (COLOUR)
+04033B             0231*  vdu_colour_text:
+04033B 32 4B 03 04 0232*  	ld (@arg),a
+04033F 21 4A 03 04 0233*  	ld hl,@cmd
+040343 01 02 00 00 0234*  	ld bc,@end-@cmd
+040347 5B DF       0235*  	rst.lil $18
+040349 C9          0236*  	ret
+04034A 11          0237*  @cmd: db 17
+04034B 00          0238*  @arg: db 0
+04034C             0239*  @end:
+04034C             0240*  
+04034C             0241*  ; VDU 18, mode, colour: Set graphics colour (GCOL mode, colour)
+04034C             0242*  ; inputs: a is the plotting mode, c is the colour
+04034C             0243*  ; outputs: a VDU set to put pixels on the screen with the selected mode/colour
+04034C             0244*  vdu_gcol_fg:
+04034C             0245*  ; This command will set both the current graphics colour,
+04034C             0246*  ; and the current graphics plotting mode.
+04034C             0247*  ; As with VDU 17 the colour number will set the foreground colour
+04034C             0248*  ; if it is in the range 0-127, or the background colour if it is
+04034C             0249*  ; in the range 128-255, and will be interpreted in the same manner.
+04034C             0250*  ; Support for different plotting modes on Agon is currently very limited.
+04034C             0251*  ; The only fully supported mode is mode 0, which is the default mode.
+04034C             0252*  ; This mode will plot the given colour at the given graphics coordinate,
+04034C             0253*  ; and will overwrite any existing graphics at that coordinate. There is
+04034C             0254*  ; very limited support for mode 4, which will invert the colour of any
+04034C             0255*  ; existing graphics at the given coordinate, but this is not fully supported
+04034C             0256*  ; and may not work as expected.
+04034C             0257*  ; Support for other plotting modes, matching those provided by Acorn’s
+04034C             0258*  ; original VDU system, may be added in the future.
+04034C             0259*  ; This command is identical to the BASIC GCOL keyword.
+04034C 32 61 03 04 0260*  	ld (@mode),a
+040350 79          0261*      ld a,c
+040351 32 62 03 04 0262*      ld (@col),a
+040355 21 60 03 04 0263*  	ld hl,@cmd
+040359 01 03 00 00 0264*  	ld bc,@end-@cmd
+04035D 5B DF       0265*  	rst.lil $18
+04035F C9          0266*  	ret
+040360 12          0267*  @cmd: db 18
+040361 00          0268*  @mode: db 0
+040362 00          0269*  @col: db 0
+040363             0270*  @end:
+040363             0271*  
+040363             0272*  vdu_gcol_bg:
+040363 32 7A 03 04 0273*  	ld (@mode),a
+040367 79          0274*      ld a,c
+040368 C6 80       0275*      add a,128
+04036A 32 7B 03 04 0276*      ld (@col),a
+04036E 21 79 03 04 0277*  	ld hl,@cmd
+040372 01 03 00 00 0278*  	ld bc,@end-@cmd
+040376 5B DF       0279*  	rst.lil $18
+040378 C9          0280*  	ret
+040379 12          0281*  @cmd:  db 18
+04037A 00          0282*  @mode: db 0
+04037B 00          0283*  @col:  db 0
+04037C             0284*  @end:
+04037C             0285*  
+04037C             0286*  ; VDU 19, l, p, r, g, b: Define logical colour (COLOUR l, p / COLOUR l, r, g, b)
+04037C             0287*  ;     This command sets the colour palette, by mapping a logical colour
+04037C             0288*  ;     to a physical colour. This is useful for defining custom colours,
+04037C             0289*  ;     or for redefining the default colours.
+04037C             0290*  ;     If the physical colour number is given as 255 then the colour will
+04037C             0291*  ;     be defined using the red, green, and blue values given. If the physical
+04037C             0292*  ;     colour number is given as any other value then the colour will be defined
+04037C             0293*  ;     using the colour palette entry given by that number, up to colour number 63.
+04037C             0294*  ;     If the physical colour is not 255 then the red, green, and blue values
+04037C             0295*  ;     must still be provided, but will be ignored.
+04037C             0296*  ;     The values for red, green and blue must be given in the range 0-255.
+04037C             0297*  ;     You should note that the physical Agon hardware only supports 64 colours,
+04037C             0298*  ;     so the actual colour displayed may not be exactly the same as the colour
+04037C             0299*  ;     requested. The nearest colour will be chosen.
+04037C             0300*  ;     This command is equivalent to the BASIC COLOUR keyword.
+04037C             0301*  ; inputs: a=physcial colour, b=logical colour, chl=r,g,b
+04037C             0302*  vdu_def_log_colour:
+04037C 32 A1 03 04 0303*  	ld (@physical),a
+040380 47          0304*      ld b,a
+040381 32 A0 03 04 0305*      ld (@logical),a
+040385 79          0306*      ld a,c
+040386 32 A2 03 04 0307*      ld (@red),a
+04038A 7C          0308*      ld a,h
+04038B 32 A3 03 04 0309*      ld (@green),a
+04038F 7D          0310*      ld a,l
+040390 32 A4 03 04 0311*      ld (@blue),a
+040394 21 9F 03 04 0312*  	ld hl,@cmd
+040398 01 06 00 00 0313*  	ld bc,@end-@cmd
+04039C 5B DF       0314*  	rst.lil $18
+04039E C9          0315*  	ret
+04039F 13          0316*  @cmd: db 19
+0403A0 00          0317*  @logical: db 0
+0403A1 00          0318*  @physical: db 0
+0403A2 00          0319*  @red: db 0
+0403A3 00          0320*  @green: db 0
+0403A4 00          0321*  @blue: db 0
+0403A5             0322*  @end:
+0403A5             0323*  
+0403A5             0324*  ; VDU 20: Reset palette and text/graphics colours and drawing modes §§
+0403A5             0325*  vdu_reset_gfx:
+0403A5 3E 14       0326*      ld a,20
+0403A7 5B D7       0327*  	rst.lil $10
+0403A9 C9          0328*  	ret
+0403AA             0329*  
+0403AA             0330*  ; VDU 21: Disable screen (turns off VDU command processing,
+0403AA             0331*  ; except for VDU 1 and VDU 6) §§
+0403AA             0332*  vdu_disable_screen:
+0403AA 3E 15       0333*      ld a,21
+0403AC 5B D7       0334*  	rst.lil $10
+0403AE C9          0335*  	ret
+0403AF             0336*  
+0403AF             0337*  ; VDU 22, n: Select screen mode (MODE n)
+0403AF             0338*  ; Inputs: a, screen mode (8-bit unsigned integer), in the following list:
+0403AF             0339*  ; https://agonconsole8.github.io/agon-docs/VDP---Screen-Modes.html
+0403AF             0340*  ; Screen modes
+0403AF             0341*  ; Modes over 128 are double-buffered
+0403AF             0342*  ; From Version 1.04 or greater
+0403AF             0343*  ; Mode 	Horz 	Vert 	Cols 	Refresh
+0403AF             0344*  ; 0 	640 	480 	16 	    60hz
+0403AF             0345*  ; * 1 	640 	480 	4 	    60hz
+0403AF             0346*  ; 2 	640 	480 	2 	    60hz
+0403AF             0347*  ; 3 	640 	240 	64 	    60hz
+0403AF             0348*  ; 4 	640 	240 	16 	    60hz
+0403AF             0349*  ; 5 	640 	240 	4 	    60hz
+0403AF             0350*  ; 6 	640 	240 	2 	    60hz
+0403AF             0351*  ; ** 7 	n/a 	n/a 	16 	    60hz
+0403AF             0352*  ; 8 	320 	240 	64 	    60hz
+0403AF             0353*  ; 9 	320 	240 	16 	    60hz
+0403AF             0354*  ; 10 	320 	240 	4 	    60hz
+0403AF             0355*  ; 11 	320 	240 	2 	    60hz
+0403AF             0356*  ; 12 	320 	200 	64 	    70hz
+0403AF             0357*  ; 13 	320 	200 	16 	    70hz
+0403AF             0358*  ; 14 	320 	200 	4 	    70hz
+0403AF             0359*  ; 15 	320 	200 	2 	    70hz
+0403AF             0360*  ; 16 	800 	600 	4 	    60hz
+0403AF             0361*  ; 17 	800 	600 	2 	    60hz
+0403AF             0362*  ; 18 	1024 	768 	2 	    60hz
+0403AF             0363*  ; 129 	640 	480 	4 	    60hz
+0403AF             0364*  ; 130 	640 	480 	2 	    60hz
+0403AF             0365*  ; 132 	640 	240 	16 	    60hz
+0403AF             0366*  ; 133 	640 	240 	4 	    60hz
+0403AF             0367*  ; 134 	640 	240 	2 	    60hz
+0403AF             0368*  ; 136 	320 	240 	64 	    60hz
+0403AF             0369*  ; 137 	320 	240 	16 	    60hz
+0403AF             0370*  ; 138 	320 	240 	4 	    60hz
+0403AF             0371*  ; 139 	320 	240 	2 	    60hz
+0403AF             0372*  ; 140 	320 	200 	64 	    70hz
+0403AF             0373*  ; 141 	320 	200 	16 	    70hz
+0403AF             0374*  ; 142 	320 	200 	4 	    70hz
+0403AF             0375*  ; 143 	320 	200 	2 	    70hz
+0403AF             0376*  ; * Mode 1 is the “default” mode, and is the mode that the system will use on startup.
+0403AF             0377*  ; It is also the mode that the system will fall back to use if it was not possible to
+0403AF             0378*  ; change to the requested mode.
+0403AF             0379*  ; ** Mode 7 is the “Teletext” mode, and essentially works in a very similar manner to
+0403AF             0380*  ; the BBC Micro’s Teletext mode, which was also mode 7.
+0403AF             0381*  vdu_set_screen_mode:
+0403AF 32 BF 03 04 0382*  	ld (@arg),a
+0403B3 21 BE 03 04 0383*  	ld hl,@cmd
+0403B7 01 02 00 00 0384*  	ld bc,@end-@cmd
+0403BB 5B DF       0385*  	rst.lil $18
+0403BD C9          0386*  	ret
+0403BE 16          0387*  @cmd: db 22 ; set screen mode
+0403BF 00          0388*  @arg: db 0  ; screen mode parameter
+0403C0             0389*  @end:
+0403C0             0390*  
+0403C0             0391*  ; VDU 23, n: Re-program display character / System Commands
+0403C0             0392*  ; inputs: a, ascii code; hl, pointer to bitmask data
+0403C0             0393*  vdu_define_character:
+0403C0 32 DC 03 04 0394*  	ld (@ascii),a
+0403C4 11 DD 03 04 0395*  	ld de,@data
+0403C8 06 08       0396*  	ld b,8 ; loop counter for 8 bytes of data
+0403CA             0397*  @loop:
+0403CA 7E          0398*  	ld a,(hl)
+0403CB 12          0399*  	ld (de),a
+0403CC 23          0400*  	inc hl
+0403CD 13          0401*  	inc de
+0403CE 10 FA       0402*  	djnz @loop
+0403D0 21 DB 03 04 0403*  	ld hl,@cmd
+0403D4 01 0A 00 00 0404*  	ld bc,@end-@cmd
+0403D8 5B DF       0405*  	rst.lil $18
+0403DA C9          0406*  	ret
+0403DB 17          0407*  @cmd:   db 23
+0403DC 00          0408*  @ascii: db 0
+0403DD             0409*  @data:  ds 8
+0403E5             0410*  @end:
+0403E5             0411*  
+0403E5             0412*  ; VDU 24, left; bottom; right; top;: Set graphics viewport
+0403E5             0413*  ; NOTE: the order of the y-coordinate parameters are inverted
+0403E5             0414*  ; 	because we have turned off logical screen scaling
+0403E5             0415*  ; inputs: bc=x0,de=y0,ix=x1,iy=y1
+0403E5             0416*  ; outputs; nothing
+0403E5             0417*  ; destroys: a might make it out alive
+0403E5             0418*  vdu_set_gfx_viewport:
+0403E5 ED 43 05 04 0419*      ld (@x0),bc
        04          
-0403E8 FD 22 05 04 0420*      ld (@y1),iy
+0403EA FD 22 07 04 0420*      ld (@y1),iy
        04          
-0403ED DD 22 07 04 0421*  	ld (@x1),ix
+0403EF DD 22 09 04 0421*  	ld (@x1),ix
        04          
-0403F2 ED 53 09 04 0422*  	ld (@y0),de
+0403F4 ED 53 0B 04 0422*  	ld (@y0),de
        04          
-0403F7 21 02 04 04 0423*  	ld hl,@cmd
-0403FB 01 09 00 00 0424*  	ld bc,@end-@cmd
-0403FF 5B DF       0425*  	rst.lil $18
-040401 C9          0426*  	ret
-040402 18          0427*  @cmd:   db 24 ; set graphics viewport command
-040403 00 00       0428*  @x0: 	dw 0x0000 ; set by bc
-040405 00 00       0429*  @y1: 	dw 0x0000 ; set by iy
-040407 00 00       0430*  @x1: 	dw 0x0000 ; set by ix
-040409 00 00       0431*  @y0: 	dw 0x0000 ; set by de
-04040B 00          0432*  @end:   db 0x00	  ; padding
-04040C             0433*  
-04040C             0434*  ; VDU 25, mode, x; y;: PLOT command
-04040C             0435*  ; Implemented in vdu_plot.asm
-04040C             0436*  
-04040C             0437*  ; VDU 26: Reset graphics and text viewports **
-04040C             0438*  vdu_reset_txt_gfx_view:
-04040C 3E 1A       0439*      ld a,26
-04040E 5B D7       0440*  	rst.lil $10
-040410 C9          0441*  	ret
-040411             0442*  
-040411             0443*  ; PASSES
-040411             0444*  ; VDU 27, char: Output character to screen §
-040411             0445*  ; inputs: a is the ascii code of the character to draw
-040411             0446*  vdu_draw_char:
-040411 32 21 04 04 0447*  	ld (@arg),a
-040415 21 20 04 04 0448*  	ld hl,@cmd
-040419 01 02 00 00 0449*  	ld bc,@end-@cmd
-04041D 5B DF       0450*  	rst.lil $18
-04041F C9          0451*  	ret
-040420 1B          0452*  @cmd: db 27
-040421 00          0453*  @arg: db 0  ; ascii code of character to draw
-040422             0454*  @end:
-040422             0455*  
-040422             0456*  ; VDU 28, left, bottom, right, top: Set text viewport **
-040422             0457*  ; MIND THE LITTLE-ENDIANESS
-040422             0458*  ; inputs: c=left,b=bottom,e=right,d=top
-040422             0459*  ; outputs; nothing
-040422             0460*  ; destroys: a might make it out alive
-040422             0461*  vdu_set_txt_viewport:
-040422 ED 43 38 04 0462*      ld (@lb),bc
+0403F9 21 04 04 04 0423*  	ld hl,@cmd
+0403FD 01 09 00 00 0424*  	ld bc,@end-@cmd
+040401 5B DF       0425*  	rst.lil $18
+040403 C9          0426*  	ret
+040404 18          0427*  @cmd:   db 24 ; set graphics viewport command
+040405 00 00       0428*  @x0: 	dw 0x0000 ; set by bc
+040407 00 00       0429*  @y1: 	dw 0x0000 ; set by iy
+040409 00 00       0430*  @x1: 	dw 0x0000 ; set by ix
+04040B 00 00       0431*  @y0: 	dw 0x0000 ; set by de
+04040D 00          0432*  @end:   db 0x00	  ; padding
+04040E             0433*  
+04040E             0434*  ; VDU 25, mode, x; y;: PLOT command
+04040E             0435*  ; Implemented in vdu_plot.asm
+04040E             0436*  
+04040E             0437*  ; VDU 26: Reset graphics and text viewports **
+04040E             0438*  vdu_reset_txt_gfx_view:
+04040E 3E 1A       0439*      ld a,26
+040410 5B D7       0440*  	rst.lil $10
+040412 C9          0441*  	ret
+040413             0442*  
+040413             0443*  ; PASSES
+040413             0444*  ; VDU 27, char: Output character to screen §
+040413             0445*  ; inputs: a is the ascii code of the character to draw
+040413             0446*  vdu_draw_char:
+040413 32 23 04 04 0447*  	ld (@arg),a
+040417 21 22 04 04 0448*  	ld hl,@cmd
+04041B 01 02 00 00 0449*  	ld bc,@end-@cmd
+04041F 5B DF       0450*  	rst.lil $18
+040421 C9          0451*  	ret
+040422 1B          0452*  @cmd: db 27
+040423 00          0453*  @arg: db 0  ; ascii code of character to draw
+040424             0454*  @end:
+040424             0455*  
+040424             0456*  ; VDU 28, left, bottom, right, top: Set text viewport **
+040424             0457*  ; MIND THE LITTLE-ENDIANESS
+040424             0458*  ; inputs: c=left,b=bottom,e=right,d=top
+040424             0459*  ; outputs; nothing
+040424             0460*  ; destroys: a might make it out alive
+040424             0461*  vdu_set_txt_viewport:
+040424 ED 43 3A 04 0462*      ld (@lb),bc
        04          
-040427 ED 53 3A 04 0463*  	ld (@rt),de
+040429 ED 53 3C 04 0463*  	ld (@rt),de
        04          
-04042C 21 37 04 04 0464*  	ld hl,@cmd
-040430 01 05 00 00 0465*  	ld bc,@end-@cmd
-040434 5B DF       0466*  	rst.lil $18
-040436 C9          0467*  	ret
-040437 1C          0468*  @cmd:   db 28 ; set text viewport command
-040438 00 00       0469*  @lb: 	dw 0x0000 ; set by bc
-04043A 00 00       0470*  @rt: 	dw 0x0000 ; set by de
-04043C 00          0471*  @end:   db 0x00	  ; padding
-04043D             0472*  
-04043D             0473*  ; PASSES
-04043D             0474*  ; VDU 29, x; y;: Set graphics origin
-04043D             0475*  ; inputs: bc,de x,y coordinates
-04043D             0476*  vdu_set_gfx_origin:
-04043D ED 43 53 04 0477*      ld (@x0),bc
+04042E 21 39 04 04 0464*  	ld hl,@cmd
+040432 01 05 00 00 0465*  	ld bc,@end-@cmd
+040436 5B DF       0466*  	rst.lil $18
+040438 C9          0467*  	ret
+040439 1C          0468*  @cmd:   db 28 ; set text viewport command
+04043A 00 00       0469*  @lb: 	dw 0x0000 ; set by bc
+04043C 00 00       0470*  @rt: 	dw 0x0000 ; set by de
+04043E 00          0471*  @end:   db 0x00	  ; padding
+04043F             0472*  
+04043F             0473*  ; PASSES
+04043F             0474*  ; VDU 29, x; y;: Set graphics origin
+04043F             0475*  ; inputs: bc,de x,y coordinates
+04043F             0476*  vdu_set_gfx_origin:
+04043F ED 43 55 04 0477*      ld (@x0),bc
        04          
-040442 ED 53 55 04 0478*      ld (@y0),de
+040444 ED 53 57 04 0478*      ld (@y0),de
        04          
-040447 21 52 04 04 0479*  	ld hl,@cmd
-04044B 01 05 00 00 0480*  	ld bc,@end-@cmd
-04044F 5B DF       0481*  	rst.lil $18
-040451 C9          0482*  	ret
-040452 1D          0483*  @cmd:	db 29
-040453 00 00       0484*  @x0: 	dw 0
-040455 00 00       0485*  @y0: 	dw 0
-040457 00          0486*  @end: 	db 0 ; padding
-040458             0487*  
-040458             0488*  ; PASSES
-040458             0489*  ; VDU 30: Home cursor
-040458             0490*  vdu_home_cursor:
-040458 3E 1E       0491*      ld a,30
-04045A 5B D7       0492*  	rst.lil $10
-04045C C9          0493*  	ret
-04045D             0494*  
-04045D             0495*  ; PASSES
-04045D             0496*  ; VDU 31, x, y: Move text cursor to x, y text position (TAB(x, y))
-04045D             0497*  ; inputs: c=x, b=y 8-bit unsigned integers
-04045D             0498*  vdu_move_cursor:
-04045D ED 43 6E 04 0499*      ld (@x0),bc
+040449 21 54 04 04 0479*  	ld hl,@cmd
+04044D 01 05 00 00 0480*  	ld bc,@end-@cmd
+040451 5B DF       0481*  	rst.lil $18
+040453 C9          0482*  	ret
+040454 1D          0483*  @cmd:	db 29
+040455 00 00       0484*  @x0: 	dw 0
+040457 00 00       0485*  @y0: 	dw 0
+040459 00          0486*  @end: 	db 0 ; padding
+04045A             0487*  
+04045A             0488*  ; PASSES
+04045A             0489*  ; VDU 30: Home cursor
+04045A             0490*  vdu_home_cursor:
+04045A 3E 1E       0491*      ld a,30
+04045C 5B D7       0492*  	rst.lil $10
+04045E C9          0493*  	ret
+04045F             0494*  
+04045F             0495*  ; PASSES
+04045F             0496*  ; VDU 31, x, y: Move text cursor to x, y text position (TAB(x, y))
+04045F             0497*  ; inputs: c=x, b=y 8-bit unsigned integers
+04045F             0498*  vdu_move_cursor:
+04045F ED 43 70 04 0499*      ld (@x0),bc
        04          
-040462 21 6D 04 04 0500*  	ld hl,@cmd
-040466 01 03 00 00 0501*  	ld bc,@end-@cmd
-04046A 5B DF       0502*  	rst.lil $18
-04046C C9          0503*  	ret
-04046D 1F          0504*  @cmd: 	db 31
-04046E 00          0505*  @x0:	db 0
-04046F 00          0506*  @y0: 	db 0
-040470 00          0507*  @end: 	db 0 ; padding
-040471             0508*  
-040471             0509*  
-040471             0510*  ; VDU 127: Backspace
-040471             0511*  vdu_bksp:
-040471 3E 7F       0512*      ld a,127
-040473 5B D7       0513*  	rst.lil $10
-040475 C9          0514*  	ret
-040476             0515*  
-040476             0516*  ; activate a bitmap in preparation to draw it
-040476             0517*  ; inputs: a holding the bitmap index
-040476             0518*  vdu_bmp_select:
-040476 32 88 04 04 0519*  	ld (@bmp),a
-04047A 21 85 04 04 0520*  	ld hl,@cmd
-04047E 01 04 00 00 0521*  	ld bc,@end-@cmd
-040482 5B DF       0522*  	rst.lil $18
-040484 C9          0523*  	ret
-040485 17 1B 00    0524*  @cmd: db 23,27,0
-040488 00          0525*  @bmp: db 0
-040489             0526*  @end:
-040489             0527*  
-040489             0528*  ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
-040489             0529*  ; inputs: hl=bufferId
-040489             0530*  vdu_buff_select:
-040489 22 9B 04 04 0531*  	ld (@bufferId),hl
-04048D 21 98 04 04 0532*  	ld hl,@cmd
-040491 01 05 00 00 0533*  	ld bc,@end-@cmd
-040495 5B DF       0534*  	rst.lil $18
-040497 C9          0535*  	ret
-040498 17 1B 20    0536*  @cmd: db 23,27,0x20
-04049B 00 00       0537*  @bufferId: dw 0x0000
-04049D 00          0538*  @end: db 0x00 ; padding
-04049E             0539*  
-04049E             0540*  ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer
-04049E             0541*  ; inputs: a=format; bc=width; de=height
-04049E             0542*  ; prerequisites: buffer selected by vdu_bmp_select or vdu_buff_select
-04049E             0543*  ; formats: https://agonconsole8.github.io/agon-docs/VDP---Bitmaps-API.html
-04049E             0544*  ; 0 	RGBA8888 (4-bytes per pixel)
-04049E             0545*  ; 1 	RGBA2222 (1-bytes per pixel)
-04049E             0546*  ; 2 	Mono/Mask (1-bit per pixel)
-04049E             0547*  ; 3 	Reserved for internal use by VDP (“native” format)
-04049E             0548*  vdu_bmp_create:
-04049E ED 43 BA 04 0549*      ld (@width),bc
+040464 21 6F 04 04 0500*  	ld hl,@cmd
+040468 01 03 00 00 0501*  	ld bc,@end-@cmd
+04046C 5B DF       0502*  	rst.lil $18
+04046E C9          0503*  	ret
+04046F 1F          0504*  @cmd: 	db 31
+040470 00          0505*  @x0:	db 0
+040471 00          0506*  @y0: 	db 0
+040472 00          0507*  @end: 	db 0 ; padding
+040473             0508*  
+040473             0509*  
+040473             0510*  ; VDU 127: Backspace
+040473             0511*  vdu_bksp:
+040473 3E 7F       0512*      ld a,127
+040475 5B D7       0513*  	rst.lil $10
+040477 C9          0514*  	ret
+040478             0515*  
+040478             0516*  ; activate a bitmap in preparation to draw it
+040478             0517*  ; inputs: a holding the bitmap index
+040478             0518*  vdu_bmp_select:
+040478 32 8A 04 04 0519*  	ld (@bmp),a
+04047C 21 87 04 04 0520*  	ld hl,@cmd
+040480 01 04 00 00 0521*  	ld bc,@end-@cmd
+040484 5B DF       0522*  	rst.lil $18
+040486 C9          0523*  	ret
+040487 17 1B 00    0524*  @cmd: db 23,27,0
+04048A 00          0525*  @bmp: db 0
+04048B             0526*  @end:
+04048B             0527*  
+04048B             0528*  ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
+04048B             0529*  ; inputs: hl=bufferId
+04048B             0530*  vdu_buff_select:
+04048B 22 9D 04 04 0531*  	ld (@bufferId),hl
+04048F 21 9A 04 04 0532*  	ld hl,@cmd
+040493 01 05 00 00 0533*  	ld bc,@end-@cmd
+040497 5B DF       0534*  	rst.lil $18
+040499 C9          0535*  	ret
+04049A 17 1B 20    0536*  @cmd: db 23,27,0x20
+04049D 00 00       0537*  @bufferId: dw 0x0000
+04049F 00          0538*  @end: db 0x00 ; padding
+0404A0             0539*  
+0404A0             0540*  ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer
+0404A0             0541*  ; inputs: a=format; bc=width; de=height
+0404A0             0542*  ; prerequisites: buffer selected by vdu_bmp_select or vdu_buff_select
+0404A0             0543*  ; formats: https://agonconsole8.github.io/agon-docs/VDP---Bitmaps-API.html
+0404A0             0544*  ; 0 	RGBA8888 (4-bytes per pixel)
+0404A0             0545*  ; 1 	RGBA2222 (1-bytes per pixel)
+0404A0             0546*  ; 2 	Mono/Mask (1-bit per pixel)
+0404A0             0547*  ; 3 	Reserved for internal use by VDP (“native” format)
+0404A0             0548*  vdu_bmp_create:
+0404A0 ED 43 BC 04 0549*      ld (@width),bc
        04          
-0404A3 ED 53 BC 04 0550*      ld (@height),de
+0404A5 ED 53 BE 04 0550*      ld (@height),de
        04          
-0404A8 32 BE 04 04 0551*      ld (@fmt),a
-0404AC 21 B7 04 04 0552*  	ld hl,@cmd
-0404B0 01 08 00 00 0553*  	ld bc,@end-@cmd
-0404B4 5B DF       0554*  	rst.lil $18
-0404B6 C9          0555*  	ret
-0404B7 17 1B 21    0556*  @cmd:       db 23,27,0x21
-0404BA 00 00       0557*  @width:     dw 0x0000
-0404BC 00 00       0558*  @height:    dw 0x0000
-0404BE 00          0559*  @fmt:       db 0x00
-0404BF             0560*  @end:
-0404BF             0561*  
-0404BF             0562*  ; Draw a bitmap on the screen
-0404BF             0563*  ; inputs: bc, x-coordinate; de, y-coordinate
-0404BF             0564*  ; prerequisite: bitmap index set by e.g. vdu_bmp_select
-0404BF             0565*  vdu_bmp_draw:
-0404BF ED 43 D7 04 0566*      ld (@x0),bc
+0404AA 32 C0 04 04 0551*      ld (@fmt),a
+0404AE 21 B9 04 04 0552*  	ld hl,@cmd
+0404B2 01 08 00 00 0553*  	ld bc,@end-@cmd
+0404B6 5B DF       0554*  	rst.lil $18
+0404B8 C9          0555*  	ret
+0404B9 17 1B 21    0556*  @cmd:       db 23,27,0x21
+0404BC 00 00       0557*  @width:     dw 0x0000
+0404BE 00 00       0558*  @height:    dw 0x0000
+0404C0 00          0559*  @fmt:       db 0x00
+0404C1             0560*  @end:
+0404C1             0561*  
+0404C1             0562*  ; Draw a bitmap on the screen
+0404C1             0563*  ; inputs: bc, x-coordinate; de, y-coordinate
+0404C1             0564*  ; prerequisite: bitmap index set by e.g. vdu_bmp_select
+0404C1             0565*  vdu_bmp_draw:
+0404C1 ED 43 D9 04 0566*      ld (@x0),bc
        04          
-0404C4 ED 53 D9 04 0567*      ld (@y0),de
+0404C6 ED 53 DB 04 0567*      ld (@y0),de
        04          
-0404C9 21 D4 04 04 0568*  	ld hl,@cmd
-0404CD 01 07 00 00 0569*  	ld bc,@end-@cmd
-0404D1 5B DF       0570*  	rst.lil $18
-0404D3 C9          0571*  	ret
-0404D4 17 1B 03    0572*  @cmd: db 23,27,3
-0404D7 00 00       0573*  @x0:  dw 0x0000
-0404D9 00 00       0574*  @y0:  dw 0x0000
-0404DB 00          0575*  @end: db 0x00 ; padding
-0404DC             0576*  
-0404DC             0577*  ; VDU 23, 0, &C0, n: Turn logical screen scaling on and off *
-0404DC             0578*  ; inputs: a is scaling mode, 1=on, 0=off
-0404DC             0579*  ; note: default setting on boot is scaling ON
-0404DC             0580*  vdu_set_scaling:
-0404DC 32 EE 04 04 0581*  	ld (@arg),a
-0404E0 21 EB 04 04 0582*  	ld hl,@cmd
-0404E4 01 04 00 00 0583*  	ld bc,@end-@cmd
-0404E8 5B DF       0584*  	rst.lil $18
-0404EA C9          0585*  	ret
-0404EB 17 00 C0    0586*  @cmd: db 23,0,0xC0
-0404EE 00          0587*  @arg: db 0  ; scaling on/off
-0404EF             0588*  @end:
-0404EF             0589*  
-0404EF             0590*  ; VDU 23, 0, &C3: Swap the screen buffer and/or wait for VSYNC **
-0404EF             0591*  ; 	Swap the screen buffer (double-buffered modes only) or wait for VSYNC
-0404EF             0592*  ; 	(all modes).
-0404EF             0593*  
-0404EF             0594*  ; 	This command will swap the screen buffer, if the current screen mode
-0404EF             0595*  ; 	is double-buffered, doing so at the next VSYNC. If the current screen
-0404EF             0596*  ; 	mode is not double-buffered then this command will wait for the next
-0404EF             0597*  ; 	VSYNC signal before returning. This can be used to synchronise the
-0404EF             0598*  ; 	screen with the vertical refresh rate of the monitor.
-0404EF             0599*  
-0404EF             0600*  ; 	Waiting for VSYNC can be useful for ensuring smooth graphical animation,
-0404EF             0601*  ; 	as it will prevent tearing of the screen.
-0404EF             0602*  ; inputs: none
-0404EF             0603*  ; outputs: none
-0404EF             0604*  ; destroys: hl, bc
-0404EF             0605*  vdu_flip:
-0404EF 21 FA 04 04 0606*  	ld hl,@cmd
-0404F3 01 03 00 00 0607*  	ld bc,@end-@cmd
-0404F7 5B DF       0608*  	rst.lil $18
-0404F9 C9          0609*  	ret
-0404FA 17 00 C3    0610*  @cmd: db 23,0,0xC3
-0404FD             0611*  @end:
-0404FD             0612*  
-0404FD             0613*  ; Command 64: Compress a buffer
-0404FD             0614*  ; VDU 23, 0, &A0, targetBufferId; 64, sourceBufferId;
-0404FD             0615*  ; This command will compress the contents of a buffer, replacing the target buffer with the compressed data. Unless the target buffer is the same as the source, the source buffer will be left unchanged.
-0404FD             0616*  
-0404FD             0617*  
-0404FD             0618*  ; Command 65: Decompress a buffer
-0404FD             0619*  ; VDU 23, 0, &A0, targetBufferId; 65, sourceBufferId;
-0404FD             0620*  ; This command will decompress the contents of a buffer, replacing the target buffer with the decompressed data. Unless the target buffer is the same as the source, the source buffer will be left unchanged.
-0404FD             0621*  ; inputs: hl=sourceBufferId/targetBufferId
-0404FD             0622*  vdu_decompress_buffer:
-0404FD 22 19 05 04 0623*  	ld (@targetBufferId),hl
-040501 22 1C 05 04 0624*  	ld (@sourceBufferId),hl
-040505 3E 41       0625*  	ld a,65
-040507 32 1B 05 04 0626*  	ld (@cmd1),a ; restore the part of command that got stomped on
-04050B 21 16 05 04 0627*  	ld hl,@cmd
-04050F 01 08 00 00 0628*  	ld bc,@end-@cmd
-040513 5B DF       0629*  	rst.lil $18
-040515 C9          0630*  	ret
-040516 17 00 A0    0631*  @cmd: 	db 23,0,0xA0
-040519 00 00       0632*  @targetBufferId: dw 0x0000
-04051B 41          0633*  @cmd1:	db 65
-04051C 00 00       0634*  @sourceBufferId: dw 0x0000
-04051E 00          0635*  @end: 	db 0x00 ; padding
-04051F             0636*  
-04051F             0637*  ; Command 65: Decompress a buffer
-04051F             0638*  ; VDU 23, 0, &A0, targetBufferId; 65, sourceBufferId;
-04051F             0639*  ; This command will decompress the contents of a buffer, replacing the target buffer with the decompressed data. Unless the target buffer is the same as the source, the source buffer will be left unchanged.
-04051F             0640*  ; inputs: hl=sourceBufferId/targetBufferId
-04051F             0641*  ; 0x7FFF for the source buffer is just an easy-to remember aribtrary value
-04051F             0642*  vdu_decompress_buffer_different:
-04051F 22 3F 05 04 0643*  	ld (@targetBufferId),hl
-040523 21 FF 7F 00 0644*      ld hl,0x7FFF
-040527 22 42 05 04 0645*  	ld (@sourceBufferId),hl
-04052B 3E 41       0646*  	ld a,65
-04052D 32 41 05 04 0647*  	ld (@cmd1),a ; restore the part of command that got stomped on
-040531 21 3C 05 04 0648*  	ld hl,@cmd
-040535 01 08 00 00 0649*  	ld bc,@end-@cmd
-040539 5B DF       0650*  	rst.lil $18
-04053B C9          0651*  	ret
-04053C 17 00 A0    0652*  @cmd: 	db 23,0,0xA0
-04053F 00 00       0653*  @targetBufferId: dw 0x0000
-040541 41          0654*  @cmd1:	db 65
-040542 00 00       0655*  @sourceBufferId: dw 0x0000
-040544 00          0656*  @end: 	db 0x00 ; padding
-040545             0657*  
-040545             0658*  ; #### from vdp.asm ####
-040545             0659*  
-040545             0660*  ; https://github.com/breakintoprogram/agon-docs/wiki/VDP
-040545             0661*  ; VDU 23, 7: Scrolling
-040545             0662*  ;     VDU 23, 7, extent, direction, speed: Scroll the screen
-040545             0663*  ; inputs: a, extent; l, direction; h; speed
-040545             0664*  vdu_scroll_down:
-040545 32 5A 05 04 0665*  	ld (@extent),a
-040549 22 5B 05 04 0666*  	ld (@dir),hl ; implicitly populates @speed
-04054D 21 58 05 04 0667*  	ld hl,@cmd
-040551 01 05 00 00 0668*  	ld bc,@end-@cmd
-040555 5B DF       0669*  	rst.lil $18     ;; Sending command to VDP
-040557 C9          0670*  	ret
-040558 17 07       0671*  @cmd:       db 23,7
-04055A 00          0672*  @extent:    db 0x00 ; 0 current text window, 1 entire screen, 2 curr gfx viewport
-04055B 00          0673*  @dir:       db 0x00 ; 0 right, 1 left, 2 down, 3 up
-04055C 00          0674*  @speed:     db 0x00 ; pixels
-04055D 00          0675*  @end:		db 0x00 ; padding
-04055E             0676*  
-04055E             0677*  cursor_on:
-04055E 21 69 05 04 0678*  	ld hl,@cmd
-040562 01 03 00 00 0679*  	ld bc,@end-@cmd
-040566 5B DF       0680*  	rst.lil $18
-040568 C9          0681*  	ret
-040569             0682*  @cmd:
-040569 17 01 01    0683*  	db 23,1,1
-04056C             0684*  @end:
-04056C             0685*  
-04056C             0686*  cursor_off:
-04056C 21 77 05 04 0687*  	ld hl,@cmd
-040570 01 03 00 00 0688*  	ld bc,@end-@cmd
-040574 5B DF       0689*  	rst.lil $18
-040576 C9          0690*  	ret
-040577             0691*  @cmd:
-040577 17 01 00    0692*  	db 23,1,0
-04057A             0693*  @end:
-04057A             0694*  
-04057A DD E5       0695*  vdu_vblank:		PUSH 	IX			; Wait for VBLANK interrupt
-04057C             0696*  			MOSCALL	mos_sysvars		; Fetch pointer to system variables
-04057C 3E 08       0001*M 			LD	A, function
-04057E 5B CF       0002*M 			RST.LIL	08h
-040580 DD 7E 00    0697*  			LD	A, (IX + sysvar_time + 0)
-040583 DD BE 00    0698*  @wait:			CP 	A, (IX + sysvar_time + 0)
-040586 28 FB       0699*  			JR	Z, @wait
-040588 DD E1       0700*  			POP	IX
-04058A C9          0701*  			RET
-04058B             0702*  
-04058B             0703*  ; #### from vdu_bmp.asm ####
-04058B             0704*  ; =========================================================================
-04058B             0705*  ; Bitmaps
-04058B             0706*  ; -------------------------------------------------------------------------
-04058B             0707*  ; VDU 23, 27, 0, n: Select bitmap n
-04058B             0708*  ; VDU 23, 27, &20, bufferId;: Select bitmap using a 16-bit buffer ID *
-04058B             0709*  ; VDU 23, 27, 1, w; h; b1, b2 ... bn: Load colour bitmap data into current bitmap
-04058B             0710*  
-04058B             0711*  ; VDU 23, 27, 1, n, 0, 0;: Capture screen data into bitmap n *
-04058B             0712*  ; VDU 23, 27, &21, bitmapId; 0; : same, but to 16-bit buffer ID *
-04058B             0713*  ; Any PLOT, or VDU 25, style command will push the graphics cursor position -
-04058B             0714*  ; typically "move" style plot commands are used to define the rectangle.
-04058B             0715*  ; To be clear, this command should be performed after two "move" style PLOT commands.
-04058B             0716*  ; inputs: hl; target bufferId
-04058B             0717*  ; all the following are in 16.8 fixed point format
-04058B             0718*  ;   ub.c; top-left x coordinate
-04058B             0719*  ;   ud.e; top-left y coordinate
-04058B             0720*  ;   ui.x; width
-04058B             0721*  ;   ui.y; height
-04058B             0722*  vdu_buff_screen_capture168:
-04058B ED 53 C2 05 0723*          ld (@y0-1),de
+0404CB 21 D6 04 04 0568*  	ld hl,@cmd
+0404CF 01 07 00 00 0569*  	ld bc,@end-@cmd
+0404D3 5B DF       0570*  	rst.lil $18
+0404D5 C9          0571*  	ret
+0404D6 17 1B 03    0572*  @cmd: db 23,27,3
+0404D9 00 00       0573*  @x0:  dw 0x0000
+0404DB 00 00       0574*  @y0:  dw 0x0000
+0404DD 00          0575*  @end: db 0x00 ; padding
+0404DE             0576*  
+0404DE             0577*  ; VDU 23, 0, &C0, n: Turn logical screen scaling on and off *
+0404DE             0578*  ; inputs: a is scaling mode, 1=on, 0=off
+0404DE             0579*  ; note: default setting on boot is scaling ON
+0404DE             0580*  vdu_set_scaling:
+0404DE 32 F0 04 04 0581*  	ld (@arg),a
+0404E2 21 ED 04 04 0582*  	ld hl,@cmd
+0404E6 01 04 00 00 0583*  	ld bc,@end-@cmd
+0404EA 5B DF       0584*  	rst.lil $18
+0404EC C9          0585*  	ret
+0404ED 17 00 C0    0586*  @cmd: db 23,0,0xC0
+0404F0 00          0587*  @arg: db 0  ; scaling on/off
+0404F1             0588*  @end:
+0404F1             0589*  
+0404F1             0590*  ; VDU 23, 0, &C3: Swap the screen buffer and/or wait for VSYNC **
+0404F1             0591*  ; 	Swap the screen buffer (double-buffered modes only) or wait for VSYNC
+0404F1             0592*  ; 	(all modes).
+0404F1             0593*  
+0404F1             0594*  ; 	This command will swap the screen buffer, if the current screen mode
+0404F1             0595*  ; 	is double-buffered, doing so at the next VSYNC. If the current screen
+0404F1             0596*  ; 	mode is not double-buffered then this command will wait for the next
+0404F1             0597*  ; 	VSYNC signal before returning. This can be used to synchronise the
+0404F1             0598*  ; 	screen with the vertical refresh rate of the monitor.
+0404F1             0599*  
+0404F1             0600*  ; 	Waiting for VSYNC can be useful for ensuring smooth graphical animation,
+0404F1             0601*  ; 	as it will prevent tearing of the screen.
+0404F1             0602*  ; inputs: none
+0404F1             0603*  ; outputs: none
+0404F1             0604*  ; destroys: hl, bc
+0404F1             0605*  vdu_flip:
+0404F1 21 FC 04 04 0606*  	ld hl,@cmd
+0404F5 01 03 00 00 0607*  	ld bc,@end-@cmd
+0404F9 5B DF       0608*  	rst.lil $18
+0404FB C9          0609*  	ret
+0404FC 17 00 C3    0610*  @cmd: db 23,0,0xC3
+0404FF             0611*  @end:
+0404FF             0612*  
+0404FF             0613*  ; Command 64: Compress a buffer
+0404FF             0614*  ; VDU 23, 0, &A0, targetBufferId; 64, sourceBufferId;
+0404FF             0615*  ; This command will compress the contents of a buffer, replacing the target buffer with the compressed data. Unless the target buffer is the same as the source, the source buffer will be left unchanged.
+0404FF             0616*  
+0404FF             0617*  
+0404FF             0618*  ; Command 65: Decompress a buffer
+0404FF             0619*  ; VDU 23, 0, &A0, targetBufferId; 65, sourceBufferId;
+0404FF             0620*  ; This command will decompress the contents of a buffer, replacing the target buffer with the decompressed data. Unless the target buffer is the same as the source, the source buffer will be left unchanged.
+0404FF             0621*  ; inputs: hl=sourceBufferId/targetBufferId
+0404FF             0622*  vdu_decompress_buffer:
+0404FF 22 1B 05 04 0623*  	ld (@targetBufferId),hl
+040503 22 1E 05 04 0624*  	ld (@sourceBufferId),hl
+040507 3E 41       0625*  	ld a,65
+040509 32 1D 05 04 0626*  	ld (@cmd1),a ; restore the part of command that got stomped on
+04050D 21 18 05 04 0627*  	ld hl,@cmd
+040511 01 08 00 00 0628*  	ld bc,@end-@cmd
+040515 5B DF       0629*  	rst.lil $18
+040517 C9          0630*  	ret
+040518 17 00 A0    0631*  @cmd: 	db 23,0,0xA0
+04051B 00 00       0632*  @targetBufferId: dw 0x0000
+04051D 41          0633*  @cmd1:	db 65
+04051E 00 00       0634*  @sourceBufferId: dw 0x0000
+040520 00          0635*  @end: 	db 0x00 ; padding
+040521             0636*  
+040521             0637*  ; Command 65: Decompress a buffer
+040521             0638*  ; VDU 23, 0, &A0, targetBufferId; 65, sourceBufferId;
+040521             0639*  ; This command will decompress the contents of a buffer, replacing the target buffer with the decompressed data. Unless the target buffer is the same as the source, the source buffer will be left unchanged.
+040521             0640*  ; inputs: hl=sourceBufferId/targetBufferId
+040521             0641*  ; 0x7FFF for the source buffer is just an easy-to remember aribtrary value
+040521             0642*  vdu_decompress_buffer_different:
+040521 22 41 05 04 0643*  	ld (@targetBufferId),hl
+040525 21 FF 7F 00 0644*      ld hl,0x7FFF
+040529 22 44 05 04 0645*  	ld (@sourceBufferId),hl
+04052D 3E 41       0646*  	ld a,65
+04052F 32 43 05 04 0647*  	ld (@cmd1),a ; restore the part of command that got stomped on
+040533 21 3E 05 04 0648*  	ld hl,@cmd
+040537 01 08 00 00 0649*  	ld bc,@end-@cmd
+04053B 5B DF       0650*  	rst.lil $18
+04053D C9          0651*  	ret
+04053E 17 00 A0    0652*  @cmd: 	db 23,0,0xA0
+040541 00 00       0653*  @targetBufferId: dw 0x0000
+040543 41          0654*  @cmd1:	db 65
+040544 00 00       0655*  @sourceBufferId: dw 0x0000
+040546 00          0656*  @end: 	db 0x00 ; padding
+040547             0657*  
+040547             0658*  ; #### from vdp.asm ####
+040547             0659*  
+040547             0660*  ; https://github.com/breakintoprogram/agon-docs/wiki/VDP
+040547             0661*  ; VDU 23, 7: Scrolling
+040547             0662*  ;     VDU 23, 7, extent, direction, speed: Scroll the screen
+040547             0663*  ; inputs: a, extent; l, direction; h; speed
+040547             0664*  vdu_scroll_down:
+040547 32 5C 05 04 0665*  	ld (@extent),a
+04054B 22 5D 05 04 0666*  	ld (@dir),hl ; implicitly populates @speed
+04054F 21 5A 05 04 0667*  	ld hl,@cmd
+040553 01 05 00 00 0668*  	ld bc,@end-@cmd
+040557 5B DF       0669*  	rst.lil $18     ;; Sending command to VDP
+040559 C9          0670*  	ret
+04055A 17 07       0671*  @cmd:       db 23,7
+04055C 00          0672*  @extent:    db 0x00 ; 0 current text window, 1 entire screen, 2 curr gfx viewport
+04055D 00          0673*  @dir:       db 0x00 ; 0 right, 1 left, 2 down, 3 up
+04055E 00          0674*  @speed:     db 0x00 ; pixels
+04055F 00          0675*  @end:		db 0x00 ; padding
+040560             0676*  
+040560             0677*  cursor_on:
+040560 21 6B 05 04 0678*  	ld hl,@cmd
+040564 01 03 00 00 0679*  	ld bc,@end-@cmd
+040568 5B DF       0680*  	rst.lil $18
+04056A C9          0681*  	ret
+04056B             0682*  @cmd:
+04056B 17 01 01    0683*  	db 23,1,1
+04056E             0684*  @end:
+04056E             0685*  
+04056E             0686*  cursor_off:
+04056E 21 79 05 04 0687*  	ld hl,@cmd
+040572 01 03 00 00 0688*  	ld bc,@end-@cmd
+040576 5B DF       0689*  	rst.lil $18
+040578 C9          0690*  	ret
+040579             0691*  @cmd:
+040579 17 01 00    0692*  	db 23,1,0
+04057C             0693*  @end:
+04057C             0694*  
+04057C DD E5       0695*  vdu_vblank:		PUSH 	IX			; Wait for VBLANK interrupt
+04057E             0696*  			MOSCALL	mos_sysvars		; Fetch pointer to system variables
+04057E 3E 08       0001*M 			LD	A, function
+040580 5B CF       0002*M 			RST.LIL	08h
+040582 DD 7E 00    0697*  			LD	A, (IX + sysvar_time + 0)
+040585 DD BE 00    0698*  @wait:			CP 	A, (IX + sysvar_time + 0)
+040588 28 FB       0699*  			JR	Z, @wait
+04058A DD E1       0700*  			POP	IX
+04058C C9          0701*  			RET
+04058D             0702*  
+04058D             0703*  ; #### from vdu_bmp.asm ####
+04058D             0704*  ; =========================================================================
+04058D             0705*  ; Bitmaps
+04058D             0706*  ; -------------------------------------------------------------------------
+04058D             0707*  ; VDU 23, 27, 0, n: Select bitmap n
+04058D             0708*  ; VDU 23, 27, &20, bufferId;: Select bitmap using a 16-bit buffer ID *
+04058D             0709*  ; VDU 23, 27, 1, w; h; b1, b2 ... bn: Load colour bitmap data into current bitmap
+04058D             0710*  
+04058D             0711*  ; VDU 23, 27, 1, n, 0, 0;: Capture screen data into bitmap n *
+04058D             0712*  ; VDU 23, 27, &21, bitmapId; 0; : same, but to 16-bit buffer ID *
+04058D             0713*  ; Any PLOT, or VDU 25, style command will push the graphics cursor position -
+04058D             0714*  ; typically "move" style plot commands are used to define the rectangle.
+04058D             0715*  ; To be clear, this command should be performed after two "move" style PLOT commands.
+04058D             0716*  ; inputs: hl; target bufferId
+04058D             0717*  ; all the following are in 16.8 fixed point format
+04058D             0718*  ;   ub.c; top-left x coordinate
+04058D             0719*  ;   ud.e; top-left y coordinate
+04058D             0720*  ;   ui.x; width
+04058D             0721*  ;   ui.y; height
+04058D             0722*  vdu_buff_screen_capture168:
+04058D ED 53 C4 05 0723*          ld (@y0-1),de
        04          
-040590 ED 43 C0 05 0724*          ld (@x0-1),bc
+040592 ED 43 C2 05 0724*          ld (@x0-1),bc
        04          
-040595 3E 44       0725*          ld a,0x44 ; plot_pt+mv_abs
-040597 32 C0 05 04 0726*          ld (@x0-1),a
-04059B             0727*  
-04059B DD 22 C7 05 0728*          ld (@x1),ix
+040597 3E 44       0725*          ld a,0x44 ; plot_pt+mv_abs
+040599 32 C2 05 04 0726*          ld (@x0-1),a
+04059D             0727*  
+04059D DD 22 C9 05 0728*          ld (@x1),ix
        04          
-0405A0 FD 22 C9 05 0729*          ld (@y1),iy
+0405A2 FD 22 CB 05 0729*          ld (@y1),iy
        04          
-0405A5 3E 17       0730*          ld a,23
-0405A7 32 CB 05 04 0731*          ld (@y1+2),a
-0405AB             0732*  
-0405AB 22 CE 05 04 0733*          ld (@bufId),hl
-0405AF AF          0734*          xor a
-0405B0 32 D0 05 04 0735*          ld (@bufId+2),a
-0405B4             0736*  
-0405B4 21 BF 05 04 0737*          ld hl,@begin
-0405B8 01 13 00 00 0738*          ld bc,@end-@begin
-0405BC 5B DF       0739*          rst.lil $18
-0405BE C9          0740*          ret
-0405BF             0741*  @begin:
-0405BF             0742*  ; absolute move gfx cursor to top-left screen coordinate
-0405BF             0743*  ; VDU 25, mode, x; y;: PLOT command
-0405BF 19 44       0744*          db 25,0x44 ; plot_pt+mv_abs
-0405C1 40 00       0745*  @x0: 	dw 64
-0405C3 40 00       0746*  @y0: 	dw 64
-0405C5             0747*  ; relative move gfx cursor to bottom-right screen coordinate
-0405C5             0748*  ; VDU 25, mode, x; y;: PLOT command
-0405C5 19 40       0749*          db 25,0x40 ; plot_pt+mv_rel
-0405C7 0F 00       0750*  @x1: 	dw 15
-0405C9 0F 00       0751*  @y1: 	dw 15
-0405CB             0752*  ; now the main event
-0405CB             0753*  ; VDU 23, 27, &21, bitmapId; 0;
-0405CB 17 1B 21    0754*          db 23,27,0x21
-0405CE 00 20 00 00 0755*  @bufId: dw 0x2000,0x0000
-0405D2             0756*  @end: ; no padding required
-0405D2             0757*  
-0405D2             0758*  vdu_buff_screen_capture_full:
-0405D2 21 DD 05 04 0759*          ld hl,@begin
-0405D6 01 13 00 00 0760*          ld bc,@end-@begin
-0405DA 5B DF       0761*          rst.lil $18
-0405DC C9          0762*          ret
-0405DD             0763*  @begin:
-0405DD             0764*  ; absolute move gfx cursor to top-left screen coordinate
-0405DD             0765*  ; VDU 25, mode, x; y;: PLOT command
-0405DD 19 44       0766*          db 25,0x44 ; plot_pt+mv_abs
-0405DF 00 00       0767*  @x0: 	dw 0
-0405E1 00 00       0768*  @y0: 	dw 0
-0405E3             0769*  ; relative move gfx cursor to bottom-right screen coordinate
-0405E3             0770*  ; VDU 25, mode, x; y;: PLOT command
-0405E3 19 40       0771*          db 25,0x40 ; plot_pt+mv_rel
-0405E5 3F 01       0772*  @x1: 	dw 319
-0405E7 EF 00       0773*  @y1: 	dw 239
-0405E9             0774*  ; now the main event
-0405E9             0775*  ; VDU 23, 27, &21, bitmapId; 0;
-0405E9 17 1B 21    0776*          db 23,27,0x21
-0405EC 00 20 00 00 0777*  @bufId: dw 0x2000,0x0000
-0405F0             0778*  @end: ; no padding required
-0405F0             0779*  
-0405F0             0780*  vdu_buff_screen_paste_full:
-0405F0 21 FB 05 04 0781*          ld hl,@begin
-0405F4 01 0B 00 00 0782*          ld bc,@end-@begin
-0405F8 5B DF       0783*          rst.lil $18
-0405FA C9          0784*          ret
-0405FB             0785*  ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
-0405FB 17 1B 20    0786*  @begin:    db 23,27,0x20
-0405FE 00 20       0787*  @bufferId: dw 0x2000
-040600             0788*  ; VDU 25, mode, x; y;: PLOT command
-040600 19 ED       0789*             db 25,0xED ; plot_bmp+dr_abs_fg
-040602 00 00 00 00 0790*             dw 0x0000,0x0000
-040606             0791*  @end: ; no padding required
-040606             0792*  
-040606             0793*  vdu_buff_screen_capture_tiles:
-040606 21 11 06 04 0794*          ld hl,@begin
-04060A 01 13 00 00 0795*          ld bc,@end-@begin
-04060E 5B DF       0796*          rst.lil $18
-040610 C9          0797*          ret
-040611             0798*  @begin:
-040611             0799*  ; absolute move gfx cursor to top-left screen coordinate
-040611             0800*  ; VDU 25, mode, x; y;: PLOT command
-040611 19 44       0801*          db 25,0x44 ; plot_pt+mv_abs
-040613 00 00       0802*  @x0: 	dw 0
-040615 00 00       0803*  @y0: 	dw 0
-040617             0804*  ; relative move gfx cursor to bottom-right screen coordinate
-040617             0805*  ; VDU 25, mode, x; y;: PLOT command
-040617 19 40       0806*          db 25,0x40 ; plot_pt+mv_rel
-040619 FF 00       0807*  @x1: 	dw 319-64
-04061B EF 00       0808*  @y1: 	dw 239
-04061D             0809*  ; now the main event
-04061D             0810*  ; VDU 23, 27, &21, bitmapId; 0;
-04061D 17 1B 21    0811*          db 23,27,0x21
-040620 00 20 00 00 0812*  @bufId: dw 0x2000,0x0000
-040624             0813*  @end: ; no padding required
-040624             0814*  
-040624             0815*  vdu_buff_screen_paste_tiles:
-040624 21 2F 06 04 0816*          ld hl,@begin
-040628 01 0B 00 00 0817*          ld bc,@end-@begin
-04062C 5B DF       0818*          rst.lil $18
-04062E C9          0819*          ret
-04062F             0820*  ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
-04062F 17 1B 20    0821*  @begin:    db 23,27,0x20
-040632 00 20       0822*  @bufferId: dw 0x2000
-040634             0823*  ; VDU 25, mode, x; y;: PLOT command
-040634 19 ED       0824*             db 25,0xED ; plot_bmp+dr_abs_fg
-040636 00 00 01 00 0825*             dw 0x0000,0x0001
-04063A             0826*  @end: ; no padding required
-04063A             0827*  
-04063A             0828*  ; VDU 23, 27, 2, w; h; col1; col2;: Create a solid colour rectangular bitmap
-04063A             0829*  ; VDU 23, 27, 3, x; y;: Draw current bitmap on screen at pixel position x, y
-04063A             0830*  ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer *
-04063A             0831*  ; Value	Meaning
-04063A             0832*  ; 0	RGBA8888 (4-bytes per pixel)
-04063A             0833*  ; 1	RGBA2222 (1-bytes per pixel)
-04063A             0834*  ; 2	Mono/Mask (1-bit per pixel)
-04063A             0835*  ; 3	Reserved for internal use by VDP ("native" format)VDP.
-04063A             0836*  ;     They have some significant limitations, and are not intended for general use.
-04063A             0837*  
-04063A             0838*  ; =========================================================================
-04063A             0839*  ; Sprites
-04063A             0840*  ; -------------------------------------------------------------------------
-04063A             0841*  ; VDU 23, 27, 4, n: Select sprite n
-04063A             0842*  ; VDU 23, 27, 5: Clear frames in current sprite
-04063A             0843*  ; VDU 23, 27, 6, n: Add bitmap n as a frame to current sprite (where bitmap's buffer ID is 64000+n)
-04063A             0844*  ; VDU 23, 27, &26, n;: Add bitmap n as a frame to current sprite using a 16-bit buffer ID
-04063A             0845*  ; VDU 23, 27, 7, n: Activate n sprites
-04063A             0846*  ; VDU 23, 27, 8: Select next frame of current sprite
-04063A             0847*  ; VDU 23, 27, 9: Select previous frame of current sprite
-04063A             0848*  ; VDU 23, 27, 10, n: Select the nth frame of current sprite
-04063A             0849*  ; VDU 23, 27, 11: Show current sprite
-04063A             0850*  ; VDU 23, 27, 12: Hide current sprite
-04063A             0851*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
-04063A             0852*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
-04063A             0853*  ; VDU 23, 27, 15: Update the sprites in the GPU
-04063A             0854*  ; VDU 23, 27, 16: Reset bitmaps and sprites and clear all data
-04063A             0855*  ; VDU 23, 27, 17: Reset sprites (only) and clear all data
-04063A             0856*  ; VDU 23, 27, 18, n: Set the current sprite GCOL paint mode to n **
-04063A             0857*  
-04063A             0858*  ; =========================================================================
-04063A             0859*  ; Mouse cursor
-04063A             0860*  ; -------------------------------------------------------------------------
-04063A             0861*  ; VDU 23, 27, &40, hotX, hotY: Setup a mouse cursor with a hot spot at hotX, hotY
-04063A             0862*  
-04063A             0863*  ; #### from vdu_plot.asm ####
-04063A             0864*  ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
-04063A             0865*  ; PLOT code 	(Decimal) 	Effect
-04063A             0866*  ; &00-&07 	0-7 	Solid line, includes both ends
-04063A             0867*  plot_sl_both: equ 0x00
-04063A             0868*  
-04063A             0869*  ; &08-&0F 	8-15 	Solid line, final point omitted
-04063A             0870*  plot_sl_first: equ 0x08
-04063A             0871*  
-04063A             0872*  ; &10-&17 	16-23 	Not supported (Dot-dash line, includes both ends, pattern restarted)
-04063A             0873*  ; &18-&1F 	24-31 	Not supported (Dot-dash line, first point omitted, pattern restarted)
-04063A             0874*  
-04063A             0875*  ; &20-&27 	32-39 	Solid line, first point omitted
-04063A             0876*  plot_sl_last: equ 0x20
-04063A             0877*  
-04063A             0878*  ; &28-&2F 	40-47 	Solid line, both points omitted
-04063A             0879*  plot_sl_none: equ 0x28
-04063A             0880*  
-04063A             0881*  ; &30-&37 	48-55 	Not supported (Dot-dash line, first point omitted, pattern continued)
-04063A             0882*  ; &38-&3F 	56-63 	Not supported (Dot-dash line, both points omitted, pattern continued)
-04063A             0883*  
-04063A             0884*  ; &40-&47 	64-71 	Point plot
-04063A             0885*  plot_pt: equ 0x40
-04063A             0886*  
-04063A             0887*  ; &48-&4F 	72-79 	Line fill left and right to non-background §§
-04063A             0888*  plot_lf_lr_non_bg: equ 0x48
-04063A             0889*  
-04063A             0890*  ; &50-&57 	80-87 	Triangle fill
-04063A             0891*  plot_tf: equ 0x50
-04063A             0892*  
-04063A             0893*  ; &58-&5F 	88-95 	Line fill right to background §§
-04063A             0894*  plot_lf_r_bg: equ 0x58
-04063A             0895*  
-04063A             0896*  ; &60-&67 	96-103 	Rectangle fill
-04063A             0897*  plot_rf: equ 0x60
-04063A             0898*  
-04063A             0899*  ; &68-&6F 	104-111 	Line fill left and right to foreground §§
-04063A             0900*  plot_lf_lr_fg: equ 0x60
-04063A             0901*  
-04063A             0902*  ; &70-&77 	112-119 	Parallelogram fill
-04063A             0903*  plot_pf: equ 0x70
-04063A             0904*  
-04063A             0905*  ; &78-&7F 	120-127 	Line fill right to non-foreground §§
-04063A             0906*  plot_lf_r_non_fg: equ 0x78
-04063A             0907*  
-04063A             0908*  ; &80-&87 	128-135 	Not supported (Flood until non-background)
-04063A             0909*  ; &88-&8F 	136-143 	Not supported (Flood until foreground)
-04063A             0910*  
-04063A             0911*  ; &90-&97 	144-151 	Circle outline
-04063A             0912*  plot_co: equ 0x90
-04063A             0913*  
-04063A             0914*  ; &98-&9F 	152-159 	Circle fill
-04063A             0915*  plot_cf: equ 0x98
-04063A             0916*  
-04063A             0917*  ; &A0-&A7 	160-167 	Not supported (Circular arc)
-04063A             0918*  ; &A8-&AF 	168-175 	Not supported (Circular segment)
-04063A             0919*  ; &B0-&B7 	176-183 	Not supported (Circular sector)
-04063A             0920*  
-04063A             0921*  ; &B8-&BF 	184-191 	Rectangle copy/move
-04063A             0922*  plot_rcm: equ 0xB8
-04063A             0923*  
-04063A             0924*  ; &C0-&C7 	192-199 	Not supported (Ellipse outline)
-04063A             0925*  ; &C8-&CF 	200-207 	Not supported (Ellipse fill)
-04063A             0926*  ; &D0-&D7 	208-215 	Not defined
-04063A             0927*  ; &D8-&DF 	216-223 	Not defined
-04063A             0928*  ; &E0-&E7 	224-231 	Not defined
-04063A             0929*  
-04063A             0930*  ; &E8-&EF 	232-239 	Bitmap plot §
-04063A             0931*  plot_bmp: equ 0xE8
-04063A             0932*  
-04063A             0933*  ; &F0-&F7 	240-247 	Not defined
-04063A             0934*  ; &F8-&FF 	248-255 	Not defined
-04063A             0935*  
-04063A             0936*  ; § Support added in Agon Console8 VDP 2.1.0 §§ Support added in
-04063A             0937*  ; Agon Console8 VDP 2.2.0
-04063A             0938*  
-04063A             0939*  ; Within each group of eight plot codes, the effects are as follows:
-04063A             0940*  ; Plot code 	Effect
-04063A             0941*  ; 0 	Move relative
-04063A             0942*  mv_rel: equ 0
-04063A             0943*  
-04063A             0944*  ; 1 	Plot relative in current foreground colour
-04063A             0945*  dr_rel_fg: equ 1
-04063A             0946*  
-04063A             0947*  ; 2 	Not supported (Plot relative in logical inverse colour)
-04063A             0948*  ; 3 	Plot relative in current background colour
-04063A             0949*  dr_rel_bg: equ 3
-04063A             0950*  
-04063A             0951*  ; 4 	Move absolute
-04063A             0952*  mv_abs: equ 4
-04063A             0953*  
-04063A             0954*  ; 5 	Plot absolute in current foreground colour
-04063A             0955*  dr_abs_fg: equ 5
-04063A             0956*  
-04063A             0957*  ; 6 	Not supported (Plot absolute in logical inverse colour)
-04063A             0958*  ; 7 	Plot absolute in current background colour
-04063A             0959*  dr_abs_bg: equ 7
-04063A             0960*  
-04063A             0961*  ; Codes 0-3 use the position data provided as part of the command
-04063A             0962*  ; as a relative position, adding the position given to the current
-04063A             0963*  ; graphical cursor position. Codes 4-7 use the position data provided
-04063A             0964*  ; as part of the command as an absolute position, setting the current
-04063A             0965*  ; graphical cursor position to the position given.
-04063A             0966*  
-04063A             0967*  ; Codes 2 and 6 on Acorn systems plot using a logical inverse of the
-04063A             0968*  ; current pixel colour. These operations cannot currently be supported
-04063A             0969*  ; by the graphics system the Agon VDP uses, so these codes are not
-04063A             0970*  ; supported. Support for these codes may be added in a future version
-04063A             0971*  ; of the VDP firmware.
-04063A             0972*  
-04063A             0973*  ; 16 colour palette constants
-04063A             0974*  c_black: equ 0
-04063A             0975*  c_red_dk: equ 1
-04063A             0976*  c_green_dk: equ 2
-04063A             0977*  c_yellow_dk: equ 3
-04063A             0978*  c_blue_dk: equ 4
-04063A             0979*  c_magenta_dk: equ 5
-04063A             0980*  c_cyan_dk: equ 6
-04063A             0981*  c_grey: equ 7
-04063A             0982*  c_grey_dk: equ 8
-04063A             0983*  c_red: equ 9
-04063A             0984*  c_green: equ 10
-04063A             0985*  c_yellow: equ 11
-04063A             0986*  c_blue: equ 12
-04063A             0987*  c_magenta: equ 13
-04063A             0988*  c_cyan: equ 14
-04063A             0989*  c_white: equ 15
-04063A             0990*  
-04063A             0991*  ; VDU 25, mode, x; y;: PLOT command
-04063A             0992*  ; inputs: a=mode, bc=x0, de=y0
-04063A             0993*  vdu_plot:
-04063A 32 54 06 04 0994*      ld (@mode),a
-04063E ED 43 55 06 0995*      ld (@x0),bc
+0405A7 3E 17       0730*          ld a,23
+0405A9 32 CD 05 04 0731*          ld (@y1+2),a
+0405AD             0732*  
+0405AD 22 D0 05 04 0733*          ld (@bufId),hl
+0405B1 AF          0734*          xor a
+0405B2 32 D2 05 04 0735*          ld (@bufId+2),a
+0405B6             0736*  
+0405B6 21 C1 05 04 0737*          ld hl,@begin
+0405BA 01 13 00 00 0738*          ld bc,@end-@begin
+0405BE 5B DF       0739*          rst.lil $18
+0405C0 C9          0740*          ret
+0405C1             0741*  @begin:
+0405C1             0742*  ; absolute move gfx cursor to top-left screen coordinate
+0405C1             0743*  ; VDU 25, mode, x; y;: PLOT command
+0405C1 19 44       0744*          db 25,0x44 ; plot_pt+mv_abs
+0405C3 40 00       0745*  @x0: 	dw 64
+0405C5 40 00       0746*  @y0: 	dw 64
+0405C7             0747*  ; relative move gfx cursor to bottom-right screen coordinate
+0405C7             0748*  ; VDU 25, mode, x; y;: PLOT command
+0405C7 19 40       0749*          db 25,0x40 ; plot_pt+mv_rel
+0405C9 0F 00       0750*  @x1: 	dw 15
+0405CB 0F 00       0751*  @y1: 	dw 15
+0405CD             0752*  ; now the main event
+0405CD             0753*  ; VDU 23, 27, &21, bitmapId; 0;
+0405CD 17 1B 21    0754*          db 23,27,0x21
+0405D0 00 20 00 00 0755*  @bufId: dw 0x2000,0x0000
+0405D4             0756*  @end: ; no padding required
+0405D4             0757*  
+0405D4             0758*  vdu_buff_screen_capture_full:
+0405D4 21 DF 05 04 0759*          ld hl,@begin
+0405D8 01 13 00 00 0760*          ld bc,@end-@begin
+0405DC 5B DF       0761*          rst.lil $18
+0405DE C9          0762*          ret
+0405DF             0763*  @begin:
+0405DF             0764*  ; absolute move gfx cursor to top-left screen coordinate
+0405DF             0765*  ; VDU 25, mode, x; y;: PLOT command
+0405DF 19 44       0766*          db 25,0x44 ; plot_pt+mv_abs
+0405E1 00 00       0767*  @x0: 	dw 0
+0405E3 00 00       0768*  @y0: 	dw 0
+0405E5             0769*  ; relative move gfx cursor to bottom-right screen coordinate
+0405E5             0770*  ; VDU 25, mode, x; y;: PLOT command
+0405E5 19 40       0771*          db 25,0x40 ; plot_pt+mv_rel
+0405E7 3F 01       0772*  @x1: 	dw 319
+0405E9 EF 00       0773*  @y1: 	dw 239
+0405EB             0774*  ; now the main event
+0405EB             0775*  ; VDU 23, 27, &21, bitmapId; 0;
+0405EB 17 1B 21    0776*          db 23,27,0x21
+0405EE 00 20 00 00 0777*  @bufId: dw 0x2000,0x0000
+0405F2             0778*  @end: ; no padding required
+0405F2             0779*  
+0405F2             0780*  vdu_buff_screen_paste_full:
+0405F2 21 FD 05 04 0781*          ld hl,@begin
+0405F6 01 0B 00 00 0782*          ld bc,@end-@begin
+0405FA 5B DF       0783*          rst.lil $18
+0405FC C9          0784*          ret
+0405FD             0785*  ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
+0405FD 17 1B 20    0786*  @begin:    db 23,27,0x20
+040600 00 20       0787*  @bufferId: dw 0x2000
+040602             0788*  ; VDU 25, mode, x; y;: PLOT command
+040602 19 ED       0789*             db 25,0xED ; plot_bmp+dr_abs_fg
+040604 00 00 00 00 0790*             dw 0x0000,0x0000
+040608             0791*  @end: ; no padding required
+040608             0792*  
+040608             0793*  vdu_buff_screen_capture_tiles:
+040608 21 13 06 04 0794*          ld hl,@begin
+04060C 01 13 00 00 0795*          ld bc,@end-@begin
+040610 5B DF       0796*          rst.lil $18
+040612 C9          0797*          ret
+040613             0798*  @begin:
+040613             0799*  ; absolute move gfx cursor to top-left screen coordinate
+040613             0800*  ; VDU 25, mode, x; y;: PLOT command
+040613 19 44       0801*          db 25,0x44 ; plot_pt+mv_abs
+040615 00 00       0802*  @x0: 	dw 0
+040617 00 00       0803*  @y0: 	dw 0
+040619             0804*  ; relative move gfx cursor to bottom-right screen coordinate
+040619             0805*  ; VDU 25, mode, x; y;: PLOT command
+040619 19 40       0806*          db 25,0x40 ; plot_pt+mv_rel
+04061B FF 00       0807*  @x1: 	dw 319-64
+04061D EF 00       0808*  @y1: 	dw 239
+04061F             0809*  ; now the main event
+04061F             0810*  ; VDU 23, 27, &21, bitmapId; 0;
+04061F 17 1B 21    0811*          db 23,27,0x21
+040622 00 20 00 00 0812*  @bufId: dw 0x2000,0x0000
+040626             0813*  @end: ; no padding required
+040626             0814*  
+040626             0815*  vdu_buff_screen_paste_tiles:
+040626 21 31 06 04 0816*          ld hl,@begin
+04062A 01 0B 00 00 0817*          ld bc,@end-@begin
+04062E 5B DF       0818*          rst.lil $18
+040630 C9          0819*          ret
+040631             0820*  ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
+040631 17 1B 20    0821*  @begin:    db 23,27,0x20
+040634 00 20       0822*  @bufferId: dw 0x2000
+040636             0823*  ; VDU 25, mode, x; y;: PLOT command
+040636 19 ED       0824*             db 25,0xED ; plot_bmp+dr_abs_fg
+040638 00 00 01 00 0825*             dw 0x0000,0x0001
+04063C             0826*  @end: ; no padding required
+04063C             0827*  
+04063C             0828*  ; VDU 23, 27, 2, w; h; col1; col2;: Create a solid colour rectangular bitmap
+04063C             0829*  ; VDU 23, 27, 3, x; y;: Draw current bitmap on screen at pixel position x, y
+04063C             0830*  ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer *
+04063C             0831*  ; Value	Meaning
+04063C             0832*  ; 0	RGBA8888 (4-bytes per pixel)
+04063C             0833*  ; 1	RGBA2222 (1-bytes per pixel)
+04063C             0834*  ; 2	Mono/Mask (1-bit per pixel)
+04063C             0835*  ; 3	Reserved for internal use by VDP ("native" format)VDP.
+04063C             0836*  ;     They have some significant limitations, and are not intended for general use.
+04063C             0837*  
+04063C             0838*  ; =========================================================================
+04063C             0839*  ; Sprites
+04063C             0840*  ; -------------------------------------------------------------------------
+04063C             0841*  ; VDU 23, 27, 4, n: Select sprite n
+04063C             0842*  ; VDU 23, 27, 5: Clear frames in current sprite
+04063C             0843*  ; VDU 23, 27, 6, n: Add bitmap n as a frame to current sprite (where bitmap's buffer ID is 64000+n)
+04063C             0844*  ; VDU 23, 27, &26, n;: Add bitmap n as a frame to current sprite using a 16-bit buffer ID
+04063C             0845*  ; VDU 23, 27, 7, n: Activate n sprites
+04063C             0846*  ; VDU 23, 27, 8: Select next frame of current sprite
+04063C             0847*  ; VDU 23, 27, 9: Select previous frame of current sprite
+04063C             0848*  ; VDU 23, 27, 10, n: Select the nth frame of current sprite
+04063C             0849*  ; VDU 23, 27, 11: Show current sprite
+04063C             0850*  ; VDU 23, 27, 12: Hide current sprite
+04063C             0851*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
+04063C             0852*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
+04063C             0853*  ; VDU 23, 27, 15: Update the sprites in the GPU
+04063C             0854*  ; VDU 23, 27, 16: Reset bitmaps and sprites and clear all data
+04063C             0855*  ; VDU 23, 27, 17: Reset sprites (only) and clear all data
+04063C             0856*  ; VDU 23, 27, 18, n: Set the current sprite GCOL paint mode to n **
+04063C             0857*  
+04063C             0858*  ; =========================================================================
+04063C             0859*  ; Mouse cursor
+04063C             0860*  ; -------------------------------------------------------------------------
+04063C             0861*  ; VDU 23, 27, &40, hotX, hotY: Setup a mouse cursor with a hot spot at hotX, hotY
+04063C             0862*  
+04063C             0863*  ; #### from vdu_plot.asm ####
+04063C             0864*  ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
+04063C             0865*  ; PLOT code 	(Decimal) 	Effect
+04063C             0866*  ; &00-&07 	0-7 	Solid line, includes both ends
+04063C             0867*  plot_sl_both: equ 0x00
+04063C             0868*  
+04063C             0869*  ; &08-&0F 	8-15 	Solid line, final point omitted
+04063C             0870*  plot_sl_first: equ 0x08
+04063C             0871*  
+04063C             0872*  ; &10-&17 	16-23 	Not supported (Dot-dash line, includes both ends, pattern restarted)
+04063C             0873*  ; &18-&1F 	24-31 	Not supported (Dot-dash line, first point omitted, pattern restarted)
+04063C             0874*  
+04063C             0875*  ; &20-&27 	32-39 	Solid line, first point omitted
+04063C             0876*  plot_sl_last: equ 0x20
+04063C             0877*  
+04063C             0878*  ; &28-&2F 	40-47 	Solid line, both points omitted
+04063C             0879*  plot_sl_none: equ 0x28
+04063C             0880*  
+04063C             0881*  ; &30-&37 	48-55 	Not supported (Dot-dash line, first point omitted, pattern continued)
+04063C             0882*  ; &38-&3F 	56-63 	Not supported (Dot-dash line, both points omitted, pattern continued)
+04063C             0883*  
+04063C             0884*  ; &40-&47 	64-71 	Point plot
+04063C             0885*  plot_pt: equ 0x40
+04063C             0886*  
+04063C             0887*  ; &48-&4F 	72-79 	Line fill left and right to non-background §§
+04063C             0888*  plot_lf_lr_non_bg: equ 0x48
+04063C             0889*  
+04063C             0890*  ; &50-&57 	80-87 	Triangle fill
+04063C             0891*  plot_tf: equ 0x50
+04063C             0892*  
+04063C             0893*  ; &58-&5F 	88-95 	Line fill right to background §§
+04063C             0894*  plot_lf_r_bg: equ 0x58
+04063C             0895*  
+04063C             0896*  ; &60-&67 	96-103 	Rectangle fill
+04063C             0897*  plot_rf: equ 0x60
+04063C             0898*  
+04063C             0899*  ; &68-&6F 	104-111 	Line fill left and right to foreground §§
+04063C             0900*  plot_lf_lr_fg: equ 0x60
+04063C             0901*  
+04063C             0902*  ; &70-&77 	112-119 	Parallelogram fill
+04063C             0903*  plot_pf: equ 0x70
+04063C             0904*  
+04063C             0905*  ; &78-&7F 	120-127 	Line fill right to non-foreground §§
+04063C             0906*  plot_lf_r_non_fg: equ 0x78
+04063C             0907*  
+04063C             0908*  ; &80-&87 	128-135 	Not supported (Flood until non-background)
+04063C             0909*  ; &88-&8F 	136-143 	Not supported (Flood until foreground)
+04063C             0910*  
+04063C             0911*  ; &90-&97 	144-151 	Circle outline
+04063C             0912*  plot_co: equ 0x90
+04063C             0913*  
+04063C             0914*  ; &98-&9F 	152-159 	Circle fill
+04063C             0915*  plot_cf: equ 0x98
+04063C             0916*  
+04063C             0917*  ; &A0-&A7 	160-167 	Not supported (Circular arc)
+04063C             0918*  ; &A8-&AF 	168-175 	Not supported (Circular segment)
+04063C             0919*  ; &B0-&B7 	176-183 	Not supported (Circular sector)
+04063C             0920*  
+04063C             0921*  ; &B8-&BF 	184-191 	Rectangle copy/move
+04063C             0922*  plot_rcm: equ 0xB8
+04063C             0923*  
+04063C             0924*  ; &C0-&C7 	192-199 	Not supported (Ellipse outline)
+04063C             0925*  ; &C8-&CF 	200-207 	Not supported (Ellipse fill)
+04063C             0926*  ; &D0-&D7 	208-215 	Not defined
+04063C             0927*  ; &D8-&DF 	216-223 	Not defined
+04063C             0928*  ; &E0-&E7 	224-231 	Not defined
+04063C             0929*  
+04063C             0930*  ; &E8-&EF 	232-239 	Bitmap plot §
+04063C             0931*  plot_bmp: equ 0xE8
+04063C             0932*  
+04063C             0933*  ; &F0-&F7 	240-247 	Not defined
+04063C             0934*  ; &F8-&FF 	248-255 	Not defined
+04063C             0935*  
+04063C             0936*  ; § Support added in Agon Console8 VDP 2.1.0 §§ Support added in
+04063C             0937*  ; Agon Console8 VDP 2.2.0
+04063C             0938*  
+04063C             0939*  ; Within each group of eight plot codes, the effects are as follows:
+04063C             0940*  ; Plot code 	Effect
+04063C             0941*  ; 0 	Move relative
+04063C             0942*  mv_rel: equ 0
+04063C             0943*  
+04063C             0944*  ; 1 	Plot relative in current foreground colour
+04063C             0945*  dr_rel_fg: equ 1
+04063C             0946*  
+04063C             0947*  ; 2 	Not supported (Plot relative in logical inverse colour)
+04063C             0948*  ; 3 	Plot relative in current background colour
+04063C             0949*  dr_rel_bg: equ 3
+04063C             0950*  
+04063C             0951*  ; 4 	Move absolute
+04063C             0952*  mv_abs: equ 4
+04063C             0953*  
+04063C             0954*  ; 5 	Plot absolute in current foreground colour
+04063C             0955*  dr_abs_fg: equ 5
+04063C             0956*  
+04063C             0957*  ; 6 	Not supported (Plot absolute in logical inverse colour)
+04063C             0958*  ; 7 	Plot absolute in current background colour
+04063C             0959*  dr_abs_bg: equ 7
+04063C             0960*  
+04063C             0961*  ; Codes 0-3 use the position data provided as part of the command
+04063C             0962*  ; as a relative position, adding the position given to the current
+04063C             0963*  ; graphical cursor position. Codes 4-7 use the position data provided
+04063C             0964*  ; as part of the command as an absolute position, setting the current
+04063C             0965*  ; graphical cursor position to the position given.
+04063C             0966*  
+04063C             0967*  ; Codes 2 and 6 on Acorn systems plot using a logical inverse of the
+04063C             0968*  ; current pixel colour. These operations cannot currently be supported
+04063C             0969*  ; by the graphics system the Agon VDP uses, so these codes are not
+04063C             0970*  ; supported. Support for these codes may be added in a future version
+04063C             0971*  ; of the VDP firmware.
+04063C             0972*  
+04063C             0973*  ; 16 colour palette constants
+04063C             0974*  c_black: equ 0
+04063C             0975*  c_red_dk: equ 1
+04063C             0976*  c_green_dk: equ 2
+04063C             0977*  c_yellow_dk: equ 3
+04063C             0978*  c_blue_dk: equ 4
+04063C             0979*  c_magenta_dk: equ 5
+04063C             0980*  c_cyan_dk: equ 6
+04063C             0981*  c_grey: equ 7
+04063C             0982*  c_grey_dk: equ 8
+04063C             0983*  c_red: equ 9
+04063C             0984*  c_green: equ 10
+04063C             0985*  c_yellow: equ 11
+04063C             0986*  c_blue: equ 12
+04063C             0987*  c_magenta: equ 13
+04063C             0988*  c_cyan: equ 14
+04063C             0989*  c_white: equ 15
+04063C             0990*  
+04063C             0991*  ; VDU 25, mode, x; y;: PLOT command
+04063C             0992*  ; inputs: a=mode, bc=x0, de=y0
+04063C             0993*  vdu_plot:
+04063C 32 56 06 04 0994*      ld (@mode),a
+040640 ED 43 57 06 0995*      ld (@x0),bc
        04          
-040643 ED 53 57 06 0996*      ld (@y0),de
+040645 ED 53 59 06 0996*      ld (@y0),de
        04          
-040648 21 53 06 04 0997*  	ld hl,@cmd
-04064C 01 06 00 00 0998*  	ld bc,@end-@cmd
-040650 5B DF       0999*  	rst.lil $18
-040652 C9          1000*  	ret
-040653 19          1001*  @cmd:   db 25
-040654 00          1002*  @mode:  db 0
-040655 00 00       1003*  @x0: 	dw 0
-040657 00 00       1004*  @y0: 	dw 0
-040659 00          1005*  @end:   db 0 ; extra byte to soak up deu
-04065A             1006*  
-04065A             1007*  ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
-04065A             1008*  ; &E8-&EF 	232-239 	Bitmap plot §
-04065A             1009*  ; VDU 25, mode, x; y;: PLOT command
-04065A             1010*  ; inputs: bc=x0, de=y0
-04065A             1011*  ; prerequisites: vdu_buff_select
-04065A             1012*  vdu_plot_bmp:
-04065A ED 43 71 06 1013*      ld (@x0),bc
+04064A 21 55 06 04 0997*  	ld hl,@cmd
+04064E 01 06 00 00 0998*  	ld bc,@end-@cmd
+040652 5B DF       0999*  	rst.lil $18
+040654 C9          1000*  	ret
+040655 19          1001*  @cmd:   db 25
+040656 00          1002*  @mode:  db 0
+040657 00 00       1003*  @x0: 	dw 0
+040659 00 00       1004*  @y0: 	dw 0
+04065B 00          1005*  @end:   db 0 ; extra byte to soak up deu
+04065C             1006*  
+04065C             1007*  ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
+04065C             1008*  ; &E8-&EF 	232-239 	Bitmap plot §
+04065C             1009*  ; VDU 25, mode, x; y;: PLOT command
+04065C             1010*  ; inputs: bc=x0, de=y0
+04065C             1011*  ; prerequisites: vdu_buff_select
+04065C             1012*  vdu_plot_bmp:
+04065C ED 43 73 06 1013*      ld (@x0),bc
        04          
-04065F ED 53 73 06 1014*      ld (@y0),de
+040661 ED 53 75 06 1014*      ld (@y0),de
        04          
-040664 21 6F 06 04 1015*  	ld hl,@cmd
-040668 01 06 00 00 1016*  	ld bc,@end-@cmd
-04066C 5B DF       1017*  	rst.lil $18
-04066E C9          1018*  	ret
-04066F 19          1019*  @cmd:   db 25
-040670 ED          1020*  @mode:  db plot_bmp+dr_abs_fg ; 0xED
-040671 00 00       1021*  @x0: 	dw 0x0000
-040673 00 00       1022*  @y0: 	dw 0x0000
-040675 00          1023*  @end:   db 0x00 ; padding
-040676             1024*  
-040676             1025*  ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
-040676             1026*  ; &E8-&EF 	232-239 	Bitmap plot §
-040676             1027*  ; VDU 25, mode, x; y;: PLOT command
-040676             1028*  ; inputs: bc=x0, de=y0
-040676             1029*  ; USING 16.8 FIXED POINT COORDINATES
-040676             1030*  ; inputs: ub.c is x coordinate, ud.e is y coordinate
-040676             1031*  ;   the fractional portiion of the inputs are truncated
-040676             1032*  ;   leaving only the 16-bit integer portion
-040676             1033*  ; prerequisites: vdu_buff_select
-040676             1034*  vdu_plot_bmp168:
-040676             1035*  ; populate in the reverse of normal to keep the
-040676             1036*  ; inputs from stomping on each other
-040676 ED 53 94 06 1037*      ld (@y0-1),de
+040666 21 71 06 04 1015*  	ld hl,@cmd
+04066A 01 06 00 00 1016*  	ld bc,@end-@cmd
+04066E 5B DF       1017*  	rst.lil $18
+040670 C9          1018*  	ret
+040671 19          1019*  @cmd:   db 25
+040672 ED          1020*  @mode:  db plot_bmp+dr_abs_fg ; 0xED
+040673 00 00       1021*  @x0: 	dw 0x0000
+040675 00 00       1022*  @y0: 	dw 0x0000
+040677 00          1023*  @end:   db 0x00 ; padding
+040678             1024*  
+040678             1025*  ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
+040678             1026*  ; &E8-&EF 	232-239 	Bitmap plot §
+040678             1027*  ; VDU 25, mode, x; y;: PLOT command
+040678             1028*  ; inputs: bc=x0, de=y0
+040678             1029*  ; USING 16.8 FIXED POINT COORDINATES
+040678             1030*  ; inputs: ub.c is x coordinate, ud.e is y coordinate
+040678             1031*  ;   the fractional portiion of the inputs are truncated
+040678             1032*  ;   leaving only the 16-bit integer portion
+040678             1033*  ; prerequisites: vdu_buff_select
+040678             1034*  vdu_plot_bmp168:
+040678             1035*  ; populate in the reverse of normal to keep the
+040678             1036*  ; inputs from stomping on each other
+040678 ED 53 96 06 1037*      ld (@y0-1),de
        04          
-04067B ED 43 92 06 1038*      ld (@x0-1),bc
+04067D ED 43 94 06 1038*      ld (@x0-1),bc
        04          
-040680 3E ED       1039*      ld a,plot_bmp+dr_abs_fg ; 0xED
-040682 32 92 06 04 1040*      ld (@mode),a ; restore the mode byte that got stomped on by bcu
-040686 21 91 06 04 1041*  	ld hl,@cmd
-04068A 01 06 00 00 1042*  	ld bc,@end-@cmd
-04068E 5B DF       1043*  	rst.lil $18
-040690 C9          1044*  	ret
-040691 19          1045*  @cmd:   db 25
-040692 ED          1046*  @mode:  db plot_bmp+dr_abs_fg ; 0xED
-040693 00 00       1047*  @x0: 	dw 0x0000
-040695 00 00       1048*  @y0: 	dw 0x0000
-040697             1049*  @end:  ; no padding required b/c we shifted de right
-040697             1050*  
-040697             1051*  ; draw a filled rectangle
-040697             1052*  vdu_plot_rf:
-040697 ED 43 BE 06 1053*      ld (@x0),bc
+040682 3E ED       1039*      ld a,plot_bmp+dr_abs_fg ; 0xED
+040684 32 94 06 04 1040*      ld (@mode),a ; restore the mode byte that got stomped on by bcu
+040688 21 93 06 04 1041*  	ld hl,@cmd
+04068C 01 06 00 00 1042*  	ld bc,@end-@cmd
+040690 5B DF       1043*  	rst.lil $18
+040692 C9          1044*  	ret
+040693 19          1045*  @cmd:   db 25
+040694 ED          1046*  @mode:  db plot_bmp+dr_abs_fg ; 0xED
+040695 00 00       1047*  @x0: 	dw 0x0000
+040697 00 00       1048*  @y0: 	dw 0x0000
+040699             1049*  @end:  ; no padding required b/c we shifted de right
+040699             1050*  
+040699             1051*  ; draw a filled rectangle
+040699             1052*  vdu_plot_rf:
+040699 ED 43 C0 06 1053*      ld (@x0),bc
        04          
-04069C ED 53 C0 06 1054*      ld (@y0),de
+04069E ED 53 C2 06 1054*      ld (@y0),de
        04          
-0406A1 DD 22 C4 06 1055*      ld (@x1),ix
+0406A3 DD 22 C6 06 1055*      ld (@x1),ix
        04          
-0406A6 FD 22 C6 06 1056*      ld (@y1),iy
+0406A8 FD 22 C8 06 1056*      ld (@y1),iy
        04          
-0406AB 3E 19       1057*      ld a,25 ; we have to reload the 2nd plot command
-0406AD 32 C2 06 04 1058*      ld (@cmd1),a ; because the 24-bit y0 load stomped on it
-0406B1 21 BC 06 04 1059*  	ld hl,@cmd0
-0406B5 01 0C 00 00 1060*  	ld bc,@end-@cmd0
-0406B9 5B DF       1061*  	rst.lil $18
-0406BB C9          1062*      ret
-0406BC 19          1063*  @cmd0:  db 25 ; plot
-0406BD 04          1064*  @arg0:  db plot_sl_both+mv_abs
-0406BE 00 00       1065*  @x0:    dw 0x0000
-0406C0 00 00       1066*  @y0:    dw 0x0000
-0406C2 19          1067*  @cmd1:  db 25 ; plot
-0406C3 65          1068*  @arg1:  db plot_rf+dr_abs_fg
-0406C4 00 00       1069*  @x1:    dw 0x0000
-0406C6 00 00       1070*  @y1:    dw 0x0000
-0406C8 00          1071*  @end:   db 0x00 ; padding
-0406C9             1072*  
-0406C9             1073*  ; draw a filled circle
-0406C9             1074*  vdu_plot_cf:
-0406C9 ED 43 F0 06 1075*      ld (@x0),bc
+0406AD 3E 19       1057*      ld a,25 ; we have to reload the 2nd plot command
+0406AF 32 C4 06 04 1058*      ld (@cmd1),a ; because the 24-bit y0 load stomped on it
+0406B3 21 BE 06 04 1059*  	ld hl,@cmd0
+0406B7 01 0C 00 00 1060*  	ld bc,@end-@cmd0
+0406BB 5B DF       1061*  	rst.lil $18
+0406BD C9          1062*      ret
+0406BE 19          1063*  @cmd0:  db 25 ; plot
+0406BF 04          1064*  @arg0:  db plot_sl_both+mv_abs
+0406C0 00 00       1065*  @x0:    dw 0x0000
+0406C2 00 00       1066*  @y0:    dw 0x0000
+0406C4 19          1067*  @cmd1:  db 25 ; plot
+0406C5 65          1068*  @arg1:  db plot_rf+dr_abs_fg
+0406C6 00 00       1069*  @x1:    dw 0x0000
+0406C8 00 00       1070*  @y1:    dw 0x0000
+0406CA 00          1071*  @end:   db 0x00 ; padding
+0406CB             1072*  
+0406CB             1073*  ; draw a filled circle
+0406CB             1074*  vdu_plot_cf:
+0406CB ED 43 F2 06 1075*      ld (@x0),bc
        04          
-0406CE ED 53 F2 06 1076*      ld (@y0),de
+0406D0 ED 53 F4 06 1076*      ld (@y0),de
        04          
-0406D3 DD 22 F6 06 1077*      ld (@x1),ix
+0406D5 DD 22 F8 06 1077*      ld (@x1),ix
        04          
-0406D8 FD 22 F8 06 1078*      ld (@y1),iy
+0406DA FD 22 FA 06 1078*      ld (@y1),iy
        04          
-0406DD 3E 19       1079*      ld a,25 ; we have to reload the 2nd plot command
-0406DF 32 F4 06 04 1080*      ld (@cmd1),a ; because the 24-bit y0 load stomped on it
-0406E3 21 EE 06 04 1081*  	ld hl,@cmd0
-0406E7 01 0C 00 00 1082*  	ld bc,@end-@cmd0
-0406EB 5B DF       1083*  	rst.lil $18
-0406ED C9          1084*      ret
-0406EE 19          1085*  @cmd0:  db 25 ; plot
-0406EF 04          1086*  @arg0:  db plot_sl_both+mv_abs
-0406F0 00 00       1087*  @x0:    dw 0x0000
-0406F2 00 00       1088*  @y0:    dw 0x0000
-0406F4 19          1089*  @cmd1:  db 25 ; plot
-0406F5 9D          1090*  @arg1:  db plot_cf+dr_abs_fg
-0406F6 00 00       1091*  @x1:    dw 0x0000
-0406F8 00 00       1092*  @y1:    dw 0x0000
-0406FA 00          1093*  @end:   db 0x00 ; padding
-0406FB             1094*  
-0406FB             1095*  ; #### from vdu_sprites.asm ####
-0406FB             1096*  ; ; https://github.com/AgonConsole8/agon-docs/blob/main/VDP---Bitmaps-API.md
-0406FB             1097*  ; the VDP can support up to 256 sprites. They must be defined
-0406FB             1098*  ; contiguously, and so the first sprite is sprite 0.
-0406FB             1099*  ; (In contrast, bitmaps can have any ID from 0 to 65534.)
-0406FB             1100*  ; Once a selection of sprites have been defined, you can activate
-0406FB             1101*  ; them using the VDU 23, 27, 7, n command, where n is the number
-0406FB             1102*  ; of sprites to activate. This will activate the first n sprites,
-0406FB             1103*  ; starting with sprite 0. All sprites from 0 to n-1 must be defined.
-0406FB             1104*  
-0406FB             1105*  ; A single sprite can have multiple "frames", referring to
-0406FB             1106*  ; different bitmaps.
-0406FB             1107*  ; (These bitmaps do not need to be the same size.)
-0406FB             1108*  ; This allows a sprite to include an animation sequence,
-0406FB             1109*  ; which can be stepped through one frame at a time, or picked
-0406FB             1110*  ; in any order.
-0406FB             1111*  
-0406FB             1112*  ; Any format of bitmap can be used as a sprite frame. It should
-0406FB             1113*  ; be noted however that "native" format bitmaps are not
-0406FB             1114*  ; recommended for use as sprite frames, as they cannot get
-0406FB             1115*  ; erased from the screen. (As noted above, the "native" bitmap
-0406FB             1116*  ; format is not really intended for general use.) This is part
-0406FB             1117*  ; of why from Agon Console8 VDP 2.6.0 bitmaps captured from the
-0406FB             1118*  ; screen are now stored in RGBA2222 format.
-0406FB             1119*  
-0406FB             1120*  ; An "active" sprite can be hidden, so it will stop being drawn,
-0406FB             1121*  ; and then later shown again.
-0406FB             1122*  
-0406FB             1123*  ; Moving sprites around the screen is done by changing the
-0406FB             1124*  ; position of the sprite. This can be done either by setting
-0406FB             1125*  ; the absolute position of the sprite, or by moving the sprite
-0406FB             1126*  ; by a given number of pixels. (Sprites are positioned using
-0406FB             1127*  ; pixel coordinates, and not by the logical OS coordinate system.)
-0406FB             1128*  ; In the current sprite system, sprites will not update their
-0406FB             1129*  ; position on-screen until either another drawing operation is
-0406FB             1130*  ; performed or an explicit VDU 23, 27, 15 command is performed.
-0406FB             1131*  
-0406FB             1132*  ; Here are the sprite commands:
-0406FB             1133*  ;
-0406FB             1134*  ; VDU 23, 27, 4,  n: Select sprite n
-0406FB             1135*  ; inputs: a is the 8-bit sprite id
-0406FB             1136*  ; vdu_sprite_select:
-0406FB             1137*  
-0406FB             1138*  ; VDU 23, 27, 5:  Clear frames in current sprite
-0406FB             1139*  ; inputs: none
-0406FB             1140*  ; prerequisites: vdu_sprite_select
-0406FB             1141*  ; vdu_sprite_clear_frames:
-0406FB             1142*  
-0406FB             1143*  ; VDU 23, 27, 6,  n: Add bitmap n as a frame to current sprite (where bitmap's buffer ID is 64000+n)
-0406FB             1144*  ; inputs: a is the 8-bit bitmap number
-0406FB             1145*  ; prerequisites: vdu_sprite_select
-0406FB             1146*  ; vdu_sprite_add_bmp:
-0406FB             1147*  
-0406FB             1148*  ; VDU 23, 27, 7,  n: Activate n sprites
-0406FB             1149*  ; inputs: a is the number of sprites to activate
-0406FB             1150*  ; vdu_sprite_activate:
-0406FB             1151*  
-0406FB             1152*  ; VDU 23, 27, 8:  Select next frame of current sprite
-0406FB             1153*  ; inputs: none
-0406FB             1154*  ; prerequisites: vdu_sprite_select
-0406FB             1155*  ; vdu_sprite_next_frame:
-0406FB             1156*  
-0406FB             1157*  ; VDU 23, 27, 9:  Select previous frame of current sprite
-0406FB             1158*  ; inputs: none
-0406FB             1159*  ; prerequisites: vdu_sprite_select
-0406FB             1160*  ; vdu_sprite_prev_frame:
-0406FB             1161*  
-0406FB             1162*  ; VDU 23, 27, 10, n: Select the nth frame of current sprite
-0406FB             1163*  ; inputs: a is frame number to select
-0406FB             1164*  ; prerequisites: vdu_sprite_select
-0406FB             1165*  ; vdu_sprite_select_frame:
-0406FB             1166*  
-0406FB             1167*  ; VDU 23, 27, 11: Show current sprite
-0406FB             1168*  ; inputs: none
-0406FB             1169*  ; prerequisites: vdu_sprite_select
-0406FB             1170*  ; vdu_sprite_show:
-0406FB             1171*  
-0406FB             1172*  ; VDU 23, 27, 12: Hide current sprite
-0406FB             1173*  ; inputs: none
-0406FB             1174*  ; prerequisites: vdu_sprite_select
-0406FB             1175*  ; vdu_sprite_hide:
-0406FB             1176*  
-0406FB             1177*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
-0406FB             1178*  ; inputs: bc is x coordinate, de is y coordinate
-0406FB             1179*  ; prerequisites: vdu_sprite_select
-0406FB             1180*  ; vdu_sprite_move_abs:
-0406FB             1181*  ;
-0406FB             1182*  ; USING 16.8 FIXED POINT COORDINATES
-0406FB             1183*  ; inputs: ub.c is x coordinate, ud.e is y coordinate
-0406FB             1184*  ;   the fractional portiion of the inputs are truncated
-0406FB             1185*  ;   leaving only the 16-bit integer portion
-0406FB             1186*  ; prerequisites: vdu_sprite_select
-0406FB             1187*  ; vdu_sprite_move_abs168:
-0406FB             1188*  
-0406FB             1189*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
-0406FB             1190*  ; inputs: bc is x coordinate, de is y coordinate
-0406FB             1191*  ; prerequisites: vdu_sprite_select
-0406FB             1192*  ; vdu_sprite_move_rel:
-0406FB             1193*  ;
-0406FB             1194*  ; USING 16.8 FIXED POINT COORDINATES
-0406FB             1195*  ; inputs: ub.c is dx, ud.e is dy
-0406FB             1196*  ;   the fractional portiion of the inputs are truncated
-0406FB             1197*  ;   leaving only the 16-bit integer portion
-0406FB             1198*  ; prerequisites: vdu_sprite_select
-0406FB             1199*  ; vdu_sprite_move_rel168:
-0406FB             1200*  
-0406FB             1201*  ; VDU 23, 27, 15: Update the sprites in the GPU
-0406FB             1202*  ; inputs: none
-0406FB             1203*  ; vdu_sprite_update:
-0406FB             1204*  
-0406FB             1205*  ; VDU 23, 27, 16: Reset bitmaps and sprites and clear all data
-0406FB             1206*  ; inputs: none
-0406FB             1207*  ; vdu_sprite_bmp_reset:
-0406FB             1208*  
-0406FB             1209*  ; VDU 23, 27, 17: Reset sprites (only) and clear all data
-0406FB             1210*  ; inputs: none
-0406FB             1211*  ; vdu_sprite_reset:
-0406FB             1212*  
-0406FB             1213*  ; VDU 23, 27, 18, n: Set the current sprite GCOL paint mode to n **
-0406FB             1214*  ; inputs: a is the GCOL paint mode
-0406FB             1215*  ; prerequisites: vdu_sprite_select
-0406FB             1216*  ; vdu_sprite_set_gcol:
-0406FB             1217*  
-0406FB             1218*  ; VDU 23, 27, &26, n;: Add bitmap n as a frame to current sprite using a 16-bit buffer ID
-0406FB             1219*  ; inputs: hl=bufferId
-0406FB             1220*  ; prerequisites: vdu_sprite_select
-0406FB             1221*  ; vdu_sprite_add_buff:
-0406FB             1222*  
-0406FB             1223*  @dummy_label: ; dummy label to serve as a break from the above comments and the below code
-0406FB             1224*  
-0406FB             1225*  ; VDU 23, 27, 4, n: Select sprite n
-0406FB             1226*  ; inputs: a is the 8-bit sprite id
-0406FB             1227*  vdu_sprite_select:
-0406FB 32 0D 07 04 1228*      ld (@sprite),a
-0406FF 21 0A 07 04 1229*      ld hl,@cmd
-040703 01 04 00 00 1230*      ld bc,@end-@cmd
-040707 5B DF       1231*      rst.lil $18
-040709 C9          1232*      ret
-04070A 17 1B 04    1233*  @cmd:    db 23,27,4
-04070D 00          1234*  @sprite: db 0x00
-04070E             1235*  @end:
-04070E             1236*  
-04070E             1237*  ; VDU 23, 27, 5: Clear frames in current sprite
-04070E             1238*  ; inputs: none
-04070E             1239*  ; prerequisites: vdu_sprite_select
-04070E             1240*  vdu_sprite_clear_frames:
-04070E 21 19 07 04 1241*      ld hl,@cmd
-040712 01 03 00 00 1242*      ld bc,@end-@cmd
-040716 5B DF       1243*      rst.lil $18
-040718 C9          1244*      ret
-040719 17 1B 05    1245*  @cmd: db 23,27,5
-04071C             1246*  @end:
-04071C             1247*  
-04071C             1248*  ; VDU 23, 27, 6, n: Add bitmap n as a frame to current sprite (where bitmap's buffer ID is 64000+n)
-04071C             1249*  ; inputs: a is the 8-bit bitmap number
-04071C             1250*  ; prerequisites: vdu_sprite_select
-04071C             1251*  vdu_sprite_add_bmp:
-04071C 32 2E 07 04 1252*      ld (@bmp),a
-040720 21 2B 07 04 1253*      ld hl,@cmd
-040724 01 04 00 00 1254*      ld bc,@end-@cmd
-040728 5B DF       1255*      rst.lil $18
-04072A C9          1256*      ret
-04072B 17 1B 06    1257*  @cmd: db 23,27,6
-04072E 00          1258*  @bmp: db 0x00
-04072F             1259*  @end:
-04072F             1260*  
-04072F             1261*  ; VDU 23, 27, 7, n: Activate n sprites
-04072F             1262*  ; inputs: a is the number of sprites to activate
-04072F             1263*  vdu_sprite_activate:
-04072F 32 41 07 04 1264*      ld (@num),a
-040733 21 3E 07 04 1265*      ld hl,@cmd
-040737 01 04 00 00 1266*      ld bc,@end-@cmd
-04073B 5B DF       1267*      rst.lil $18
-04073D C9          1268*      ret
-04073E 17 1B 07    1269*  @cmd: db 23,27,7
-040741 00          1270*  @num: db 0x00
-040742             1271*  @end:
-040742             1272*  
-040742             1273*  ; VDU 23, 27, 8: Select next frame of current sprite
-040742             1274*  ; inputs: none
-040742             1275*  ; prerequisites: vdu_sprite_select
-040742             1276*  vdu_sprite_next_frame:
-040742 21 4D 07 04 1277*      ld hl,@cmd
-040746 01 03 00 00 1278*      ld bc,@end-@cmd
-04074A 5B DF       1279*      rst.lil $18
-04074C C9          1280*      ret
-04074D 17 1B 08    1281*  @cmd: db 23,27,8
-040750             1282*  @end:
-040750             1283*  
-040750             1284*  ; VDU 23, 27, 9: Select previous frame of current sprite
-040750             1285*  ; inputs: none
-040750             1286*  ; prerequisites: vdu_sprite_select
-040750             1287*  vdu_sprite_prev_frame:
-040750 21 5B 07 04 1288*      ld hl,@cmd
-040754 01 03 00 00 1289*      ld bc,@end-@cmd
-040758 5B DF       1290*      rst.lil $18
-04075A C9          1291*      ret
-04075B 17 1B 09    1292*  @cmd: db 23,27,9
-04075E             1293*  @end:
-04075E             1294*  
-04075E             1295*  ; VDU 23, 27, 10, n: Select the nth frame of current sprite
-04075E             1296*  ; inputs: a is frame number to select
-04075E             1297*  ; prerequisites: vdu_sprite_select
-04075E             1298*  vdu_sprite_select_frame:
-04075E 32 70 07 04 1299*      ld (@frame),a
-040762 21 6D 07 04 1300*      ld hl,@cmd
-040766 01 04 00 00 1301*      ld bc,@end-@cmd
-04076A 5B DF       1302*      rst.lil $18
-04076C C9          1303*      ret
-04076D 17 1B 0A    1304*  @cmd:    db 23,27,10
-040770 00          1305*  @frame:  db 0x00
-040771             1306*  @end:
-040771             1307*  
-040771             1308*  ; VDU 23, 27, 11: Show current sprite
-040771             1309*  ; inputs: none
-040771             1310*  ; prerequisites: vdu_sprite_select
-040771             1311*  vdu_sprite_show:
-040771 21 7C 07 04 1312*      ld hl,@cmd
-040775 01 03 00 00 1313*      ld bc,@end-@cmd
-040779 5B DF       1314*      rst.lil $18
-04077B C9          1315*      ret
-04077C 17 1B 0B    1316*  @cmd: db 23,27,11
-04077F             1317*  @end:
-04077F             1318*  
-04077F             1319*  ; VDU 23, 27, 12: Hide current sprite
-04077F             1320*  ; inputs: none
-04077F             1321*  ; prerequisites: vdu_sprite_select
-04077F             1322*  vdu_sprite_hide:
-04077F 21 8A 07 04 1323*      ld hl,@cmd
-040783 01 03 00 00 1324*      ld bc,@end-@cmd
-040787 5B DF       1325*      rst.lil $18
-040789 C9          1326*      ret
-04078A 17 1B 0C    1327*  @cmd: db 23,27,12
-04078D             1328*  @end:
-04078D             1329*  
-04078D             1330*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
-04078D             1331*  ; inputs: bc is x coordinate, de is y coordinate
-04078D             1332*  ; prerequisites: vdu_sprite_select
-04078D             1333*  vdu_sprite_move_abs:
-04078D ED 43 A5 07 1334*      ld (@xpos),bc
+0406DF 3E 19       1079*      ld a,25 ; we have to reload the 2nd plot command
+0406E1 32 F6 06 04 1080*      ld (@cmd1),a ; because the 24-bit y0 load stomped on it
+0406E5 21 F0 06 04 1081*  	ld hl,@cmd0
+0406E9 01 0C 00 00 1082*  	ld bc,@end-@cmd0
+0406ED 5B DF       1083*  	rst.lil $18
+0406EF C9          1084*      ret
+0406F0 19          1085*  @cmd0:  db 25 ; plot
+0406F1 04          1086*  @arg0:  db plot_sl_both+mv_abs
+0406F2 00 00       1087*  @x0:    dw 0x0000
+0406F4 00 00       1088*  @y0:    dw 0x0000
+0406F6 19          1089*  @cmd1:  db 25 ; plot
+0406F7 9D          1090*  @arg1:  db plot_cf+dr_abs_fg
+0406F8 00 00       1091*  @x1:    dw 0x0000
+0406FA 00 00       1092*  @y1:    dw 0x0000
+0406FC 00          1093*  @end:   db 0x00 ; padding
+0406FD             1094*  
+0406FD             1095*  ; #### from vdu_sprites.asm ####
+0406FD             1096*  ; ; https://github.com/AgonConsole8/agon-docs/blob/main/VDP---Bitmaps-API.md
+0406FD             1097*  ; the VDP can support up to 256 sprites. They must be defined
+0406FD             1098*  ; contiguously, and so the first sprite is sprite 0.
+0406FD             1099*  ; (In contrast, bitmaps can have any ID from 0 to 65534.)
+0406FD             1100*  ; Once a selection of sprites have been defined, you can activate
+0406FD             1101*  ; them using the VDU 23, 27, 7, n command, where n is the number
+0406FD             1102*  ; of sprites to activate. This will activate the first n sprites,
+0406FD             1103*  ; starting with sprite 0. All sprites from 0 to n-1 must be defined.
+0406FD             1104*  
+0406FD             1105*  ; A single sprite can have multiple "frames", referring to
+0406FD             1106*  ; different bitmaps.
+0406FD             1107*  ; (These bitmaps do not need to be the same size.)
+0406FD             1108*  ; This allows a sprite to include an animation sequence,
+0406FD             1109*  ; which can be stepped through one frame at a time, or picked
+0406FD             1110*  ; in any order.
+0406FD             1111*  
+0406FD             1112*  ; Any format of bitmap can be used as a sprite frame. It should
+0406FD             1113*  ; be noted however that "native" format bitmaps are not
+0406FD             1114*  ; recommended for use as sprite frames, as they cannot get
+0406FD             1115*  ; erased from the screen. (As noted above, the "native" bitmap
+0406FD             1116*  ; format is not really intended for general use.) This is part
+0406FD             1117*  ; of why from Agon Console8 VDP 2.6.0 bitmaps captured from the
+0406FD             1118*  ; screen are now stored in RGBA2222 format.
+0406FD             1119*  
+0406FD             1120*  ; An "active" sprite can be hidden, so it will stop being drawn,
+0406FD             1121*  ; and then later shown again.
+0406FD             1122*  
+0406FD             1123*  ; Moving sprites around the screen is done by changing the
+0406FD             1124*  ; position of the sprite. This can be done either by setting
+0406FD             1125*  ; the absolute position of the sprite, or by moving the sprite
+0406FD             1126*  ; by a given number of pixels. (Sprites are positioned using
+0406FD             1127*  ; pixel coordinates, and not by the logical OS coordinate system.)
+0406FD             1128*  ; In the current sprite system, sprites will not update their
+0406FD             1129*  ; position on-screen until either another drawing operation is
+0406FD             1130*  ; performed or an explicit VDU 23, 27, 15 command is performed.
+0406FD             1131*  
+0406FD             1132*  ; Here are the sprite commands:
+0406FD             1133*  ;
+0406FD             1134*  ; VDU 23, 27, 4,  n: Select sprite n
+0406FD             1135*  ; inputs: a is the 8-bit sprite id
+0406FD             1136*  ; vdu_sprite_select:
+0406FD             1137*  
+0406FD             1138*  ; VDU 23, 27, 5:  Clear frames in current sprite
+0406FD             1139*  ; inputs: none
+0406FD             1140*  ; prerequisites: vdu_sprite_select
+0406FD             1141*  ; vdu_sprite_clear_frames:
+0406FD             1142*  
+0406FD             1143*  ; VDU 23, 27, 6,  n: Add bitmap n as a frame to current sprite (where bitmap's buffer ID is 64000+n)
+0406FD             1144*  ; inputs: a is the 8-bit bitmap number
+0406FD             1145*  ; prerequisites: vdu_sprite_select
+0406FD             1146*  ; vdu_sprite_add_bmp:
+0406FD             1147*  
+0406FD             1148*  ; VDU 23, 27, 7,  n: Activate n sprites
+0406FD             1149*  ; inputs: a is the number of sprites to activate
+0406FD             1150*  ; vdu_sprite_activate:
+0406FD             1151*  
+0406FD             1152*  ; VDU 23, 27, 8:  Select next frame of current sprite
+0406FD             1153*  ; inputs: none
+0406FD             1154*  ; prerequisites: vdu_sprite_select
+0406FD             1155*  ; vdu_sprite_next_frame:
+0406FD             1156*  
+0406FD             1157*  ; VDU 23, 27, 9:  Select previous frame of current sprite
+0406FD             1158*  ; inputs: none
+0406FD             1159*  ; prerequisites: vdu_sprite_select
+0406FD             1160*  ; vdu_sprite_prev_frame:
+0406FD             1161*  
+0406FD             1162*  ; VDU 23, 27, 10, n: Select the nth frame of current sprite
+0406FD             1163*  ; inputs: a is frame number to select
+0406FD             1164*  ; prerequisites: vdu_sprite_select
+0406FD             1165*  ; vdu_sprite_select_frame:
+0406FD             1166*  
+0406FD             1167*  ; VDU 23, 27, 11: Show current sprite
+0406FD             1168*  ; inputs: none
+0406FD             1169*  ; prerequisites: vdu_sprite_select
+0406FD             1170*  ; vdu_sprite_show:
+0406FD             1171*  
+0406FD             1172*  ; VDU 23, 27, 12: Hide current sprite
+0406FD             1173*  ; inputs: none
+0406FD             1174*  ; prerequisites: vdu_sprite_select
+0406FD             1175*  ; vdu_sprite_hide:
+0406FD             1176*  
+0406FD             1177*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
+0406FD             1178*  ; inputs: bc is x coordinate, de is y coordinate
+0406FD             1179*  ; prerequisites: vdu_sprite_select
+0406FD             1180*  ; vdu_sprite_move_abs:
+0406FD             1181*  ;
+0406FD             1182*  ; USING 16.8 FIXED POINT COORDINATES
+0406FD             1183*  ; inputs: ub.c is x coordinate, ud.e is y coordinate
+0406FD             1184*  ;   the fractional portiion of the inputs are truncated
+0406FD             1185*  ;   leaving only the 16-bit integer portion
+0406FD             1186*  ; prerequisites: vdu_sprite_select
+0406FD             1187*  ; vdu_sprite_move_abs168:
+0406FD             1188*  
+0406FD             1189*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
+0406FD             1190*  ; inputs: bc is x coordinate, de is y coordinate
+0406FD             1191*  ; prerequisites: vdu_sprite_select
+0406FD             1192*  ; vdu_sprite_move_rel:
+0406FD             1193*  ;
+0406FD             1194*  ; USING 16.8 FIXED POINT COORDINATES
+0406FD             1195*  ; inputs: ub.c is dx, ud.e is dy
+0406FD             1196*  ;   the fractional portiion of the inputs are truncated
+0406FD             1197*  ;   leaving only the 16-bit integer portion
+0406FD             1198*  ; prerequisites: vdu_sprite_select
+0406FD             1199*  ; vdu_sprite_move_rel168:
+0406FD             1200*  
+0406FD             1201*  ; VDU 23, 27, 15: Update the sprites in the GPU
+0406FD             1202*  ; inputs: none
+0406FD             1203*  ; vdu_sprite_update:
+0406FD             1204*  
+0406FD             1205*  ; VDU 23, 27, 16: Reset bitmaps and sprites and clear all data
+0406FD             1206*  ; inputs: none
+0406FD             1207*  ; vdu_sprite_bmp_reset:
+0406FD             1208*  
+0406FD             1209*  ; VDU 23, 27, 17: Reset sprites (only) and clear all data
+0406FD             1210*  ; inputs: none
+0406FD             1211*  ; vdu_sprite_reset:
+0406FD             1212*  
+0406FD             1213*  ; VDU 23, 27, 18, n: Set the current sprite GCOL paint mode to n **
+0406FD             1214*  ; inputs: a is the GCOL paint mode
+0406FD             1215*  ; prerequisites: vdu_sprite_select
+0406FD             1216*  ; vdu_sprite_set_gcol:
+0406FD             1217*  
+0406FD             1218*  ; VDU 23, 27, &26, n;: Add bitmap n as a frame to current sprite using a 16-bit buffer ID
+0406FD             1219*  ; inputs: hl=bufferId
+0406FD             1220*  ; prerequisites: vdu_sprite_select
+0406FD             1221*  ; vdu_sprite_add_buff:
+0406FD             1222*  
+0406FD             1223*  @dummy_label: ; dummy label to serve as a break from the above comments and the below code
+0406FD             1224*  
+0406FD             1225*  ; VDU 23, 27, 4, n: Select sprite n
+0406FD             1226*  ; inputs: a is the 8-bit sprite id
+0406FD             1227*  vdu_sprite_select:
+0406FD 32 0F 07 04 1228*      ld (@sprite),a
+040701 21 0C 07 04 1229*      ld hl,@cmd
+040705 01 04 00 00 1230*      ld bc,@end-@cmd
+040709 5B DF       1231*      rst.lil $18
+04070B C9          1232*      ret
+04070C 17 1B 04    1233*  @cmd:    db 23,27,4
+04070F 00          1234*  @sprite: db 0x00
+040710             1235*  @end:
+040710             1236*  
+040710             1237*  ; VDU 23, 27, 5: Clear frames in current sprite
+040710             1238*  ; inputs: none
+040710             1239*  ; prerequisites: vdu_sprite_select
+040710             1240*  vdu_sprite_clear_frames:
+040710 21 1B 07 04 1241*      ld hl,@cmd
+040714 01 03 00 00 1242*      ld bc,@end-@cmd
+040718 5B DF       1243*      rst.lil $18
+04071A C9          1244*      ret
+04071B 17 1B 05    1245*  @cmd: db 23,27,5
+04071E             1246*  @end:
+04071E             1247*  
+04071E             1248*  ; VDU 23, 27, 6, n: Add bitmap n as a frame to current sprite (where bitmap's buffer ID is 64000+n)
+04071E             1249*  ; inputs: a is the 8-bit bitmap number
+04071E             1250*  ; prerequisites: vdu_sprite_select
+04071E             1251*  vdu_sprite_add_bmp:
+04071E 32 30 07 04 1252*      ld (@bmp),a
+040722 21 2D 07 04 1253*      ld hl,@cmd
+040726 01 04 00 00 1254*      ld bc,@end-@cmd
+04072A 5B DF       1255*      rst.lil $18
+04072C C9          1256*      ret
+04072D 17 1B 06    1257*  @cmd: db 23,27,6
+040730 00          1258*  @bmp: db 0x00
+040731             1259*  @end:
+040731             1260*  
+040731             1261*  ; VDU 23, 27, 7, n: Activate n sprites
+040731             1262*  ; inputs: a is the number of sprites to activate
+040731             1263*  vdu_sprite_activate:
+040731 32 43 07 04 1264*      ld (@num),a
+040735 21 40 07 04 1265*      ld hl,@cmd
+040739 01 04 00 00 1266*      ld bc,@end-@cmd
+04073D 5B DF       1267*      rst.lil $18
+04073F C9          1268*      ret
+040740 17 1B 07    1269*  @cmd: db 23,27,7
+040743 00          1270*  @num: db 0x00
+040744             1271*  @end:
+040744             1272*  
+040744             1273*  ; VDU 23, 27, 8: Select next frame of current sprite
+040744             1274*  ; inputs: none
+040744             1275*  ; prerequisites: vdu_sprite_select
+040744             1276*  vdu_sprite_next_frame:
+040744 21 4F 07 04 1277*      ld hl,@cmd
+040748 01 03 00 00 1278*      ld bc,@end-@cmd
+04074C 5B DF       1279*      rst.lil $18
+04074E C9          1280*      ret
+04074F 17 1B 08    1281*  @cmd: db 23,27,8
+040752             1282*  @end:
+040752             1283*  
+040752             1284*  ; VDU 23, 27, 9: Select previous frame of current sprite
+040752             1285*  ; inputs: none
+040752             1286*  ; prerequisites: vdu_sprite_select
+040752             1287*  vdu_sprite_prev_frame:
+040752 21 5D 07 04 1288*      ld hl,@cmd
+040756 01 03 00 00 1289*      ld bc,@end-@cmd
+04075A 5B DF       1290*      rst.lil $18
+04075C C9          1291*      ret
+04075D 17 1B 09    1292*  @cmd: db 23,27,9
+040760             1293*  @end:
+040760             1294*  
+040760             1295*  ; VDU 23, 27, 10, n: Select the nth frame of current sprite
+040760             1296*  ; inputs: a is frame number to select
+040760             1297*  ; prerequisites: vdu_sprite_select
+040760             1298*  vdu_sprite_select_frame:
+040760 32 72 07 04 1299*      ld (@frame),a
+040764 21 6F 07 04 1300*      ld hl,@cmd
+040768 01 04 00 00 1301*      ld bc,@end-@cmd
+04076C 5B DF       1302*      rst.lil $18
+04076E C9          1303*      ret
+04076F 17 1B 0A    1304*  @cmd:    db 23,27,10
+040772 00          1305*  @frame:  db 0x00
+040773             1306*  @end:
+040773             1307*  
+040773             1308*  ; VDU 23, 27, 11: Show current sprite
+040773             1309*  ; inputs: none
+040773             1310*  ; prerequisites: vdu_sprite_select
+040773             1311*  vdu_sprite_show:
+040773 21 7E 07 04 1312*      ld hl,@cmd
+040777 01 03 00 00 1313*      ld bc,@end-@cmd
+04077B 5B DF       1314*      rst.lil $18
+04077D C9          1315*      ret
+04077E 17 1B 0B    1316*  @cmd: db 23,27,11
+040781             1317*  @end:
+040781             1318*  
+040781             1319*  ; VDU 23, 27, 12: Hide current sprite
+040781             1320*  ; inputs: none
+040781             1321*  ; prerequisites: vdu_sprite_select
+040781             1322*  vdu_sprite_hide:
+040781 21 8C 07 04 1323*      ld hl,@cmd
+040785 01 03 00 00 1324*      ld bc,@end-@cmd
+040789 5B DF       1325*      rst.lil $18
+04078B C9          1326*      ret
+04078C 17 1B 0C    1327*  @cmd: db 23,27,12
+04078F             1328*  @end:
+04078F             1329*  
+04078F             1330*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
+04078F             1331*  ; inputs: bc is x coordinate, de is y coordinate
+04078F             1332*  ; prerequisites: vdu_sprite_select
+04078F             1333*  vdu_sprite_move_abs:
+04078F ED 43 A7 07 1334*      ld (@xpos),bc
        04          
-040792 ED 53 A7 07 1335*      ld (@ypos),de
+040794 ED 53 A9 07 1335*      ld (@ypos),de
        04          
-040797 21 A2 07 04 1336*      ld hl,@cmd
-04079B 01 07 00 00 1337*      ld bc,@end-@cmd
-04079F 5B DF       1338*      rst.lil $18
-0407A1 C9          1339*      ret
-0407A2 17 1B 0D    1340*  @cmd:  db 23,27,13
-0407A5 00 00       1341*  @xpos: dw 0x0000
-0407A7 00 00       1342*  @ypos: dw 0x0000
-0407A9 00          1343*  @end:  db 0x00 ; padding
-0407AA             1344*  
-0407AA             1345*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
-0407AA             1346*  ; inputs: bc is x coordinate, de is y coordinate
-0407AA             1347*  ; prerequisites: vdu_sprite_select
-0407AA             1348*  vdu_sprite_move_rel:
-0407AA ED 43 C2 07 1349*      ld (@dx),bc
+040799 21 A4 07 04 1336*      ld hl,@cmd
+04079D 01 07 00 00 1337*      ld bc,@end-@cmd
+0407A1 5B DF       1338*      rst.lil $18
+0407A3 C9          1339*      ret
+0407A4 17 1B 0D    1340*  @cmd:  db 23,27,13
+0407A7 00 00       1341*  @xpos: dw 0x0000
+0407A9 00 00       1342*  @ypos: dw 0x0000
+0407AB 00          1343*  @end:  db 0x00 ; padding
+0407AC             1344*  
+0407AC             1345*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
+0407AC             1346*  ; inputs: bc is x coordinate, de is y coordinate
+0407AC             1347*  ; prerequisites: vdu_sprite_select
+0407AC             1348*  vdu_sprite_move_rel:
+0407AC ED 43 C4 07 1349*      ld (@dx),bc
        04          
-0407AF ED 53 C4 07 1350*      ld (@dy),de
+0407B1 ED 53 C6 07 1350*      ld (@dy),de
        04          
-0407B4 21 BF 07 04 1351*      ld hl,@cmd
-0407B8 01 07 00 00 1352*      ld bc,@end-@cmd
-0407BC 5B DF       1353*      rst.lil $18
-0407BE C9          1354*      ret
-0407BF 17 1B 0E    1355*  @cmd: db 23,27,14
-0407C2 00 00       1356*  @dx:  dw 0x0000
-0407C4 00 00       1357*  @dy:  dw 0x0000
-0407C6 00          1358*  @end: db 0x00 ; padding
-0407C7             1359*  
-0407C7             1360*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
-0407C7             1361*  ; USING 16.8 FIXED POINT COORDINATES
-0407C7             1362*  ; inputs: ub.c is x coordinate, ud.e is y coordinate
-0407C7             1363*  ;   the fractional portiion of the inputs are truncated
-0407C7             1364*  ;   leaving only the 16-bit integer portion
-0407C7             1365*  ; prerequisites: vdu_sprite_select
-0407C7             1366*  vdu_sprite_move_abs168:
-0407C7             1367*  ; populate in the reverse of normal to keep the
-0407C7             1368*  ; inputs from stomping on each other
-0407C7 ED 53 E6 07 1369*      ld (@ypos-1),de
+0407B6 21 C1 07 04 1351*      ld hl,@cmd
+0407BA 01 07 00 00 1352*      ld bc,@end-@cmd
+0407BE 5B DF       1353*      rst.lil $18
+0407C0 C9          1354*      ret
+0407C1 17 1B 0E    1355*  @cmd: db 23,27,14
+0407C4 00 00       1356*  @dx:  dw 0x0000
+0407C6 00 00       1357*  @dy:  dw 0x0000
+0407C8 00          1358*  @end: db 0x00 ; padding
+0407C9             1359*  
+0407C9             1360*  ; VDU 23, 27, 13, x; y;: Move current sprite to pixel position x, y
+0407C9             1361*  ; USING 16.8 FIXED POINT COORDINATES
+0407C9             1362*  ; inputs: ub.c is x coordinate, ud.e is y coordinate
+0407C9             1363*  ;   the fractional portiion of the inputs are truncated
+0407C9             1364*  ;   leaving only the 16-bit integer portion
+0407C9             1365*  ; prerequisites: vdu_sprite_select
+0407C9             1366*  vdu_sprite_move_abs168:
+0407C9             1367*  ; populate in the reverse of normal to keep the
+0407C9             1368*  ; inputs from stomping on each other
+0407C9 ED 53 E8 07 1369*      ld (@ypos-1),de
        04          
-0407CC ED 43 E4 07 1370*      ld (@xpos-1),bc
+0407CE ED 43 E6 07 1370*      ld (@xpos-1),bc
        04          
-0407D1 3E 0D       1371*      ld a,13       ; restore the final byte of the command
-0407D3 32 E4 07 04 1372*      ld (@cmd+2),a ; string that got stomped on by bcu
-0407D7 21 E2 07 04 1373*      ld hl,@cmd
-0407DB 01 07 00 00 1374*      ld bc,@end-@cmd
-0407DF 5B DF       1375*      rst.lil $18
-0407E1 C9          1376*      ret
-0407E2 17 1B 0D    1377*  @cmd:  db 23,27,13
-0407E5 00 00       1378*  @xpos: dw 0x0000
-0407E7 00 00       1379*  @ypos: dw 0x0000
-0407E9             1380*  @end:  ; no padding required b/c we shifted de right
-0407E9             1381*  
-0407E9             1382*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
-0407E9             1383*  ; USING 16.8 FIXED POINT COORDINATES
-0407E9             1384*  ; inputs: ub.c is dx, ud.e is dy
-0407E9             1385*  ;   the fractional portiion of the inputs are truncated
-0407E9             1386*  ;   leaving only the 16-bit integer portion
-0407E9             1387*  ; prerequisites: vdu_sprite_select
-0407E9             1388*  vdu_sprite_move_rel168:
-0407E9             1389*  ; populate in the reverse of normal to keep the
-0407E9             1390*  ; inputs from stomping on each other
-0407E9 ED 53 08 08 1391*      ld (@dy-1),de
+0407D3 3E 0D       1371*      ld a,13       ; restore the final byte of the command
+0407D5 32 E6 07 04 1372*      ld (@cmd+2),a ; string that got stomped on by bcu
+0407D9 21 E4 07 04 1373*      ld hl,@cmd
+0407DD 01 07 00 00 1374*      ld bc,@end-@cmd
+0407E1 5B DF       1375*      rst.lil $18
+0407E3 C9          1376*      ret
+0407E4 17 1B 0D    1377*  @cmd:  db 23,27,13
+0407E7 00 00       1378*  @xpos: dw 0x0000
+0407E9 00 00       1379*  @ypos: dw 0x0000
+0407EB             1380*  @end:  ; no padding required b/c we shifted de right
+0407EB             1381*  
+0407EB             1382*  ; VDU 23, 27, 14, x; y;: Move current sprite by x, y pixels
+0407EB             1383*  ; USING 16.8 FIXED POINT COORDINATES
+0407EB             1384*  ; inputs: ub.c is dx, ud.e is dy
+0407EB             1385*  ;   the fractional portiion of the inputs are truncated
+0407EB             1386*  ;   leaving only the 16-bit integer portion
+0407EB             1387*  ; prerequisites: vdu_sprite_select
+0407EB             1388*  vdu_sprite_move_rel168:
+0407EB             1389*  ; populate in the reverse of normal to keep the
+0407EB             1390*  ; inputs from stomping on each other
+0407EB ED 53 0A 08 1391*      ld (@dy-1),de
        04          
-0407EE ED 43 06 08 1392*      ld (@dx-1),bc
+0407F0 ED 43 08 08 1392*      ld (@dx-1),bc
        04          
-0407F3 3E 0E       1393*      ld a,14       ; restore the final byte of the command
-0407F5 32 06 08 04 1394*      ld (@cmd+2),a ; string that got stomped on by bcu
-0407F9 21 04 08 04 1395*      ld hl,@cmd
-0407FD 01 07 00 00 1396*      ld bc,@end-@cmd
-040801 5B DF       1397*      rst.lil $18
-040803 C9          1398*      ret
-040804 17 1B 0E    1399*  @cmd:  db 23,27,14
-040807 00 00       1400*  @dx: dw 0x0000
-040809 00 00       1401*  @dy: dw 0x0000
-04080B             1402*  @end:  ; no padding required b/c we shifted de right
-04080B             1403*  
-04080B             1404*  ; VDU 23, 27, 15: Update the sprites in the GPU
-04080B             1405*  ; inputs: none
-04080B             1406*  vdu_sprite_update:
-04080B 21 16 08 04 1407*      ld hl,@cmd
-04080F 01 03 00 00 1408*      ld bc,@end-@cmd
-040813 5B DF       1409*      rst.lil $18
-040815 C9          1410*      ret
-040816 17 1B 0F    1411*  @cmd: db 23,27,15
-040819             1412*  @end:
-040819             1413*  
-040819             1414*  ; VDU 23, 27, 16: Reset bitmaps and sprites and clear all data
-040819             1415*  ; inputs: none
-040819             1416*  vdu_sprite_bmp_reset:
-040819 21 24 08 04 1417*      ld hl,@cmd
-04081D 01 03 00 00 1418*      ld bc,@end-@cmd
-040821 5B DF       1419*      rst.lil $18
-040823 C9          1420*      ret
-040824 17 1B 10    1421*  @cmd: db 23,27,16
-040827             1422*  @end:
-040827             1423*  
-040827             1424*  ; VDU 23, 27, 17: Reset sprites (only) and clear all data
-040827             1425*  ; inputs: none
-040827             1426*  vdu_sprite_reset:
-040827 21 32 08 04 1427*      ld hl,@cmd
-04082B 01 03 00 00 1428*      ld bc,@end-@cmd
-04082F 5B DF       1429*      rst.lil $18
-040831 C9          1430*      ret
-040832 17 1B 11    1431*  @cmd: db 23,27,17
-040835             1432*  @end:
-040835             1433*  
-040835             1434*  ; VDU 23, 27, 18, n: Set the current sprite GCOL paint mode to n **
-040835             1435*  ; inputs: a is the GCOL paint mode
-040835             1436*  ; prerequisites: vdu_sprite_select
-040835             1437*  vdu_sprite_set_gcol:
-040835 32 47 08 04 1438*      ld (@mode),a
-040839 21 44 08 04 1439*      ld hl,@cmd
-04083D 01 04 00 00 1440*      ld bc,@end-@cmd
-040841 5B DF       1441*      rst.lil $18
-040843 C9          1442*      ret
-040844 17 1B 12    1443*  @cmd:  db 23,27,18
-040847 00          1444*  @mode: db 0x00
-040848             1445*  @end:
-040848             1446*  
-040848             1447*  ; VDU 23, 27, &26, n;: Add bitmap bufferId
-040848             1448*  ;     as a frame to current sprite using a 16-bit buffer ID
-040848             1449*  ; inputs: hl=bufferId
-040848             1450*  ; prerequisites: vdu_sprite_select
-040848             1451*  vdu_sprite_add_buff:
-040848 22 5A 08 04 1452*      ld (@bufferId),hl
-04084C 21 57 08 04 1453*      ld hl,@cmd
-040850 01 05 00 00 1454*      ld bc,@end-@cmd
-040854 5B DF       1455*      rst.lil $18
-040856 C9          1456*      ret
-040857 17 1B 26    1457*  @cmd:      db 23,27,0x26
-04085A 00 00       1458*  @bufferId: dw 0x0000
-04085C 00          1459*  @end:      db 0x00 ; padding
-04085D             1460*  
-04085D             1461*  
-04085D             1462*  ; #### from sfx.asm ####
-04085D 00          1463*  sfx_last_channel: db 0x00 ; 8-bit value between 0 and 31
-04085E             1464*  
-04085E             1465*  vdu_clear_all_buffers:
-04085E             1466*  ; clear all buffers
-04085E 21 69 08 04 1467*      ld hl,@beg
-040862 01 06 00 00 1468*      ld bc,@end-@beg
-040866 5B DF       1469*      rst.lil $18
-040868 C9          1470*      ret
-040869 17 00 A0    1471*  @beg: db 23,0,$A0
-04086C FF FF       1472*        dw -1 ; clear all buffers
-04086E 02          1473*        db 2  ; command 2: clear a buffer
-04086F             1474*  @end:
-04086F             0329   
-04086F 57 65 6C 63 0330   str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
+0407F5 3E 0E       1393*      ld a,14       ; restore the final byte of the command
+0407F7 32 08 08 04 1394*      ld (@cmd+2),a ; string that got stomped on by bcu
+0407FB 21 06 08 04 1395*      ld hl,@cmd
+0407FF 01 07 00 00 1396*      ld bc,@end-@cmd
+040803 5B DF       1397*      rst.lil $18
+040805 C9          1398*      ret
+040806 17 1B 0E    1399*  @cmd:  db 23,27,14
+040809 00 00       1400*  @dx: dw 0x0000
+04080B 00 00       1401*  @dy: dw 0x0000
+04080D             1402*  @end:  ; no padding required b/c we shifted de right
+04080D             1403*  
+04080D             1404*  ; VDU 23, 27, 15: Update the sprites in the GPU
+04080D             1405*  ; inputs: none
+04080D             1406*  vdu_sprite_update:
+04080D 21 18 08 04 1407*      ld hl,@cmd
+040811 01 03 00 00 1408*      ld bc,@end-@cmd
+040815 5B DF       1409*      rst.lil $18
+040817 C9          1410*      ret
+040818 17 1B 0F    1411*  @cmd: db 23,27,15
+04081B             1412*  @end:
+04081B             1413*  
+04081B             1414*  ; VDU 23, 27, 16: Reset bitmaps and sprites and clear all data
+04081B             1415*  ; inputs: none
+04081B             1416*  vdu_sprite_bmp_reset:
+04081B 21 26 08 04 1417*      ld hl,@cmd
+04081F 01 03 00 00 1418*      ld bc,@end-@cmd
+040823 5B DF       1419*      rst.lil $18
+040825 C9          1420*      ret
+040826 17 1B 10    1421*  @cmd: db 23,27,16
+040829             1422*  @end:
+040829             1423*  
+040829             1424*  ; VDU 23, 27, 17: Reset sprites (only) and clear all data
+040829             1425*  ; inputs: none
+040829             1426*  vdu_sprite_reset:
+040829 21 34 08 04 1427*      ld hl,@cmd
+04082D 01 03 00 00 1428*      ld bc,@end-@cmd
+040831 5B DF       1429*      rst.lil $18
+040833 C9          1430*      ret
+040834 17 1B 11    1431*  @cmd: db 23,27,17
+040837             1432*  @end:
+040837             1433*  
+040837             1434*  ; VDU 23, 27, 18, n: Set the current sprite GCOL paint mode to n **
+040837             1435*  ; inputs: a is the GCOL paint mode
+040837             1436*  ; prerequisites: vdu_sprite_select
+040837             1437*  vdu_sprite_set_gcol:
+040837 32 49 08 04 1438*      ld (@mode),a
+04083B 21 46 08 04 1439*      ld hl,@cmd
+04083F 01 04 00 00 1440*      ld bc,@end-@cmd
+040843 5B DF       1441*      rst.lil $18
+040845 C9          1442*      ret
+040846 17 1B 12    1443*  @cmd:  db 23,27,18
+040849 00          1444*  @mode: db 0x00
+04084A             1445*  @end:
+04084A             1446*  
+04084A             1447*  ; VDU 23, 27, &26, n;: Add bitmap bufferId
+04084A             1448*  ;     as a frame to current sprite using a 16-bit buffer ID
+04084A             1449*  ; inputs: hl=bufferId
+04084A             1450*  ; prerequisites: vdu_sprite_select
+04084A             1451*  vdu_sprite_add_buff:
+04084A 22 5C 08 04 1452*      ld (@bufferId),hl
+04084E 21 59 08 04 1453*      ld hl,@cmd
+040852 01 05 00 00 1454*      ld bc,@end-@cmd
+040856 5B DF       1455*      rst.lil $18
+040858 C9          1456*      ret
+040859 17 1B 26    1457*  @cmd:      db 23,27,0x26
+04085C 00 00       1458*  @bufferId: dw 0x0000
+04085E 00          1459*  @end:      db 0x00 ; padding
+04085F             1460*  
+04085F             1461*  
+04085F             1462*  ; #### from sfx.asm ####
+04085F 00          1463*  sfx_last_channel: db 0x00 ; 8-bit value between 0 and 31
+040860             1464*  
+040860             1465*  vdu_clear_all_buffers:
+040860             1466*  ; clear all buffers
+040860 21 6B 08 04 1467*      ld hl,@beg
+040864 01 06 00 00 1468*      ld bc,@end-@beg
+040868 5B DF       1469*      rst.lil $18
+04086A C9          1470*      ret
+04086B 17 00 A0    1471*  @beg: db 23,0,$A0
+04086E FF FF       1472*        dw -1 ; clear all buffers
+040870 02          1473*        db 2  ; command 2: clear a buffer
+040871             1474*  @end:
+040871             0328   
+040871 57 65 6C 63 0329   str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
        6F 6D 65 20 
        74 6F 20 74 
        68 65 20 50 
@@ -2134,39 +2133,39 @@ PC     Output      Line
        20 33 44 20 
        44 65 6D 6F 
        21 0D 0A 00 
-04088F 43 72 65 61 0331   str_create_object: db "Creating 3D object.\r\n",0
+040891 43 72 65 61 0330   str_create_object: db "Creating 3D object.\r\n",0
        74 69 6E 67 
        20 33 44 20 
        6F 62 6A 65 
        63 74 2E 0D 
        0A 00       
-0408A5 53 63 61 6C 0332   str_scale_object: db "Scaling object.\r\n",0
+0408A7 53 63 61 6C 0331   str_scale_object: db "Scaling object.\r\n",0
        69 6E 67 20 
        6F 62 6A 65 
        63 74 2E 0D 
        0A 00       
-0408B7 43 72 65 61 0333   str_create_target_bitmap: db "Creating target bitmap.\r\n",0
+0408B9 43 72 65 61 0332   str_create_target_bitmap: db "Creating target bitmap.\r\n",0
        74 69 6E 67 
        20 74 61 72 
        67 65 74 20 
        62 69 74 6D 
        61 70 2E 0D 
        0A 00       
-0408D1 53 65 74 74 0334   str_set_texture_pixel: db "Setting texture pixel.\r\n",0
+0408D3 53 65 74 74 0333   str_set_texture_pixel: db "Setting texture pixel.\r\n",0
        69 6E 67 20 
        74 65 78 74 
        75 72 65 20 
        70 69 78 65 
        6C 2E 0D 0A 
        00          
-0408EA 43 72 65 61 0335   str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
+0408EC 43 72 65 61 0334   str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
        74 69 6E 67 
        20 74 65 78 
        74 75 72 65 
        20 62 69 74 
        6D 61 70 2E 
        0D 0A 00    
-040905 53 65 6E 64 0336   str_zeroes: db "Sending some magic zeroes.\r\n",0
+040907 53 65 6E 64 0335   str_zeroes: db "Sending some magic zeroes.\r\n",0
        69 6E 67 20 
        73 6F 6D 65 
        20 6D 61 67 
@@ -2174,7 +2173,7 @@ PC     Output      Line
        65 72 6F 65 
        73 2E 0D 0A 
        00          
-040922 53 65 74 74 0337   str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
+040924 53 65 74 74 0336   str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
        69 6E 67 20 
        74 65 78 74 
        75 72 65 20 
@@ -2184,7 +2183,7 @@ PC     Output      Line
        6E 64 69 63 
        65 73 2E 0D 
        0A 00       
-040948 53 65 6E 64 0338   str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
+04094A 53 65 6E 64 0337   str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
        69 6E 67 20 
        74 65 78 74 
        75 72 65 20 
@@ -2192,19 +2191,19 @@ PC     Output      Line
        64 69 6E 61 
        74 65 73 2E 
        0D 0A 00    
-040967 53 65 6E 64 0339   str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
+040969 53 65 6E 64 0338   str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
        69 6E 67 20 
        76 65 72 74 
        65 78 20 69 
        6E 64 65 78 
        65 73 2E 0D 
        0A 00       
-040981 53 65 6E 64 0340   str_send_vertices: db "Sending vertices.\r\n",0
+040983 53 65 6E 64 0339   str_send_vertices: db "Sending vertices.\r\n",0
        69 6E 67 20 
        76 65 72 74 
        69 63 65 73 
        2E 0D 0A 00 
-040995 53 65 74 74 0341   str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
+040997 53 65 74 74 0340   str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
        69 6E 67 20 
        63 61 6D 65 
        72 61 20 58 
@@ -2212,14 +2211,14 @@ PC     Output      Line
        61 74 69 6F 
        6E 2E 0D 0A 
        00          
-0409B2 53 65 74 74 0342   str_set_camera_distance: db "Setting camera distance.\r\n",0
+0409B4 53 65 74 74 0341   str_set_camera_distance: db "Setting camera distance.\r\n",0
        69 6E 67 20 
        63 61 6D 65 
        72 61 20 64 
        69 73 74 61 
        6E 63 65 2E 
        0D 0A 00    
-0409CD 43 72 65 61 0343   str_create_control: db "Creating control structure.\r\n",0
+0409CF 43 72 65 61 0342   str_create_control: db "Creating control structure.\r\n",0
        74 69 6E 67 
        20 63 6F 6E 
        74 72 6F 6C 
@@ -2227,38 +2226,38 @@ PC     Output      Line
        75 63 74 75 
        72 65 2E 0D 
        0A 00       
-0409EB 49 6E 69 74 0344   str_init_cmplt: db "Initialization complete.\r\n",0
+0409ED 49 6E 69 74 0343   str_init_cmplt: db "Initialization complete.\r\n",0
        69 61 6C 69 
        7A 61 74 69 
        6F 6E 20 63 
        6F 6D 70 6C 
        65 74 65 2E 
        0D 0A 00    
-040A06 52 65 6E 64 0345   str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
+040A08 52 65 6E 64 0344   str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
        65 72 69 6E 
        67 20 74 6F 
        20 62 69 74 
        6D 61 70 2E 
        0D 0A 00    
-040A1D 44 69 73 70 0346   str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
+040A1F 44 69 73 70 0345   str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
        6C 61 79 69 
        6E 67 20 6F 
        75 74 70 75 
        74 20 62 69 
        74 6D 61 70 
        2E 0D 0A 00 
-040A39 50 72 6F 67 0347   str_program_end: db "Program end.\r\n",0
+040A3B 50 72 6F 67 0346   str_program_end: db "Program end.\r\n",0
        72 61 6D 20 
        65 6E 64 2E 
        0D 0A 00    
-040A48             0348   
-040A48             0349   
-040A48             0350   ; Print a zero-terminated string
-040A48             0351   ; HL: Pointer to string
-040A48             0352   printString:
-040A48 C5          0353   	PUSH	BC
-040A49 01 00 00 00 0354   	LD		BC,0
-040A4D 3E 00       0355   	LD 	 	A,0
-040A4F 5B DF       0356   	RST.LIL 18h
-040A51 C1          0357   	POP		BC
-040A52 C9          0358   	RET
+040A4A             0347   
+040A4A             0348   
+040A4A             0349   ; Print a zero-terminated string
+040A4A             0350   ; HL: Pointer to string
+040A4A             0351   printString:
+040A4A C5          0352   	PUSH	BC
+040A4B 01 00 00 00 0353   	LD		BC,0
+040A4F 3E 00       0354   	LD 	 	A,0
+040A51 5B DF       0355   	RST.LIL 18h
+040A53 C1          0356   	POP		BC
+040A54 C9          0357   	RET

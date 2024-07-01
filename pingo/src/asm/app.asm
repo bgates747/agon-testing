@@ -133,7 +133,7 @@ ctb2:
 
     ld hl,str_init_cmplt
     call printString
-    
+
 model_vertices: equ 4
 model_indexes: equ 4
 model_uvs: equ 10
@@ -210,6 +210,7 @@ stc:
 stci:
     ld hl,@beg
     ld bc,@end-@beg
+    rst.lil $18
     jp @end
 @beg:
 ;   490 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indexes%; : REM Set Texture Coordinate Indexes
