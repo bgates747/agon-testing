@@ -382,18 +382,18 @@ dispbmp:
 
 animate:
 ;  1080 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
-    ld hl,@rx
-    ld de,incx
+    ld hl,(@rx)
+    ld de,(incx)
     add hl,de
     ld (@rx),hl
 ;  1090 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
-    ld hl,@ry
-    ld de,incy
+    ld hl,(@ry)
+    ld de,(incy)
     add hl,de
     ld (@ry),hl
 ;  1100 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
-    ld hl,@rz
-    ld de,incz
+    ld hl,(@rz)
+    ld de,(incz)
     add hl,de
     ld (@rz),hl
 
