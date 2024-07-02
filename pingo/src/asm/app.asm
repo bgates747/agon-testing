@@ -347,8 +347,6 @@ preloop:
 @end:
 
 mainloop:
-    call vdu_cls
-
     ; ld hl,str_render_to_bitmap
     ; call printString
 rendbmp:
@@ -364,6 +362,8 @@ rendbmp:
     dw bmid2+64000
 @end:
 
+    call vdu_cls
+
     ; ld hl,str_display_output_bitmap
     ; call printString
 dispbmp:
@@ -377,25 +377,25 @@ dispbmp:
     dw 0, 0
 @end:
 
-    call vdu_flip
-    call vdu_vblank
-
 animate:
 ;  1080 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
     ld hl,(@rx)
     ld de,(incx)
     add hl,de
     ld (@rx),hl
+    call printDec
 ;  1090 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
     ld hl,(@ry)
     ld de,(incy)
     add hl,de
     ld (@ry),hl
+    call printDec
 ;  1100 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
     ld hl,(@rz)
     ld de,(incz)
     add hl,de
     ld (@rz),hl
+    call printDec
 
     ld hl,@beg
     ld bc,@end-@beg
@@ -411,6 +411,9 @@ animate:
 @ry:    dw 0
 @rz:    dw 0
 @end:
+
+    call vdu_vblank
+    call vdu_flip
     jp mainloop
 
     ret
@@ -450,4 +453,67 @@ printString:
 	LD 	 	A,0
 	RST.LIL 18h
 	POP		BC
+	RET
+
+
+; Prints the right justified decimal value in HL without leading zeroes
+; HL : Value to print
+printDec:
+	LD	 DE, _printDecBuffer
+	CALL Num2String
+; BEGIN MY CODE
+; replace leading zeroes with spaces
+    LD	 HL, _printDecBuffer
+    ld   B, 7 ; if HL was 0, we want to keep the final zero 
+@loop:
+    LD	 A, (HL)
+    CP	 '0'
+    JP	 NZ, @done
+    LD   A, ' '
+    LD	 (HL), A
+    INC	 HL
+    CALL vdu_cursor_forward
+    DJNZ @loop
+@done:
+; END MY CODE
+	; LD	 HL, _printDecBuffer
+	CALL printString
+; Print Newline sequence to VDP
+	LD	A, '\r'
+	RST.LIL 10h
+	LD	A, '\n'
+	RST.LIL 10h
+	RET
+_printDecBuffer: blkb 9,0 ; nine bytes full of zeroes
+
+; This routine converts the value from HL into it's ASCII representation, 
+; starting to memory location pointing by DE, in decimal form and with leading zeroes 
+; so it will allways be 8 characters length
+; HL : Value to convert to string
+; DE : pointer to buffer, at least 8 byte + 0
+Num2String:
+	LD	 BC,-10000000
+	CALL OneDigit
+	LD	 BC,-1000000
+	CALL OneDigit
+	LD	 BC,-100000
+	CALL OneDigit
+	LD   BC,-10000
+	CALL OneDigit
+	LD   BC,-1000
+	CALL OneDigit
+	LD   BC,-100
+	CALL OneDigit
+	LD   C,-10
+	CALL OneDigit
+	LD   C,B
+OneDigit:
+	LD   A,'0'-1
+DivideMe:
+	INC  A
+	ADD  HL,BC
+	JR   C,DivideMe
+	SBC  HL,BC
+	LD   (DE),A
+	INC  DE
 	RET
