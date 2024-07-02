@@ -379,28 +379,31 @@ dispbmp:
 
 animate:
 ;  1080 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
-    ld hl,(@rx)
+    ld hl,(rotatex)
     ld de,(incx)
     add hl,de
     ld (@rx),hl
+    ld (rotatex),hl
     call printDec
 ;  1090 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
-    ld hl,(@ry)
+    ld hl,(rotatey)
     ld de,(incy)
     add hl,de
     ld (@ry),hl
+    ld (rotatey),hl
     call printDec
 ;  1100 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
-    ld hl,(@rz)
+    ld hl,(rotatez)
     ld de,(incz)
     add hl,de
     ld (@rz),hl
+    ld (rotatez),hl
     call printDec
 
     ld hl,@beg
     ld bc,@end-@beg
     rst.lil $18
-    jp @end
+    jp @done
 @beg:
 ;  1120 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
         db 23, 0, $A0
@@ -410,7 +413,8 @@ animate:
 @rx:    dw 0
 @ry:    dw 0
 @rz:    dw 0
-@end:
+@end:   db 0 ; padding
+@done:
 
     call vdu_vblank
     call vdu_flip
@@ -418,9 +422,13 @@ animate:
 
     ret
 
-incx: dw 0
-incy: dw 91 ; 32767/360
-incz: dw 0
+incx: dl 0
+incy: dl 91 ; 32767/360
+incz: dl 0
+
+rotatex: dl 0
+rotatey: dl 0
+rotatez: dl 0
 
     include "pingo/src/asm/vdu.asm"
     include "pingo/src/asm/Lara4.asm"
