@@ -33,6 +33,9 @@ exit:
     ret 
 
 main:
+    ld a,8 ; 320x240x64 single-buffered
+    call vdu_set_screen_mode
+    
     ld hl,str_hello_world
     call printString
 
