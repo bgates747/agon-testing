@@ -116,12 +116,12 @@ scxr:
     ld hl,str_init_cmplt
     call printString
 
-;    20 model_vertices%=4
-;    30 model_indices%=12
-;    40 model_uvs%=10
-model_vertices: equ 4
-model_indexes: equ 12
-model_uvs: equ 10
+;    20 Lara4_vertices%=4
+;    30 Lara4_indices%=12
+;    40 Lara4_uvs%=10
+; Lara4_vertices: equ 4
+; Lara4_indices: equ 12
+; Lara4_uvs: equ 10
 ;   100 scale=1.0*256.0
 obj_scale: equ 256
 
@@ -134,26 +134,25 @@ sv:
     rst.lil $18
     jp @end
 @beg:
-;   410 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
+;   410 VDU 23,0, &A0, sid%; &49, 1, mid%; Lara4_vertices%; : REM Define Mesh Vertices
     db 23,0,$A0
     dw sid
     db $49,1
-    dw mid, model_vertices
-;   410 VDU 23,0, &A0, sid%; &49, 1, mid%; model_vertices%; : REM Define Mesh Vertices
+    dw mid, Lara4_vertices_n
+@end:
+;   410 VDU 23,0, &A0, sid%; &49, 1, mid%; Lara4_vertices%; : REM Define Mesh Vertices
 ;   420 FOR i%=0 TO total_coords%-1
 ;   430   val%=vertices(i%)*factor
 ;   440   VDU val%;
 ;   450   REM T%=TIME
 ;   460   REM IF TIME-T%<1 GOTO 390
 ;   470 NEXT i%
-	dw 0, 0, 0
-	dw 0, -32767, 0
-	dw 0, 0, -32767
-	dw 32767, 0, 0
-@end:
+    ld hl,Lara4_vertices
+    ld bc,Lara4_vertex_indices-Lara4_vertices
+    rst.lil $18
 
-;   480 PRINT "Reading and sending vertex indexes"
-    ld hl,str_set_mesh_vertex_indexes
+;   480 PRINT "Reading and sending vertex indices"
+    ld hl,str_set_mesh_vertex_indices
     call printString
 smvi:
     ld hl,@beg
@@ -161,22 +160,21 @@ smvi:
     rst.lil $18
     jp @end
 @beg:
-;   490 VDU 23,0, &A0, sid%; &49, 2, mid%; model_indexes%; : REM Set Mesh Vertex Indexes
+;   490 VDU 23,0, &A0, sid%; &49, 2, mid%; Lara4_indices%; : REM Set Mesh Vertex indices
     db 23,0,$A0
     dw sid
     db $49,2
-    dw mid, model_indexes
-;   500 FOR i%=0 TO model_indices%-1
+    dw mid, Lara4_indices_n
+@end:
+;   500 FOR i%=0 TO Lara4_indices%-1
 ;   510   READ val%
 ;   520   VDU val%;
 ;   530   REM T%=TIME
 ;   540   REM IF TIME-T%<1 GOTO 470
 ;   550 NEXT i%
-	dw 0, 2, 1
-	dw 0, 3, 2
-	dw 1, 3, 0
-	dw 3, 1, 2
-@end:
+    ld hl,Lara4_vertex_indices
+    ld bc,Lara4_uvs-Lara4_vertex_indices
+    rst.lil $18
 
 ;   560 PRINT "Sending texture UV coordinates"
     ld hl,str_set_texture_coordinates
@@ -187,12 +185,13 @@ stc:
     rst.lil $18
     jp @end
 @beg:
-;   570 VDU 23,0, &A0, sid%; &49, 3, mid%; model_uvs%;
+;   570 VDU 23,0, &A0, sid%; &49, 3, mid%; Lara4_uvs%;
     db 23,0,$A0
     dw sid
     db $49,3
-    dw mid, model_uvs
-;   580 total_uvs%=model_uvs%*2
+    dw mid, Lara4_uvs_n
+@end:
+;   580 total_uvs%=Lara4_uvs%*2
 ;   590 FOR i%=0 TO total_uvs%-1
 ;   600   READ val
 ;   610   val%=INT(val*65535)
@@ -200,17 +199,9 @@ stc:
 ;   630   REM T%=TIME
 ;   640   REM IF TIME-T%<1 GOTO 570
 ;   650 NEXT i%
-	dw 0, 32668
-	dw 32668, 0
-	dw 32668, 32668
-	dw 65335, 32668
-	dw 32668, 65335
-	dw 32668, 32668
-	dw 32668, 0
-	dw 65335, 32668
-	dw 32668, 32668
-	dw 0, 32668
-@end:
+    ld hl,Lara4_uvs
+    ld bc,Lara4_uv_indices-Lara4_uvs
+    rst.lil $18
 
 ;   660 PRINT "Sending Texture Coordinate indices"
     ld hl,str_set_tex_coord_idxs
@@ -221,22 +212,21 @@ stci:
     rst.lil $18
     jp @end
 @beg:
-;   670 VDU 23,0, &A0, sid%; &49, 4, mid%; model_indices%; 
+;   670 VDU 23,0, &A0, sid%; &49, 4, mid%; Lara4_indices%; 
     db 23,0,$A0
     dw sid
     db $49,4
-    dw mid, model_indexes
-;   680 FOR i%=0 TO model_indices%-1
+    dw mid, Lara4_indices_n
+@end:
+;   680 FOR i%=0 TO Lara4_indices%-1
 ;   690   READ val%
 ;   700   VDU val%;
 ;   710   REM T%=TIME
 ;   720   REM IF TIME-T%<1 GOTO 650
 ;   730 NEXT i%
-	dw 0, 1, 2
-	dw 3, 4, 5
-	dw 6, 7, 8
-	dw 4, 9, 5
-@end:
+    ld hl,Lara4_uv_indices
+    ld bc,Lara4_texture-Lara4_uv_indices
+    rst.lil $18
 
 ;   740 PRINT "Creating texture bitmap"
     ld hl,str_create_texture_bitmap
@@ -261,18 +251,20 @@ stp:
     rst.lil $18
     jp @end
 @beg:
-;   770 VDU 23, 27, 1, texture_width%; texture_height%; 
+;   770 VDU 23, 27, 1, Lara4_texture_width%; Lara4_texture_height%; 
     db 23,27,1
-@texture_width: dw 2
-@texture_height: dw 2
-;   780 FOR i%=0 TO texture_width%*texture_height%*4-1
+@texture_width: dw Lara4_texture_width
+@texture_height: dw Lara4_texture_height
+@end:
+;   780 FOR i%=0 TO Lara4_texture_width%*Lara4_texture_height%*4-1
 ;   790   READ val%
 ;   800   VDU val% : REM 8-bit integers for pixel data
 ;   810   REM T%=TIME
 ;   820   REM IF TIME-T%<1 GOTO 750
 ;   830 NEXT i%
-	db 255,0,0,255,0,0,255,255,255,255,0,255,0,255,0,255
-@end:
+    ld hl,Lara4_texture
+    ld bc,Lara4_texture_width*Lara4_texture_height*4
+    rst.lil $18
 
 ;   840 PRINT "Create 3D object"
     ld hl,str_create_object
@@ -384,6 +376,7 @@ dispbmp:
     ret
 
     include "pingo/src/asm/vdu.asm"
+    include "pingo/src/asm/Lara4.asm"
 
 str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
 str_create_object: db "Creating 3D object.\r\n",0
@@ -394,7 +387,7 @@ str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
 str_zeroes: db "Sending some magic zeroes.\r\n",0
 str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
 str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
-str_set_mesh_vertex_indexes: db "Sending vertex indexes.\r\n",0
+str_set_mesh_vertex_indices: db "Sending vertex indices.\r\n",0
 str_send_vertices: db "Sending vertices.\r\n",0
 str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
 str_set_camera_distance: db "Setting camera distance.\r\n",0

@@ -8,6 +8,14 @@ def write_data(base_filename, vertices, faces, texture_coords, texture_vertex_in
         file.write(f'{base_filename}_indices_n: equ {len(faces) * 3}\n')
         file.write(f'{base_filename}_uvs_n: equ {len(texture_coords)}\n')
 
+        # Normalize vertices to [-1,1] if max(abs(coord)) > 1
+        max_coord = max(max(abs(coord) for coord in vertex) for vertex in vertices)
+        if max_coord > 1:
+            vertices = [[coord / max_coord for coord in vertex] for vertex in vertices]
+            scale_factor = 1 / max_coord
+        else:
+            scale_factor = 1
+
         # Write the model vertices
         file.write(f'\n; -- VERTICES --\n')
         file.write(f'{base_filename}_vertices:\n')
@@ -109,19 +117,20 @@ if __name__ == '__main__':
     blender_executable = '/Applications/Blender.app/Contents/MacOS/Blender'
     blender_local_prefs_path = None
 
-    # base_filename, mesh_name, uv_texture_png
+    # base_filename, uv_texture_png
     do_these_things = [
-        # ['cube', 'cube', '2x2.png'],
-        # ['sliced', 'sliced', '2x2.png'],
-        # ['earthico', 'earthico', 'earthico160x76.png'],
-        # ['earthico1', 'earthico1', 'earthico160x76.png'],
-        # ['earthico2', 'earthico2', 'earthico160x76.png'],
-        # ['heavytank', 'heavytank', 'ferdinand.png'],
-        ['larasm', 'larasm', 'Larabig.png'],
+        # ['cube', '2x2.png'],
+        # ['sliced', '2x2.png'],
+        # ['earthico', 'earthico160x76.png'],
+        # ['earthico1', 'earthico160x76.png'],
+        # ['earthico2', 'earthico160x76.png'],
+        # ['heavytank', 'ferdinand.png'],
+        # ['larasm', 'larasm.png'],
+        ['Lara4','Lara.png']
     ]
 
     for thing in do_these_things:
-        base_filename, mesh_name, uv_texture_png = thing
+        base_filename, uv_texture_png = thing
         tgt_filepath = f'{tgt_dir}/{base_filename}.asm'
         obj_filepath = f'{src_dir}/{base_filename}.obj'
 

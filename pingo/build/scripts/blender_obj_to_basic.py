@@ -130,19 +130,20 @@ if __name__ == '__main__':
     blender_executable = "/Applications/Blender.app/Contents/MacOS/Blender"
     blender_local_prefs_path = None
 
-    # base_filename, mesh_name, uv_texture_png
+    # base_filename, uv_texture_png
     do_these_things = [
-        # ['cube', 'cube', '2x2.png'],
-        # ['sliced', 'sliced', '2x2.png'],
-        # ['earthico', 'earthico', 'earthico160x76.png'],
-        # ['earthico1', 'earthico1', 'earthico160x76.png'],
-        # ['earthico2', 'earthico2', 'earthico160x76.png'],
-        # ['heavytank', 'heavytank', 'ferdinand.png'],
-        ['larasm', 'larasm', 'Larabig.png'],
+        # ['cube', '2x2.png'],
+        # ['sliced', '2x2.png'],
+        # ['earthico', 'earthico160x76.png'],
+        # ['earthico1', 'earthico160x76.png'],
+        # ['earthico2', 'earthico160x76.png'],
+        # ['heavytank', 'ferdinand.png'],
+        # ['larasm', 'larasm.png'],
+        ['Lara4','Lara.png']
     ]
 
     for thing in do_these_things:
-        base_filename, mesh_name, uv_texture_png = thing
+        base_filename, uv_texture_png = thing
         template_filepath = f'{tgt_dir}/template.bas'
         tgt_filepath = f'{tgt_dir}/{base_filename}.bas'
         img_size, uv_texture_rgba8 = make_texture_rgba(f'{src_dir}/{uv_texture_png}')
