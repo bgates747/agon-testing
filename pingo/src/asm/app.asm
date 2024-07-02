@@ -56,8 +56,8 @@ scene_height: equ 240
 ;    74 camz=-4.0*camf
 cam_f: equ 128 ; 32767/256
 cam_distx: equ 0*cam_f
-cam_disty: equ 0*cam_f
-cam_distz: equ -4*cam_f
+cam_disty: equ 1*cam_f
+cam_distz: equ -2*cam_f
 
 ;    80 pi2=PI*2.0
 ;    85 camanglef=32767.0/360
@@ -423,7 +423,7 @@ animate:
     ret
 
 incx: dl 0
-incy: dl 91 ; 32767/360
+incy: dl 91*5 ; 32767/360*foo
 incz: dl 0
 
 rotatex: dl 0
