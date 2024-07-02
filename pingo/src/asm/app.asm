@@ -56,7 +56,7 @@ scene_height: equ 240
 ;    74 camz=-4.0*camf
 cam_f: equ 128 ; 32767/256
 cam_distx: equ 0*cam_f
-cam_disty: equ 1*cam_f
+cam_disty: equ 64-16-8
 cam_distz: equ -2*cam_f
 
 ;    80 pi2=PI*2.0
@@ -340,9 +340,9 @@ preloop:
     db 23,0,$C0,0
 ;   950 REM VDU 23, 0, &C0, 1: REM Abnormal coordinates
     ; db 23,0,$C0,1
-;   960 VDU 17,7+128 : REM set text background color to light gray
+;   960 VDU 17,20+128 : REM set text background color to lighter azure
     db 17,7+128
-;   970 VDU 18, 0, 7+128 : REM set gfx background color to light gray
+;   970 VDU 18, 0, 20+128 : REM set gfx background color to lighter azure
     db 18,0,7+128
 @end:
 
