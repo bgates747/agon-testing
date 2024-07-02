@@ -20,8 +20,8 @@ start:
     call main
 
 exit:
-    ld hl,str_program_end
-    call printString
+    ; ld hl,str_program_end
+    ; call printString
 
     pop iy 
     pop ix
@@ -33,11 +33,11 @@ exit:
     ret 
 
 main:
-    ld a,8 ; 320x240x64 single-buffered
+    ld a,8+128 ; 320x240x64 double-buffered
     call vdu_set_screen_mode
     
-    ld hl,str_hello_world
-    call printString
+    ; ld hl,str_hello_world
+    ; call printString
 
 ;   145 sid%=100: mid%=1: oid%=1: bmid1%=101: bmid2%=102
 sid: equ 100
@@ -65,9 +65,9 @@ cam_distz: equ -4*cam_f
 cam_anglef: equ 91 ; 32767/360
 cam_anglex: equ 0*cam_anglef
 
-;   340 PRINT "Creating control structure"
-    ld hl,str_create_control
-    call printString
+; ;   340 PRINT "Creating control structure"
+;     ld hl,str_create_control
+;     call printString
 ccs:
     ld hl,@beg
     ld bc,@end-@beg
@@ -82,9 +82,9 @@ ccs:
     dw scene_height
 @end:
 
-; set camera distance
-    ld hl,str_set_camera_distance
-    call printString
+; ; set camera distance
+;     ld hl,str_set_camera_distance
+;     call printString
 scd:
     ld hl,@beg
     ld bc,@end-@beg
@@ -100,9 +100,9 @@ scd:
     dw cam_distz
 @end:
 
-; set camera x rotation
-    ld hl,str_set_camera_x_rotation
-    call printString
+; ; set camera x rotation
+;     ld hl,str_set_camera_x_rotation
+;     call printString
 scxr:
     ld hl,@beg
     ld bc,@end-@beg
@@ -116,8 +116,8 @@ scxr:
     dw cam_anglex
 @end:
 
-    ld hl,str_init_cmplt
-    call printString
+    ; ld hl,str_init_cmplt
+    ; call printString
 
 ;    20 Lara4_vertices%=4
 ;    30 Lara4_indices%=12
@@ -128,9 +128,9 @@ scxr:
 ;   100 scale=1.0*256.0
 obj_scale: equ 256
 
-;   400 PRINT "Sending vertices using factor ";factor
-    ld hl,str_send_vertices
-    call printString
+; ;   400 PRINT "Sending vertices using factor ";factor
+;     ld hl,str_send_vertices
+;     call printString
 sv:
     ld hl,@beg
     ld bc,@end-@beg
@@ -154,9 +154,9 @@ sv:
     ld bc,Lara4_vertex_indices-Lara4_vertices
     rst.lil $18
 
-;   480 PRINT "Reading and sending vertex indices"
-    ld hl,str_set_mesh_vertex_indices
-    call printString
+; ;   480 PRINT "Reading and sending vertex indices"
+;     ld hl,str_set_mesh_vertex_indices
+;     call printString
 smvi:
     ld hl,@beg
     ld bc,@end-@beg
@@ -179,9 +179,9 @@ smvi:
     ld bc,Lara4_uvs-Lara4_vertex_indices
     rst.lil $18
 
-;   560 PRINT "Sending texture UV coordinates"
-    ld hl,str_set_texture_coordinates
-    call printString
+; ;   560 PRINT "Sending texture UV coordinates"
+;     ld hl,str_set_texture_coordinates
+;     call printString
 stc:
     ld hl,@beg
     ld bc,@end-@beg
@@ -206,9 +206,9 @@ stc:
     ld bc,Lara4_uv_indices-Lara4_uvs
     rst.lil $18
 
-;   660 PRINT "Sending Texture Coordinate indices"
-    ld hl,str_set_tex_coord_idxs
-    call printString
+; ;   660 PRINT "Sending Texture Coordinate indices"
+;     ld hl,str_set_tex_coord_idxs
+;     call printString
 stci:
     ld hl,@beg
     ld bc,@end-@beg
@@ -231,9 +231,9 @@ stci:
     ld bc,Lara4_texture-Lara4_uv_indices
     rst.lil $18
 
-;   740 PRINT "Creating texture bitmap"
-    ld hl,str_create_texture_bitmap
-    call printString
+; ;   740 PRINT "Creating texture bitmap"
+;     ld hl,str_create_texture_bitmap
+;     call printString
 ctb:
     ld hl,@beg
     ld bc,@end-@beg
@@ -245,9 +245,9 @@ ctb:
     dw bmid1
 @end:
 
-;   760 PRINT "Sending texture pixel data"
-    ld hl,str_set_texture_pixel
-    call printString
+; ;   760 PRINT "Sending texture pixel data"
+;     ld hl,str_set_texture_pixel
+;     call printString
 stp:
     ld hl,@beg
     ld bc,@end-@beg
@@ -269,9 +269,9 @@ stp:
     ld bc,Lara4_texture_width*Lara4_texture_height*4
     rst.lil $18
 
-;   840 PRINT "Create 3D object"
-    ld hl,str_create_object
-    call printString
+; ;   840 PRINT "Create 3D object"
+;     ld hl,str_create_object
+;     call printString
 co:
     ld hl,@beg
     ld bc,@end-@beg
@@ -287,9 +287,9 @@ co:
     dw bmid1+64000
 @end:
 
-;   860 PRINT "Scale object"
-    ld hl,str_scale_object
-    call printString
+; ;   860 PRINT "Scale object"
+;     ld hl,str_scale_object
+;     call printString
 so:
     ld hl,@beg
     ld bc,@end-@beg
@@ -306,9 +306,9 @@ so:
     dw obj_scale
 @end:
 
-;   880 PRINT "Create target bitmap"
-    ld hl,str_create_target_bitmap
-    call printString
+; ;   880 PRINT "Create target bitmap"
+;     ld hl,str_create_target_bitmap
+;     call printString
 ctb2:
     ld hl,@beg
     ld bc,@end-@beg
@@ -347,9 +347,10 @@ preloop:
 @end:
 
 mainloop:
+    call vdu_cls
 
-    ld hl,str_render_to_bitmap
-    call printString
+    ; ld hl,str_render_to_bitmap
+    ; call printString
 rendbmp:
     ld hl,@beg
     ld bc,@end-@beg
@@ -363,8 +364,8 @@ rendbmp:
     dw bmid2+64000
 @end:
 
-    ld hl,str_display_output_bitmap
-    call printString
+    ; ld hl,str_display_output_bitmap
+    ; call printString
 dispbmp:
     ld hl,@beg
     ld bc,@end-@beg
@@ -376,29 +377,69 @@ dispbmp:
     dw 0, 0
 @end:
 
+    call vdu_flip
+    call vdu_vblank
+
+animate:
+;  1080 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
+    ld hl,@rx
+    ld de,incx
+    add hl,de
+    ld (@rx),hl
+;  1090 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
+    ld hl,@ry
+    ld de,incy
+    add hl,de
+    ld (@ry),hl
+;  1100 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
+    ld hl,@rz
+    ld de,incz
+    add hl,de
+    ld (@rz),hl
+
+    ld hl,@beg
+    ld bc,@end-@beg
+    rst.lil $18
+    jp @end
+@beg:
+;  1120 VDU 23, 0, &A0, sid%; &49, 13, oid%; rx; ry; rz; : REM Set Object XYZ Rotation Angles
+        db 23, 0, $A0
+        dw sid
+        db $49, 13
+        dw oid
+@rx:    dw 0
+@ry:    dw 0
+@rz:    dw 0
+@end:
+    jp mainloop
+
     ret
+
+incx: dw 0
+incy: dw 91 ; 32767/360
+incz: dw 0
 
     include "pingo/src/asm/vdu.asm"
     include "pingo/src/asm/Lara4.asm"
 
-str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
-str_create_object: db "Creating 3D object.\r\n",0
-str_scale_object: db "Scaling object.\r\n",0
-str_create_target_bitmap: db "Creating target bitmap.\r\n",0
-str_set_texture_pixel: db "Setting texture pixel.\r\n",0
-str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
-str_zeroes: db "Sending some magic zeroes.\r\n",0
-str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
-str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
-str_set_mesh_vertex_indices: db "Sending vertex indices.\r\n",0
-str_send_vertices: db "Sending vertices.\r\n",0
-str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
-str_set_camera_distance: db "Setting camera distance.\r\n",0
-str_create_control: db "Creating control structure.\r\n",0
-str_init_cmplt: db "Initialization complete.\r\n",0
-str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
-str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
-str_program_end: db "Program end.\r\n",0
+; str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
+; str_create_object: db "Creating 3D object.\r\n",0
+; str_scale_object: db "Scaling object.\r\n",0
+; str_create_target_bitmap: db "Creating target bitmap.\r\n",0
+; str_set_texture_pixel: db "Setting texture pixel.\r\n",0
+; str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
+; str_zeroes: db "Sending some magic zeroes.\r\n",0
+; str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
+; str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
+; str_set_mesh_vertex_indices: db "Sending vertex indices.\r\n",0
+; str_send_vertices: db "Sending vertices.\r\n",0
+; str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
+; str_set_camera_distance: db "Setting camera distance.\r\n",0
+; str_create_control: db "Creating control structure.\r\n",0
+; str_init_cmplt: db "Initialization complete.\r\n",0
+; str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
+; str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
+; str_program_end: db "Program end.\r\n",0
 
 
 ; Print a zero-terminated string
