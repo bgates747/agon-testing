@@ -48,11 +48,9 @@ for obj in collection.objects:
         # Scale by -1 along the Z axis
         bpy.ops.transform.resize(value=(1, 1, -1))
         bpy.ops.object.transform_apply(scale=True)
-
-        # Recalculate normals
+        
         bpy.ops.object.mode_set(mode='EDIT')
         bpy.ops.mesh.select_all(action='SELECT')
-        bpy.ops.mesh.normals_make_consistent(inside=False)
 
         # Snap vertices to the grid
         bm = bmesh.from_edit_mesh(obj.data)
@@ -75,6 +73,9 @@ for obj in collection.objects:
                         image = node.image
                         width, height = image.size
                         break
+                    
+        # Recalculate normals
+        bpy.ops.mesh.normals_make_consistent(inside=False)
         
         uv_layer = bm.loops.layers.uv.active
         if uv_layer:
