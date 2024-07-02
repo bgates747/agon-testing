@@ -1,9 +1,9 @@
-Lara4_vertices_n: equ 300
-Lara4_indices_n: equ 1578
-Lara4_uvs_n: equ 644
+larasm_vertices_n: equ 300
+larasm_indices_n: equ 1578
+larasm_uvs_n: equ 644
 
 ; -- VERTICES --
-Lara4_vertices:
+larasm_vertices:
 	dw -3400, 3834, 2098
 	dw 796, 3472, -940
 	dw -4629, 2025, 3255
@@ -306,7 +306,7 @@ Lara4_vertices:
 	dw -72, -19096, -3761
 
 ; -- FACE VERTEX INDICES --
-Lara4_vertex_indices:
+larasm_vertex_indices:
 	dw 1, 0, 16
 	dw 1, 14, 0
 	dw 1, 18, 14
@@ -835,7 +835,7 @@ Lara4_vertex_indices:
 	dw 280, 270, 289
 
 ; -- TEXTURE UV COORDINATES --
-Lara4_uvs:
+larasm_uvs:
 	dw 61748, 14638
 	dw 61748, 14638
 	dw 61748, 14638
@@ -1482,7 +1482,7 @@ Lara4_uvs:
 	dw 55599, 57480
 
 ; -- TEXTURE VERTEX INDICES --
-Lara4_uv_indices:
+larasm_uv_indices:
 	dw 0, 1, 2
 	dw 0, 3, 1
 	dw 0, 4, 3
@@ -2011,9 +2011,9 @@ Lara4_uv_indices:
 	dw 594, 643, 592
 
 ; -- TEXTURE BITMAP --
-Lara4_texture_width: equ 128
-Lara4_texture_height: equ 92
-Lara4_texture:
+larasm_texture_width: equ 128
+larasm_texture_height: equ 92
+larasm_texture:
 	db 255,170,85,255,255,170,85,255,255,170,85,255,255,170,85,255
 	db 255,170,85,255,255,170,85,255,255,170,85,255,255,170,85,255
 	db 255,170,85,255,255,170,85,255,255,170,85,255,255,170,85,255

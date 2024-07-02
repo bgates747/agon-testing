@@ -125,8 +125,8 @@ if __name__ == '__main__':
         # ['earthico1', 'earthico160x76.png'],
         # ['earthico2', 'earthico160x76.png'],
         # ['heavytank', 'ferdinand.png'],
-        # ['larasm', 'larasm.png'],
-        ['Lara4','Lara.png']
+        ['larasm', 'Lara.png'],
+        # ['Lara4','Lara.png']
     ]
 
     for thing in do_these_things:
