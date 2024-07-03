@@ -88,11 +88,11 @@ vdu_load_buffer_from_file:
     ld (@id1+2),a
 ; load filesize from ix
     ld (@filesize),ix
-    ld bc,(ix) ; for the mos_load call
-    ld ix,(ix+1) ; now ix is filesize / 256 and will be our main loop counter
+    ld bc,(@filesize) ; for the mos_load call
+    ld ix,(@filesize+1) ; now ix is filesize / 256 and will be our main loop counter
 
-    call dumpRegistersHex
-    ret 
+    ; call dumpRegistersHex
+    ; ret 
 
 ; load the file from disk into ram
     push iy
@@ -122,12 +122,13 @@ vdu_load_buffer_from_file:
     dec ix
 
     call dumpRegistersHex
+    call dumpFlags
 
     jp m,@lastchunk
     jp z,@lastchunk
     push hl ; store pointer to file data
 
-    ; call dumpRegistersHex
+    call dumpRegistersHex
 
     call @loadchunk ; load the next chunk
     ; ld a,'.'
@@ -161,8 +162,9 @@ vdu_load_buffer_from_file:
     rst.lil $18
     add hl,bc ; advance the file data pointer
     ret
-
+            db 0x00 ; padding
 @filesize: dl 0 ; file size in bytes
+            db 0x00 ; padding
 
 
 
@@ -225,6 +227,31 @@ printHex8:
 	DAA
 	RST.LIL	10h
 	RET
+
+
+; print the binary representation of the 8-bit value in a
+; destroys a, hl, bc
+printBin8:
+    ld b,8      ; loop counter for 8 bits
+    ld hl,@cmd  ; set hl to the low byte of the output string
+                ; (which will be the high bit of the value in a)
+@loop:
+    rlca ; put the next highest bit into carry
+    jr c,@one
+    ld (hl),'0'
+    jr @next_bit
+@one:
+    ld (hl),'1'
+@next_bit:
+    inc hl
+    djnz @loop
+; print it
+	ld hl,@cmd         
+	ld bc,@end-@cmd    
+	rst.lil $18         
+	ret
+@cmd: ds 8 ; eight bytes for eight bits
+@end:
 
 ; Print a 0x HEX prefix
 DisplayHexPrefix:
@@ -294,6 +321,47 @@ DivideMe:
 	LD   (DE),A
 	INC  DE
 	RET
+
+
+; inputs: whatever is in the flags register
+; outputs: binary representation of flags
+;          with a header so we know which is what
+; destroys: nothing
+; preserves: everything
+dumpFlags:
+; first we curse zilog for not giving direct access to flags
+    push af ; this is so we can send it back unharmed
+    push af ; this is so we can pop it to hl
+; store everything in scratch
+    ld (uhl),hl
+    ld (ubc),bc
+    ld (ude),de
+    ld (uix),ix
+    ld (uiy),iy
+; next we print the header 
+    ld hl,@header
+    call printString
+    pop hl ; flags are now in l
+    ld a,l ; flags are now in a
+    call printBin8
+	call printNewLine
+; restore everything
+    ld hl, (uhl)
+    ld bc, (ubc)
+    ld de, (ude)
+    ld ix, (uix)
+    ld iy, (uiy)
+    pop af ; send her home the way she came
+    ret
+; Bit 7 (S): Sign flag
+; Bit 6 (Z): Zero flag
+; Bit 5 (5): Reserved (copy of bit 5 of the result)
+; Bit 4 (H): Half Carry flag
+; Bit 3 (3): Reserved (copy of bit 3 of the result)
+; Bit 2 (PV): Parity/Overflow flag
+; Bit 1 (N): Subtract flag
+; Bit 0 (C): Carry flag
+@header: db "SZxHxPNC\r\n",0 ; cr/lf and 0 terminator
 
 
 ; print registers to screen in hexidecimal format
