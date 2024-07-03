@@ -118,7 +118,7 @@ if __name__ == '__main__':
         # ['earthico2', 'earthico160x76.png'],
         # ['heavytank', 'ferdinand.png'],
         # ['larasm', 'Lara.png'],
-        ['Lara5','Lara.png'],
+        ['Lara','Lara.png'],
         # ['glock', 'glock.png'],
     ]
 
