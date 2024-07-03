@@ -525,3 +525,130 @@ DivideMe:
 	LD   (DE),A
 	INC  DE
 	RET
+
+
+;  10 blockSize% = 1000
+;  20 infile% = OPENIN "sound.bin"
+;  30 length% = EXT#infile%
+;  40 PRINT "Sound sample length: "; length%; "bytes"
+;  50 remaining% = length%
+;  60 REM Load sample data into buffer 42
+;  70 VDU 23, 0, &A0, 42; 2       : REM Clear out buffer 42
+;  80 PRINT "Loading sample";
+;  90 REPEAT
+; 100   IF remaining% < blockSize% THEN blockSize% = remaining%
+; 110   remaining% = remaining% - blockSize%
+; 120   PRINT ".";       : REM Show progress
+; 130   VDU 23, 0, &A0, 42; 0, blockSize%; : REM Send next blockSize% bytes to buffer 42
+; 140   FOR i% = 1 TO blockSize%
+; 150     VDU BGET#infile%
+; 160   NEXT
+; 170 UNTIL remaining% = 0
+; 180 CLOSE #infile%
+
+
+; ld_12_019:
+; 	ld hl,F12_019 ; pointer to filename
+; 	ld (cur_filename),hl
+; 	ld de,filedata
+; 	ld bc,65536
+; 	ld a,mos_load
+; 	RST.LIL 08h
+; 	ld hl,BUF_12_019 ; bufferId to load
+; 	ld bc,35 ; width
+; 	ld de,45 ; height
+; 	ld ix,1575 ; file size (bytes)
+; 	call vdu_load_img
+; 	ret
+
+
+; load an uncompressed rgba2222 image file to a buffer
+; inputs: bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
+vdu_load_img:
+; back up image dimension parameters
+	push bc
+	push de
+; load the image
+	call vdu_load_buffer_from_file
+; now make it a bitmap
+	pop de
+	pop bc
+	ld a,1 ; the magic number for rgba2222
+	jp vdu_bmp_create ; will return to caller from there
+
+
+; inputs: hl = bufferId, ix = file size ; iy = pointer to filename
+vdu_load_buffer_from_file:
+; load buffer ids
+    ld (@id0),hl
+    ld (@id1),hl
+; clean up bytes that got stomped on by the ID loads
+    ld a,2
+    ld (@id0+2),a
+    xor a
+    ld (@id1+2),a
+; load filesize from ix
+    ld (@filesize),ix
+    ld bc,(ix) ; for the mos_load call
+    ld ix,(ix+1) ; now ix is filesize / 256 and will be our main loop counter
+; load the file from disk into ram
+    push iy
+	pop hl ; pointer to filename
+	ld de,filedata
+	ld a,mos_load
+	RST.LIL 08h
+; clear target buffer
+    ld hl,@clear0
+    ld bc,@clear1-@clear0
+    rst.lil $18
+    jp @clear1
+@clear0: db 23,0,0xA0
+@id0:	dw 0x0000 ; bufferId
+		db 2 ; clear buffer
+@clear1:
+
+; load default chunk size
+    ld bc,256
+    ld (@chunksize),bc
+; point hl at the start of the file data
+    ld hl,filedata
+
+@loop:
+    dec ix
+    jp m,@lastchunk
+    jp z,@lastchunk
+    push hl ; store pointer to file data
+    call @loadchunk ; load the next chunk
+    jp @loop ; loop back to load the next chunk
+
+@lastchunk:
+    ld bc,0 ; make sure bcu is zero
+    ld a,(ix) ; get the remaining bytes
+    and a
+    ret z ; no more to load so we're done
+    ld c,a ; bc is number of final bytes to load
+    ld (@chunksize),bc  
+    push hl ; store pointer to file data
+    ; fall through to loadchunk
+
+@loadchunk:
+    ld hl,@chunk0
+    ld bc,@chunk1-@chunk0
+    rst.lil $18
+    jp @chunk1
+@chunk0:
+; Upload data :: VDU 23, 0 &A0, bufferId; 0, length; <buffer-data>
+		db 23,0,0xA0
+@id1:	dw 0x0000 ; bufferId
+		db 0 ; load buffer
+@chunksize:	dw 0x0000 ; length of data in bytes
+@chunk1:
+    pop hl ; get the file data pointer
+    ld bc,(@chunksize)
+    rst.lil $18
+    add hl,bc ; advance the file data pointer
+    ret
+
+@filesize: dl 0 ; file size in bytes
+
+filedata: ; no need to allocate space here if this is the final address label

@@ -8,6 +8,14 @@ def write_data(base_filename, vertices, faces, texture_coords, texture_vertex_in
         file.write(f'{base_filename}_indices_n: equ {len(faces) * 3}\n')
         file.write(f'{base_filename}_uvs_n: equ {len(texture_coords)}\n')
 
+        with open(uv_texture_rgba8, 'rb') as img_file:
+            img_data = img_file.read()
+            img_width, img_height = img_size
+            filesize = len(img_data)
+            file.write(f'{base_filename}_texture_width: equ {img_width}\n')
+            file.write(f'{base_filename}_texture_height: equ {img_height}\n')
+            file.write(f'{base_filename}_texture_size: equ {filesize}\n')
+
         # Normalize vertices to [-1,1] if max(abs(coord)) > 1
         max_coord = max(max(abs(coord) for coord in vertex) for vertex in vertices)
         if max_coord > 1:
@@ -42,23 +50,7 @@ def write_data(base_filename, vertices, faces, texture_coords, texture_vertex_in
         for item in texture_vertex_indices:
             file.write(f'\tdw {", ".join(map(str, item))}\n')
 
-        # Write the texture data
-        file.write(f"\n; -- TEXTURE BITMAP --\n")
-        with open(uv_texture_rgba8, 'rb') as img_file:
-            img_data = img_file.read()
-            img_width, img_height = img_size
-            filesize = len(img_data)
-            linesize = 16
-            file.write(f'{base_filename}_texture_width: equ {img_width}\n')
-            file.write(f'{base_filename}_texture_height: equ {img_height}\n')
-            file.write(f'{base_filename}_texture:\n')
-            for i, byte in enumerate(img_data):
-                if i % linesize == 0:
-                    file.write(f'\tdb ')
-                if (i + 1) % linesize == 0 or i == filesize - 1:
-                    file.write(f'{byte}\n')
-                else:
-                    file.write(f'{byte},')
+        file.write(f'\n{base_filename}_texture: db "{uv_texture_rgba8}",0\n')
                     
 def make_texture_rgba(uv_texture_png):
     uv_texture_rgba8 = uv_texture_png.replace('.png', '.rgba8')
@@ -126,7 +118,8 @@ if __name__ == '__main__':
         # ['earthico2', 'earthico160x76.png'],
         # ['heavytank', 'ferdinand.png'],
         # ['larasm', 'Lara.png'],
-        ['Lara5','Lara.png']
+        ['Lara5','Lara.png'],
+        # ['glock', 'glock.png'],
     ]
 
     for thing in do_these_things:
