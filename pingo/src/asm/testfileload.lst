@@ -313,527 +313,545 @@ PC     Output      Line
 040079             0037   
 040079             0038   main:
 040079 3E 08       0039       ld a,8 ; 320x240x64 single-buffered
-04007B CD 88 03 04 0040       call vdu_set_screen_mode
-04007F             0041   
-04007F             0042   ; load image file to a buffer and make it a bitmap
-04007F AF          0043       xor a ; rgba8
-040080 01 00 01 00 0044       ld bc,image_width
-040084 11 B8 00 00 0045       ld de,image_height
-040088 21 00 01 00 0046       ld hl,image_buffer
-04008C DD 21 00 E0 0047       ld ix,image_size
+04007B CD A2 03 04 0040       call vdu_set_screen_mode
+04007F AF          0041       xor a ; scaling off
+040080 CD B8 03 04 0042       call vdu_set_scaling
+040084             0043   
+040084             0044   ; load image file to a buffer and make it a bitmap
+040084 AF          0045       xor a ; rgba8
+040085 01 00 01 00 0046       ld bc,image_width
+040089 11 B8 00 00 0047       ld de,image_height
+04008D 21 00 01 00 0048       ld hl,image_buffer
+040091 DD 21 00 E0 0049       ld ix,image_size
        02          
-040091 FD 21 5C 00 0048       ld iy,image_filename
+040096 FD 21 5C 00 0050       ld iy,image_filename
        04          
-040096             0049   
-040096             0050       ; call dumpRegistersHex
-040096             0051       ; ret
-040096             0052   
-040096 CD AF 00 04 0053       call vdu_load_img
-04009A             0054   
-04009A             0055   ; plot the bitmap
-04009A 21 00 01 00 0056       ld hl,image_buffer
-04009E CD 9E 03 04 0057       call vdu_buff_select
-0400A2 01 00 00 00 0058       ld bc,0
-0400A6 11 00 00 00 0059       ld de,0
-0400AA CD D4 03 04 0060       call vdu_plot_bmp
-0400AE             0061   
-0400AE C9          0062       ret
-0400AF             0063   
-0400AF             0064   ; load an image file to a buffer and make it a bitmap
-0400AF             0065   ; inputs: a = image type ; bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
-0400AF             0066   vdu_load_img:
-0400AF             0067   ; back up image type and dimension parameters
-0400AF F5          0068       push af
-0400B0 C5          0069   	push bc
-0400B1 D5          0070   	push de
-0400B2             0071   ; load the image
-0400B2 CD BD 00 04 0072   	call vdu_load_buffer_from_file
-0400B6             0073   ; now make it a bitmap
-0400B6 D1          0074   	pop de ; image height
-0400B7 C1          0075   	pop bc ; image width
-0400B8 F1          0076   	pop af ; image type
-0400B9 C3 B3 03 04 0077   	jp vdu_bmp_create ; will return to caller from there
-0400BD             0078   
-0400BD             0079   ; inputs: hl = bufferId, ix = file size ; iy = pointer to filename
-0400BD             0080   vdu_load_buffer_from_file:
-0400BD             0081   ; load buffer ids
-0400BD 22 FB 00 04 0082       ld (@id0),hl
-0400C1 22 4B 01 04 0083       ld (@id1),hl
-0400C5             0084   ; clean up bytes that got stomped on by the ID loads
-0400C5 3E 02       0085       ld a,2
-0400C7 32 FD 00 04 0086       ld (@id0+2),a
-0400CB AF          0087       xor a
-0400CC 32 4D 01 04 0088       ld (@id1+2),a
-0400D0             0089   ; load filesize from ix
-0400D0 DD 22 5B 01 0090       ld (@filesize),ix
+04009B             0051   
+04009B             0052       ; call dumpRegistersHex
+04009B             0053       ; ret
+04009B             0054   
+04009B CD B4 00 04 0055       call vdu_load_img
+04009F             0056   
+04009F             0057   ; plot the bitmap
+04009F 21 00 01 00 0058       ld hl,image_buffer
+0400A3 CD CB 03 04 0059       call vdu_buff_select
+0400A7 01 00 00 00 0060       ld bc,0
+0400AB 11 00 00 00 0061       ld de,0
+0400AF CD 01 04 04 0062       call vdu_plot_bmp
+0400B3             0063   
+0400B3 C9          0064       ret
+0400B4             0065   
+0400B4             0066   ; load an image file to a buffer and make it a bitmap
+0400B4             0067   ; inputs: a = image type ; bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
+0400B4             0068   vdu_load_img:
+0400B4             0069   ; back up image type and dimension parameters
+0400B4 F5          0070       push af
+0400B5 C5          0071   	push bc
+0400B6 D5          0072   	push de
+0400B7             0073   ; load the image
+0400B7 CD C2 00 04 0074   	call vdu_load_buffer_from_file
+0400BB             0075   ; now make it a bitmap
+0400BB D1          0076   	pop de ; image height
+0400BC C1          0077   	pop bc ; image width
+0400BD F1          0078   	pop af ; image type
+0400BE C3 E0 03 04 0079   	jp vdu_bmp_create ; will return to caller from there
+0400C2             0080   
+0400C2             0081   ; inputs: hl = bufferId, ix = file size ; iy = pointer to filename
+0400C2             0082   vdu_load_buffer_from_file:
+0400C2             0083   ; load buffer ids
+0400C2 22 00 01 04 0084       ld (@id0),hl
+0400C6 22 4E 01 04 0085       ld (@id1),hl
+0400CA             0086   ; clean up bytes that got stomped on by the ID loads
+0400CA 3E 02       0087       ld a,2
+0400CC 32 02 01 04 0088       ld (@id0+2),a
+0400D0 AF          0089       xor a
+0400D1 32 50 01 04 0090       ld (@id1+2),a
+0400D5             0091   ; load filesize from ix
+0400D5 DD 22 70 01 0092       ld (@filesize),ix
        04          
-0400D5 ED 4B 5B 01 0091       ld bc,(@filesize) ; for the mos_load call
+0400DA ED 4B 70 01 0093       ld bc,(@filesize) ; for the mos_load call
        04          
-0400DA DD 2A 5C 01 0092       ld ix,(@filesize+1) ; now ix is filesize / 256 and will be our main loop counter
+0400DF DD 2A 71 01 0094       ld ix,(@filesize+1) ; now ix is filesize / 256 and will be our main loop counter
        04          
-0400DF             0093   
-0400DF             0094       ; call dumpRegistersHex
-0400DF             0095       ; ret
-0400DF             0096   
-0400DF             0097   ; load the file from disk into ram
-0400DF FD E5       0098       push iy
-0400E1 E1          0099   	pop hl ; pointer to filename
-0400E2 11 F0 03 04 0100   	ld de,filedata
-0400E6 3E 01       0101   	ld a,mos_load
-0400E8 5B CF       0102   	RST.LIL 08h
-0400EA             0103   ; clear target buffer
-0400EA 21 F8 00 04 0104       ld hl,@clear0
-0400EE 01 06 00 00 0105       ld bc,@clear1-@clear0
-0400F2 5B DF       0106       rst.lil $18
-0400F4 C3 FE 00 04 0107       jp @clear1
-0400F8 17 00 A0    0108   @clear0: db 23,0,0xA0
-0400FB 00 00       0109   @id0:	dw 0x0000 ; bufferId
-0400FD 02          0110   		db 2 ; clear buffer
-0400FE             0111   @clear1:
-0400FE             0112   
-0400FE             0113   ; load default chunk size
-0400FE 01 00 01 00 0114       ld bc,256
-040102 ED 43 4E 01 0115       ld (@chunksize),bc
+0400E4             0095   ; load the file from disk into ram
+0400E4 FD E5       0096       push iy
+0400E6 E1          0097   	pop hl ; pointer to filename
+0400E7 11 1D 04 04 0098   	ld de,filedata
+0400EB 3E 01       0099   	ld a,mos_load
+0400ED 5B CF       0100   	RST.LIL 08h
+0400EF             0101   ; clear target buffer
+0400EF 21 FD 00 04 0102       ld hl,@clear0
+0400F3 01 06 00 00 0103       ld bc,@clear1-@clear0
+0400F7 5B DF       0104       rst.lil $18
+0400F9 C3 03 01 04 0105       jp @clear1
+0400FD 17 00 A0    0106   @clear0: db 23,0,0xA0
+040100 00 00       0107   @id0:	dw 0x0000 ; bufferId
+040102 02          0108   		db 2 ; clear buffer
+040103             0109   @clear1:
+040103             0110   ; load default chunk size
+040103 01 00 01 00 0111       ld bc,256
+040107 ED 43 51 01 0112       ld (@chunksize),bc
        04          
-040107             0116   ; point hl at the start of the file data
-040107 21 F0 03 04 0117       ld hl,filedata
-04010B             0118   
-04010B             0119       ; call dumpRegistersHex
-04010B             0120   
-04010B             0121   @loop:
-04010B DD 2B       0122       dec ix
-04010D             0123   
-04010D CD 9A 02 04 0124       call dumpRegistersHex
-040111 CD 49 02 04 0125       call dumpFlags
-040115             0126   
-040115 FA 2A 01 04 0127       jp m,@lastchunk
-040119 CA 2A 01 04 0128       jp z,@lastchunk
-04011D E5          0129       push hl ; store pointer to file data
-04011E             0130   
-04011E CD 9A 02 04 0131       call dumpRegistersHex
-040122             0132   
-040122 CD 3A 01 04 0133       call @loadchunk ; load the next chunk
-040126             0134       ; ld a,'.'
-040126             0135       ; rst.lil 10h
-040126 C3 0B 01 04 0136       jp @loop ; loop back to load the next chunk
-04012A             0137   
-04012A             0138   @lastchunk:
-04012A 01 00 00 00 0139       ld bc,0 ; make sure bcu is zero
-04012E DD 7E 00    0140       ld a,(ix) ; get the remaining bytes
-040131 A7          0141       and a
-040132 C8          0142       ret z ; no more to load so we're done
-040133 4F          0143       ld c,a ; bc is number of final bytes to load
-040134 ED 43 4E 01 0144       ld (@chunksize),bc
+04010C             0113   ; point hl at the start of the file data
+04010C 21 1D 04 04 0114       ld hl,filedata
+040110 22 76 01 04 0115       ld (@chunkpointer),hl
+040114             0116   @loop:
+040114 DD 2B       0117       dec ix
+040116 DD E5       0118       push ix
+040118 E1          0119       pop hl
+040119 19          0120       add hl,de
+04011A B7          0121       or a
+04011B ED 52       0122       sbc hl,de
+04011D             0123   
+04011D             0124       ; call dumpRegistersHex
+04011D             0125       ; call dumpFlags
+04011D             0126   
+04011D             0127   
+04011D CA 2D 01 04 0128       jp z,@lastchunk
+040121 FA 2D 01 04 0129       jp m,@lastchunk
+040125 CD 3D 01 04 0130       call @loadchunk ; load the next chunk
+040129             0131       ; ld a,'.'
+040129             0132       ; rst.lil 10h
+040129 C3 14 01 04 0133       jp @loop ; loop back to load the next chunk
+04012D             0134   @lastchunk:
+04012D 01 00 00 00 0135       ld bc,0 ; make sure bcu is zero
+040131 3A 70 01 04 0136       ld a,(@filesize) ; get the remaining bytes
+040135 A7          0137       and a
+040136 C8          0138       ret z ; no more to load so we're done
+040137 4F          0139       ld c,a ; bc is number of final bytes to load
+040138 ED 43 51 01 0140       ld (@chunksize),bc
        04          
-040139 E5          0145       push hl ; store pointer to file data
-04013A             0146       ; fall through to loadchunk
-04013A             0147   
-04013A             0148   @loadchunk:
-04013A 21 48 01 04 0149       ld hl,@chunk0
-04013E 01 08 00 00 0150       ld bc,@chunk1-@chunk0
-040142 5B DF       0151       rst.lil $18
-040144 C3 50 01 04 0152       jp @chunk1
-040148             0153   @chunk0:
-040148             0154   ; Upload data :: VDU 23, 0 &A0, bufferId; 0, length; <buffer-data>
-040148 17 00 A0    0155   		db 23,0,0xA0
-04014B 00 00       0156   @id1:	dw 0x0000 ; bufferId
-04014D 00          0157   		db 0 ; load buffer
-04014E 00 00       0158   @chunksize:	dw 0x0000 ; length of data in bytes
-040150             0159   @chunk1:
-040150 E1          0160       pop hl ; get the file data pointer
-040151 ED 4B 4E 01 0161       ld bc,(@chunksize)
+04013D             0141       ; fall through to loadchunk
+04013D             0142   @loadchunk:
+04013D 21 4B 01 04 0143       ld hl,@chunk0
+040141 01 08 00 00 0144       ld bc,@chunk1-@chunk0
+040145 5B DF       0145       rst.lil $18
+040147 C3 53 01 04 0146       jp @chunk1
+04014B             0147   @chunk0:
+04014B             0148   ; Upload data :: VDU 23, 0 &A0, bufferId; 0, length; <buffer-data>
+04014B 17 00 A0    0149   		db 23,0,0xA0
+04014E 00 00       0150   @id1:	dw 0x0000 ; bufferId
+040150 00          0151   		db 0 ; load buffer
+040151 00 00       0152   @chunksize:	dw 0x0000 ; length of data in bytes
+040153             0153   @chunk1:
+040153 2A 76 01 04 0154       ld hl,(@chunkpointer) ; get the file data pointer
+040157 ED 4B 51 01 0155       ld bc,(@chunksize)
        04          
-040156 5B DF       0162       rst.lil $18
-040158 09          0163       add hl,bc ; advance the file data pointer
-040159 C9          0164       ret
-04015A 00          0165               db 0x00 ; padding
-04015B 00 00 00    0166   @filesize: dl 0 ; file size in bytes
-04015E 00          0167               db 0x00 ; padding
-04015F             0168   
-04015F             0169   
-04015F             0170   
-04015F             0171   ; https://github.com/envenomator/Agon/blob/master/ez80asm%20examples%20(annotated)/functions.s
-04015F             0172   ; Print a zero-terminated string
-04015F             0173   ; HL: Pointer to string
-04015F             0174   printString:
-04015F C5          0175   	PUSH	BC
-040160 01 00 00 00 0176   	LD		BC,0
-040164 3E 00       0177   	LD 	 	A,0
-040166 5B DF       0178   	RST.LIL 18h
-040168 C1          0179   	POP		BC
-040169 C9          0180   	RET
-04016A             0181   ; print a VDU sequence
-04016A             0182   ; HL: Pointer to VDU sequence - <1 byte length> <data>
-04016A             0183   sendVDUsequence:
-04016A C5          0184   	PUSH	BC
-04016B 01 00 00 00 0185   	LD		BC, 0
-04016F 4E          0186   	LD		C, (HL)
-040170 5B DF       0187   	RST.LIL	18h
-040172 C1          0188   	POP		BC
-040173 C9          0189   	RET
-040174             0190   ; Print Newline sequence to VDP
-040174             0191   printNewLine:
-040174 3E 0D       0192   	LD	A, '\r'
-040176 5B D7       0193   	RST.LIL 10h
-040178 3E 0A       0194   	LD	A, '\n'
-04017A 5B D7       0195   	RST.LIL 10h
-04017C C9          0196   	RET
-04017D             0197   ; Print a 24-bit HEX number
-04017D             0198   ; HLU: Number to print
-04017D             0199   printHex24:
-04017D E5          0200   	PUSH	HL
-04017E 21 02 00 00 0201   	LD		HL, 2
-040182 39          0202   	ADD		HL, SP
-040183 7E          0203   	LD		A, (HL)
-040184 E1          0204   	POP		HL
-040185 CD 8F 01 04 0205   	CALL	printHex8
-040189             0206   ; Print a 16-bit HEX number
-040189             0207   ; HL: Number to print
-040189             0208   printHex16:
-040189 7C          0209   	LD		A,H
-04018A CD 8F 01 04 0210   	CALL	printHex8
-04018E 7D          0211   	LD		A,L
-04018F             0212   ; Print an 8-bit HEX number
-04018F             0213   ; A: Number to print
-04018F             0214   printHex8:
-04018F 4F          0215   	LD		C,A
-040190 1F          0216   	RRA
-040191 1F          0217   	RRA
-040192 1F          0218   	RRA
-040193 1F          0219   	RRA
-040194 CD 99 01 04 0220   	CALL	@F
-040198 79          0221   	LD		A,C
-040199             0222   @@:
-040199 E6 0F       0223   	AND		0Fh
-04019B C6 90       0224   	ADD		A,90h
-04019D 27          0225   	DAA
-04019E CE 40       0226   	ADC		A,40h
-0401A0 27          0227   	DAA
-0401A1 5B D7       0228   	RST.LIL	10h
-0401A3 C9          0229   	RET
-0401A4             0230   
-0401A4             0231   
-0401A4             0232   ; print the binary representation of the 8-bit value in a
-0401A4             0233   ; destroys a, hl, bc
-0401A4             0234   printBin8:
-0401A4 06 08       0235       ld b,8      ; loop counter for 8 bits
-0401A6 21 C1 01 04 0236       ld hl,@cmd  ; set hl to the low byte of the output string
-0401AA             0237                   ; (which will be the high bit of the value in a)
-0401AA             0238   @loop:
-0401AA 07          0239       rlca ; put the next highest bit into carry
-0401AB 38 04       0240       jr c,@one
-0401AD 36 30       0241       ld (hl),'0'
-0401AF 18 02       0242       jr @next_bit
-0401B1             0243   @one:
-0401B1 36 31       0244       ld (hl),'1'
-0401B3             0245   @next_bit:
-0401B3 23          0246       inc hl
-0401B4 10 F4       0247       djnz @loop
-0401B6             0248   ; print it
-0401B6 21 C1 01 04 0249   	ld hl,@cmd
-0401BA 01 08 00 00 0250   	ld bc,@end-@cmd
-0401BE 5B DF       0251   	rst.lil $18
-0401C0 C9          0252   	ret
-0401C1             0253   @cmd: ds 8 ; eight bytes for eight bits
-0401C9             0254   @end:
-0401C9             0255   
-0401C9             0256   ; Print a 0x HEX prefix
-0401C9             0257   DisplayHexPrefix:
-0401C9 3E 30       0258   	LD	A, '0'
-0401CB 5B D7       0259   	RST.LIL 10h
-0401CD 3E 78       0260   	LD	A, 'x'
-0401CF 5B D7       0261   	RST.LIL 10h
-0401D1 C9          0262   	RET
-0401D2             0263   ; Prints the right justified decimal value in HL without leading zeroes
-0401D2             0264   ; HL : Value to print
-0401D2             0265   printDec:
-0401D2 11 FE 01 04 0266   	LD	 DE, _printDecBuffer
-0401D6 CD 07 02 04 0267   	CALL Num2String
-0401DA             0268   ; BEGIN MY CODE
-0401DA             0269   ; replace leading zeroes with spaces
-0401DA 21 FE 01 04 0270       LD	 HL, _printDecBuffer
-0401DE 06 07       0271       ld   B, 7 ; if HL was 0, we want to keep the final zero
-0401E0             0272   @loop:
-0401E0 7E          0273       LD	 A, (HL)
-0401E1 FE 30       0274       CP	 '0'
-0401E3 C2 F1 01 04 0275       JP	 NZ, @done
-0401E7 3E 20       0276       LD   A, ' '
-0401E9 77          0277       LD	 (HL), A
-0401EA 23          0278       INC	 HL
-0401EB CD 99 03 04 0279       CALL vdu_cursor_forward
-0401EF 10 EF       0280       DJNZ @loop
-0401F1             0281   @done:
-0401F1             0282   ; END MY CODE
-0401F1             0283   	; LD	 HL, _printDecBuffer
-0401F1 CD 5F 01 04 0284   	CALL printString
-0401F5             0285   ; Print Newline sequence to VDP
-0401F5 3E 0D       0286   	LD	A, '\r'
-0401F7 5B D7       0287   	RST.LIL 10h
-0401F9 3E 0A       0288   	LD	A, '\n'
-0401FB 5B D7       0289   	RST.LIL 10h
-0401FD C9          0290   	RET
-0401FE 00 00 00 00 0291   _printDecBuffer: blkb 9,0 ; nine bytes full of zeroes
+04015C 5B DF       0156       rst.lil $18
+04015E 2A 76 01 04 0157       ld hl,(@chunkpointer) ; get the file data pointer
+040162 ED 4B 51 01 0158       ld bc,(@chunksize)
+       04          
+040167 09          0159       add hl,bc ; advance the file data pointer
+040168 22 76 01 04 0160       ld (@chunkpointer),hl ; store pointer to file data
+04016C             0161   
+04016C             0162       ; call dumpRegistersHex
+04016C             0163       ; call dumpFlags
+04016C             0164       ; ret
+04016C             0165   
+04016C C9          0166       ret
+04016D 00 00 00    0167               dl 0x00 ; padding
+040170 00 00 00    0168   @filesize: dl 0 ; file size in bytes
+040173 00 00 00    0169               dl 0x00 ; padding
+040176 00 00 00    0170   @chunkpointer: dl 0 ; pointer to current chunk
+040179             0171   
+040179             0172   
+040179             0173   
+040179             0174   
+040179             0175   ; https://github.com/envenomator/Agon/blob/master/ez80asm%20examples%20(annotated)/functions.s
+040179             0176   ; Print a zero-terminated string
+040179             0177   ; HL: Pointer to string
+040179             0178   printString:
+040179 C5          0179   	PUSH	BC
+04017A 01 00 00 00 0180   	LD		BC,0
+04017E 3E 00       0181   	LD 	 	A,0
+040180 5B DF       0182   	RST.LIL 18h
+040182 C1          0183   	POP		BC
+040183 C9          0184   	RET
+040184             0185   ; print a VDU sequence
+040184             0186   ; HL: Pointer to VDU sequence - <1 byte length> <data>
+040184             0187   sendVDUsequence:
+040184 C5          0188   	PUSH	BC
+040185 01 00 00 00 0189   	LD		BC, 0
+040189 4E          0190   	LD		C, (HL)
+04018A 5B DF       0191   	RST.LIL	18h
+04018C C1          0192   	POP		BC
+04018D C9          0193   	RET
+04018E             0194   ; Print Newline sequence to VDP
+04018E             0195   printNewLine:
+04018E 3E 0D       0196   	LD	A, '\r'
+040190 5B D7       0197   	RST.LIL 10h
+040192 3E 0A       0198   	LD	A, '\n'
+040194 5B D7       0199   	RST.LIL 10h
+040196 C9          0200   	RET
+040197             0201   ; Print a 24-bit HEX number
+040197             0202   ; HLU: Number to print
+040197             0203   printHex24:
+040197 E5          0204   	PUSH	HL
+040198 21 02 00 00 0205   	LD		HL, 2
+04019C 39          0206   	ADD		HL, SP
+04019D 7E          0207   	LD		A, (HL)
+04019E E1          0208   	POP		HL
+04019F CD A9 01 04 0209   	CALL	printHex8
+0401A3             0210   ; Print a 16-bit HEX number
+0401A3             0211   ; HL: Number to print
+0401A3             0212   printHex16:
+0401A3 7C          0213   	LD		A,H
+0401A4 CD A9 01 04 0214   	CALL	printHex8
+0401A8 7D          0215   	LD		A,L
+0401A9             0216   ; Print an 8-bit HEX number
+0401A9             0217   ; A: Number to print
+0401A9             0218   printHex8:
+0401A9 4F          0219   	LD		C,A
+0401AA 1F          0220   	RRA
+0401AB 1F          0221   	RRA
+0401AC 1F          0222   	RRA
+0401AD 1F          0223   	RRA
+0401AE CD B3 01 04 0224   	CALL	@F
+0401B2 79          0225   	LD		A,C
+0401B3             0226   @@:
+0401B3 E6 0F       0227   	AND		0Fh
+0401B5 C6 90       0228   	ADD		A,90h
+0401B7 27          0229   	DAA
+0401B8 CE 40       0230   	ADC		A,40h
+0401BA 27          0231   	DAA
+0401BB 5B D7       0232   	RST.LIL	10h
+0401BD C9          0233   	RET
+0401BE             0234   
+0401BE             0235   
+0401BE             0236   ; print the binary representation of the 8-bit value in a
+0401BE             0237   ; destroys a, hl, bc
+0401BE             0238   printBin8:
+0401BE 06 08       0239       ld b,8      ; loop counter for 8 bits
+0401C0 21 DB 01 04 0240       ld hl,@cmd  ; set hl to the low byte of the output string
+0401C4             0241                   ; (which will be the high bit of the value in a)
+0401C4             0242   @loop:
+0401C4 07          0243       rlca ; put the next highest bit into carry
+0401C5 38 04       0244       jr c,@one
+0401C7 36 30       0245       ld (hl),'0'
+0401C9 18 02       0246       jr @next_bit
+0401CB             0247   @one:
+0401CB 36 31       0248       ld (hl),'1'
+0401CD             0249   @next_bit:
+0401CD 23          0250       inc hl
+0401CE 10 F4       0251       djnz @loop
+0401D0             0252   ; print it
+0401D0 21 DB 01 04 0253   	ld hl,@cmd
+0401D4 01 08 00 00 0254   	ld bc,@end-@cmd
+0401D8 5B DF       0255   	rst.lil $18
+0401DA C9          0256   	ret
+0401DB             0257   @cmd: ds 8 ; eight bytes for eight bits
+0401E3             0258   @end:
+0401E3             0259   
+0401E3             0260   ; Print a 0x HEX prefix
+0401E3             0261   DisplayHexPrefix:
+0401E3 3E 30       0262   	LD	A, '0'
+0401E5 5B D7       0263   	RST.LIL 10h
+0401E7 3E 78       0264   	LD	A, 'x'
+0401E9 5B D7       0265   	RST.LIL 10h
+0401EB C9          0266   	RET
+0401EC             0267   ; Prints the right justified decimal value in HL without leading zeroes
+0401EC             0268   ; HL : Value to print
+0401EC             0269   printDec:
+0401EC 11 18 02 04 0270   	LD	 DE, _printDecBuffer
+0401F0 CD 21 02 04 0271   	CALL Num2String
+0401F4             0272   ; BEGIN MY CODE
+0401F4             0273   ; replace leading zeroes with spaces
+0401F4 21 18 02 04 0274       LD	 HL, _printDecBuffer
+0401F8 06 07       0275       ld   B, 7 ; if HL was 0, we want to keep the final zero
+0401FA             0276   @loop:
+0401FA 7E          0277       LD	 A, (HL)
+0401FB FE 30       0278       CP	 '0'
+0401FD C2 0B 02 04 0279       JP	 NZ, @done
+040201 3E 20       0280       LD   A, ' '
+040203 77          0281       LD	 (HL), A
+040204 23          0282       INC	 HL
+040205 CD B3 03 04 0283       CALL vdu_cursor_forward
+040209 10 EF       0284       DJNZ @loop
+04020B             0285   @done:
+04020B             0286   ; END MY CODE
+04020B             0287   	; LD	 HL, _printDecBuffer
+04020B CD 79 01 04 0288   	CALL printString
+04020F             0289   ; Print Newline sequence to VDP
+04020F 3E 0D       0290   	LD	A, '\r'
+040211 5B D7       0291   	RST.LIL 10h
+040213 3E 0A       0292   	LD	A, '\n'
+040215 5B D7       0293   	RST.LIL 10h
+040217 C9          0294   	RET
+040218 00 00 00 00 0295   _printDecBuffer: blkb 9,0 ; nine bytes full of zeroes
        00 00 00 00 
        00          
-040207             0292   
-040207             0293   ; This routine converts the value from HL into its ASCII representation,
-040207             0294   ; starting to memory location pointing by DE, in decimal form and with leading zeroes
-040207             0295   ; so it will allways be 8 characters length
-040207             0296   ; HL : Value to convert to string
-040207             0297   ; DE : pointer to buffer, at least 8 byte + 0
-040207             0298   Num2String:
-040207 01 80 69 67 0299   	LD	 BC,-10000000
-04020B CD 3E 02 04 0300   	CALL OneDigit
-04020F 01 C0 BD F0 0301   	LD	 BC,-1000000
-040213 CD 3E 02 04 0302   	CALL OneDigit
-040217 01 60 79 FE 0303   	LD	 BC,-100000
-04021B CD 3E 02 04 0304   	CALL OneDigit
-04021F 01 F0 D8 FF 0305   	LD   BC,-10000
-040223 CD 3E 02 04 0306   	CALL OneDigit
-040227 01 18 FC FF 0307   	LD   BC,-1000
-04022B CD 3E 02 04 0308   	CALL OneDigit
-04022F 01 9C FF FF 0309   	LD   BC,-100
-040233 CD 3E 02 04 0310   	CALL OneDigit
-040237 0E F6       0311   	LD   C,-10
-040239 CD 3E 02 04 0312   	CALL OneDigit
-04023D 48          0313   	LD   C,B
-04023E             0314   OneDigit:
-04023E 3E 2F       0315   	LD   A,'0'-1
-040240             0316   DivideMe:
-040240 3C          0317   	INC  A
-040241 09          0318   	ADD  HL,BC
-040242 38 FC       0319   	JR   C,DivideMe
-040244 ED 42       0320   	SBC  HL,BC
-040246 12          0321   	LD   (DE),A
-040247 13          0322   	INC  DE
-040248 C9          0323   	RET
-040249             0324   
-040249             0325   
-040249             0326   ; inputs: whatever is in the flags register
-040249             0327   ; outputs: binary representation of flags
-040249             0328   ;          with a header so we know which is what
-040249             0329   ; destroys: nothing
-040249             0330   ; preserves: everything
-040249             0331   dumpFlags:
-040249             0332   ; first we curse zilog for not giving direct access to flags
-040249 F5          0333       push af ; this is so we can send it back unharmed
-04024A F5          0334       push af ; this is so we can pop it to hl
-04024B             0335   ; store everything in scratch
-04024B 22 56 03 04 0336       ld (uhl),hl
-04024F ED 43 59 03 0337       ld (ubc),bc
+040221             0296   
+040221             0297   ; This routine converts the value from HL into its ASCII representation,
+040221             0298   ; starting to memory location pointing by DE, in decimal form and with leading zeroes
+040221             0299   ; so it will allways be 8 characters length
+040221             0300   ; HL : Value to convert to string
+040221             0301   ; DE : pointer to buffer, at least 8 byte + 0
+040221             0302   Num2String:
+040221 01 80 69 67 0303   	LD	 BC,-10000000
+040225 CD 58 02 04 0304   	CALL OneDigit
+040229 01 C0 BD F0 0305   	LD	 BC,-1000000
+04022D CD 58 02 04 0306   	CALL OneDigit
+040231 01 60 79 FE 0307   	LD	 BC,-100000
+040235 CD 58 02 04 0308   	CALL OneDigit
+040239 01 F0 D8 FF 0309   	LD   BC,-10000
+04023D CD 58 02 04 0310   	CALL OneDigit
+040241 01 18 FC FF 0311   	LD   BC,-1000
+040245 CD 58 02 04 0312   	CALL OneDigit
+040249 01 9C FF FF 0313   	LD   BC,-100
+04024D CD 58 02 04 0314   	CALL OneDigit
+040251 0E F6       0315   	LD   C,-10
+040253 CD 58 02 04 0316   	CALL OneDigit
+040257 48          0317   	LD   C,B
+040258             0318   OneDigit:
+040258 3E 2F       0319   	LD   A,'0'-1
+04025A             0320   DivideMe:
+04025A 3C          0321   	INC  A
+04025B 09          0322   	ADD  HL,BC
+04025C 38 FC       0323   	JR   C,DivideMe
+04025E ED 42       0324   	SBC  HL,BC
+040260 12          0325   	LD   (DE),A
+040261 13          0326   	INC  DE
+040262 C9          0327   	RET
+040263             0328   
+040263             0329   
+040263             0330   ; inputs: whatever is in the flags register
+040263             0331   ; outputs: binary representation of flags
+040263             0332   ;          with a header so we know which is what
+040263             0333   ; destroys: nothing
+040263             0334   ; preserves: everything
+040263             0335   dumpFlags:
+040263             0336   ; first we curse zilog for not giving direct access to flags
+040263 F5          0337       push af ; this is so we can send it back unharmed
+040264 F5          0338       push af ; this is so we can pop it to hl
+040265             0339   ; store everything in scratch
+040265 22 70 03 04 0340       ld (uhl),hl
+040269 ED 43 73 03 0341       ld (ubc),bc
        04          
-040254 ED 53 5C 03 0338       ld (ude),de
+04026E ED 53 76 03 0342       ld (ude),de
        04          
-040259 DD 22 5F 03 0339       ld (uix),ix
+040273 DD 22 79 03 0343       ld (uix),ix
        04          
-04025E FD 22 62 03 0340       ld (uiy),iy
+040278 FD 22 7C 03 0344       ld (uiy),iy
        04          
-040263             0341   ; next we print the header
-040263 21 8F 02 04 0342       ld hl,@header
-040267 CD 5F 01 04 0343       call printString
-04026B E1          0344       pop hl ; flags are now in l
-04026C 7D          0345       ld a,l ; flags are now in a
-04026D CD A4 01 04 0346       call printBin8
-040271 CD 74 01 04 0347   	call printNewLine
-040275             0348   ; restore everything
-040275 2A 56 03 04 0349       ld hl, (uhl)
-040279 ED 4B 59 03 0350       ld bc, (ubc)
+04027D             0345   ; next we print the header
+04027D 21 A9 02 04 0346       ld hl,@header
+040281 CD 79 01 04 0347       call printString
+040285 E1          0348       pop hl ; flags are now in l
+040286 7D          0349       ld a,l ; flags are now in a
+040287 CD BE 01 04 0350       call printBin8
+04028B CD 8E 01 04 0351   	call printNewLine
+04028F             0352   ; restore everything
+04028F 2A 70 03 04 0353       ld hl, (uhl)
+040293 ED 4B 73 03 0354       ld bc, (ubc)
        04          
-04027E ED 5B 5C 03 0351       ld de, (ude)
+040298 ED 5B 76 03 0355       ld de, (ude)
        04          
-040283 DD 2A 5F 03 0352       ld ix, (uix)
+04029D DD 2A 79 03 0356       ld ix, (uix)
        04          
-040288 FD 2A 62 03 0353       ld iy, (uiy)
+0402A2 FD 2A 7C 03 0357       ld iy, (uiy)
        04          
-04028D F1          0354       pop af ; send her home the way she came
-04028E C9          0355       ret
-04028F             0356   ; Bit 7 (S): Sign flag
-04028F             0357   ; Bit 6 (Z): Zero flag
-04028F             0358   ; Bit 5 (5): Reserved (copy of bit 5 of the result)
-04028F             0359   ; Bit 4 (H): Half Carry flag
-04028F             0360   ; Bit 3 (3): Reserved (copy of bit 3 of the result)
-04028F             0361   ; Bit 2 (PV): Parity/Overflow flag
-04028F             0362   ; Bit 1 (N): Subtract flag
-04028F             0363   ; Bit 0 (C): Carry flag
-04028F 53 5A 78 48 0364   @header: db "SZxHxPNC\r\n",0 ; cr/lf and 0 terminator
+0402A7 F1          0358       pop af ; send her home the way she came
+0402A8 C9          0359       ret
+0402A9             0360   ; Bit 7 (S): Sign flag
+0402A9             0361   ; Bit 6 (Z): Zero flag
+0402A9             0362   ; Bit 5 (5): Reserved (copy of bit 5 of the result)
+0402A9             0363   ; Bit 4 (H): Half Carry flag
+0402A9             0364   ; Bit 3 (3): Reserved (copy of bit 3 of the result)
+0402A9             0365   ; Bit 2 (PV): Parity/Overflow flag
+0402A9             0366   ; Bit 1 (N): Subtract flag
+0402A9             0367   ; Bit 0 (C): Carry flag
+0402A9 53 5A 78 48 0368   @header: db "SZxHxPNC\r\n",0 ; cr/lf and 0 terminator
        78 50 4E 43 
        0D 0A 00    
-04029A             0365   
-04029A             0366   
-04029A             0367   ; print registers to screen in hexidecimal format
-04029A             0368   ; inputs: none
-04029A             0369   ; outputs: values of every register printed to screen
-04029A             0370   ;    values of each register in global scratch memory
-04029A             0371   ; destroys: nothing
-04029A             0372   dumpRegistersHex:
-04029A             0373   ; store everything in scratch
-04029A 22 56 03 04 0374       ld (uhl),hl
-04029E ED 43 59 03 0375       ld (ubc),bc
+0402B4             0369   
+0402B4             0370   
+0402B4             0371   ; print registers to screen in hexidecimal format
+0402B4             0372   ; inputs: none
+0402B4             0373   ; outputs: values of every register printed to screen
+0402B4             0374   ;    values of each register in global scratch memory
+0402B4             0375   ; destroys: nothing
+0402B4             0376   dumpRegistersHex:
+0402B4             0377   ; store everything in scratch
+0402B4 22 70 03 04 0378       ld (uhl),hl
+0402B8 ED 43 73 03 0379       ld (ubc),bc
        04          
-0402A3 ED 53 5C 03 0376       ld (ude),de
+0402BD ED 53 76 03 0380       ld (ude),de
        04          
-0402A8 DD 22 5F 03 0377       ld (uix),ix
+0402C2 DD 22 79 03 0381       ld (uix),ix
        04          
-0402AD FD 22 62 03 0378       ld (uiy),iy
+0402C7 FD 22 7C 03 0382       ld (uiy),iy
        04          
-0402B2 F5          0379       push af ; fml
-0402B3 E1          0380       pop hl  ; thanks, zilog
-0402B4 22 53 03 04 0381       ld (uaf),hl
-0402B8 F5          0382       push af ; dammit
-0402B9             0383   
-0402B9             0384   ; home the cursor
-0402B9 CD 83 03 04 0385       call vdu_home_cursor
-0402BD             0386   
-0402BD             0387   ; print each register
-0402BD 21 6B 03 04 0388       ld hl,str_afu
-0402C1 CD 5F 01 04 0389       call printString
-0402C5 2A 53 03 04 0390       ld hl,(uaf)
-0402C9 CD 7D 01 04 0391       call printHex24
-0402CD CD 74 01 04 0392       call printNewLine
-0402D1             0393   
-0402D1 21 6F 03 04 0394       ld hl,str_hlu
-0402D5 CD 5F 01 04 0395       call printString
-0402D9 2A 56 03 04 0396       ld hl,(uhl)
-0402DD CD 7D 01 04 0397       call printHex24
-0402E1 CD 74 01 04 0398       call printNewLine
-0402E5             0399   
-0402E5 21 73 03 04 0400       ld hl,str_bcu
-0402E9 CD 5F 01 04 0401       call printString
-0402ED 2A 59 03 04 0402       ld hl,(ubc)
-0402F1 CD 7D 01 04 0403       call printHex24
-0402F5 CD 74 01 04 0404       call printNewLine
-0402F9             0405   
-0402F9 21 77 03 04 0406       ld hl,str_deu
-0402FD CD 5F 01 04 0407       call printString
-040301 2A 5C 03 04 0408       ld hl,(ude)
-040305 CD 7D 01 04 0409       call printHex24
-040309 CD 74 01 04 0410       call printNewLine
-04030D             0411   
-04030D 21 7B 03 04 0412       ld hl,str_ixu
-040311 CD 5F 01 04 0413       call printString
-040315 2A 5F 03 04 0414       ld hl,(uix)
-040319 CD 7D 01 04 0415       call printHex24
-04031D CD 74 01 04 0416       call printNewLine
-040321             0417   
-040321 21 7F 03 04 0418       ld hl,str_iyu
-040325 CD 5F 01 04 0419       call printString
-040329 2A 62 03 04 0420       ld hl,(uiy)
-04032D CD 7D 01 04 0421       call printHex24
-040331 CD 74 01 04 0422       call printNewLine
-040335             0423   
-040335 CD 74 01 04 0424       call printNewLine
-040339             0425   ; restore everything
-040339 2A 56 03 04 0426       ld hl, (uhl)
-04033D ED 4B 59 03 0427       ld bc, (ubc)
+0402CC F5          0383       push af ; fml
+0402CD E1          0384       pop hl  ; thanks, zilog
+0402CE 22 6D 03 04 0385       ld (uaf),hl
+0402D2 F5          0386       push af ; dammit
+0402D3             0387   
+0402D3             0388   ; home the cursor
+0402D3 CD 9D 03 04 0389       call vdu_home_cursor
+0402D7             0390   
+0402D7             0391   ; print each register
+0402D7 21 85 03 04 0392       ld hl,str_afu
+0402DB CD 79 01 04 0393       call printString
+0402DF 2A 6D 03 04 0394       ld hl,(uaf)
+0402E3 CD 97 01 04 0395       call printHex24
+0402E7 CD 8E 01 04 0396       call printNewLine
+0402EB             0397   
+0402EB 21 89 03 04 0398       ld hl,str_hlu
+0402EF CD 79 01 04 0399       call printString
+0402F3 2A 70 03 04 0400       ld hl,(uhl)
+0402F7 CD 97 01 04 0401       call printHex24
+0402FB CD 8E 01 04 0402       call printNewLine
+0402FF             0403   
+0402FF 21 8D 03 04 0404       ld hl,str_bcu
+040303 CD 79 01 04 0405       call printString
+040307 2A 73 03 04 0406       ld hl,(ubc)
+04030B CD 97 01 04 0407       call printHex24
+04030F CD 8E 01 04 0408       call printNewLine
+040313             0409   
+040313 21 91 03 04 0410       ld hl,str_deu
+040317 CD 79 01 04 0411       call printString
+04031B 2A 76 03 04 0412       ld hl,(ude)
+04031F CD 97 01 04 0413       call printHex24
+040323 CD 8E 01 04 0414       call printNewLine
+040327             0415   
+040327 21 95 03 04 0416       ld hl,str_ixu
+04032B CD 79 01 04 0417       call printString
+04032F 2A 79 03 04 0418       ld hl,(uix)
+040333 CD 97 01 04 0419       call printHex24
+040337 CD 8E 01 04 0420       call printNewLine
+04033B             0421   
+04033B 21 99 03 04 0422       ld hl,str_iyu
+04033F CD 79 01 04 0423       call printString
+040343 2A 7C 03 04 0424       ld hl,(uiy)
+040347 CD 97 01 04 0425       call printHex24
+04034B CD 8E 01 04 0426       call printNewLine
+04034F             0427   
+04034F CD 8E 01 04 0428       call printNewLine
+040353             0429   ; restore everything
+040353 2A 70 03 04 0430       ld hl, (uhl)
+040357 ED 4B 73 03 0431       ld bc, (ubc)
        04          
-040342 ED 5B 5C 03 0428       ld de, (ude)
+04035C ED 5B 76 03 0432       ld de, (ude)
        04          
-040347 DD 2A 5F 03 0429       ld ix, (uix)
+040361 DD 2A 79 03 0433       ld ix, (uix)
        04          
-04034C FD 2A 62 03 0430       ld iy, (uiy)
+040366 FD 2A 7C 03 0434       ld iy, (uiy)
        04          
-040351 F1          0431       pop af
-040352             0432   ; all done
-040352 C9          0433       ret
-040353             0434   
-040353             0435   ; global scratch memory for registers
-040353 00 00 00    0436   uaf: dl 0
-040356 00 00 00    0437   uhl: dl 0
-040359 00 00 00    0438   ubc: dl 0
-04035C 00 00 00    0439   ude: dl 0
-04035F 00 00 00    0440   uix: dl 0
-040362 00 00 00    0441   uiy: dl 0
-040365 00 00 00    0442   usp: dl 0
-040368 00 00 00    0443   upc: dl 0
-04036B             0444   
-04036B 61 66 3D 00 0445   str_afu: db "af=",0
-04036F 68 6C 3D 00 0446   str_hlu: db "hl=",0
-040373 62 63 3D 00 0447   str_bcu: db "bc=",0
-040377 64 65 3D 00 0448   str_deu: db "de=",0
-04037B 69 78 3D 00 0449   str_ixu: db "ix=",0
-04037F 69 79 3D 00 0450   str_iyu: db "iy=",0
-040383             0451   
-040383             0452   ; VDU 30: Home cursor
-040383             0453   vdu_home_cursor:
-040383 3E 1E       0454       ld a,30
-040385 5B D7       0455   	rst.lil $10
-040387 C9          0456   	ret
-040388             0457   
-040388             0458   vdu_set_screen_mode:
-040388 32 98 03 04 0459   	ld (@arg),a
-04038C 21 97 03 04 0460   	ld hl,@cmd
-040390 01 02 00 00 0461   	ld bc,@end-@cmd
-040394 5B DF       0462   	rst.lil $18
-040396 C9          0463   	ret
-040397 16          0464   @cmd: db 22 ; set screen mode
-040398 00          0465   @arg: db 0  ; screen mode parameter
-040399             0466   @end:
-040399             0467   
-040399             0468   ; VDU 9: Move cursor forward one character
-040399             0469   vdu_cursor_forward:
-040399 3E 09       0470       ld a,9
-04039B 5B D7       0471   	rst.lil $10
-04039D C9          0472   	ret
-04039E             0473   
-04039E             0474   ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
-04039E             0475   ; inputs: hl=bufferId
-04039E             0476   vdu_buff_select:
-04039E 22 B0 03 04 0477   	ld (@bufferId),hl
-0403A2 21 AD 03 04 0478   	ld hl,@cmd
-0403A6 01 05 00 00 0479   	ld bc,@end-@cmd
-0403AA 5B DF       0480   	rst.lil $18
-0403AC C9          0481   	ret
-0403AD 17 1B 20    0482   @cmd: db 23,27,0x20
-0403B0 00 00       0483   @bufferId: dw 0x0000
-0403B2 00          0484   @end: db 0x00 ; padding
-0403B3             0485   
-0403B3             0486   ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer
-0403B3             0487   ; inputs: a=format; bc=width; de=height
-0403B3             0488   ; prerequisites: buffer selected by vdu_bmp_select or vdu_buff_select
-0403B3             0489   ; formats: https://agonconsole8.github.io/agon-docs/VDP---Bitmaps-API.html
-0403B3             0490   ; 0 	RGBA8888 (4-bytes per pixel)
-0403B3             0491   ; 1 	RGBA2222 (1-bytes per pixel)
-0403B3             0492   ; 2 	Mono/Mask (1-bit per pixel)
-0403B3             0493   ; 3 	Reserved for internal use by VDP (“native” format)
-0403B3             0494   vdu_bmp_create:
-0403B3 ED 43 CF 03 0495       ld (@width),bc
+04036B F1          0435       pop af
+04036C             0436   ; all done
+04036C C9          0437       ret
+04036D             0438   
+04036D             0439   ; global scratch memory for registers
+04036D 00 00 00    0440   uaf: dl 0
+040370 00 00 00    0441   uhl: dl 0
+040373 00 00 00    0442   ubc: dl 0
+040376 00 00 00    0443   ude: dl 0
+040379 00 00 00    0444   uix: dl 0
+04037C 00 00 00    0445   uiy: dl 0
+04037F 00 00 00    0446   usp: dl 0
+040382 00 00 00    0447   upc: dl 0
+040385             0448   
+040385 61 66 3D 00 0449   str_afu: db "af=",0
+040389 68 6C 3D 00 0450   str_hlu: db "hl=",0
+04038D 62 63 3D 00 0451   str_bcu: db "bc=",0
+040391 64 65 3D 00 0452   str_deu: db "de=",0
+040395 69 78 3D 00 0453   str_ixu: db "ix=",0
+040399 69 79 3D 00 0454   str_iyu: db "iy=",0
+04039D             0455   
+04039D             0456   ; VDU 30: Home cursor
+04039D             0457   vdu_home_cursor:
+04039D 3E 1E       0458       ld a,30
+04039F 5B D7       0459   	rst.lil $10
+0403A1 C9          0460   	ret
+0403A2             0461   
+0403A2             0462   vdu_set_screen_mode:
+0403A2 32 B2 03 04 0463   	ld (@arg),a
+0403A6 21 B1 03 04 0464   	ld hl,@cmd
+0403AA 01 02 00 00 0465   	ld bc,@end-@cmd
+0403AE 5B DF       0466   	rst.lil $18
+0403B0 C9          0467   	ret
+0403B1 16          0468   @cmd: db 22 ; set screen mode
+0403B2 00          0469   @arg: db 0  ; screen mode parameter
+0403B3             0470   @end:
+0403B3             0471   
+0403B3             0472   ; VDU 9: Move cursor forward one character
+0403B3             0473   vdu_cursor_forward:
+0403B3 3E 09       0474       ld a,9
+0403B5 5B D7       0475   	rst.lil $10
+0403B7 C9          0476   	ret
+0403B8             0477   
+0403B8             0478   ; VDU 23, 0, &C0, n: Turn logical screen scaling on and off *
+0403B8             0479   ; inputs: a is scaling mode, 1=on, 0=off
+0403B8             0480   ; note: default setting on boot is scaling ON
+0403B8             0481   vdu_set_scaling:
+0403B8 32 CA 03 04 0482   	ld (@arg),a
+0403BC 21 C7 03 04 0483   	ld hl,@cmd
+0403C0 01 04 00 00 0484   	ld bc,@end-@cmd
+0403C4 5B DF       0485   	rst.lil $18
+0403C6 C9          0486   	ret
+0403C7 17 00 C0    0487   @cmd: db 23,0,0xC0
+0403CA 00          0488   @arg: db 0  ; scaling on/off
+0403CB             0489   @end:
+0403CB             0490   
+0403CB             0491   ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
+0403CB             0492   ; inputs: hl=bufferId
+0403CB             0493   vdu_buff_select:
+0403CB 22 DD 03 04 0494   	ld (@bufferId),hl
+0403CF 21 DA 03 04 0495   	ld hl,@cmd
+0403D3 01 05 00 00 0496   	ld bc,@end-@cmd
+0403D7 5B DF       0497   	rst.lil $18
+0403D9 C9          0498   	ret
+0403DA 17 1B 20    0499   @cmd: db 23,27,0x20
+0403DD 00 00       0500   @bufferId: dw 0x0000
+0403DF 00          0501   @end: db 0x00 ; padding
+0403E0             0502   
+0403E0             0503   ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer
+0403E0             0504   ; inputs: a=format; bc=width; de=height
+0403E0             0505   ; prerequisites: buffer selected by vdu_bmp_select or vdu_buff_select
+0403E0             0506   ; formats: https://agonconsole8.github.io/agon-docs/VDP---Bitmaps-API.html
+0403E0             0507   ; 0 	RGBA8888 (4-bytes per pixel)
+0403E0             0508   ; 1 	RGBA2222 (1-bytes per pixel)
+0403E0             0509   ; 2 	Mono/Mask (1-bit per pixel)
+0403E0             0510   ; 3 	Reserved for internal use by VDP (“native” format)
+0403E0             0511   vdu_bmp_create:
+0403E0 ED 43 FC 03 0512       ld (@width),bc
        04          
-0403B8 ED 53 D1 03 0496       ld (@height),de
+0403E5 ED 53 FE 03 0513       ld (@height),de
        04          
-0403BD 32 D3 03 04 0497       ld (@fmt),a
-0403C1 21 CC 03 04 0498   	ld hl,@cmd
-0403C5 01 08 00 00 0499   	ld bc,@end-@cmd
-0403C9 5B DF       0500   	rst.lil $18
-0403CB C9          0501   	ret
-0403CC 17 1B 21    0502   @cmd:       db 23,27,0x21
-0403CF 00 00       0503   @width:     dw 0x0000
-0403D1 00 00       0504   @height:    dw 0x0000
-0403D3 00          0505   @fmt:       db 0x00
-0403D4             0506   @end:
-0403D4             0507   
-0403D4             0508   ; &E8-&EF 	232-239 	Bitmap plot §
-0403D4             0509   plot_bmp: equ 0xE8
-0403D4             0510   ; 5 	Plot absolute in current foreground colour
-0403D4             0511   dr_abs_fg: equ 5
-0403D4             0512   
-0403D4             0513   ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
-0403D4             0514   ; &E8-&EF 	232-239 	Bitmap plot §
-0403D4             0515   ; VDU 25, mode, x; y;: PLOT command
-0403D4             0516   ; inputs: bc=x0, de=y0
-0403D4             0517   ; prerequisites: vdu_buff_select
-0403D4             0518   vdu_plot_bmp:
-0403D4 ED 43 EB 03 0519       ld (@x0),bc
+0403EA 32 00 04 04 0514       ld (@fmt),a
+0403EE 21 F9 03 04 0515   	ld hl,@cmd
+0403F2 01 08 00 00 0516   	ld bc,@end-@cmd
+0403F6 5B DF       0517   	rst.lil $18
+0403F8 C9          0518   	ret
+0403F9 17 1B 21    0519   @cmd:       db 23,27,0x21
+0403FC 00 00       0520   @width:     dw 0x0000
+0403FE 00 00       0521   @height:    dw 0x0000
+040400 00          0522   @fmt:       db 0x00
+040401             0523   @end:
+040401             0524   
+040401             0525   ; &E8-&EF 	232-239 	Bitmap plot §
+040401             0526   plot_bmp: equ 0xE8
+040401             0527   ; 5 	Plot absolute in current foreground colour
+040401             0528   dr_abs_fg: equ 5
+040401             0529   
+040401             0530   ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
+040401             0531   ; &E8-&EF 	232-239 	Bitmap plot §
+040401             0532   ; VDU 25, mode, x; y;: PLOT command
+040401             0533   ; inputs: bc=x0, de=y0
+040401             0534   ; prerequisites: vdu_buff_select
+040401             0535   vdu_plot_bmp:
+040401 ED 43 18 04 0536       ld (@x0),bc
        04          
-0403D9 ED 53 ED 03 0520       ld (@y0),de
+040406 ED 53 1A 04 0537       ld (@y0),de
        04          
-0403DE 21 E9 03 04 0521   	ld hl,@cmd
-0403E2 01 06 00 00 0522   	ld bc,@end-@cmd
-0403E6 5B DF       0523   	rst.lil $18
-0403E8 C9          0524   	ret
-0403E9 19          0525   @cmd:   db 25
-0403EA ED          0526   @mode:  db plot_bmp+dr_abs_fg ; 0xED
-0403EB 00 00       0527   @x0: 	dw 0x0000
-0403ED 00 00       0528   @y0: 	dw 0x0000
-0403EF 00          0529   @end:   db 0x00 ; padding
-0403F0             0530   
-0403F0             0531   filedata: ; no need to allocate space here if this is the final address label
+04040B 21 16 04 04 0538   	ld hl,@cmd
+04040F 01 06 00 00 0539   	ld bc,@end-@cmd
+040413 5B DF       0540   	rst.lil $18
+040415 C9          0541   	ret
+040416 19          0542   @cmd:   db 25
+040417 ED          0543   @mode:  db plot_bmp+dr_abs_fg ; 0xED
+040418 00 00       0544   @x0: 	dw 0x0000
+04041A 00 00       0545   @y0: 	dw 0x0000
+04041C 00          0546   @end:   db 0x00 ; padding
+04041D             0547   
+04041D             0548   filedata: ; no need to allocate space here if this is the final address label

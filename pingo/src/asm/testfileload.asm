@@ -30,7 +30,7 @@ exit:
     ret 
 
 image_filename: db "pingo/src/blender/Lara.rgba8",0
-image_buffer: equ 256
+image_buffer: equ 1024
 image_width: equ 256
 image_height: equ 184
 image_size: equ image_width*image_height*4
@@ -38,6 +38,8 @@ image_size: equ image_width*image_height*4
 main:
     ld a,8 ; 320x240x64 single-buffered
     call vdu_set_screen_mode
+    xor a ; scaling off
+    call vdu_set_scaling
 
 ; load image file to a buffer and make it a bitmap
     xor a ; rgba8
@@ -46,10 +48,6 @@ main:
     ld hl,image_buffer
     ld ix,image_size
     ld iy,image_filename
-
-    ; call dumpRegistersHex
-    ; ret 
-
     call vdu_load_img
 
 ; plot the bitmap
@@ -71,6 +69,23 @@ vdu_load_img:
 ; load the image
 	call vdu_load_buffer_from_file
 ; now make it a bitmap
+; Command 14: Consolidate blocks in a buffer
+; VDU 23, 0, &A0, bufferId; 14
+    ld hl,image_buffer
+    ld (@bufferId),hl
+    ld a,14
+    ld (@bufferId+2),a
+    ld hl,@beg
+    ld bc,@end-@beg
+    rst.lil $18
+    jp @end
+@beg:
+    db 23,0,0xA0
+@bufferId: dw 0x0000
+        db 14
+@end:
+    ld hl,image_buffer
+    call vdu_buff_select
 	pop de ; image height
 	pop bc ; image width
 	pop af ; image type
@@ -89,11 +104,6 @@ vdu_load_buffer_from_file:
 ; load filesize from ix
     ld (@filesize),ix
     ld bc,(@filesize) ; for the mos_load call
-    ld ix,(@filesize+1) ; now ix is filesize / 256 and will be our main loop counter
-
-    ; call dumpRegistersHex
-    ; ret 
-
 ; load the file from disk into ram
     push iy
 	pop hl ; pointer to filename
@@ -109,42 +119,29 @@ vdu_load_buffer_from_file:
 @id0:	dw 0x0000 ; bufferId
 		db 2 ; clear buffer
 @clear1:
-
-; load default chunk size
-    ld bc,256
-    ld (@chunksize),bc
+; load default chunk size of 256 bytes
+    xor a
+    ld (@chunksize),a
+    ld a,1
+    ld (@chunksize+1),a
 ; point hl at the start of the file data
     ld hl,filedata
-
-    ; call dumpRegistersHex
-
+    ld (@chunkpointer),hl
 @loop:
-    dec ix
-
-    call dumpRegistersHex
-    call dumpFlags
-
-    jp m,@lastchunk
+    ld hl,(@filesize) ; get the remaining bytes
+    ld de,256
+    xor a ; clear carry
+    sbc hl,de
+    ld (@filesize),hl ; store remaining bytes
     jp z,@lastchunk
-    push hl ; store pointer to file data
-
-    call dumpRegistersHex
-
+    jp m,@lastchunk
     call @loadchunk ; load the next chunk
-    ; ld a,'.'
-    ; rst.lil 10h
     jp @loop ; loop back to load the next chunk
-
 @lastchunk:
-    ld bc,0 ; make sure bcu is zero
-    ld a,(ix) ; get the remaining bytes
-    and a
-    ret z ; no more to load so we're done
-    ld c,a ; bc is number of final bytes to load
-    ld (@chunksize),bc  
-    push hl ; store pointer to file data
+    ex de,hl ; put remaining bytes in de
+    ld hl,256
+    sbc hl,de ; subtract remaining bytes from 256
     ; fall through to loadchunk
-
 @loadchunk:
     ld hl,@chunk0
     ld bc,@chunk1-@chunk0
@@ -157,14 +154,23 @@ vdu_load_buffer_from_file:
 		db 0 ; load buffer
 @chunksize:	dw 0x0000 ; length of data in bytes
 @chunk1:
-    pop hl ; get the file data pointer
-    ld bc,(@chunksize)
+    ld hl,(@chunkpointer) ; get the file data pointer
+    ld bc,0 ; make sure bcu is zero
+    ld a,(@chunksize)
+    ld c,a
+    ld a,(@chunksize+1)
+    ld b,a
     rst.lil $18
+    ld hl,(@chunkpointer) ; get the file data pointer
+    ld bc,256
     add hl,bc ; advance the file data pointer
+    ld (@chunkpointer),hl ; store pointer to file data
+    ld a,'.'
+    rst.lil 10h
     ret
-            db 0x00 ; padding
 @filesize: dl 0 ; file size in bytes
-            db 0x00 ; padding
+@chunkpointer: dl 0 ; pointer to current chunk
+
 
 
 
@@ -470,6 +476,19 @@ vdu_cursor_forward:
     ld a,9
 	rst.lil $10  
 	ret
+
+; VDU 23, 0, &C0, n: Turn logical screen scaling on and off *
+; inputs: a is scaling mode, 1=on, 0=off
+; note: default setting on boot is scaling ON
+vdu_set_scaling:
+	ld (@arg),a        
+	ld hl,@cmd         
+	ld bc,@end-@cmd    
+	rst.lil $18         
+	ret
+@cmd: db 23,0,0xC0
+@arg: db 0  ; scaling on/off
+@end: 
 
 ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
 ; inputs: hl=bufferId
