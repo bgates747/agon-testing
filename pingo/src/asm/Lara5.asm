@@ -1,9 +1,9 @@
 Lara5_vertices_n: equ 300
 Lara5_indices_n: equ 1578
 Lara5_uvs_n: equ 644
-Lara5_texture_width: equ 128
-Lara5_texture_height: equ 92
-Lara5_texture_size: equ 47104
+Lara5_texture_width: equ 256
+Lara5_texture_height: equ 184
+Lara5_texture_size: equ 188416
 
 ; -- VERTICES --
 Lara5_vertices:
