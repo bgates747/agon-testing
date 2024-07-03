@@ -29,11 +29,17 @@ exit:
 
     ret 
 
-image_filename: db "pingo/src/blender/Lara.rgba8",0
-image_buffer: equ 1024
-image_width: equ 256
+image_buffer: equ 256
+image_width: equ 255
 image_height: equ 184
-image_size: equ image_width*image_height*4
+
+filetype: equ 0 ; rgba8
+image_size: equ image_width*image_height*4 ; rgba8
+image_filename: db "pingo/src/blender/Laracrop.rgba8",0
+
+; filetype: equ 1 ; rgba2
+; image_size: equ image_width*image_height ; rgba2
+; image_filename: db "pingo/src/blender/earth3.rgba2",0
 
 main:
     ld a,8 ; 320x240x64 single-buffered
@@ -42,7 +48,7 @@ main:
     call vdu_set_scaling
 
 ; load image file to a buffer and make it a bitmap
-    xor a ; rgba8
+    ld a,filetype
     ld bc,image_width
     ld de,image_height
     ld hl,image_buffer
