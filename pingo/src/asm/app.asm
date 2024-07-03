@@ -1,4 +1,12 @@
-    include "pingo/src/asm/mos_api.asm"
+mos_load:			    EQU	01h
+mos_sysvars:		    EQU	08h
+sysvar_time:			EQU	00h	; 4: Clock timer in centiseconds (incremented by 2 every VBLANK)
+sysvar_keyascii:		EQU	05h	; 1: ASCII keycode, or 0 if no key is pressed
+
+	MACRO	MOSCALL	function
+			LD	A, function
+			RST.LIL	08h
+	ENDMACRO 	
 
     .assume adl=1   
     .org 0x040000    
@@ -32,6 +40,8 @@ exit:
 
     ret 
 
+    include "pingo/src/asm/Lara5.asm"
+
 main:
     ld a,8+128 ; 320x240x64 double-buffered
     call vdu_set_screen_mode
@@ -43,7 +53,7 @@ main:
 sid: equ 100
 mid: equ 1
 oid: equ 1
-bmid1: equ 101
+bmid1: equ 256
 bmid2: equ 102
 
 ;   150 scene_width%=320: scene_height%=240
@@ -231,43 +241,64 @@ stci:
     ld bc,Lara5_texture-Lara5_uv_indices
     rst.lil $18
 
-; ;   740 PRINT "Creating texture bitmap"
-;     ld hl,str_create_texture_bitmap
-;     call printString
-ctb:
-    ld hl,@beg
-    ld bc,@end-@beg
-    rst.lil $18
-    jp @end
-@beg:
-;   750 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
-    db 23,27,0
-    dw bmid1
-@end:
+; ; ;   740 PRINT "Creating texture bitmap"
+; ;     ld hl,str_create_texture_bitmap
+; ;     call printString
+; ctb:
+;     ld hl,@beg
+;     ld bc,@end-@beg
+;     rst.lil $18
+;     jp @end
+; @beg:
+; ;   750 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
+;     db 23,27,0
+;     dw bmid1
+; @end:
 
-; ;   760 PRINT "Sending texture pixel data"
-;     ld hl,str_set_texture_pixel
-;     call printString
-stp:
-    ld hl,@beg
-    ld bc,@end-@beg
-    rst.lil $18
-    jp @end
-@beg:
-;   770 VDU 23, 27, 1, Lara5_texture_width%; Lara5_texture_height%; 
-    db 23,27,1
-@texture_width: dw Lara5_texture_width
-@texture_height: dw Lara5_texture_height
-@end:
-;   780 FOR i%=0 TO Lara5_texture_width%*Lara5_texture_height%*4-1
-;   790   READ val%
-;   800   VDU val% : REM 8-bit integers for pixel data
-;   810   REM T%=TIME
-;   820   REM IF TIME-T%<1 GOTO 750
-;   830 NEXT i%
-    ld hl,Lara5_texture
-    ld bc,Lara5_texture_width*Lara5_texture_height*4
-    rst.lil $18
+; ; ;   760 PRINT "Sending texture pixel data"
+; ;     ld hl,str_set_texture_pixel
+; ;     call printString
+; stp:
+;     ld hl,@beg
+;     ld bc,@end-@beg
+;     rst.lil $18
+;     jp @end
+; @beg:
+; ;   770 VDU 23, 27, 1, Lara5_texture_width%; Lara5_texture_height%; 
+;     db 23,27,1
+; @texture_width: dw Lara5_texture_width
+; @texture_height: dw Lara5_texture_height
+; @end:
+; ;   780 FOR i%=0 TO Lara5_texture_width%*Lara5_texture_height%*4-1
+; ;   790   READ val%
+; ;   800   VDU val% : REM 8-bit integers for pixel data
+; ;   810   REM T%=TIME
+; ;   820   REM IF TIME-T%<1 GOTO 750
+; ;   830 NEXT i%
+;     ld hl,Lara5_texture
+;     ld bc,Lara5_texture_width*Lara5_texture_height*4
+;     rst.lil $18
+
+image_buffer: equ bmid1
+image_width: equ Lara5_texture_width
+image_height: equ Lara5_texture_height
+
+filetype: equ 0 ; rgba8
+image_size: equ image_width*image_height*4 ; rgba8
+image_filename: equ Lara5_texture
+
+; filetype: equ 1 ; rgba2
+; image_size: equ image_width*image_height ; rgba2
+; image_filename: db "pingo/src/blender/Laracrop.rgba2",0
+
+; load image file to a buffer and make it a bitmap
+    ld a,filetype
+    ld bc,image_width
+    ld de,image_height
+    ld hl,image_buffer
+    ld ix,image_size
+    ld iy,image_filename
+    call vdu_load_img
 
 ; ;   840 PRINT "Create 3D object"
 ;     ld hl,str_create_object
@@ -284,7 +315,7 @@ co:
     db $49,5
     dw oid
     dw mid
-    dw bmid1+64000
+    dw bmid1 ; bmid1+64000
 @end:
 
 ; ;   860 PRINT "Scale object"
@@ -430,9 +461,6 @@ rotatex: dl 0
 rotatey: dl 0
 rotatez: dl 0
 
-    include "pingo/src/asm/vdu.asm"
-    include "pingo/src/asm/Lara5.asm"
-
 ; str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
 ; str_create_object: db "Creating 3D object.\r\n",0
 ; str_scale_object: db "Scaling object.\r\n",0
@@ -452,7 +480,7 @@ rotatez: dl 0
 ; str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
 ; str_program_end: db "Program end.\r\n",0
 
-
+; https://github.com/envenomator/Agon/blob/master/ez80asm%20examples%20(annotated)/functions.s
 ; Print a zero-terminated string
 ; HL: Pointer to string
 printString:
@@ -461,6 +489,63 @@ printString:
 	LD 	 	A,0
 	RST.LIL 18h
 	POP		BC
+	RET
+; print a VDU sequence
+; HL: Pointer to VDU sequence - <1 byte length> <data>
+sendVDUsequence:
+	PUSH	BC
+	LD		BC, 0
+	LD		C, (HL)
+	RST.LIL	18h
+	POP		BC
+	RET
+; Print Newline sequence to VDP
+printNewLine:
+	LD	A, '\r'
+	RST.LIL 10h
+	LD	A, '\n'
+	RST.LIL 10h
+	RET
+; Print a 24-bit HEX number
+; HLU: Number to print
+printHex24:
+	PUSH	HL
+	LD		HL, 2
+	ADD		HL, SP
+	LD		A, (HL)
+	POP		HL
+	CALL	printHex8
+; Print a 16-bit HEX number
+; HL: Number to print
+printHex16:
+	LD		A,H
+	CALL	printHex8
+	LD		A,L
+; Print an 8-bit HEX number
+; A: Number to print
+printHex8:
+	LD		C,A
+	RRA 
+	RRA 
+	RRA 
+	RRA 
+	CALL	@F
+	LD		A,C
+@@:
+	AND		0Fh
+	ADD		A,90h
+	DAA
+	ADC		A,40h
+	DAA
+	RST.LIL	10h
+	RET
+
+; Print a 0x HEX prefix
+DisplayHexPrefix:
+	LD	A, '0'
+	RST.LIL 10h
+	LD	A, 'x'
+	RST.LIL 10h
 	RET
 
 
@@ -486,11 +571,6 @@ printDec:
 ; END MY CODE
 	; LD	 HL, _printDecBuffer
 	CALL printString
-; Print Newline sequence to VDP
-	LD	A, '\r'
-	RST.LIL 10h
-	LD	A, '\n'
-	RST.LIL 10h
 	RET
 _printDecBuffer: blkb 9,0 ; nine bytes full of zeroes
 
@@ -526,55 +606,180 @@ DivideMe:
 	INC  DE
 	RET
 
+; wait until user presses a key
+; inputs: none
+; outputs: none
+; destroys: af,hl,ix
+waitKeypress:
+    ; ld hl,str_press_shift
+    ; call printString
+    MOSCALL mos_sysvars
+    xor a ; zero out any prior keypresses
+    ld (ix+sysvar_keyascii),a
+@loop:
+    ld a,(ix+sysvar_keyascii)
+    and a
+    ret nz
+    jr @loop
 
-;  10 blockSize% = 1000
-;  20 infile% = OPENIN "sound.bin"
-;  30 length% = EXT#infile%
-;  40 PRINT "Sound sample length: "; length%; "bytes"
-;  50 remaining% = length%
-;  60 REM Load sample data into buffer 42
-;  70 VDU 23, 0, &A0, 42; 2       : REM Clear out buffer 42
-;  80 PRINT "Loading sample";
-;  90 REPEAT
-; 100   IF remaining% < blockSize% THEN blockSize% = remaining%
-; 110   remaining% = remaining% - blockSize%
-; 120   PRINT ".";       : REM Show progress
-; 130   VDU 23, 0, &A0, 42; 0, blockSize%; : REM Send next blockSize% bytes to buffer 42
-; 140   FOR i% = 1 TO blockSize%
-; 150     VDU BGET#infile%
-; 160   NEXT
-; 170 UNTIL remaining% = 0
-; 180 CLOSE #infile%
+cursor_on:
+	ld hl,@cmd
+	ld bc,@end-@cmd
+	rst.lil $18
+	ret
+@cmd:
+	db 23,1,1
+@end:
+
+cursor_off:	
+	ld hl,@cmd
+	ld bc,@end-@cmd
+	rst.lil $18
+	ret
+@cmd:
+	db 23,1,0
+@end:
+
+; VDU 9: Move cursor forward one character
+vdu_cursor_forward:
+    ld a,9
+	rst.lil $10  
+	ret
 
 
-; ld_12_019:
-; 	ld hl,F12_019 ; pointer to filename
-; 	ld (cur_filename),hl
-; 	ld de,filedata
-; 	ld bc,65536
-; 	ld a,mos_load
-; 	RST.LIL 08h
-; 	ld hl,BUF_12_019 ; bufferId to load
-; 	ld bc,35 ; width
-; 	ld de,45 ; height
-; 	ld ix,1575 ; file size (bytes)
-; 	call vdu_load_img
-; 	ret
+; VDU 12: Clear text area (CLS)
+vdu_cls:
+    ld a,12
+	rst.lil $10  
+	ret
 
+vdu_flip:       
+	ld hl,@cmd         
+	ld bc,@end-@cmd    
+	rst.lil $18         
+	ret
+@cmd: db 23,0,0xC3
+@end:
 
-; load an uncompressed rgba2222 image file to a buffer
-; inputs: bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
+vdu_vblank:		PUSH 	IX			; Wait for VBLANK interrupt
+			MOSCALL	mos_sysvars		; Fetch pointer to system variables
+			LD	A, (IX + sysvar_time + 0)
+@wait:			CP 	A, (IX + sysvar_time + 0)
+			JR	Z, @wait
+			POP	IX
+			RET
+
+; load an image file to a buffer and make it a bitmap
+; inputs: a = image type ; bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
 vdu_load_img:
-; back up image dimension parameters
+; back up image type and dimension parameters
+    push af
 	push bc
 	push de
 ; load the image
 	call vdu_load_buffer_from_file
 ; now make it a bitmap
-	pop de
-	pop bc
-	ld a,1 ; the magic number for rgba2222
+; Command 14: Consolidate blocks in a buffer
+; VDU 23, 0, &A0, bufferId; 14
+    ld hl,image_buffer
+    ld (@bufferId),hl
+    ld a,14
+    ld (@bufferId+2),a
+    ld hl,@beg
+    ld bc,@end-@beg
+    rst.lil $18
+    jp @end
+@beg:
+    db 23,0,0xA0
+@bufferId: dw 0x0000
+        db 14
+@end:
+    ld hl,image_buffer
+    call vdu_buff_select
+	pop de ; image height
+	pop bc ; image width
+	pop af ; image type
 	jp vdu_bmp_create ; will return to caller from there
+
+vdu_set_screen_mode:
+	ld (@arg),a        
+	ld hl,@cmd         
+	ld bc,@end-@cmd    
+	rst.lil $18         
+	ret
+@cmd: db 22 ; set screen mode
+@arg: db 0  ; screen mode parameter
+@end:
+
+; VDU 23, 0, &C0, n: Turn logical screen scaling on and off *
+; inputs: a is scaling mode, 1=on, 0=off
+; note: default setting on boot is scaling ON
+vdu_set_scaling:
+	ld (@arg),a        
+	ld hl,@cmd         
+	ld bc,@end-@cmd    
+	rst.lil $18         
+	ret
+@cmd: db 23,0,0xC0
+@arg: db 0  ; scaling on/off
+@end: 
+
+; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
+; inputs: hl=bufferId
+vdu_buff_select:
+	ld (@bufferId),hl
+	ld hl,@cmd
+	ld bc,@end-@cmd
+	rst.lil $18
+	ret
+@cmd: db 23,27,0x20
+@bufferId: dw 0x0000
+@end: db 0x00 ; padding
+
+; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer
+; inputs: a=format; bc=width; de=height
+; prerequisites: buffer selected by vdu_bmp_select or vdu_buff_select
+; formats: https://agonconsole8.github.io/agon-docs/VDP---Bitmaps-API.html
+; 0 	RGBA8888 (4-bytes per pixel)
+; 1 	RGBA2222 (1-bytes per pixel)
+; 2 	Mono/Mask (1-bit per pixel)
+; 3 	Reserved for internal use by VDP (“native” format)
+vdu_bmp_create:
+    ld (@width),bc
+    ld (@height),de
+    ld (@fmt),a
+	ld hl,@cmd
+	ld bc,@end-@cmd
+	rst.lil $18
+	ret
+@cmd:       db 23,27,0x21
+@width:     dw 0x0000
+@height:    dw 0x0000
+@fmt:       db 0x00
+@end:
+
+; &E8-&EF 	232-239 	Bitmap plot §
+plot_bmp: equ 0xE8
+; 5 	Plot absolute in current foreground colour
+dr_abs_fg: equ 5
+
+; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
+; &E8-&EF 	232-239 	Bitmap plot §
+; VDU 25, mode, x; y;: PLOT command
+; inputs: bc=x0, de=y0
+; prerequisites: vdu_buff_select
+vdu_plot_bmp:
+    ld (@x0),bc
+    ld (@y0),de
+	ld hl,@cmd
+	ld bc,@end-@cmd
+	rst.lil $18
+	ret
+@cmd:   db 25
+@mode:  db plot_bmp+dr_abs_fg ; 0xED
+@x0: 	dw 0x0000
+@y0: 	dw 0x0000
+@end:   db 0x00 ; padding
 
 
 ; inputs: hl = bufferId, ix = file size ; iy = pointer to filename
@@ -589,8 +794,7 @@ vdu_load_buffer_from_file:
     ld (@id1+2),a
 ; load filesize from ix
     ld (@filesize),ix
-    ld bc,(ix) ; for the mos_load call
-    ld ix,(ix+1) ; now ix is filesize / 256 and will be our main loop counter
+    ld bc,(@filesize) ; for the mos_load call
 ; load the file from disk into ram
     push iy
 	pop hl ; pointer to filename
@@ -606,31 +810,32 @@ vdu_load_buffer_from_file:
 @id0:	dw 0x0000 ; bufferId
 		db 2 ; clear buffer
 @clear1:
-
-; load default chunk size
-    ld bc,256
-    ld (@chunksize),bc
+; load default chunk size of 256 bytes
+    xor a
+    ld (@chunksize),a
+    ld a,1
+    ld (@chunksize+1),a
 ; point hl at the start of the file data
     ld hl,filedata
-
+    ld (@chunkpointer),hl
 @loop:
-    dec ix
-    jp m,@lastchunk
-    jp z,@lastchunk
-    push hl ; store pointer to file data
-    call @loadchunk ; load the next chunk
+    ld hl,(@filesize) ; get the remaining bytes
+    ld de,256
+    xor a ; clear carry
+    sbc hl,de
+    ld (@filesize),hl ; store remaining bytes
+    jp z,@loadchunk ; jp means will return to caller from there
+    jp m,@lastchunk ; ditto
+    call @loadchunk ; load the next chunk and return here to loop again
     jp @loop ; loop back to load the next chunk
-
 @lastchunk:
-    ld bc,0 ; make sure bcu is zero
-    ld a,(ix) ; get the remaining bytes
-    and a
-    ret z ; no more to load so we're done
-    ld c,a ; bc is number of final bytes to load
-    ld (@chunksize),bc  
-    push hl ; store pointer to file data
+    ld de,256
+    add hl,de
+    ld a,l
+    ld (@chunksize),a ; store the remaining bytes
+    ld a,h
+    ld (@chunksize+1),a
     ; fall through to loadchunk
-
 @loadchunk:
     ld hl,@chunk0
     ld bc,@chunk1-@chunk0
@@ -643,12 +848,21 @@ vdu_load_buffer_from_file:
 		db 0 ; load buffer
 @chunksize:	dw 0x0000 ; length of data in bytes
 @chunk1:
-    pop hl ; get the file data pointer
-    ld bc,(@chunksize)
+    ld hl,(@chunkpointer) ; get the file data pointer
+    ld bc,0 ; make sure bcu is zero
+    ld a,(@chunksize)
+    ld c,a
+    ld a,(@chunksize+1)
+    ld b,a
     rst.lil $18
+    ld hl,(@chunkpointer) ; get the file data pointer
+    ld bc,256
     add hl,bc ; advance the file data pointer
+    ld (@chunkpointer),hl ; store pointer to file data
+    ld a,'.' ; print a progress breadcrumb
+    rst.lil 10h
     ret
-
 @filesize: dl 0 ; file size in bytes
+@chunkpointer: dl 0 ; pointer to current chunk
 
 filedata: ; no need to allocate space here if this is the final address label
