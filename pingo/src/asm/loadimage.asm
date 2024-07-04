@@ -37,20 +37,20 @@ exit:
     ret 
 
 image_buffer: equ 256
-image_width: equ 512
-image_height: equ 512
+image_width: equ 256
+image_height: equ 184
 
 ; filetype: equ 0 ; rgba8
 ; image_size: equ image_width*image_height*4 ; rgba8
-; image_filename: db "pingo/src/blender/Larabig.rgba8",0
+; image_filename: db "pingo/src/blender/earth640x320x16.rgba8",0
 
 filetype: equ 1 ; rgba2
 image_size: equ image_width*image_height ; rgba2
-image_filename: db "pingo/src/blender/earth512.rgba2",0
+image_filename: db "pingo/src/blender/Lara.rgba2",0
 
 main:
-    ; ld a,8 ; 320x240x64 single-buffered
-    ; call vdu_set_screen_mode
+    ld a,8 ; 320x240x64 single-buffered
+    call vdu_set_screen_mode
     xor a ; scaling off
     call vdu_set_scaling
     call cursor_off
@@ -62,7 +62,8 @@ main:
     ld hl,image_buffer
     ld ix,image_size
     ld iy,image_filename
-    call vdu_load_img
+    ; call vdu_load_img
+    call vdu_load_img_rgba2_to_8
 
 ; clear the screen
     call vdu_cls
@@ -123,6 +124,122 @@ vdu_cls:
     ld a,12
 	rst.lil $10  
 	ret
+
+; load an rgba2222 image file to a working buffer and make it an rgba8888 bitmap in a target buffer
+; inputs: bc,de image width,height ; hl = targetBufferId ; ix = file size ; iy = pointer to filename
+vdu_load_img_rgba2_to_8:
+    ld (@width),bc
+    ld (@height),de
+    ld (@bufferId),hl
+    ld a,23
+    ld (@bufferId+2),a
+    xor a
+    ld (@height+2),a
+; load the rgba2 image to working buffer 65534
+    ld hl,65534
+	call vdu_load_buffer_from_file
+; expand the rgba2 data into the target buffer and make it an rgba8 bitmap
+    ld hl,(@bufferId)
+    ld de,65534 ; working buffer id
+    call vdu_rgba2_to_8
+; convert the expanded to an rgba8888 bitmap
+; VDU 23,27,&20,targetBufferID%;
+    db 23,27,0x20 ; select bitmap
+@bufferId: dw 0x0000 ; targetBufferId
+; VDU 23,27,&21,width%;height%;0
+    db 23,27,0x21 ; create bitmap from buffer
+@width: dw 0x0000
+@height: dw 0x0000
+    db 0x00 ; rgba8888 format
+@end:
+
+
+; inputs: hl = targetBufferId, de = sourceBufferId
+; prerequisites: rgba2 image data loaded into sourceBufferId
+vdu_rgba2_to_8:
+    ld (@targetBufferId),hl
+    ld (@sourceBufferId),de
+; clean up bytes that got stomped on by the ID loads
+    ld a,0x48
+    ld (@targetBufferId+2),a
+    ld hl,@beg
+    ld bc,@end-@beg
+    rst.lil $18
+    ret
+@beg:
+; VDU 23, 0, &A0, targetBufferId; &48, sourceBufferId;
+    db 23,0,0xA0
+@targetBufferId: dw 0x0000 ; targetBufferId
+    db 0x48 ; expand bitmap
+@sourceBufferId: dw 0x0000 ; sourceBufferId
+@end: db 0x00 ; padding
+
+; ; https://discord.com/channels/1158535358624039014/1158536711148675072/1257757461729771771
+; ; ok, so the "expand bitmap" can be used, when coupled with a "reverse" - the expanded bitmap _doesn't_ come out "right" otherwise, cos of endian-ness
+; ; the "expand bitmap" command is:
+; ; VDU 23,0,&A0,targetBufferID%;&48,2,sourceBufferId%;0,&7F,&BF,&FF
+; ; and then to reverse the byte order to fix endian-ness:
+; ; VDU 23,0,&A0,targetBufferID%;24,4,4;
+; ; finally you'd need to set that buffer to be an RGBA8888 format bitmap:
+; ; VDU 23,27,&20,targetBufferID%;
+; ; VDU 23,27,&21,width%;height%;0
+; ; -------------------------------------------------------------------
+; ; inputs: bc,de image width,height ; hl = targetBufferId
+; ; prerequisites: rgba2 image data loaded into workingBufferId 65534
+; vdu_rgba2_to_8:
+; ; load the image dimensions and buffer id parameters
+;     ld (@width),bc
+;     ld (@height),de
+;     ld (@bufferId0),hl
+;     ld (@bufferId2),hl
+;     ld (@bufferId1),hl
+; ; clean up bytes that got stomped on by the ID loads
+;     ld a,0x48
+;     ld (@bufferId0+2),a
+;     ld a,23
+;     ld (@bufferId1+2),a
+;     ld a,24
+;     ld (@bufferId2+2),a
+;     xor a
+;     ld (@height+2),a
+; ; send the vdu command strings
+;     ld hl,@beg
+;     ld bc,@end-@beg
+;     rst.lil $18
+;     ret
+; @beg:
+; ; Command 14: Consolidate blocks in a buffer
+; ; VDU 23, 0, &A0, bufferId; 14
+;     db 23,0,0xA0
+;     dw 65534 ; workingBufferId
+;     db 14 ; consolidate blocks
+; ; the "expand bitmap" command is:
+; ; VDU 23,0,&A0,targetBufferID%;&48,2,sourceBufferId%;0,&7F,&BF,&FF
+;     db 23,0,0xA0
+; @bufferId0: dw 0x0000 ; targetBufferId
+;     db 0x48 ; given as decimal command 72 in the docs
+;     db 2 ; options mask: %00000011 is the number of bits per pixel in the source bitmap
+;     dw 65534 ; sourceBufferId
+;     db 0x00,0x7F,0xBF,0xFF ; expanding to bytes by bit-shifting?
+; ; reverse the byte order to fix endian-ness:
+; ; Command 24: Reverse the order of data of blocks within a buffer
+; ; VDU 23, 0, &A0, bufferId; 24, options, [valueSize;] [chunkSize;]
+; ; VDU 23,0,&A0,targetBufferID%;24,4,4;
+;     db 23,0,0xA0
+; @bufferId2:    dw 0x0000 ; targetBufferId
+;     db 24 ; reverse byte order
+;     db 4 ; option: Reverse data of the value size within chunk of data of the specified size
+;     dw 4 ; size (4 bytes)
+; ; finally you'd need to set that buffer to be an RGBA8888 format bitmap:
+; ; VDU 23,27,&20,targetBufferID%;
+;     db 23,27,0x20 ; select bitmap
+; @bufferId1: dw 0x0000 ; targetBufferId
+; ; VDU 23,27,&21,width%;height%;0
+;     db 23,27,0x21 ; create bitmap from buffer
+; @width: dw 0x0000
+; @height: dw 0x0000
+;     db 0x00 ; rgba8888 format
+; @end:
 
 ; load an image file to a buffer and make it a bitmap
 ; inputs: a = image type ; bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
@@ -235,7 +352,6 @@ vdu_plot_bmp:
 @x0: 	dw 0x0000
 @y0: 	dw 0x0000
 @end:   db 0x00 ; padding
-
 
 ; inputs: hl = bufferId, ix = file size ; iy = pointer to filename
 vdu_load_buffer_from_file:
