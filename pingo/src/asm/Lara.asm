@@ -2013,4 +2013,4 @@ Lara_uv_indices:
 	dw 613, 640, 605
 	dw 594, 643, 592
 
-Lara_texture: db "pingo/src/blender/Lara.rgba8",0
+Lara_texture: db "pingo/src/blender/Larabig.rgba8",0
