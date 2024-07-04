@@ -62,8 +62,8 @@ main:
     ld hl,image_buffer
     ld ix,image_size
     ld iy,image_filename
-    ; call vdu_load_img
-    call vdu_load_img_rgba2_to_8
+    call vdu_load_img
+    ; call vdu_load_img_rgba2_to_8
 
 ; clear the screen
     call vdu_cls
