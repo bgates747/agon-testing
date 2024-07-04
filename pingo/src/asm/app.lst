@@ -3435,7 +3435,7 @@ PC     Output      Line
 042A39             0045   
 042A39             0046   main:
 042A39 3E 88       0047       ld a,8+128 ; 320x240x64 double-buffered
-042A3B CD A2 2D 04 0048       call vdu_set_screen_mode
+042A3B CD B1 2D 04 0048       call vdu_set_screen_mode
 042A3F             0049   
 042A3F             0050       ; ld hl,str_hello_world
 042A3F             0051       ; call printString
@@ -3653,7 +3653,7 @@ PC     Output      Line
        02          
 042B29 FD 21 1C 2A 0263       ld iy,image_filename
        04          
-042B2E CD 6A 2D 04 0264       call vdu_load_img
+042B2E CD 79 2D 04 0264       call vdu_load_img
 042B32             0265   
 042B32             0266   ; ;   840 PRINT "Create 3D object"
 042B32             0267   ;     ld hl,str_create_object
@@ -3748,7 +3748,7 @@ PC     Output      Line
 042BB7 66 FA       0356       dw bmid2+64000
 042BB9             0357   @end:
 042BB9             0358   
-042BB9 CD 46 2D 04 0359       call vdu_cls
+042BB9 CD 55 2D 04 0359       call vdu_cls
 042BBD             0360   
 042BBD             0361       ; ld hl,str_display_output_bitmap
 042BBD             0362       ; call printString
@@ -3765,29 +3765,29 @@ PC     Output      Line
 042BD2             0373   
 042BD2             0374   animate:
 042BD2             0375   ;  1080 rotatex=rotatex+incx: IF rotatex>=pi2 THEN rotatex=rotatex-pi2
-042BD2 2A 50 2C 04 0376       ld hl,(rotatex)
-042BD6 ED 5B 47 2C 0377       ld de,(incx)
+042BD2 2A 5F 2C 04 0376       ld hl,(rotatex)
+042BD6 ED 5B 56 2C 0377       ld de,(incx)
        04          
 042BDB 19          0378       add hl,de
 042BDC 22 2B 2C 04 0379       ld (@rx),hl
-042BE0 22 50 2C 04 0380       ld (rotatex),hl
-042BE4 CD A7 2C 04 0381       call printDec
+042BE0 22 5F 2C 04 0380       ld (rotatex),hl
+042BE4 CD B6 2C 04 0381       call printDec
 042BE8             0382   ;  1090 rotatey=rotatey+incy: IF rotatey>=pi2 THEN rotatey=rotatey-pi2
-042BE8 2A 53 2C 04 0383       ld hl,(rotatey)
-042BEC ED 5B 4A 2C 0384       ld de,(incy)
+042BE8 2A 62 2C 04 0383       ld hl,(rotatey)
+042BEC ED 5B 59 2C 0384       ld de,(incy)
        04          
 042BF1 19          0385       add hl,de
 042BF2 22 2D 2C 04 0386       ld (@ry),hl
-042BF6 22 53 2C 04 0387       ld (rotatey),hl
-042BFA CD A7 2C 04 0388       call printDec
+042BF6 22 62 2C 04 0387       ld (rotatey),hl
+042BFA CD B6 2C 04 0388       call printDec
 042BFE             0389   ;  1100 rotatez=rotatez+incz: IF rotatez>=pi2 THEN rotatez=rotatez-pi2
-042BFE 2A 56 2C 04 0390       ld hl,(rotatez)
-042C02 ED 5B 4D 2C 0391       ld de,(incz)
+042BFE 2A 65 2C 04 0390       ld hl,(rotatez)
+042C02 ED 5B 5C 2C 0391       ld de,(incz)
        04          
 042C07 19          0392       add hl,de
 042C08 22 2F 2C 04 0393       ld (@rz),hl
-042C0C 22 56 2C 04 0394       ld (rotatez),hl
-042C10 CD A7 2C 04 0395       call printDec
+042C0C 22 65 2C 04 0394       ld (rotatez),hl
+042C10 CD B6 2C 04 0395       call printDec
 042C14             0396   
 042C14 21 22 2C 04 0397       ld hl,@beg
 042C18 01 0F 00 00 0398       ld bc,@end-@beg
@@ -3805,8 +3805,8 @@ PC     Output      Line
 042C31 00          0410   @end:   db 0 ; padding
 042C32             0411   @done:
 042C32             0412   
-042C32 CD 59 2D 04 0413       call vdu_vblank
-042C36 CD 4B 2D 04 0414       call vdu_flip
+042C32 CD 68 2D 04 0413       call vdu_vblank
+042C36 CD 5A 2D 04 0414       call vdu_flip
 042C3A             0415   
 042C3A             0416   ; check for escape key and quit if pressed
 042C3A             0417   	MOSCALL mos_getkbmap
@@ -3814,432 +3814,436 @@ PC     Output      Line
 042C3C 5B CF       0002M  			RST.LIL	08h
 042C3E             0418   ; 113 Escape
 042C3E DD CB 0E 46 0419       bit 0,(ix+14)
-042C42 C0          0420   	ret nz
-042C43             0421   @Escape:
-042C43 C3 A2 2B 04 0422       jp mainloop
-042C47             0423   
-042C47 00 00 00    0424   incx: dl 0
-042C4A C7 01 00    0425   incy: dl 91*5 ; 32767/360*foo
-042C4D 00 00 00    0426   incz: dl 0
-042C50             0427   
-042C50 00 00 00    0428   rotatex: dl 0
-042C53 00 00 00    0429   rotatey: dl 0
-042C56 00 00 00    0430   rotatez: dl 0
-042C59             0431   
-042C59             0432   ; str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
-042C59             0433   ; str_create_object: db "Creating 3D object.\r\n",0
-042C59             0434   ; str_scale_object: db "Scaling object.\r\n",0
-042C59             0435   ; str_create_target_bitmap: db "Creating target bitmap.\r\n",0
-042C59             0436   ; str_set_texture_pixel: db "Setting texture pixel.\r\n",0
-042C59             0437   ; str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
-042C59             0438   ; str_zeroes: db "Sending some magic zeroes.\r\n",0
-042C59             0439   ; str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
-042C59             0440   ; str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
-042C59             0441   ; str_set_mesh_vertex_indices: db "Sending vertex indices.\r\n",0
-042C59             0442   ; str_send_vertices: db "Sending vertices.\r\n",0
-042C59             0443   ; str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
-042C59             0444   ; str_set_camera_distance: db "Setting camera distance.\r\n",0
-042C59             0445   ; str_create_control: db "Creating control structure.\r\n",0
-042C59             0446   ; str_init_cmplt: db "Initialization complete.\r\n",0
-042C59             0447   ; str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
-042C59             0448   ; str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
-042C59             0449   ; str_program_end: db "Program end.\r\n",0
-042C59             0450   
-042C59             0451   ; https://github.com/envenomator/Agon/blob/master/ez80asm%20examples%20(annotated)/functions.s
-042C59             0452   ; Print a zero-terminated string
-042C59             0453   ; HL: Pointer to string
-042C59             0454   printString:
-042C59 C5          0455   	PUSH	BC
-042C5A 01 00 00 00 0456   	LD		BC,0
-042C5E 3E 00       0457   	LD 	 	A,0
-042C60 5B DF       0458   	RST.LIL 18h
-042C62 C1          0459   	POP		BC
-042C63 C9          0460   	RET
-042C64             0461   ; print a VDU sequence
-042C64             0462   ; HL: Pointer to VDU sequence - <1 byte length> <data>
-042C64             0463   sendVDUsequence:
-042C64 C5          0464   	PUSH	BC
-042C65 01 00 00 00 0465   	LD		BC, 0
-042C69 4E          0466   	LD		C, (HL)
-042C6A 5B DF       0467   	RST.LIL	18h
-042C6C C1          0468   	POP		BC
-042C6D C9          0469   	RET
-042C6E             0470   ; Print Newline sequence to VDP
-042C6E             0471   printNewLine:
-042C6E 3E 0D       0472   	LD	A, '\r'
-042C70 5B D7       0473   	RST.LIL 10h
-042C72 3E 0A       0474   	LD	A, '\n'
-042C74 5B D7       0475   	RST.LIL 10h
-042C76 C9          0476   	RET
-042C77             0477   ; Print a 24-bit HEX number
-042C77             0478   ; HLU: Number to print
-042C77             0479   printHex24:
-042C77 E5          0480   	PUSH	HL
-042C78 21 02 00 00 0481   	LD		HL, 2
-042C7C 39          0482   	ADD		HL, SP
-042C7D 7E          0483   	LD		A, (HL)
-042C7E E1          0484   	POP		HL
-042C7F CD 89 2C 04 0485   	CALL	printHex8
-042C83             0486   ; Print a 16-bit HEX number
-042C83             0487   ; HL: Number to print
-042C83             0488   printHex16:
-042C83 7C          0489   	LD		A,H
-042C84 CD 89 2C 04 0490   	CALL	printHex8
-042C88 7D          0491   	LD		A,L
-042C89             0492   ; Print an 8-bit HEX number
-042C89             0493   ; A: Number to print
-042C89             0494   printHex8:
-042C89 4F          0495   	LD		C,A
-042C8A 1F          0496   	RRA
-042C8B 1F          0497   	RRA
-042C8C 1F          0498   	RRA
-042C8D 1F          0499   	RRA
-042C8E CD 93 2C 04 0500   	CALL	@F
-042C92 79          0501   	LD		A,C
-042C93             0502   @@:
-042C93 E6 0F       0503   	AND		0Fh
-042C95 C6 90       0504   	ADD		A,90h
-042C97 27          0505   	DAA
-042C98 CE 40       0506   	ADC		A,40h
-042C9A 27          0507   	DAA
-042C9B 5B D7       0508   	RST.LIL	10h
-042C9D C9          0509   	RET
-042C9E             0510   
-042C9E             0511   ; Print a 0x HEX prefix
-042C9E             0512   DisplayHexPrefix:
-042C9E 3E 30       0513   	LD	A, '0'
-042CA0 5B D7       0514   	RST.LIL 10h
-042CA2 3E 78       0515   	LD	A, 'x'
-042CA4 5B D7       0516   	RST.LIL 10h
-042CA6 C9          0517   	RET
-042CA7             0518   
-042CA7             0519   
-042CA7             0520   ; Prints the right justified decimal value in HL without leading zeroes
-042CA7             0521   ; HL : Value to print
-042CA7             0522   printDec:
-042CA7 11 CB 2C 04 0523   	LD	 DE, _printDecBuffer
-042CAB CD D4 2C 04 0524   	CALL Num2String
-042CAF             0525   ; BEGIN MY CODE
-042CAF             0526   ; replace leading zeroes with spaces
-042CAF 21 CB 2C 04 0527       LD	 HL, _printDecBuffer
-042CB3 06 07       0528       ld   B, 7 ; if HL was 0, we want to keep the final zero
-042CB5             0529   @loop:
-042CB5 7E          0530       LD	 A, (HL)
-042CB6 FE 30       0531       CP	 '0'
-042CB8 C2 C6 2C 04 0532       JP	 NZ, @done
-042CBC 3E 20       0533       LD   A, ' '
-042CBE 77          0534       LD	 (HL), A
-042CBF 23          0535       INC	 HL
-042CC0 CD 41 2D 04 0536       CALL vdu_cursor_forward
-042CC4 10 EF       0537       DJNZ @loop
-042CC6             0538   @done:
-042CC6             0539   ; END MY CODE
-042CC6             0540   	; LD	 HL, _printDecBuffer
-042CC6 CD 59 2C 04 0541   	CALL printString
-042CCA C9          0542   	RET
-042CCB 00 00 00 00 0543   _printDecBuffer: blkb 9,0 ; nine bytes full of zeroes
+042C42 CA A2 2B 04 0420   	jp z,mainloop
+042C46 AF          0421       xor a ; 640x480x16 single-buffered
+042C47 CD B1 2D 04 0422       call vdu_set_screen_mode
+042C4B 3E 01       0423       ld a,1 ; scaling on
+042C4D CD C2 2D 04 0424       call vdu_set_scaling
+042C51 CD 34 2D 04 0425       call cursor_on
+042C55 C9          0426       ret
+042C56             0427   
+042C56 00 00 00    0428   incx: dl 0
+042C59 C7 01 00    0429   incy: dl 91*5 ; 32767/360*foo
+042C5C 00 00 00    0430   incz: dl 0
+042C5F             0431   
+042C5F 00 00 00    0432   rotatex: dl 0
+042C62 00 00 00    0433   rotatey: dl 0
+042C65 00 00 00    0434   rotatez: dl 0
+042C68             0435   
+042C68             0436   ; str_hello_world: db "Welcome to the Pingo 3D Demo!\r\n",0
+042C68             0437   ; str_create_object: db "Creating 3D object.\r\n",0
+042C68             0438   ; str_scale_object: db "Scaling object.\r\n",0
+042C68             0439   ; str_create_target_bitmap: db "Creating target bitmap.\r\n",0
+042C68             0440   ; str_set_texture_pixel: db "Setting texture pixel.\r\n",0
+042C68             0441   ; str_create_texture_bitmap: db "Creating texture bitmap.\r\n",0
+042C68             0442   ; str_zeroes: db "Sending some magic zeroes.\r\n",0
+042C68             0443   ; str_set_tex_coord_idxs: db "Setting texture coordinate indices.\r\n",0
+042C68             0444   ; str_set_texture_coordinates: db "Sending texture coordinates.\r\n",0
+042C68             0445   ; str_set_mesh_vertex_indices: db "Sending vertex indices.\r\n",0
+042C68             0446   ; str_send_vertices: db "Sending vertices.\r\n",0
+042C68             0447   ; str_set_camera_x_rotation: db "Setting camera X rotation.\r\n",0
+042C68             0448   ; str_set_camera_distance: db "Setting camera distance.\r\n",0
+042C68             0449   ; str_create_control: db "Creating control structure.\r\n",0
+042C68             0450   ; str_init_cmplt: db "Initialization complete.\r\n",0
+042C68             0451   ; str_render_to_bitmap: db "Rendering to bitmap.\r\n",0
+042C68             0452   ; str_display_output_bitmap: db "Displaying output bitmap.\r\n",0
+042C68             0453   ; str_program_end: db "Program end.\r\n",0
+042C68             0454   
+042C68             0455   ; https://github.com/envenomator/Agon/blob/master/ez80asm%20examples%20(annotated)/functions.s
+042C68             0456   ; Print a zero-terminated string
+042C68             0457   ; HL: Pointer to string
+042C68             0458   printString:
+042C68 C5          0459   	PUSH	BC
+042C69 01 00 00 00 0460   	LD		BC,0
+042C6D 3E 00       0461   	LD 	 	A,0
+042C6F 5B DF       0462   	RST.LIL 18h
+042C71 C1          0463   	POP		BC
+042C72 C9          0464   	RET
+042C73             0465   ; print a VDU sequence
+042C73             0466   ; HL: Pointer to VDU sequence - <1 byte length> <data>
+042C73             0467   sendVDUsequence:
+042C73 C5          0468   	PUSH	BC
+042C74 01 00 00 00 0469   	LD		BC, 0
+042C78 4E          0470   	LD		C, (HL)
+042C79 5B DF       0471   	RST.LIL	18h
+042C7B C1          0472   	POP		BC
+042C7C C9          0473   	RET
+042C7D             0474   ; Print Newline sequence to VDP
+042C7D             0475   printNewLine:
+042C7D 3E 0D       0476   	LD	A, '\r'
+042C7F 5B D7       0477   	RST.LIL 10h
+042C81 3E 0A       0478   	LD	A, '\n'
+042C83 5B D7       0479   	RST.LIL 10h
+042C85 C9          0480   	RET
+042C86             0481   ; Print a 24-bit HEX number
+042C86             0482   ; HLU: Number to print
+042C86             0483   printHex24:
+042C86 E5          0484   	PUSH	HL
+042C87 21 02 00 00 0485   	LD		HL, 2
+042C8B 39          0486   	ADD		HL, SP
+042C8C 7E          0487   	LD		A, (HL)
+042C8D E1          0488   	POP		HL
+042C8E CD 98 2C 04 0489   	CALL	printHex8
+042C92             0490   ; Print a 16-bit HEX number
+042C92             0491   ; HL: Number to print
+042C92             0492   printHex16:
+042C92 7C          0493   	LD		A,H
+042C93 CD 98 2C 04 0494   	CALL	printHex8
+042C97 7D          0495   	LD		A,L
+042C98             0496   ; Print an 8-bit HEX number
+042C98             0497   ; A: Number to print
+042C98             0498   printHex8:
+042C98 4F          0499   	LD		C,A
+042C99 1F          0500   	RRA
+042C9A 1F          0501   	RRA
+042C9B 1F          0502   	RRA
+042C9C 1F          0503   	RRA
+042C9D CD A2 2C 04 0504   	CALL	@F
+042CA1 79          0505   	LD		A,C
+042CA2             0506   @@:
+042CA2 E6 0F       0507   	AND		0Fh
+042CA4 C6 90       0508   	ADD		A,90h
+042CA6 27          0509   	DAA
+042CA7 CE 40       0510   	ADC		A,40h
+042CA9 27          0511   	DAA
+042CAA 5B D7       0512   	RST.LIL	10h
+042CAC C9          0513   	RET
+042CAD             0514   
+042CAD             0515   ; Print a 0x HEX prefix
+042CAD             0516   DisplayHexPrefix:
+042CAD 3E 30       0517   	LD	A, '0'
+042CAF 5B D7       0518   	RST.LIL 10h
+042CB1 3E 78       0519   	LD	A, 'x'
+042CB3 5B D7       0520   	RST.LIL 10h
+042CB5 C9          0521   	RET
+042CB6             0522   
+042CB6             0523   
+042CB6             0524   ; Prints the right justified decimal value in HL without leading zeroes
+042CB6             0525   ; HL : Value to print
+042CB6             0526   printDec:
+042CB6 11 DA 2C 04 0527   	LD	 DE, _printDecBuffer
+042CBA CD E3 2C 04 0528   	CALL Num2String
+042CBE             0529   ; BEGIN MY CODE
+042CBE             0530   ; replace leading zeroes with spaces
+042CBE 21 DA 2C 04 0531       LD	 HL, _printDecBuffer
+042CC2 06 07       0532       ld   B, 7 ; if HL was 0, we want to keep the final zero
+042CC4             0533   @loop:
+042CC4 7E          0534       LD	 A, (HL)
+042CC5 FE 30       0535       CP	 '0'
+042CC7 C2 D5 2C 04 0536       JP	 NZ, @done
+042CCB 3E 20       0537       LD   A, ' '
+042CCD 77          0538       LD	 (HL), A
+042CCE 23          0539       INC	 HL
+042CCF CD 50 2D 04 0540       CALL vdu_cursor_forward
+042CD3 10 EF       0541       DJNZ @loop
+042CD5             0542   @done:
+042CD5             0543   ; END MY CODE
+042CD5             0544   	; LD	 HL, _printDecBuffer
+042CD5 CD 68 2C 04 0545   	CALL printString
+042CD9 C9          0546   	RET
+042CDA 00 00 00 00 0547   _printDecBuffer: blkb 9,0 ; nine bytes full of zeroes
        00 00 00 00 
        00          
-042CD4             0544   
-042CD4             0545   ; This routine converts the value from HL into it's ASCII representation,
-042CD4             0546   ; starting to memory location pointing by DE, in decimal form and with leading zeroes
-042CD4             0547   ; so it will allways be 8 characters length
-042CD4             0548   ; HL : Value to convert to string
-042CD4             0549   ; DE : pointer to buffer, at least 8 byte + 0
-042CD4             0550   Num2String:
-042CD4 01 80 69 67 0551   	LD	 BC,-10000000
-042CD8 CD 0B 2D 04 0552   	CALL OneDigit
-042CDC 01 C0 BD F0 0553   	LD	 BC,-1000000
-042CE0 CD 0B 2D 04 0554   	CALL OneDigit
-042CE4 01 60 79 FE 0555   	LD	 BC,-100000
-042CE8 CD 0B 2D 04 0556   	CALL OneDigit
-042CEC 01 F0 D8 FF 0557   	LD   BC,-10000
-042CF0 CD 0B 2D 04 0558   	CALL OneDigit
-042CF4 01 18 FC FF 0559   	LD   BC,-1000
-042CF8 CD 0B 2D 04 0560   	CALL OneDigit
-042CFC 01 9C FF FF 0561   	LD   BC,-100
-042D00 CD 0B 2D 04 0562   	CALL OneDigit
-042D04 0E F6       0563   	LD   C,-10
-042D06 CD 0B 2D 04 0564   	CALL OneDigit
-042D0A 48          0565   	LD   C,B
-042D0B             0566   OneDigit:
-042D0B 3E 2F       0567   	LD   A,'0'-1
-042D0D             0568   DivideMe:
-042D0D 3C          0569   	INC  A
-042D0E 09          0570   	ADD  HL,BC
-042D0F 38 FC       0571   	JR   C,DivideMe
-042D11 ED 42       0572   	SBC  HL,BC
-042D13 12          0573   	LD   (DE),A
-042D14 13          0574   	INC  DE
-042D15 C9          0575   	RET
-042D16             0576   
-042D16             0577   ; wait until user presses a key
-042D16             0578   ; inputs: none
-042D16             0579   ; outputs: none
-042D16             0580   ; destroys: af,hl,ix
-042D16             0581   waitKeypress:
-042D16             0582       ; ld hl,str_press_shift
-042D16             0583       ; call printString
-042D16             0584       MOSCALL mos_sysvars
-042D16 3E 08       0001M  			LD	A, function
-042D18 5B CF       0002M  			RST.LIL	08h
-042D1A AF          0585       xor a ; zero out any prior keypresses
-042D1B DD 77 05    0586       ld (ix+sysvar_keyascii),a
-042D1E             0587   @loop:
-042D1E DD 7E 05    0588       ld a,(ix+sysvar_keyascii)
-042D21 A7          0589       and a
-042D22 C0          0590       ret nz
-042D23 18 F9       0591       jr @loop
-042D25             0592   
-042D25             0593   cursor_on:
-042D25 21 30 2D 04 0594   	ld hl,@cmd
-042D29 01 03 00 00 0595   	ld bc,@end-@cmd
-042D2D 5B DF       0596   	rst.lil $18
-042D2F C9          0597   	ret
-042D30             0598   @cmd:
-042D30 17 01 01    0599   	db 23,1,1
-042D33             0600   @end:
-042D33             0601   
-042D33             0602   cursor_off:
-042D33 21 3E 2D 04 0603   	ld hl,@cmd
-042D37 01 03 00 00 0604   	ld bc,@end-@cmd
-042D3B 5B DF       0605   	rst.lil $18
-042D3D C9          0606   	ret
-042D3E             0607   @cmd:
-042D3E 17 01 00    0608   	db 23,1,0
-042D41             0609   @end:
-042D41             0610   
-042D41             0611   ; VDU 9: Move cursor forward one character
-042D41             0612   vdu_cursor_forward:
-042D41 3E 09       0613       ld a,9
-042D43 5B D7       0614   	rst.lil $10
-042D45 C9          0615   	ret
-042D46             0616   
-042D46             0617   
-042D46             0618   ; VDU 12: Clear text area (CLS)
-042D46             0619   vdu_cls:
-042D46 3E 0C       0620       ld a,12
-042D48 5B D7       0621   	rst.lil $10
-042D4A C9          0622   	ret
-042D4B             0623   
-042D4B             0624   vdu_flip:
-042D4B 21 56 2D 04 0625   	ld hl,@cmd
-042D4F 01 03 00 00 0626   	ld bc,@end-@cmd
-042D53 5B DF       0627   	rst.lil $18
-042D55 C9          0628   	ret
-042D56 17 00 C3    0629   @cmd: db 23,0,0xC3
-042D59             0630   @end:
-042D59             0631   
-042D59 DD E5       0632   vdu_vblank:		PUSH 	IX			; Wait for VBLANK interrupt
-042D5B             0633   			MOSCALL	mos_sysvars		; Fetch pointer to system variables
-042D5B 3E 08       0001M  			LD	A, function
-042D5D 5B CF       0002M  			RST.LIL	08h
-042D5F DD 7E 00    0634   			LD	A, (IX + sysvar_time + 0)
-042D62 DD BE 00    0635   @wait:			CP 	A, (IX + sysvar_time + 0)
-042D65 28 FB       0636   			JR	Z, @wait
-042D67 DD E1       0637   			POP	IX
-042D69 C9          0638   			RET
-042D6A             0639   
-042D6A             0640   ; load an image file to a buffer and make it a bitmap
-042D6A             0641   ; inputs: a = image type ; bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
-042D6A             0642   vdu_load_img:
-042D6A             0643   ; back up image type and dimension parameters
-042D6A F5          0644       push af
-042D6B C5          0645   	push bc
-042D6C D5          0646   	push de
-042D6D             0647   ; load the image
-042D6D CD 18 2E 04 0648   	call vdu_load_buffer_from_file
-042D71             0649   ; now make it a bitmap
-042D71             0650   ; Command 14: Consolidate blocks in a buffer
-042D71             0651   ; VDU 23, 0, &A0, bufferId; 14
-042D71 21 00 01 00 0652       ld hl,image_buffer
-042D75 22 90 2D 04 0653       ld (@bufferId),hl
-042D79 3E 0E       0654       ld a,14
-042D7B 32 92 2D 04 0655       ld (@bufferId+2),a
-042D7F 21 8D 2D 04 0656       ld hl,@beg
-042D83 01 06 00 00 0657       ld bc,@end-@beg
-042D87 5B DF       0658       rst.lil $18
-042D89 C3 93 2D 04 0659       jp @end
-042D8D             0660   @beg:
-042D8D 17 00 A0    0661       db 23,0,0xA0
-042D90 00 00       0662   @bufferId: dw 0x0000
-042D92 0E          0663           db 14
-042D93             0664   @end:
-042D93 21 00 01 00 0665       ld hl,image_buffer
-042D97 CD C6 2D 04 0666       call vdu_buff_select
-042D9B D1          0667   	pop de ; image height
-042D9C C1          0668   	pop bc ; image width
-042D9D F1          0669   	pop af ; image type
-042D9E C3 DB 2D 04 0670   	jp vdu_bmp_create ; will return to caller from there
-042DA2             0671   
-042DA2             0672   vdu_set_screen_mode:
-042DA2 32 B2 2D 04 0673   	ld (@arg),a
-042DA6 21 B1 2D 04 0674   	ld hl,@cmd
-042DAA 01 02 00 00 0675   	ld bc,@end-@cmd
-042DAE 5B DF       0676   	rst.lil $18
-042DB0 C9          0677   	ret
-042DB1 16          0678   @cmd: db 22 ; set screen mode
-042DB2 00          0679   @arg: db 0  ; screen mode parameter
-042DB3             0680   @end:
-042DB3             0681   
-042DB3             0682   ; VDU 23, 0, &C0, n: Turn logical screen scaling on and off *
-042DB3             0683   ; inputs: a is scaling mode, 1=on, 0=off
-042DB3             0684   ; note: default setting on boot is scaling ON
-042DB3             0685   vdu_set_scaling:
-042DB3 32 C5 2D 04 0686   	ld (@arg),a
-042DB7 21 C2 2D 04 0687   	ld hl,@cmd
-042DBB 01 04 00 00 0688   	ld bc,@end-@cmd
-042DBF 5B DF       0689   	rst.lil $18
-042DC1 C9          0690   	ret
-042DC2 17 00 C0    0691   @cmd: db 23,0,0xC0
-042DC5 00          0692   @arg: db 0  ; scaling on/off
-042DC6             0693   @end:
-042DC6             0694   
-042DC6             0695   ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
-042DC6             0696   ; inputs: hl=bufferId
-042DC6             0697   vdu_buff_select:
-042DC6 22 D8 2D 04 0698   	ld (@bufferId),hl
-042DCA 21 D5 2D 04 0699   	ld hl,@cmd
-042DCE 01 05 00 00 0700   	ld bc,@end-@cmd
-042DD2 5B DF       0701   	rst.lil $18
-042DD4 C9          0702   	ret
-042DD5 17 1B 20    0703   @cmd: db 23,27,0x20
-042DD8 00 00       0704   @bufferId: dw 0x0000
-042DDA 00          0705   @end: db 0x00 ; padding
-042DDB             0706   
-042DDB             0707   ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer
-042DDB             0708   ; inputs: a=format; bc=width; de=height
-042DDB             0709   ; prerequisites: buffer selected by vdu_bmp_select or vdu_buff_select
-042DDB             0710   ; formats: https://agonconsole8.github.io/agon-docs/VDP---Bitmaps-API.html
-042DDB             0711   ; 0 	RGBA8888 (4-bytes per pixel)
-042DDB             0712   ; 1 	RGBA2222 (1-bytes per pixel)
-042DDB             0713   ; 2 	Mono/Mask (1-bit per pixel)
-042DDB             0714   ; 3 	Reserved for internal use by VDP (“native” format)
-042DDB             0715   vdu_bmp_create:
-042DDB ED 43 F7 2D 0716       ld (@width),bc
+042CE3             0548   
+042CE3             0549   ; This routine converts the value from HL into it's ASCII representation,
+042CE3             0550   ; starting to memory location pointing by DE, in decimal form and with leading zeroes
+042CE3             0551   ; so it will allways be 8 characters length
+042CE3             0552   ; HL : Value to convert to string
+042CE3             0553   ; DE : pointer to buffer, at least 8 byte + 0
+042CE3             0554   Num2String:
+042CE3 01 80 69 67 0555   	LD	 BC,-10000000
+042CE7 CD 1A 2D 04 0556   	CALL OneDigit
+042CEB 01 C0 BD F0 0557   	LD	 BC,-1000000
+042CEF CD 1A 2D 04 0558   	CALL OneDigit
+042CF3 01 60 79 FE 0559   	LD	 BC,-100000
+042CF7 CD 1A 2D 04 0560   	CALL OneDigit
+042CFB 01 F0 D8 FF 0561   	LD   BC,-10000
+042CFF CD 1A 2D 04 0562   	CALL OneDigit
+042D03 01 18 FC FF 0563   	LD   BC,-1000
+042D07 CD 1A 2D 04 0564   	CALL OneDigit
+042D0B 01 9C FF FF 0565   	LD   BC,-100
+042D0F CD 1A 2D 04 0566   	CALL OneDigit
+042D13 0E F6       0567   	LD   C,-10
+042D15 CD 1A 2D 04 0568   	CALL OneDigit
+042D19 48          0569   	LD   C,B
+042D1A             0570   OneDigit:
+042D1A 3E 2F       0571   	LD   A,'0'-1
+042D1C             0572   DivideMe:
+042D1C 3C          0573   	INC  A
+042D1D 09          0574   	ADD  HL,BC
+042D1E 38 FC       0575   	JR   C,DivideMe
+042D20 ED 42       0576   	SBC  HL,BC
+042D22 12          0577   	LD   (DE),A
+042D23 13          0578   	INC  DE
+042D24 C9          0579   	RET
+042D25             0580   
+042D25             0581   ; wait until user presses a key
+042D25             0582   ; inputs: none
+042D25             0583   ; outputs: none
+042D25             0584   ; destroys: af,hl,ix
+042D25             0585   waitKeypress:
+042D25             0586       ; ld hl,str_press_shift
+042D25             0587       ; call printString
+042D25             0588       MOSCALL mos_sysvars
+042D25 3E 08       0001M  			LD	A, function
+042D27 5B CF       0002M  			RST.LIL	08h
+042D29 AF          0589       xor a ; zero out any prior keypresses
+042D2A DD 77 05    0590       ld (ix+sysvar_keyascii),a
+042D2D             0591   @loop:
+042D2D DD 7E 05    0592       ld a,(ix+sysvar_keyascii)
+042D30 A7          0593       and a
+042D31 C0          0594       ret nz
+042D32 18 F9       0595       jr @loop
+042D34             0596   
+042D34             0597   cursor_on:
+042D34 21 3F 2D 04 0598   	ld hl,@cmd
+042D38 01 03 00 00 0599   	ld bc,@end-@cmd
+042D3C 5B DF       0600   	rst.lil $18
+042D3E C9          0601   	ret
+042D3F             0602   @cmd:
+042D3F 17 01 01    0603   	db 23,1,1
+042D42             0604   @end:
+042D42             0605   
+042D42             0606   cursor_off:
+042D42 21 4D 2D 04 0607   	ld hl,@cmd
+042D46 01 03 00 00 0608   	ld bc,@end-@cmd
+042D4A 5B DF       0609   	rst.lil $18
+042D4C C9          0610   	ret
+042D4D             0611   @cmd:
+042D4D 17 01 00    0612   	db 23,1,0
+042D50             0613   @end:
+042D50             0614   
+042D50             0615   ; VDU 9: Move cursor forward one character
+042D50             0616   vdu_cursor_forward:
+042D50 3E 09       0617       ld a,9
+042D52 5B D7       0618   	rst.lil $10
+042D54 C9          0619   	ret
+042D55             0620   
+042D55             0621   
+042D55             0622   ; VDU 12: Clear text area (CLS)
+042D55             0623   vdu_cls:
+042D55 3E 0C       0624       ld a,12
+042D57 5B D7       0625   	rst.lil $10
+042D59 C9          0626   	ret
+042D5A             0627   
+042D5A             0628   vdu_flip:
+042D5A 21 65 2D 04 0629   	ld hl,@cmd
+042D5E 01 03 00 00 0630   	ld bc,@end-@cmd
+042D62 5B DF       0631   	rst.lil $18
+042D64 C9          0632   	ret
+042D65 17 00 C3    0633   @cmd: db 23,0,0xC3
+042D68             0634   @end:
+042D68             0635   
+042D68 DD E5       0636   vdu_vblank:		PUSH 	IX			; Wait for VBLANK interrupt
+042D6A             0637   			MOSCALL	mos_sysvars		; Fetch pointer to system variables
+042D6A 3E 08       0001M  			LD	A, function
+042D6C 5B CF       0002M  			RST.LIL	08h
+042D6E DD 7E 00    0638   			LD	A, (IX + sysvar_time + 0)
+042D71 DD BE 00    0639   @wait:			CP 	A, (IX + sysvar_time + 0)
+042D74 28 FB       0640   			JR	Z, @wait
+042D76 DD E1       0641   			POP	IX
+042D78 C9          0642   			RET
+042D79             0643   
+042D79             0644   ; load an image file to a buffer and make it a bitmap
+042D79             0645   ; inputs: a = image type ; bc,de image width,height ; hl = bufferId ; ix = file size ; iy = pointer to filename
+042D79             0646   vdu_load_img:
+042D79             0647   ; back up image type and dimension parameters
+042D79 F5          0648       push af
+042D7A C5          0649   	push bc
+042D7B D5          0650   	push de
+042D7C             0651   ; load the image
+042D7C CD 27 2E 04 0652   	call vdu_load_buffer_from_file
+042D80             0653   ; now make it a bitmap
+042D80             0654   ; Command 14: Consolidate blocks in a buffer
+042D80             0655   ; VDU 23, 0, &A0, bufferId; 14
+042D80 21 00 01 00 0656       ld hl,image_buffer
+042D84 22 9F 2D 04 0657       ld (@bufferId),hl
+042D88 3E 0E       0658       ld a,14
+042D8A 32 A1 2D 04 0659       ld (@bufferId+2),a
+042D8E 21 9C 2D 04 0660       ld hl,@beg
+042D92 01 06 00 00 0661       ld bc,@end-@beg
+042D96 5B DF       0662       rst.lil $18
+042D98 C3 A2 2D 04 0663       jp @end
+042D9C             0664   @beg:
+042D9C 17 00 A0    0665       db 23,0,0xA0
+042D9F 00 00       0666   @bufferId: dw 0x0000
+042DA1 0E          0667           db 14
+042DA2             0668   @end:
+042DA2 21 00 01 00 0669       ld hl,image_buffer
+042DA6 CD D5 2D 04 0670       call vdu_buff_select
+042DAA D1          0671   	pop de ; image height
+042DAB C1          0672   	pop bc ; image width
+042DAC F1          0673   	pop af ; image type
+042DAD C3 EA 2D 04 0674   	jp vdu_bmp_create ; will return to caller from there
+042DB1             0675   
+042DB1             0676   vdu_set_screen_mode:
+042DB1 32 C1 2D 04 0677   	ld (@arg),a
+042DB5 21 C0 2D 04 0678   	ld hl,@cmd
+042DB9 01 02 00 00 0679   	ld bc,@end-@cmd
+042DBD 5B DF       0680   	rst.lil $18
+042DBF C9          0681   	ret
+042DC0 16          0682   @cmd: db 22 ; set screen mode
+042DC1 00          0683   @arg: db 0  ; screen mode parameter
+042DC2             0684   @end:
+042DC2             0685   
+042DC2             0686   ; VDU 23, 0, &C0, n: Turn logical screen scaling on and off *
+042DC2             0687   ; inputs: a is scaling mode, 1=on, 0=off
+042DC2             0688   ; note: default setting on boot is scaling ON
+042DC2             0689   vdu_set_scaling:
+042DC2 32 D4 2D 04 0690   	ld (@arg),a
+042DC6 21 D1 2D 04 0691   	ld hl,@cmd
+042DCA 01 04 00 00 0692   	ld bc,@end-@cmd
+042DCE 5B DF       0693   	rst.lil $18
+042DD0 C9          0694   	ret
+042DD1 17 00 C0    0695   @cmd: db 23,0,0xC0
+042DD4 00          0696   @arg: db 0  ; scaling on/off
+042DD5             0697   @end:
+042DD5             0698   
+042DD5             0699   ; VDU 23, 27, &20, bufferId; : Select bitmap (using a buffer ID)
+042DD5             0700   ; inputs: hl=bufferId
+042DD5             0701   vdu_buff_select:
+042DD5 22 E7 2D 04 0702   	ld (@bufferId),hl
+042DD9 21 E4 2D 04 0703   	ld hl,@cmd
+042DDD 01 05 00 00 0704   	ld bc,@end-@cmd
+042DE1 5B DF       0705   	rst.lil $18
+042DE3 C9          0706   	ret
+042DE4 17 1B 20    0707   @cmd: db 23,27,0x20
+042DE7 00 00       0708   @bufferId: dw 0x0000
+042DE9 00          0709   @end: db 0x00 ; padding
+042DEA             0710   
+042DEA             0711   ; VDU 23, 27, &21, w; h; format: Create bitmap from selected buffer
+042DEA             0712   ; inputs: a=format; bc=width; de=height
+042DEA             0713   ; prerequisites: buffer selected by vdu_bmp_select or vdu_buff_select
+042DEA             0714   ; formats: https://agonconsole8.github.io/agon-docs/VDP---Bitmaps-API.html
+042DEA             0715   ; 0 	RGBA8888 (4-bytes per pixel)
+042DEA             0716   ; 1 	RGBA2222 (1-bytes per pixel)
+042DEA             0717   ; 2 	Mono/Mask (1-bit per pixel)
+042DEA             0718   ; 3 	Reserved for internal use by VDP (“native” format)
+042DEA             0719   vdu_bmp_create:
+042DEA ED 43 06 2E 0720       ld (@width),bc
        04          
-042DE0 ED 53 F9 2D 0717       ld (@height),de
+042DEF ED 53 08 2E 0721       ld (@height),de
        04          
-042DE5 32 FB 2D 04 0718       ld (@fmt),a
-042DE9 21 F4 2D 04 0719   	ld hl,@cmd
-042DED 01 08 00 00 0720   	ld bc,@end-@cmd
-042DF1 5B DF       0721   	rst.lil $18
-042DF3 C9          0722   	ret
-042DF4 17 1B 21    0723   @cmd:       db 23,27,0x21
-042DF7 00 00       0724   @width:     dw 0x0000
-042DF9 00 00       0725   @height:    dw 0x0000
-042DFB 00          0726   @fmt:       db 0x00
-042DFC             0727   @end:
-042DFC             0728   
-042DFC             0729   ; &E8-&EF 	232-239 	Bitmap plot §
-042DFC             0730   plot_bmp: equ 0xE8
-042DFC             0731   ; 5 	Plot absolute in current foreground colour
-042DFC             0732   dr_abs_fg: equ 5
-042DFC             0733   
-042DFC             0734   ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
-042DFC             0735   ; &E8-&EF 	232-239 	Bitmap plot §
-042DFC             0736   ; VDU 25, mode, x; y;: PLOT command
-042DFC             0737   ; inputs: bc=x0, de=y0
-042DFC             0738   ; prerequisites: vdu_buff_select
-042DFC             0739   vdu_plot_bmp:
-042DFC ED 43 13 2E 0740       ld (@x0),bc
+042DF4 32 0A 2E 04 0722       ld (@fmt),a
+042DF8 21 03 2E 04 0723   	ld hl,@cmd
+042DFC 01 08 00 00 0724   	ld bc,@end-@cmd
+042E00 5B DF       0725   	rst.lil $18
+042E02 C9          0726   	ret
+042E03 17 1B 21    0727   @cmd:       db 23,27,0x21
+042E06 00 00       0728   @width:     dw 0x0000
+042E08 00 00       0729   @height:    dw 0x0000
+042E0A 00          0730   @fmt:       db 0x00
+042E0B             0731   @end:
+042E0B             0732   
+042E0B             0733   ; &E8-&EF 	232-239 	Bitmap plot §
+042E0B             0734   plot_bmp: equ 0xE8
+042E0B             0735   ; 5 	Plot absolute in current foreground colour
+042E0B             0736   dr_abs_fg: equ 5
+042E0B             0737   
+042E0B             0738   ; https://agonconsole8.github.io/agon-docs/VDP---PLOT-Commands.html
+042E0B             0739   ; &E8-&EF 	232-239 	Bitmap plot §
+042E0B             0740   ; VDU 25, mode, x; y;: PLOT command
+042E0B             0741   ; inputs: bc=x0, de=y0
+042E0B             0742   ; prerequisites: vdu_buff_select
+042E0B             0743   vdu_plot_bmp:
+042E0B ED 43 22 2E 0744       ld (@x0),bc
        04          
-042E01 ED 53 15 2E 0741       ld (@y0),de
+042E10 ED 53 24 2E 0745       ld (@y0),de
        04          
-042E06 21 11 2E 04 0742   	ld hl,@cmd
-042E0A 01 06 00 00 0743   	ld bc,@end-@cmd
-042E0E 5B DF       0744   	rst.lil $18
-042E10 C9          0745   	ret
-042E11 19          0746   @cmd:   db 25
-042E12 ED          0747   @mode:  db plot_bmp+dr_abs_fg ; 0xED
-042E13 00 00       0748   @x0: 	dw 0x0000
-042E15 00 00       0749   @y0: 	dw 0x0000
-042E17 00          0750   @end:   db 0x00 ; padding
-042E18             0751   
-042E18             0752   
-042E18             0753   ; inputs: hl = bufferId, ix = file size ; iy = pointer to filename
-042E18             0754   vdu_load_buffer_from_file:
-042E18             0755   ; load buffer ids
-042E18 22 51 2E 04 0756       ld (@id0),hl
-042E1C 22 A6 2E 04 0757       ld (@id1),hl
-042E20             0758   ; clean up bytes that got stomped on by the ID loads
-042E20 3E 02       0759       ld a,2
-042E22 32 53 2E 04 0760       ld (@id0+2),a
-042E26 AF          0761       xor a
-042E27 32 A8 2E 04 0762       ld (@id1+2),a
-042E2B             0763   ; load filesize from ix
-042E2B DD 22 D1 2E 0764       ld (@filesize),ix
+042E15 21 20 2E 04 0746   	ld hl,@cmd
+042E19 01 06 00 00 0747   	ld bc,@end-@cmd
+042E1D 5B DF       0748   	rst.lil $18
+042E1F C9          0749   	ret
+042E20 19          0750   @cmd:   db 25
+042E21 ED          0751   @mode:  db plot_bmp+dr_abs_fg ; 0xED
+042E22 00 00       0752   @x0: 	dw 0x0000
+042E24 00 00       0753   @y0: 	dw 0x0000
+042E26 00          0754   @end:   db 0x00 ; padding
+042E27             0755   
+042E27             0756   
+042E27             0757   ; inputs: hl = bufferId, ix = file size ; iy = pointer to filename
+042E27             0758   vdu_load_buffer_from_file:
+042E27             0759   ; load buffer ids
+042E27 22 60 2E 04 0760       ld (@id0),hl
+042E2B 22 B5 2E 04 0761       ld (@id1),hl
+042E2F             0762   ; clean up bytes that got stomped on by the ID loads
+042E2F 3E 02       0763       ld a,2
+042E31 32 62 2E 04 0764       ld (@id0+2),a
+042E35 AF          0765       xor a
+042E36 32 B7 2E 04 0766       ld (@id1+2),a
+042E3A             0767   ; load filesize from ix
+042E3A DD 22 E0 2E 0768       ld (@filesize),ix
        04          
-042E30 ED 4B D1 2E 0765       ld bc,(@filesize) ; for the mos_load call
+042E3F ED 4B E0 2E 0769       ld bc,(@filesize) ; for the mos_load call
        04          
-042E35             0766   ; load the file from disk into ram
-042E35 FD E5       0767       push iy
-042E37 E1          0768   	pop hl ; pointer to filename
-042E38 11 D7 2E 04 0769   	ld de,filedata
-042E3C 3E 01       0770   	ld a,mos_load
-042E3E 5B CF       0771   	RST.LIL 08h
-042E40             0772   ; clear target buffer
-042E40 21 4E 2E 04 0773       ld hl,@clear0
-042E44 01 06 00 00 0774       ld bc,@clear1-@clear0
-042E48 5B DF       0775       rst.lil $18
-042E4A C3 54 2E 04 0776       jp @clear1
-042E4E 17 00 A0    0777   @clear0: db 23,0,0xA0
-042E51 00 00       0778   @id0:	dw 0x0000 ; bufferId
-042E53 02          0779   		db 2 ; clear buffer
-042E54             0780   @clear1:
-042E54             0781   ; load default chunk size of 256 bytes
-042E54 AF          0782       xor a
-042E55 32 A9 2E 04 0783       ld (@chunksize),a
-042E59 3E 01       0784       ld a,1
-042E5B 32 AA 2E 04 0785       ld (@chunksize+1),a
-042E5F             0786   ; point hl at the start of the file data
-042E5F 21 D7 2E 04 0787       ld hl,filedata
-042E63 22 D4 2E 04 0788       ld (@chunkpointer),hl
-042E67             0789   @loop:
-042E67 2A D1 2E 04 0790       ld hl,(@filesize) ; get the remaining bytes
-042E6B 11 00 01 00 0791       ld de,256
-042E6F AF          0792       xor a ; clear carry
-042E70 ED 52       0793       sbc hl,de
-042E72 22 D1 2E 04 0794       ld (@filesize),hl ; store remaining bytes
-042E76 CA 95 2E 04 0795       jp z,@loadchunk ; jp means will return to caller from there
-042E7A FA 86 2E 04 0796       jp m,@lastchunk ; ditto
-042E7E CD 95 2E 04 0797       call @loadchunk ; load the next chunk and return here to loop again
-042E82 C3 67 2E 04 0798       jp @loop ; loop back to load the next chunk
-042E86             0799   @lastchunk:
-042E86 11 00 01 00 0800       ld de,256
-042E8A 19          0801       add hl,de
-042E8B 7D          0802       ld a,l
-042E8C 32 A9 2E 04 0803       ld (@chunksize),a ; store the remaining bytes
-042E90 7C          0804       ld a,h
-042E91 32 AA 2E 04 0805       ld (@chunksize+1),a
-042E95             0806       ; fall through to loadchunk
-042E95             0807   @loadchunk:
-042E95 21 A3 2E 04 0808       ld hl,@chunk0
-042E99 01 08 00 00 0809       ld bc,@chunk1-@chunk0
-042E9D 5B DF       0810       rst.lil $18
-042E9F C3 AB 2E 04 0811       jp @chunk1
-042EA3             0812   @chunk0:
-042EA3             0813   ; Upload data :: VDU 23, 0 &A0, bufferId; 0, length; <buffer-data>
-042EA3 17 00 A0    0814   		db 23,0,0xA0
-042EA6 00 00       0815   @id1:	dw 0x0000 ; bufferId
-042EA8 00          0816   		db 0 ; load buffer
-042EA9 00 00       0817   @chunksize:	dw 0x0000 ; length of data in bytes
-042EAB             0818   @chunk1:
-042EAB 2A D4 2E 04 0819       ld hl,(@chunkpointer) ; get the file data pointer
-042EAF 01 00 00 00 0820       ld bc,0 ; make sure bcu is zero
-042EB3 3A A9 2E 04 0821       ld a,(@chunksize)
-042EB7 4F          0822       ld c,a
-042EB8 3A AA 2E 04 0823       ld a,(@chunksize+1)
-042EBC 47          0824       ld b,a
-042EBD 5B DF       0825       rst.lil $18
-042EBF 2A D4 2E 04 0826       ld hl,(@chunkpointer) ; get the file data pointer
-042EC3 01 00 01 00 0827       ld bc,256
-042EC7 09          0828       add hl,bc ; advance the file data pointer
-042EC8 22 D4 2E 04 0829       ld (@chunkpointer),hl ; store pointer to file data
-042ECC 3E 2E       0830       ld a,'.' ; print a progress breadcrumb
-042ECE 5B D7       0831       rst.lil 10h
-042ED0 C9          0832       ret
-042ED1 00 00 00    0833   @filesize: dl 0 ; file size in bytes
-042ED4 00 00 00    0834   @chunkpointer: dl 0 ; pointer to current chunk
-042ED7             0835   
-042ED7             0836   filedata: ; no need to allocate space here if this is the final address label
+042E44             0770   ; load the file from disk into ram
+042E44 FD E5       0771       push iy
+042E46 E1          0772   	pop hl ; pointer to filename
+042E47 11 E6 2E 04 0773   	ld de,filedata
+042E4B 3E 01       0774   	ld a,mos_load
+042E4D 5B CF       0775   	RST.LIL 08h
+042E4F             0776   ; clear target buffer
+042E4F 21 5D 2E 04 0777       ld hl,@clear0
+042E53 01 06 00 00 0778       ld bc,@clear1-@clear0
+042E57 5B DF       0779       rst.lil $18
+042E59 C3 63 2E 04 0780       jp @clear1
+042E5D 17 00 A0    0781   @clear0: db 23,0,0xA0
+042E60 00 00       0782   @id0:	dw 0x0000 ; bufferId
+042E62 02          0783   		db 2 ; clear buffer
+042E63             0784   @clear1:
+042E63             0785   ; load default chunk size of 256 bytes
+042E63 AF          0786       xor a
+042E64 32 B8 2E 04 0787       ld (@chunksize),a
+042E68 3E 01       0788       ld a,1
+042E6A 32 B9 2E 04 0789       ld (@chunksize+1),a
+042E6E             0790   ; point hl at the start of the file data
+042E6E 21 E6 2E 04 0791       ld hl,filedata
+042E72 22 E3 2E 04 0792       ld (@chunkpointer),hl
+042E76             0793   @loop:
+042E76 2A E0 2E 04 0794       ld hl,(@filesize) ; get the remaining bytes
+042E7A 11 00 01 00 0795       ld de,256
+042E7E AF          0796       xor a ; clear carry
+042E7F ED 52       0797       sbc hl,de
+042E81 22 E0 2E 04 0798       ld (@filesize),hl ; store remaining bytes
+042E85 CA A4 2E 04 0799       jp z,@loadchunk ; jp means will return to caller from there
+042E89 FA 95 2E 04 0800       jp m,@lastchunk ; ditto
+042E8D CD A4 2E 04 0801       call @loadchunk ; load the next chunk and return here to loop again
+042E91 C3 76 2E 04 0802       jp @loop ; loop back to load the next chunk
+042E95             0803   @lastchunk:
+042E95 11 00 01 00 0804       ld de,256
+042E99 19          0805       add hl,de
+042E9A 7D          0806       ld a,l
+042E9B 32 B8 2E 04 0807       ld (@chunksize),a ; store the remaining bytes
+042E9F 7C          0808       ld a,h
+042EA0 32 B9 2E 04 0809       ld (@chunksize+1),a
+042EA4             0810       ; fall through to loadchunk
+042EA4             0811   @loadchunk:
+042EA4 21 B2 2E 04 0812       ld hl,@chunk0
+042EA8 01 08 00 00 0813       ld bc,@chunk1-@chunk0
+042EAC 5B DF       0814       rst.lil $18
+042EAE C3 BA 2E 04 0815       jp @chunk1
+042EB2             0816   @chunk0:
+042EB2             0817   ; Upload data :: VDU 23, 0 &A0, bufferId; 0, length; <buffer-data>
+042EB2 17 00 A0    0818   		db 23,0,0xA0
+042EB5 00 00       0819   @id1:	dw 0x0000 ; bufferId
+042EB7 00          0820   		db 0 ; load buffer
+042EB8 00 00       0821   @chunksize:	dw 0x0000 ; length of data in bytes
+042EBA             0822   @chunk1:
+042EBA 2A E3 2E 04 0823       ld hl,(@chunkpointer) ; get the file data pointer
+042EBE 01 00 00 00 0824       ld bc,0 ; make sure bcu is zero
+042EC2 3A B8 2E 04 0825       ld a,(@chunksize)
+042EC6 4F          0826       ld c,a
+042EC7 3A B9 2E 04 0827       ld a,(@chunksize+1)
+042ECB 47          0828       ld b,a
+042ECC 5B DF       0829       rst.lil $18
+042ECE 2A E3 2E 04 0830       ld hl,(@chunkpointer) ; get the file data pointer
+042ED2 01 00 01 00 0831       ld bc,256
+042ED6 09          0832       add hl,bc ; advance the file data pointer
+042ED7 22 E3 2E 04 0833       ld (@chunkpointer),hl ; store pointer to file data
+042EDB 3E 2E       0834       ld a,'.' ; print a progress breadcrumb
+042EDD 5B D7       0835       rst.lil 10h
+042EDF C9          0836       ret
+042EE0 00 00 00    0837   @filesize: dl 0 ; file size in bytes
+042EE3 00 00 00    0838   @chunkpointer: dl 0 ; pointer to current chunk
+042EE6             0839   
+042EE6             0840   filedata: ; no need to allocate space here if this is the final address label

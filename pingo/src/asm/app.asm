@@ -417,9 +417,13 @@ animate:
 	MOSCALL mos_getkbmap
 ; 113 Escape
     bit 0,(ix+14)
-	ret nz
-@Escape:
-    jp mainloop
+	jp z,mainloop
+    xor a ; 640x480x16 single-buffered
+    call vdu_set_screen_mode
+    ld a,1 ; scaling on
+    call vdu_set_scaling
+    call cursor_on
+    ret
 
 incx: dl 0
 incy: dl 91*5 ; 32767/360*foo
