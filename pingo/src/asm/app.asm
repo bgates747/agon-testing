@@ -1,5 +1,6 @@
 mos_load:			    EQU	01h
 mos_sysvars:		    EQU	08h
+mos_getkbmap:		    EQU	1Eh
 sysvar_time:			EQU	00h	; 4: Clock timer in centiseconds (incremented by 2 every VBLANK)
 sysvar_keyascii:		EQU	05h	; 1: ASCII keycode, or 0 if no key is pressed
 
@@ -66,8 +67,8 @@ scene_height: equ 240
 ;    74 camz=-4.0*camf
 cam_f: equ 128 ; 32767/256
 cam_distx: equ 0*cam_f
-cam_disty: equ 64-16-8
-cam_distz: equ -2*cam_f
+cam_disty: equ 0 ; 64-16-8
+cam_distz: equ -5*cam_f
 
 ;    80 pi2=PI*2.0
 ;    85 camanglef=32767.0/360
@@ -241,44 +242,6 @@ stci:
     ld bc,Lara_texture-Lara_uv_indices
     rst.lil $18
 
-; ; ;   740 PRINT "Creating texture bitmap"
-; ;     ld hl,str_create_texture_bitmap
-; ;     call printString
-; ctb:
-;     ld hl,@beg
-;     ld bc,@end-@beg
-;     rst.lil $18
-;     jp @end
-; @beg:
-; ;   750 VDU 23, 27, 0, bmid1%: REM Create a bitmap for a texture
-;     db 23,27,0
-;     dw bmid1
-; @end:
-
-; ; ;   760 PRINT "Sending texture pixel data"
-; ;     ld hl,str_set_texture_pixel
-; ;     call printString
-; stp:
-;     ld hl,@beg
-;     ld bc,@end-@beg
-;     rst.lil $18
-;     jp @end
-; @beg:
-; ;   770 VDU 23, 27, 1, Lara_texture_width%; Lara_texture_height%; 
-;     db 23,27,1
-; @texture_width: dw Lara_texture_width
-; @texture_height: dw Lara_texture_height
-; @end:
-; ;   780 FOR i%=0 TO Lara_texture_width%*Lara_texture_height%*4-1
-; ;   790   READ val%
-; ;   800   VDU val% : REM 8-bit integers for pixel data
-; ;   810   REM T%=TIME
-; ;   820   REM IF TIME-T%<1 GOTO 750
-; ;   830 NEXT i%
-;     ld hl,Lara_texture
-;     ld bc,Lara_texture_width*Lara_texture_height*4
-;     rst.lil $18
-
 image_buffer: equ bmid1
 image_width: equ Lara_texture_width
 image_height: equ Lara_texture_height
@@ -449,9 +412,14 @@ animate:
 
     call vdu_vblank
     call vdu_flip
-    jp mainloop
 
-    ret
+; check for escape key and quit if pressed
+	MOSCALL mos_getkbmap
+; 113 Escape
+    bit 0,(ix+14)
+	ret nz
+@Escape:
+    jp mainloop
 
 incx: dl 0
 incy: dl 91*5 ; 32767/360*foo
