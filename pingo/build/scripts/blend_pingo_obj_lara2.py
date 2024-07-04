@@ -18,7 +18,7 @@ blend_file_name = os.path.splitext(os.path.basename(blend_file_path))[0]
 target_filename = os.path.join(export_directory, f"{blend_file_name}.obj")
 
 # Define the grid precision for snapping vertices
-grid_precision = 0.001
+grid_precision = 0.000001
 
 # Function to snap a value to the given grid precision
 def snap_to_grid(value, precision):
@@ -63,31 +63,31 @@ for obj in collection.objects:
         bpy.ops.mesh.remove_doubles(threshold=grid_precision)
         bmesh.update_edit_mesh(obj.data)
 
-        # Adjust UVs to account for axis inversion and snap to grid
-        width, height = 1, 1
-        if obj.data.materials:
-            material = obj.data.materials[0]
-            if material.use_nodes:
-                for node in material.node_tree.nodes:
-                    if node.type == 'TEX_IMAGE' and node.image:
-                        image = node.image
-                        width, height = image.size
-                        break
+#        # Adjust UVs to account for axis inversion and snap to grid
+#        width, height = 1, 1
+#        if obj.data.materials:
+#            material = obj.data.materials[0]
+#            if material.use_nodes:
+#                for node in material.node_tree.nodes:
+#                    if node.type == 'TEX_IMAGE' and node.image:
+#                        image = node.image
+#                        width, height = image.size
+#                        break
                     
-        # Recalculate normals
-        bpy.ops.mesh.normals_make_consistent(inside=False)
-        
-        uv_layer = bm.loops.layers.uv.active
-        if uv_layer:
-            for face in bm.faces:
-                for loop in face.loops:
-                    uv = loop[uv_layer].uv
-                    snap_uv_to_grid(uv, width, height)
-                    round_uv(uv)
+#        # Recalculate normals
+#        bpy.ops.mesh.normals_make_consistent(inside=False)
+#        
+#        uv_layer = bm.loops.layers.uv.active
+#        if uv_layer:
+#            for face in bm.faces:
+#                for loop in face.loops:
+#                    uv = loop[uv_layer].uv
+#                    snap_uv_to_grid(uv, width, height)
+#                    round_uv(uv)
 
-            # Merge duplicate UVs
-            bpy.ops.mesh.select_all(action='SELECT')
-            bpy.ops.uv.remove_doubles(threshold=0.000001)
+#            # Merge duplicate UVs
+#            bpy.ops.mesh.select_all(action='SELECT')
+#            bpy.ops.uv.remove_doubles(threshold=0.000001)
 
         bpy.ops.object.mode_set(mode='OBJECT')
 
