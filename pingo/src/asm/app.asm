@@ -68,7 +68,7 @@ scene_height: equ 240
 cam_f: equ 128 ; 32767/256
 cam_distx: equ 0*cam_f
 cam_disty: equ 0 ; 64-16-8
-cam_distz: equ -5*cam_f
+cam_distz: equ -4*cam_f
 
 ;    80 pi2=PI*2.0
 ;    85 camanglef=32767.0/360
