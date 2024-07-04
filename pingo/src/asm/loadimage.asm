@@ -42,7 +42,7 @@ image_height: equ 184
 
 filetype: equ 0 ; rgba8
 image_size: equ image_width*image_height*4 ; rgba8
-image_filename: db "Lara.rgba8",0
+image_filename: db "pingo/src/blender/Lara.rgba8",0
 
 ; filetype: equ 1 ; rgba2
 ; image_size: equ image_width*image_height ; rgba2
