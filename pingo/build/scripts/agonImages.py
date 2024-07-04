@@ -335,7 +335,7 @@ def rgba2_to_img(src_file_path, dim_x, dim_y):
     return image
 
 if __name__ == "__main__":
-    base_filename = 'Larabig'
+    base_filename = 'earth512'
     src_png_file = f'pingo/src/blender/{base_filename}.png'
     tgt_png_file = f'pingo/src/blender/{base_filename}.png'
     tgt_rgba8_file = f'pingo/src/blender/{base_filename}.rgba8'

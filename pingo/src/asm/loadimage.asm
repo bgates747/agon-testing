@@ -37,20 +37,20 @@ exit:
     ret 
 
 image_buffer: equ 256
-image_width: equ 256
-image_height: equ 184
+image_width: equ 512
+image_height: equ 512
 
-filetype: equ 0 ; rgba8
-image_size: equ image_width*image_height*4 ; rgba8
-image_filename: db "pingo/src/blender/Lara.rgba8",0
+; filetype: equ 0 ; rgba8
+; image_size: equ image_width*image_height*4 ; rgba8
+; image_filename: db "pingo/src/blender/Larabig.rgba8",0
 
-; filetype: equ 1 ; rgba2
-; image_size: equ image_width*image_height ; rgba2
-; image_filename: db "Laracrop.rgba2",0
+filetype: equ 1 ; rgba2
+image_size: equ image_width*image_height ; rgba2
+image_filename: db "pingo/src/blender/earth512.rgba2",0
 
 main:
-    ld a,8 ; 320x240x64 single-buffered
-    call vdu_set_screen_mode
+    ; ld a,8 ; 320x240x64 single-buffered
+    ; call vdu_set_screen_mode
     xor a ; scaling off
     call vdu_set_scaling
     call cursor_off
