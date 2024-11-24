@@ -19,21 +19,21 @@ VK_R: 			equ 156
 ; ############# MY MODIFICATIONS / ADDITIONS #############
 
 ; https://github.com/breakintoprogram/agon-docs/wiki/VDP
-; VDU 23, 7: Scrolling
-;     VDU 23, 7, extent, direction, speed: Scroll the screen
-; inputs: a, extent; l, direction; h; speed
-vdu_scroll_down:
-	ld (@extent),a
-	ld (@dir),hl ; implicitly populates @speed
-	ld hl,@cmd
-	ld bc,@end-@cmd
-	rst.lil $18     ;; Sending command to VDP
-	ret
-@cmd:       db 23,7
-@extent:    db 0x00 ; 0 current text window, 1 entire screen, 2 curr gfx viewport
-@dir:       db 0x00 ; 0 right, 1 left, 2 down, 3 up
-@speed:     db 0x00 ; pixels
-@end:		db 0x00 ; padding
+; ; VDU 23, 7: Scrolling
+; ;     VDU 23, 7, extent, direction, speed: Scroll the screen
+; ; inputs: a, extent; l, direction; h; speed
+; vdu_scroll_down:
+; 	ld (@extent),a
+; 	ld (@dir),hl ; implicitly populates @speed
+; 	ld hl,@cmd
+; 	ld bc,@end-@cmd
+; 	rst.lil $18     ;; Sending command to VDP
+; 	ret
+; @cmd:       db 23,7
+; @extent:    db 0x00 ; 0 current text window, 1 entire screen, 2 curr gfx viewport
+; @dir:       db 0x00 ; 0 right, 1 left, 2 down, 3 up
+; @speed:     db 0x00 ; pixels
+; @end:		db 0x00 ; padding
 
 
 ; ####### ROKKY ORIGINAL STUFF BELOW, WITH SOME COMMENTARY BY ME
@@ -144,23 +144,23 @@ vsync:
 	jr z,@wait
 	ret
 
-cursor_on:
-	ld hl,@cmd
-	ld bc,@end-@cmd
-	rst.lil $18
-	ret
-@cmd:
-	db 23,1,1
-@end:
+; cursor_on:
+; 	ld hl,@cmd
+; 	ld bc,@end-@cmd
+; 	rst.lil $18
+; 	ret
+; @cmd:
+; 	db 23,1,1
+; @end:
 
-cursor_off:	
-	ld hl,@cmd
-	ld bc,@end-@cmd
-	rst.lil $18
-	ret
-@cmd:
-	db 23,1,0
-@end:
+; cursor_off:	
+; 	ld hl,@cmd
+; 	ld bc,@end-@cmd
+; 	rst.lil $18
+; 	ret
+; @cmd:
+; 	db 23,1,0
+; @end:
 
 vdu_close:
 	ld hl,@cmd
@@ -175,10 +175,10 @@ vdu_close:
 @end:
 
 
-vdu_vblank:		PUSH 	IX			; Wait for VBLANK interrupt
-			MOSCALL	mos_sysvars		; Fetch pointer to system variables
-			LD	A, (IX + sysvar_time + 0)
-@wait:			CP 	A, (IX + sysvar_time + 0)
-			JR	Z, @wait
-			POP	IX
-			RET
+; vdu_vblank:		PUSH 	IX			; Wait for VBLANK interrupt
+; 			MOSCALL	mos_sysvars		; Fetch pointer to system variables
+; 			LD	A, (IX + sysvar_time + 0)
+; @wait:			CP 	A, (IX + sysvar_time + 0)
+; 			JR	Z, @wait
+; 			POP	IX
+; 			RET

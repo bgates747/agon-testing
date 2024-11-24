@@ -65,6 +65,7 @@ exit:
 	include "nurples/src/asm/enemies.asm"
 	include "nurples/src/asm/laser.asm"
 	; include "nurples/src/asm/temp.asm"
+	include "nurples/src/asm/vdp.inc"
 
 hello_world: defb "Hello, World!\n\r",0
 
