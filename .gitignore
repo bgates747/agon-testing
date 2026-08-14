@@ -1,5 +1,7 @@
 ### Project specific files ###
 .emulator/
+kermit/.venv/
+kermit/build/
 
 ### Boilerplate for Python projects ###
 # Byte-compiled / optimized / DLL files

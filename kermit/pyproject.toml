@@ -1,0 +1,9 @@
+[project]
+name = "agon-kermit-test"
+version = "0.1.0"
+description = "Build and emulator test harness for CP/M-80 Kermit on Agon"
+requires-python = ">=3.14"
+
+[tool.ruff]
+line-length = 88
+target-version = "py314"
